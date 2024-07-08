@@ -25,6 +25,8 @@ set ExecutionPath {
   EFlowMerger
   EFlowFilter
   
+  Rho
+  
   PhotonEfficiency
   PhotonIsolation
 
@@ -128,16 +130,16 @@ module PileUpMerger PileUpMerger {
   set PileUpFile MinBias.pileup
 
   # average expected pile up
-  set MeanPileUp 15.39 #Mu of the pileUp file 
+  set MeanPileUp 6.81
 
    # maximum spread in the beam direction in m
-  set ZVertexSpread 5E-5 
+  set ZVertexSpread 3.3E-5
 
   # maximum spread in time in s
-  set TVertexSpread 0.17E-12 
+  set TVertexSpread 0.11E-12
 
   # vertex smearing formula f(z,t) (z,t need to be respectively given in m,s)
-  set VertexDistributionFormula {exp(-(t^2/160e-12^2/2))*exp(-(z^2/0.053^2/2))} 
+  set VertexDistributionFormula {exp(-(t^2/160e-12^2/2))*exp(-(z^2/0.053^2/2))}
 
 
 }
@@ -980,6 +982,27 @@ module JetFlavorAssociation JetFlavorAssociation30 {
 
 }
 
+#############
+# Rho pile-up
+#############
+
+module FastJetGridMedianEstimator Rho {
+
+  set InputArray EFlowMerger/eflow
+  set RhoOutputArray rho
+
+  # add GridRange rapmin rapmax drap dphi
+  # rapmin - the minimum rapidity extent of the grid
+  # rapmax - the maximum rapidity extent of the grid
+  # drap - the grid spacing in rapidity
+  # dphi - the grid spacing in azimuth
+
+  add GridRange -5.0 -2.5 1.0 1.0
+  add GridRange -2.5 2.5 1.0 1.0
+  add GridRange 2.5 5.0 1.0 1.0
+
+}
+
 ###################
 # Photon efficiency
 ###################
@@ -1004,6 +1027,7 @@ module Efficiency PhotonEfficiency {
 module Isolation PhotonIsolation {
   set CandidateInputArray PhotonEfficiency/photons
   set IsolationInputArray EFlowFilter/eflow
+  set RhoInputArray Rho/rho
 
   set OutputArray photons
 
@@ -1038,6 +1062,7 @@ module Efficiency ElectronEfficiency {
 module Isolation ElectronIsolation {
   set CandidateInputArray ElectronEfficiency/electrons
   set IsolationInputArray EFlowFilter/eflow
+  set RhoInputArray Rho/rho
 
   set OutputArray electrons
 
@@ -1074,6 +1099,7 @@ module Efficiency MuonEfficiency {
 module Isolation MuonIsolation {
   set CandidateInputArray MuonEfficiency/muons
   set IsolationInputArray EFlowFilter/eflow
+  set RhoInputArray Rho/rho
 
   set OutputArray muons
 
@@ -1530,7 +1556,6 @@ module TreeWriter TreeWriter {
   
   add Branch MissingET/momentum MissingET MissingET
   add Branch ScalarHT/energy ScalarHT ScalarHT
-  
+  add Branch Rho/rho Rho Rho
   add Branch PileUpMerger/vertices Vertex Vertex
 }
-
