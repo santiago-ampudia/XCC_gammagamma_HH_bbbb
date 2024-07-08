@@ -55,8 +55,6 @@ set ExecutionPath {
   FastJetFinder20
   FastJetFinder25
   FastJetFinder30
-  
-  userTestModule
 
   MissingET
   GenMissingET
@@ -748,18 +746,6 @@ module FastJetFinder FastJetFinder30 {
   set ExclusiveClustering true
   set rtd_min 30.0
 }
-
-############
-# userTestModule
-############
-
-module userTestModule userTestModule {
-#  set InputArray Calorimeter/towers
-  set InputArray EFlowMerger/eflow
-
-  set OutputArray userJets
-}
-
 
 
 ##################
