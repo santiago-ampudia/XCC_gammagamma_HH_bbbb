@@ -1141,7 +1141,7 @@ module Efficiency MuonEfficiency {
   #                       (abs(eta) > 1.5 && abs(eta) <= 2.4) * (pt > 1.0e3)               * (0.95 * exp(0.5 - pt*5.0e-4)) +
   #                       (abs(eta) > 2.4)                                                 * (0.00)}
                          
-  set EfficiencyFormula { (abs(eta)<=2.44)*0.98+0.0}}
+  set EfficiencyFormula { (abs(eta)<=2.44)*0.98+0.0}
 }
 
 ################
