@@ -1,4 +1,21 @@
- #include <cstdlib>
+////////////////////////////////
+//
+//
+//
+//
+//
+// OUTDATED. Kept in case of error. Valid up until before the implementation of the NN of NN outputs.
+// Newer version: NNofNNs/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C
+//
+//
+//
+////////////////////////////////
+
+
+
+
+
+#include <cstdlib>
  #include <vector>
  #include <iostream>
  #include <map>
