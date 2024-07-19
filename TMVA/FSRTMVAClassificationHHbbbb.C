@@ -92,7 +92,7 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "" )
    Use["SVM"]             = 0;
    //
    // Boosted Decision Trees
-   Use["BDT"]             = 1; // uses Adaptive Boost
+   Use["BDT"]             = 0; // uses Adaptive Boost
    Use["BDTG"]            = 1; // uses Gradient Boost
    Use["BDTB"]            = 0; // uses Bagging
    Use["BDTD"]            = 0; // decorrelation + Adaptive Boost
@@ -127,13 +127,13 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "" )
  
    // Here the preparation phase begins
    
-   //string back = "qq";
+   string back = "qq";
    //string back = "ttbar";
    //string back = "ZZ";
-   string back = "WW";
+   //string back = "WW";
  
    // Read training and test data
-   string rtdCut = "30";
+   string rtdCut = "10";
    string inputSText = "outputTreeSHHbbbbESpreadDurham"+rtdCut+"Train.root";
    string inputBqqText = "outputTreeBqqHHbbbbESpreadDurham"+rtdCut+"Train.root";
    string inputBttText = "outputTreeBttHHbbbbESpreadDurham"+rtdCut+"Train.root";
@@ -195,12 +195,12 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "" )
    // The second argument is the output file for the training results
    // All TMVA output can be suppressed by removing the "!" (not) in
    // front of the "Silent" argument in the option string
-   TMVA::Factory *factory = new TMVA::Factory( "TMVAClassification", outputFile,
-                                               "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;P;G,D:AnalysisType=Classification" );
+   TMVA::Factory *factory = new TMVA::Factory( "TMVAClassification", outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;P;G,D:AnalysisType=Classification" );
+   //TMVA::Factory *factory = new TMVA::Factory( "TMVAClassification", outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;G,D:AnalysisType=Classification" );
  
    TMVA::DataLoader *dataloader;
    string dataloaderText, varVersion, preselection;
-   varVersion = "All1V";
+   varVersion = "All4V";
    preselection = "34BSplit";
    dataloaderText = "dataset"+back+rtdCut+varVersion+preselection;
    dataloader=new TMVA::DataLoader(dataloaderText.c_str());
@@ -240,7 +240,7 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "" )
 	   dataloader->AddVariable( "sphericity", 'F' );
 	   dataloader->AddVariable( "sumPt", 'F' );
    }
-   if(varVersion == "All2V")
+   else if(varVersion == "All2V")
    {
    	dataloader->AddVariable( "aplanarity", 'F' );
    	dataloader->AddVariable( "cosThetaB1", 'F' );
@@ -288,7 +288,47 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "" )
    	dataloader->AddVariable( "jetNObjects", 'F' );
    	dataloader->AddVariable( "minJetNObjects", 'F' );
    }
- 
+   else if(varVersion == "All4V")
+   {
+	dataloader->AddVariable( "aplanarity", 'F' );
+	dataloader->AddVariable( "cosThetaB1", 'F' );
+	dataloader->AddVariable( "cosThetaB2", 'F' );
+	dataloader->AddVariable( "cosThetaB3", 'F' );
+   	dataloader->AddVariable( "cosThetaB4", 'F' );
+	dataloader->AddVariable( "invMassB1", 'F' );
+   	dataloader->AddVariable( "invMassB2", 'F' );
+   	dataloader->AddVariable( "jetB1M", 'F' );
+   	dataloader->AddVariable( "jetB2M", 'F' );
+   	dataloader->AddVariable( "jetB3M", 'F' );
+   	dataloader->AddVariable( "jetB4M", 'F' );
+   	dataloader->AddVariable( "jetB1Pt", 'F' );
+   	dataloader->AddVariable( "jetB2Pt", 'F' );
+   	dataloader->AddVariable( "jetB3Pt", 'F' );
+   	dataloader->AddVariable( "jetB4Pt", 'F' );
+   	dataloader->AddVariable( "minJetM", 'F' );
+   	dataloader->AddVariable( "sphericity", 'F' );
+   	dataloader->AddVariable( "sumPt", 'F' );
+   	dataloader->AddVariable("invMassB1AntiKt", 'F');
+	dataloader->AddVariable("invMassB2AntiKt", 'F');
+	dataloader->AddVariable("nJetsAntiKt", 'F');
+	dataloader->AddVariable("invMassB11Best", 'F');
+	dataloader->AddVariable("invMassB21Best", 'F');
+	dataloader->AddVariable("invMassB12Best", 'F');
+	dataloader->AddVariable("invMassB22Best", 'F');
+	dataloader->AddVariable("invMassB13Best", 'F');
+	dataloader->AddVariable("invMassB23Best", 'F');
+	dataloader->AddVariable("invMassB14Best", 'F');
+	dataloader->AddVariable("invMassB24Best", 'F');
+	dataloader->AddVariable("invMassB15Best", 'F');
+	dataloader->AddVariable("invMassB25Best", 'F');
+	dataloader->AddVariable("invMassB16Best", 'F');
+	dataloader->AddVariable("invMassB26Best", 'F');
+	dataloader->AddVariable("invMassB17Best", 'F');
+	dataloader->AddVariable("invMassB27Best", 'F');
+	dataloader->AddVariable("invMassB18Best", 'F');
+	dataloader->AddVariable("invMassB28Best", 'F');
+   }
+   
    // global event weights per tree (see below for setting event-wise weights)
    Double_t signalWeight, backgroundWeight;
    /*signalWeight = 0.001225;
