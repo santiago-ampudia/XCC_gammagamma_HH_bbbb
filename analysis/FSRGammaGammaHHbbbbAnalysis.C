@@ -46,6 +46,9 @@ R__LOAD_LIBRARY(libDelphes)
 #include <random>
 #include <set>
 #include <queue>
+#include <stdexcept>
+#include <external/fastjet/ClusterSequence.hh>
+#include <external/fastjet/JetDefinition.hh>
 #endif
 
 #include "epConstrainHH.h"
@@ -528,16 +531,18 @@ float findEventShape(TLorentzVector j1, TLorentzVector j2, TLorentzVector j3, TL
 	else return 0;
 }
 
-//////Function that finds the jet pair combinations that minimizes chiSquared. 
+//////Function that finds the jet pair combinations that minimizes chiSquared for H mass. 
 void findJetPairs(TLorentzVector& jetPairB1, TLorentzVector& jetPairB2, TLorentzVector jetB1, TLorentzVector jetB2, TLorentzVector jetB3, TLorentzVector jetB4, double& jetPairB1Index1, double& jetPairB1Index2, double& jetPairB2Index1, double& jetPairB2Index2)
 {
 	double errorJetPairMass=1; ///////Should eventually measure this (? -- CHECK)
 	jetPairB1=jetB1+jetB2;
 	jetPairB2=jetB3+jetB4;
 	double jetChiS12=pow((jetPairB1.M()-125), 2)/errorJetPairMass + pow((jetPairB2.M()-125), 2)/errorJetPairMass;
+	double jetChiS12ZZ=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
 	jetPairB1=jetB1+jetB3;
 	jetPairB2=jetB2+jetB4;
 	double jetChiS13=pow((jetPairB1.M()-125), 2)/errorJetPairMass + pow((jetPairB2.M()-125), 2)/errorJetPairMass;
+	double jetChiS13ZZ=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
 	jetPairB1=jetB1+jetB4;
 	jetPairB2=jetB2+jetB3;
 	double jetChiS14=pow((jetPairB1.M()-125), 2)/errorJetPairMass + pow((jetPairB2.M()-125), 2)/errorJetPairMass;
@@ -569,6 +574,67 @@ void findJetPairs(TLorentzVector& jetPairB1, TLorentzVector& jetPairB2, TLorentz
 		jetPairB2Index1=1;
 		jetPairB2Index2=2;
 	}
+	
+	return;
+}
+///////
+
+//////Function that finds the jet pair combinations that minimizes chiSquared for Z mass. 
+void findJetPairsZZ(TLorentzVector& jetPairB1, TLorentzVector& jetPairB2, TLorentzVector jetB1, TLorentzVector jetB2, TLorentzVector jetB3, TLorentzVector jetB4, double& jetPairB1Index1, double& jetPairB1Index2, double& jetPairB2Index1, double& jetPairB2Index2, bool& flagZZMass, float& minChiSquaredZZMass, double distanceZMass, int& contEventsZWindow10, int& contEventsZWindow01, int& contEventsZWindow05, int& contEventsZWindow1, int& contEventsZWindow15, int& contEventsZWindow2, int& contEventsZWindow5, float& distanceZ1MinChiSquaredZZMass, float& distanceZ2MinChiSquaredZZMass)
+{
+	double errorJetPairMass=1; ///////Should eventually measure this (? -- CHECK)
+	jetPairB1=jetB1+jetB2;
+	jetPairB2=jetB3+jetB4;
+	//if(abs(jetPairB1.M()-90)<distanceZMass && abs(jetPairB2.M()-90)<distanceZMass) flagZZMass=true; 
+	double jetChiS12=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
+	jetPairB1=jetB1+jetB3;
+	jetPairB2=jetB2+jetB4;
+	//if(abs(jetPairB1.M()-90)<distanceZMass && abs(jetPairB2.M()-90)<distanceZMass) flagZZMass=true;
+	double jetChiS13=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
+	jetPairB1=jetB1+jetB4;
+	jetPairB2=jetB2+jetB3;
+	//if(abs(jetPairB1.M()-90)<distanceZMass && abs(jetPairB2.M()-90)<distanceZMass) flagZZMass=true;
+	double jetChiS14=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
+	minChiSquaredZZMass = TMath::Min(TMath::Min(jetChiS12, jetChiS13), jetChiS14);
+	if(minChiSquaredZZMass==jetChiS12)
+	{
+		jetPairB1=jetB1+jetB2;
+		jetPairB2=jetB3+jetB4;
+		jetPairB1Index1=0;
+		jetPairB1Index2=1;
+		jetPairB2Index1=2;
+		jetPairB2Index2=3;
+	}
+	else if(minChiSquaredZZMass==jetChiS13)
+	{
+		jetPairB1=jetB1+jetB3;
+		jetPairB2=jetB2+jetB4;
+		jetPairB1Index1=0;
+		jetPairB1Index2=2;
+		jetPairB2Index1=1;
+		jetPairB2Index2=3;
+	}
+	else if(minChiSquaredZZMass==jetChiS14)
+	{
+		jetPairB1=jetB1+jetB4;
+		jetPairB2=jetB2+jetB3;
+		jetPairB1Index1=0;
+		jetPairB1Index2=3;
+		jetPairB2Index1=1;
+		jetPairB2Index2=2;
+	}
+	
+	if(abs(jetPairB1.M()-90)<distanceZMass && abs(jetPairB2.M()-90)<distanceZMass) flagZZMass=true; 
+	if(abs(jetPairB1.M()-90)<0.1 && abs(jetPairB2.M()-90)<0.1) contEventsZWindow01++;
+	if(abs(jetPairB1.M()-90)<0.5 && abs(jetPairB2.M()-90)<0.5) contEventsZWindow05++;
+	if(abs(jetPairB1.M()-90)<1 && abs(jetPairB2.M()-90)<1) contEventsZWindow1++;
+	if(abs(jetPairB1.M()-90)<1.5 && abs(jetPairB2.M()-90)<1.5) contEventsZWindow15++;
+	if(abs(jetPairB1.M()-90)<2 && abs(jetPairB2.M()-90)<2) contEventsZWindow2++;
+	if(abs(jetPairB1.M()-90)<5 && abs(jetPairB2.M()-90)<5) contEventsZWindow5++;
+	if(abs(jetPairB1.M()-90)<10 && abs(jetPairB2.M()-90)<10) contEventsZWindow10++;
+	distanceZ1MinChiSquaredZZMass=abs(jetPairB1.M()-90);
+	distanceZ2MinChiSquaredZZMass=abs(jetPairB2.M()-90);
+	
 	
 	return;
 }
@@ -655,7 +721,7 @@ void sortVectorTriple(std::vector<double>& vector1, std::vector<vector<int>>& ve
 2) qqbar
 3) ttbar
 4) ZZ*/ 
-void analysis(const char *inputFile, int topology, string size, float weight, string jetAlgoText, string jetAlgo, string genJetAlgo, TTree& TreeTrain, TTree& TreeTest)
+void analysis(const char *inputFile, int topology, float weight, string jetAlgoText, string jetAlgo, string genJetAlgo, TTree& TreeTrain, TTree& TreeTest, TTree& TreeMerge, string fileFunction)
 {
 	if(topology == 1) cout<<"HHAnalysis working!"<<endl;
 	else if(topology == 2) cout<<"qqAnalysis working!"<<endl;
@@ -679,7 +745,7 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
   	int contEntriesPostFilter=0;
   	cout<<"numberOfEntries: "<<numberOfEntries<<endl;
   	
-  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText; 
+  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText, histNJetsDurham0Text, histNJetsDurham5Text, histNJetsDurham10Text, histNJetsDurham15Text, histNJetsDurham20Text, histNJetsDurham25Text, histNJetsDurham30Text, histMinChiSquaredZZMassText, histInvMassZZ1Text, histInvMassZZ2Text, histDistanceZ1MinChiSquaredZZMassText, histDistanceZ2MinChiSquaredZZMassText, histExclYmerge12Text, histExclYmerge23Text, histExclYmerge34Text, histExclYmerge45Text, histExclYmerge56Text; 
 	if(topology == 1) 
 	{
   		histJetEtaText = jetAlgoText + "Jet Eta for events with HH to bb and bb (4b)";
@@ -745,6 +811,26 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
   		histJetB2MAntiKt5JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 5 antiKt (HH)";
   		histJetB1MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 6 antiKt (HH)";
   		histJetB2MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 6 antiKt (HH)";
+  		
+  		histNJetsDurham0Text = jetAlgoText + "nJets in durham with rtdCut = 0 (HH)"; 
+  		histNJetsDurham5Text = jetAlgoText + "nJets in durham with rtdCut = 5 (HH)"; 
+  		histNJetsDurham10Text = jetAlgoText + "nJets in durham with rtdCut = 10 (HH)"; 
+  		histNJetsDurham15Text = jetAlgoText + "nJets in durham with rtdCut = 15 (HH)"; 
+  		histNJetsDurham20Text = jetAlgoText + "nJets in durham with rtdCut = 20 (HH)"; 
+  		histNJetsDurham25Text = jetAlgoText + "nJets in durham with rtdCut = 25 (HH)"; 
+  		histNJetsDurham30Text = jetAlgoText + "nJets in durham with rtdCut = 30 (HH)"; 
+  		
+  		histMinChiSquaredZZMassText = jetAlgoText + "minChiSquared for the three possible jet pair comb. for ZZ mass (HH)"; 
+  		histInvMassZZ1Text =  jetAlgoText + "Mass of jetPair1 of comb. with min. chiSquared for ZZ (HH)";
+  		histInvMassZZ2Text =  jetAlgoText + "Mass of jetPair2 of comb. with min. chiSquared for ZZ (HH)";
+  		histDistanceZ1MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair1 of comb. with min. chiSquared for ZZ (HH)";
+  		histDistanceZ2MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair2 of comb. with min. chiSquared for ZZ (HH)";
+  		
+  		histExclYmerge12Text = jetAlgoText + "y value when merging from 1 to 2 jets (HH)"; 
+  		histExclYmerge23Text = jetAlgoText + "y value when merging from 2 to 3 jets (HH)"; 
+  		histExclYmerge34Text = jetAlgoText + "y value when merging from 3 to 4 jets (HH)"; 
+  		histExclYmerge45Text = jetAlgoText + "y value when merging from 4 to 5 jets (HH)"; 
+  		histExclYmerge56Text = jetAlgoText + "y value when merging from 5 to 6 jets (HH)"; 
   	}
   	if(topology == 2) 
 	{
@@ -811,6 +897,26 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
   		histJetB2MAntiKt5JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 5 antiKt (qq)";
   		histJetB1MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 6 antiKt (qq)";
   		histJetB2MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 6 antiKt (qq)";
+  		
+  		histNJetsDurham0Text = jetAlgoText + "nJets in durham with rtdCut = 0 (qq)"; 
+  		histNJetsDurham5Text = jetAlgoText + "nJets in durham with rtdCut = 5 (qq)"; 
+  		histNJetsDurham10Text = jetAlgoText + "nJets in durham with rtdCut = 10 (qq)"; 
+  		histNJetsDurham15Text = jetAlgoText + "nJets in durham with rtdCut = 15 (qq)"; 
+  		histNJetsDurham20Text = jetAlgoText + "nJets in durham with rtdCut = 20 (qq)"; 
+  		histNJetsDurham25Text = jetAlgoText + "nJets in durham with rtdCut = 25 (qq)"; 
+  		histNJetsDurham30Text = jetAlgoText + "nJets in durham with rtdCut = 30 (qq)";
+  		
+  		histMinChiSquaredZZMassText = jetAlgoText + "minChiSquared for the three possible jet pair comb. for ZZ mass (qq)";
+  		histInvMassZZ1Text =  jetAlgoText + "Mass of jetPair1 of comb. with min. chiSquared for ZZ (qq)";
+  		histInvMassZZ2Text =  jetAlgoText + "Mass of jetPair2 of comb. with min. chiSquared for ZZ (qq)"; 
+  		histDistanceZ1MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair1 of comb. with min. chiSquared for ZZ (qq)";
+  		histDistanceZ2MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair2 of comb. with min. chiSquared for ZZ (qq)";
+  		
+  		histExclYmerge12Text = jetAlgoText + "y value when merging from 1 to 2 jets (qq)"; 
+  		histExclYmerge23Text = jetAlgoText + "y value when merging from 2 to 3 jets (qq)"; 
+  		histExclYmerge34Text = jetAlgoText + "y value when merging from 3 to 4 jets (qq)"; 
+  		histExclYmerge45Text = jetAlgoText + "y value when merging from 4 to 5 jets (qq)"; 
+  		histExclYmerge56Text = jetAlgoText + "y value when merging from 5 to 6 jets (qq)"; 
   	}
   	if(topology == 3) 
 	{
@@ -877,6 +983,26 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
   		histJetB2MAntiKt5JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 5 antiKt (ttbar)";
   		histJetB1MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 6 antiKt (ttbar)";
   		histJetB2MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 6 antiKt (ttbar)";
+  		
+  		histNJetsDurham0Text = jetAlgoText + "nJets in durham with rtdCut = 0 (ttbar)"; 
+  		histNJetsDurham5Text = jetAlgoText + "nJets in durham with rtdCut = 5 (ttbar)"; 
+  		histNJetsDurham10Text = jetAlgoText + "nJets in durham with rtdCut = 10 (ttbar)"; 
+  		histNJetsDurham15Text = jetAlgoText + "nJets in durham with rtdCut = 15 (ttbar)"; 
+  		histNJetsDurham20Text = jetAlgoText + "nJets in durham with rtdCut = 20 (ttbar)"; 
+  		histNJetsDurham25Text = jetAlgoText + "nJets in durham with rtdCut = 25 (ttbar)"; 
+  		histNJetsDurham30Text = jetAlgoText + "nJets in durham with rtdCut = 30 (ttbar)";
+  		
+  		histMinChiSquaredZZMassText = jetAlgoText + "minChiSquared for the three possible jet pair comb. for ZZ mass (ttbar)"; 
+  		histInvMassZZ1Text =  jetAlgoText + "Mass of jetPair1 of comb. with min. chiSquared for ZZ (ttbar)";
+  		histInvMassZZ2Text =  jetAlgoText + "Mass of jetPair2 of comb. with min. chiSquared for ZZ (ttbar)";
+  		histDistanceZ1MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair1 of comb. with min. chiSquared for ZZ (ttbar)";
+  		histDistanceZ2MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair2 of comb. with min. chiSquared for ZZ (ttbar)";
+  		
+  		histExclYmerge12Text = jetAlgoText + "y value when merging from 1 to 2 jets (ttbar)"; 
+  		histExclYmerge23Text = jetAlgoText + "y value when merging from 2 to 3 jets (ttbar)"; 
+  		histExclYmerge34Text = jetAlgoText + "y value when merging from 3 to 4 jets (ttbar)"; 
+  		histExclYmerge45Text = jetAlgoText + "y value when merging from 4 to 5 jets (ttbar)"; 
+  		histExclYmerge56Text = jetAlgoText + "y value when merging from 5 to 6 jets (ttbar)"; 
   	}
   	if(topology == 4) 
 	{
@@ -943,6 +1069,26 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
   		histJetB2MAntiKt5JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 5 antiKt (ZZ)";
   		histJetB1MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 6 antiKt (ZZ)";
   		histJetB2MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 6 antiKt (ZZ)";
+  		
+  		histNJetsDurham0Text = jetAlgoText + "nJets in durham with rtdCut = 0 (ZZ)"; 
+  		histNJetsDurham5Text = jetAlgoText + "nJets in durham with rtdCut = 5 (ZZ)"; 
+  		histNJetsDurham10Text = jetAlgoText + "nJets in durham with rtdCut = 10 (ZZ)"; 
+  		histNJetsDurham15Text = jetAlgoText + "nJets in durham with rtdCut = 15 (ZZ)"; 
+  		histNJetsDurham20Text = jetAlgoText + "nJets in durham with rtdCut = 20 (ZZ)"; 
+  		histNJetsDurham25Text = jetAlgoText + "nJets in durham with rtdCut = 25 (ZZ)"; 
+  		histNJetsDurham30Text = jetAlgoText + "nJets in durham with rtdCut = 30 (ZZ)";
+  		
+  		histMinChiSquaredZZMassText = jetAlgoText + "minChiSquared for the three possible jet pair comb. for ZZ mass (ZZ)"; 
+  		histInvMassZZ1Text =  jetAlgoText + "Mass of jetPair1 of comb. with min. chiSquared for ZZ (ZZ)";
+  		histInvMassZZ2Text =  jetAlgoText + "Mass of jetPair2 of comb. with min. chiSquared for ZZ (ZZ)";
+  		histDistanceZ1MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair1 of comb. with min. chiSquared for ZZ (ZZ)";
+  		histDistanceZ2MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair2 of comb. with min. chiSquared for ZZ (ZZ)";
+  		
+  		histExclYmerge12Text = jetAlgoText + "y value when merging from 1 to 2 jets (ZZ)"; 
+  		histExclYmerge23Text = jetAlgoText + "y value when merging from 2 to 3 jets (ZZ)"; 
+  		histExclYmerge34Text = jetAlgoText + "y value when merging from 3 to 4 jets (ZZ)"; 
+  		histExclYmerge45Text = jetAlgoText + "y value when merging from 4 to 5 jets (ZZ)"; 
+  		histExclYmerge56Text = jetAlgoText + "y value when merging from 5 to 6 jets (ZZ)"; 
   	}
 	if(topology == 5) 
 	{
@@ -1009,6 +1155,26 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
   		histJetB2MAntiKt5JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 5 antiKt (WW)";
   		histJetB1MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 6 antiKt (WW)";
   		histJetB2MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 6 antiKt (WW)";
+  		
+  		histNJetsDurham0Text = jetAlgoText + "nJets in durham with rtdCut = 0 (WW)"; 
+  		histNJetsDurham5Text = jetAlgoText + "nJets in durham with rtdCut = 5 (WW)"; 
+  		histNJetsDurham10Text = jetAlgoText + "nJets in durham with rtdCut = 10 (WW)"; 
+  		histNJetsDurham15Text = jetAlgoText + "nJets in durham with rtdCut = 15 (WW)"; 
+  		histNJetsDurham20Text = jetAlgoText + "nJets in durham with rtdCut = 20 (WW)"; 
+  		histNJetsDurham25Text = jetAlgoText + "nJets in durham with rtdCut = 25 (WW)"; 
+  		histNJetsDurham30Text = jetAlgoText + "nJets in durham with rtdCut = 30 (WW)";
+  		
+  		histMinChiSquaredZZMassText = jetAlgoText + "minChiSquared for the three possible jet pair comb. for ZZ mass (WW)";
+  		histInvMassZZ1Text =  jetAlgoText + "Mass of jetPair1 of comb. with min. chiSquared for ZZ (WW)";
+  		histInvMassZZ2Text =  jetAlgoText + "Mass of jetPair2 of comb. with min. chiSquared for ZZ (WW)";
+  		histDistanceZ1MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair1 of comb. with min. chiSquared for ZZ (WW)";
+  		histDistanceZ2MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair2 of comb. with min. chiSquared for ZZ (WW)";
+  		
+  		histExclYmerge12Text = jetAlgoText + "y value when merging from 1 to 2 jets (WW)"; 
+  		histExclYmerge23Text = jetAlgoText + "y value when merging from 2 to 3 jets (WW)"; 
+  		histExclYmerge34Text = jetAlgoText + "y value when merging from 3 to 4 jets (WW)"; 
+  		histExclYmerge45Text = jetAlgoText + "y value when merging from 4 to 5 jets (WW)"; 
+  		histExclYmerge56Text = jetAlgoText + "y value when merging from 5 to 6 jets (WW)"; 
   	}  	
   	
   	TH1 *histJetEta = new TH1F("jeteta", histJetEtaText.c_str(), 142.0, -4.0, 4.0);
@@ -1083,7 +1249,27 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
   	TH1 *histJetB2MAntiKt5Jets = new TH1F("jetb25,", histJetB2MAntiKt5JetsText.c_str(), 142.0, -1.0, 350);
   	TH1 *histJetB1MAntiKt6Jets = new TH1F("jetb16,", histJetB1MAntiKt6JetsText.c_str(), 142.0, -1.0, 350);
   	TH1 *histJetB2MAntiKt6Jets = new TH1F("jetb26,", histJetB2MAntiKt6JetsText.c_str(), 142.0, -1.0, 350);
-	
+  	
+  	TH1 *histNJetsDurham0 = new TH1F("nJetsDurham0,", histNJetsDurham0Text.c_str(), 100.0, -1.0, 6);
+  	TH1 *histNJetsDurham5 = new TH1F("nJetsDurham5,", histNJetsDurham5Text.c_str(), 100.0, -1.0, 6);
+  	TH1 *histNJetsDurham10 = new TH1F("nJetsDurham10,", histNJetsDurham10Text.c_str(), 100.0, -1.0, 6);
+  	TH1 *histNJetsDurham15 = new TH1F("nJetsDurham15,", histNJetsDurham15Text.c_str(), 100.0, -1.0, 6);
+  	TH1 *histNJetsDurham20 = new TH1F("nJetsDurham20,", histNJetsDurham20Text.c_str(), 100.0, -1.0, 6);
+  	TH1 *histNJetsDurham25 = new TH1F("nJetsDurham25,", histNJetsDurham25Text.c_str(), 100.0, -1.0, 6);
+  	TH1 *histNJetsDurham30 = new TH1F("nJetsDurham30,", histNJetsDurham30Text.c_str(), 100.0, -1.0, 6);
+  	
+  	TH1 *histMinChiSquaredZZMass = new TH1F("MinChiSquaredZZMass,", histMinChiSquaredZZMassText.c_str(), 142.0, -100.0, 6000);
+  	TH1 *histInvMassZZ1 = new TH1F("InvMassZZ1,", histInvMassZZ1Text.c_str(), 142.0, -1.0, 350);
+  	TH1 *histInvMassZZ2 = new TH1F("InvMassZZ2,", histInvMassZZ2Text.c_str(), 142.0, -1.0, 350);
+  	TH1 *histDistanceZ1MinChiSquaredZZMass = new TH1F("distanceZ1MinChiSquaredZZMass,", histDistanceZ1MinChiSquaredZZMassText.c_str(), 142.0, -1.0, 100);
+  	TH1 *histDistanceZ2MinChiSquaredZZMass = new TH1F("distanceZ2MinChiSquaredZZMass,", histDistanceZ2MinChiSquaredZZMassText.c_str(), 142.0, -1.0, 100);
+  	
+  	TH1 *histExclYmerge12 = new TH1F("ExclYmerge12,", histExclYmerge12Text.c_str(), 142.0, -0.1, 1);
+  	TH1 *histExclYmerge23 = new TH1F("ExclYmerge23,", histExclYmerge23Text.c_str(), 142.0, -0.05, 0.35);
+  	TH1 *histExclYmerge34 = new TH1F("ExclYmerge34,", histExclYmerge34Text.c_str(), 142.0, -0.05, 0.20);
+  	TH1 *histExclYmerge45 = new TH1F("ExclYmerge45,", histExclYmerge45Text.c_str(), 142.0, -0.005, 0.04);
+  	TH1 *histExclYmerge56 = new TH1F("ExclYmerge56,", histExclYmerge56Text.c_str(), 142.0, -0.001, 0.015);
+  	
   	
   	TClonesArray *branchParticle;
   	TClonesArray *branchEvent;
@@ -1098,6 +1284,13 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
   	TClonesArray *branchEFlowTrack;
   	TClonesArray *branchEFlowPhoton;
   	TClonesArray *branchEFlowNeutralHadron;
+  	TClonesArray *branchJetDurham0;
+  	TClonesArray *branchJetDurham5;
+  	TClonesArray *branchJetDurham10;
+  	TClonesArray *branchJetDurham15;
+  	TClonesArray *branchJetDurham20;
+  	TClonesArray *branchJetDurham25;
+  	TClonesArray *branchJetDurham30;
   	
   	
 	branchParticle = treeReader->UseBranch("Particle");
@@ -1113,122 +1306,166 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
 	branchEFlowTrack = treeReader->UseBranch("EFlowTrack");
 	branchEFlowPhoton = treeReader->UseBranch("EFlowPhoton");
 	branchEFlowNeutralHadron = treeReader->UseBranch("EFlowNeutralHadron");
+	branchJetDurham0 = treeReader->UseBranch("Jet0");
+	branchJetDurham5 = treeReader->UseBranch("Jet5");
+	branchJetDurham10 = treeReader->UseBranch("Jet10");
+	branchJetDurham15 = treeReader->UseBranch("Jet15");
+	branchJetDurham20 = treeReader->UseBranch("Jet20");
+	branchJetDurham25 = treeReader->UseBranch("Jet25");
+	branchJetDurham30 = treeReader->UseBranch("Jet30");
   	
 	
 	int trueFullTopEvents=0, trueSemiTopEvents=0, trueFullZEvents=0, trueSemiZEvents=0, trueFullWEvents=0, trueSemiWWEvents=0, trueFullWWEvents=0, trueSemiWEvents=0, trueFullLeptonEvents=0, trueSemiLeptonEvents=0, trueFullHadronEvents=0, trueSemiHadronEvents=0, trueFullNeutrinoEvents=0, trueSemiNeutrinoEvents=0, weirdDecays=0, contEtaCut=0, contCosThetaCut=0, trueLeptonEvents=0, trueHadronEvents=0, trueNeutrinoEvents=0;
 	int trueLeptonNeutrinoEvents=0, trueLeptonHadronEvents=0, trueHadronNeutrinoEvents=0; 
 	float pt1=0, pt2=0, pt3=0, pt4=0, ptSum=0, contMassB1Window=0, contMassB2Window=0, windowBLeft=0, windowBRight=0, windowB2Left=0, windowB2Right=0, contEventsWindow=0, contEvents=0, contEventsPostFilter=0;
+	double distanceZMass;
+	int contEventsZWindow10=0, contEventsZWindow01=0, contEventsZWindow05=0, contEventsZWindow1=0, contEventsZWindow15=0, contEventsZWindow2=0, contEventsZWindow5=0;
 	
-	float aplanarity, invMassB1, invMassB2, minJetM, sphericity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, sumPt, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, jetB1M, jetB2M, jetB3M, jetB4M, etaB1, etaB2, etaB3, etaB4, nParticles, totalConstSize, constSizeB1, constSizeB2, constSizeB3, constSizeB4, minConstSize, jetB1NCharged, jetB2NCharged, jetB3NCharged, jetB4NCharged, jetB1NNeutrals, jetB2NNeutrals, jetB3NNeutrals, jetB4NNeutrals, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, invMassB1AntiKt2Jets, invMassB2AntiKt2Jets, invMassB1AntiKt3Jets, invMassB2AntiKt3Jets, invMassB1AntiKt4Jets, invMassB2AntiKt4Jets, invMassB1AntiKt5Jets, invMassB2AntiKt5Jets, invMassB1AntiKt6Jets, invMassB2AntiKt6Jets, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best;
+	float aplanarity, invMassB1, invMassB2, minJetM, sphericity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, sumPt, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, jetB1M, jetB2M, jetB3M, jetB4M, etaB1, etaB2, etaB3, etaB4, nParticles, totalConstSize, constSizeB1, constSizeB2, constSizeB3, constSizeB4, minConstSize, jetB1NCharged, jetB2NCharged, jetB3NCharged, jetB4NCharged, jetB1NNeutrals, jetB2NNeutrals, jetB3NNeutrals, jetB4NNeutrals, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, invMassB1AntiKt2Jets, invMassB2AntiKt2Jets, invMassB1AntiKt3Jets, invMassB2AntiKt3Jets, invMassB1AntiKt4Jets, invMassB2AntiKt4Jets, invMassB1AntiKt5Jets, invMassB2AntiKt5Jets, invMassB1AntiKt6Jets, invMassB2AntiKt6Jets, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best, entryIndex, nJetsDurham0, nJetsDurham5, nJetsDurham10, nJetsDurham15, nJetsDurham20, nJetsDurham25, nJetsDurham30, minChiSquaredZZMass, distanceZ1MinChiSquaredZZMass, distanceZ2MinChiSquaredZZMass, exclYmerge12, exclYmerge23, exclYmerge34, exclYmerge45, exclYmerge56;
 	
 	int contLargeBMass=0, contSmallBMass=0;
 	
-	/////Filling out tree for BDT
-	TreeTrain.Branch("aplanarity",&aplanarity,"aplanarity/F");
-	TreeTrain.Branch("invMassB1",&invMassB1,"invMassB1/F");
-	TreeTrain.Branch("invMassB2",&invMassB2,"invMassB2/F");
-	TreeTrain.Branch("minJetM",&minJetM,"minJetM/F");  
-	TreeTrain.Branch("sphericity",&sphericity,"sphericity/F");
-	TreeTrain.Branch("cosThetaB1",&cosThetaB1,"cosThetaB1/F");
-	TreeTrain.Branch("cosThetaB2",&cosThetaB2,"cosThetaB2/F");
-	TreeTrain.Branch("cosThetaB3",&cosThetaB3,"cosThetaB3/F");
-	TreeTrain.Branch("cosThetaB4",&cosThetaB4,"cosThetaB4/F");
-	TreeTrain.Branch("sumPt",&sumPt,"sumPt/F");
-	TreeTrain.Branch("jetB1Pt",&jetB1Pt,"jetB1Pt/F");
-	TreeTrain.Branch("jetB2Pt",&jetB2Pt,"jetB2Pt/F");
-	TreeTrain.Branch("jetB3Pt",&jetB3Pt,"jetB3Pt/F");
-	TreeTrain.Branch("jetB4Pt",&jetB4Pt,"jetB4Pt/F");
-	TreeTrain.Branch("jetB1M",&jetB1M,"jetB1M/F");
-	TreeTrain.Branch("jetB2M",&jetB2M,"jetB2M/F");
-	TreeTrain.Branch("jetB3M",&jetB3M,"jetB3M/F");
-	TreeTrain.Branch("jetB4M",&jetB4M,"jetB4M/F");
-	TreeTrain.Branch("nParticles",&nParticles,"nParticles/F");
-	TreeTrain.Branch("constSizeB1",&constSizeB1,"constSizeB1/F");
-	TreeTrain.Branch("constSizeB2",&constSizeB2,"constSizeB2/F");
-	TreeTrain.Branch("constSizeB3",&constSizeB3,"constSizeB3/F");
-	TreeTrain.Branch("constSizeB4",&constSizeB4,"constSizeB4/F");
-	TreeTrain.Branch("minConstSize",&minConstSize,"minConstSize/F");
-	TreeTrain.Branch("jetNObjects",&jetNObjects,"jetNObjects/F");
-	TreeTrain.Branch("minJetNObjects",&minJetNObjects,"minJetNObjects/F");
-	TreeTrain.Branch("invMassB1AntiKt",&invMassB1AntiKt,"invMassB1AntiKt/F");
-	TreeTrain.Branch("invMassB2AntiKt",&invMassB2AntiKt,"invMassB2AntiKt/F");
-	TreeTrain.Branch("nJetsAntiKt",&nJetsAntiKt,"nJetsAntiKt/F");
-	TreeTrain.Branch("invMassB11Best",&invMassB11Best,"invMassB11Best/F");
-	TreeTrain.Branch("invMassB21Best",&invMassB21Best,"invMassB21Best/F");
-	TreeTrain.Branch("invMassB12Best",&invMassB12Best,"invMassB12Best/F");
-	TreeTrain.Branch("invMassB22Best",&invMassB22Best,"invMassB22Best/F");
-	TreeTrain.Branch("invMassB13Best",&invMassB13Best,"invMassB13Best/F");
-	TreeTrain.Branch("invMassB23Best",&invMassB23Best,"invMassB23Best/F");
-	TreeTrain.Branch("invMassB14Best",&invMassB14Best,"invMassB14Best/F");
-	TreeTrain.Branch("invMassB24Best",&invMassB24Best,"invMassB24Best/F");
-	TreeTrain.Branch("invMassB15Best",&invMassB15Best,"invMassB15Best/F");
-	TreeTrain.Branch("invMassB25Best",&invMassB25Best,"invMassB25Best/F");
-	TreeTrain.Branch("invMassB16Best",&invMassB16Best,"invMassB16Best/F");
-	TreeTrain.Branch("invMassB26Best",&invMassB26Best,"invMassB26Best/F");
-	TreeTrain.Branch("invMassB17Best",&invMassB17Best,"invMassB17Best/F");
-	TreeTrain.Branch("invMassB27Best",&invMassB27Best,"invMassB27Best/F");
-	TreeTrain.Branch("invMassB18Best",&invMassB18Best,"invMassB18Best/F");
-	TreeTrain.Branch("invMassB28Best",&invMassB28Best,"invMassB28Best/F");
+	if(fileFunction == "generate")
+	{
+		/////Filling out tree for BDT
+		TreeTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+		TreeTrain.Branch("aplanarity",&aplanarity,"aplanarity/F");
+		TreeTrain.Branch("invMassB1",&invMassB1,"invMassB1/F");
+		TreeTrain.Branch("invMassB2",&invMassB2,"invMassB2/F");
+		TreeTrain.Branch("minJetM",&minJetM,"minJetM/F");  
+		TreeTrain.Branch("sphericity",&sphericity,"sphericity/F");
+		TreeTrain.Branch("cosThetaB1",&cosThetaB1,"cosThetaB1/F");
+		TreeTrain.Branch("cosThetaB2",&cosThetaB2,"cosThetaB2/F");
+		TreeTrain.Branch("cosThetaB3",&cosThetaB3,"cosThetaB3/F");
+		TreeTrain.Branch("cosThetaB4",&cosThetaB4,"cosThetaB4/F");
+		TreeTrain.Branch("sumPt",&sumPt,"sumPt/F");
+		TreeTrain.Branch("jetB1Pt",&jetB1Pt,"jetB1Pt/F");
+		TreeTrain.Branch("jetB2Pt",&jetB2Pt,"jetB2Pt/F");
+		TreeTrain.Branch("jetB3Pt",&jetB3Pt,"jetB3Pt/F");
+		TreeTrain.Branch("jetB4Pt",&jetB4Pt,"jetB4Pt/F");
+		TreeTrain.Branch("jetB1M",&jetB1M,"jetB1M/F");
+		TreeTrain.Branch("jetB2M",&jetB2M,"jetB2M/F");
+		TreeTrain.Branch("jetB3M",&jetB3M,"jetB3M/F");
+		TreeTrain.Branch("jetB4M",&jetB4M,"jetB4M/F");
+		TreeTrain.Branch("nParticles",&nParticles,"nParticles/F");
+		TreeTrain.Branch("constSizeB1",&constSizeB1,"constSizeB1/F");
+		TreeTrain.Branch("constSizeB2",&constSizeB2,"constSizeB2/F");
+		TreeTrain.Branch("constSizeB3",&constSizeB3,"constSizeB3/F");
+		TreeTrain.Branch("constSizeB4",&constSizeB4,"constSizeB4/F");
+		TreeTrain.Branch("minConstSize",&minConstSize,"minConstSize/F");
+		TreeTrain.Branch("jetNObjects",&jetNObjects,"jetNObjects/F");
+		TreeTrain.Branch("minJetNObjects",&minJetNObjects,"minJetNObjects/F");
+		TreeTrain.Branch("invMassB1AntiKt",&invMassB1AntiKt,"invMassB1AntiKt/F");
+		TreeTrain.Branch("invMassB2AntiKt",&invMassB2AntiKt,"invMassB2AntiKt/F");
+		TreeTrain.Branch("nJetsAntiKt",&nJetsAntiKt,"nJetsAntiKt/F");
+		TreeTrain.Branch("invMassB11Best",&invMassB11Best,"invMassB11Best/F");
+		TreeTrain.Branch("invMassB21Best",&invMassB21Best,"invMassB21Best/F");
+		TreeTrain.Branch("invMassB12Best",&invMassB12Best,"invMassB12Best/F");
+		TreeTrain.Branch("invMassB22Best",&invMassB22Best,"invMassB22Best/F");
+		TreeTrain.Branch("invMassB13Best",&invMassB13Best,"invMassB13Best/F");
+		TreeTrain.Branch("invMassB23Best",&invMassB23Best,"invMassB23Best/F");
+		TreeTrain.Branch("invMassB14Best",&invMassB14Best,"invMassB14Best/F");
+		TreeTrain.Branch("invMassB24Best",&invMassB24Best,"invMassB24Best/F");
+		TreeTrain.Branch("invMassB15Best",&invMassB15Best,"invMassB15Best/F");
+		TreeTrain.Branch("invMassB25Best",&invMassB25Best,"invMassB25Best/F");
+		TreeTrain.Branch("invMassB16Best",&invMassB16Best,"invMassB16Best/F");
+		TreeTrain.Branch("invMassB26Best",&invMassB26Best,"invMassB26Best/F");
+		TreeTrain.Branch("invMassB17Best",&invMassB17Best,"invMassB17Best/F");
+		TreeTrain.Branch("invMassB27Best",&invMassB27Best,"invMassB27Best/F");
+		TreeTrain.Branch("invMassB18Best",&invMassB18Best,"invMassB18Best/F");
+		TreeTrain.Branch("invMassB28Best",&invMassB28Best,"invMassB28Best/F");
 
+		TreeTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+		TreeTest.Branch("aplanarity",&aplanarity,"aplanarity/F");
+		TreeTest.Branch("invMassB1",&invMassB1,"invMassB1/F");
+		TreeTest.Branch("invMassB2",&invMassB2,"invMassB2/F");
+		TreeTest.Branch("minJetM",&minJetM,"minJetM/F");  
+		TreeTest.Branch("sphericity",&sphericity,"sphericity/F");
+		TreeTest.Branch("cosThetaB1",&cosThetaB1,"cosThetaB1/F");
+		TreeTest.Branch("cosThetaB2",&cosThetaB2,"cosThetaB2/F");
+		TreeTest.Branch("cosThetaB3",&cosThetaB3,"cosThetaB3/F");
+		TreeTest.Branch("cosThetaB4",&cosThetaB4,"cosThetaB4/F");
+		TreeTest.Branch("sumPt",&sumPt,"sumPt/F");
+		TreeTest.Branch("jetB1Pt",&jetB1Pt,"jetB1Pt/F");
+		TreeTest.Branch("jetB2Pt",&jetB2Pt,"jetB2Pt/F");
+		TreeTest.Branch("jetB3Pt",&jetB3Pt,"jetB3Pt/F");
+		TreeTest.Branch("jetB4Pt",&jetB4Pt,"jetB4Pt/F");
+		TreeTest.Branch("jetB1M",&jetB1M,"jetB1M/F");
+		TreeTest.Branch("jetB2M",&jetB2M,"jetB2M/F");
+		TreeTest.Branch("jetB3M",&jetB3M,"jetB3M/F");
+		TreeTest.Branch("jetB4M",&jetB4M,"jetB4M/F");
+		TreeTest.Branch("nParticles",&nParticles,"nParticles/F");
+		TreeTest.Branch("constSizeB1",&constSizeB1,"constSizeB1/F");
+		TreeTest.Branch("constSizeB2",&constSizeB2,"constSizeB2/F");
+		TreeTest.Branch("constSizeB3",&constSizeB3,"constSizeB3/F");
+		TreeTest.Branch("constSizeB4",&constSizeB4,"constSizeB4/F");
+		TreeTest.Branch("minConstSize",&minConstSize,"minConstSize/F");
+		TreeTest.Branch("jetNObjects",&jetNObjects,"jetNObjects/F");
+		TreeTest.Branch("minJetNObjects",&minJetNObjects,"minJetNObjects/F");
+		TreeTest.Branch("invMassB1AntiKt",&invMassB1AntiKt,"invMassB1AntiKt/F");
+		TreeTest.Branch("invMassB2AntiKt",&invMassB2AntiKt,"invMassB2AntiKt/F");
+		TreeTest.Branch("nJetsAntiKt",&nJetsAntiKt,"nJetsAntiKt/F");
+		TreeTest.Branch("invMassB11Best",&invMassB11Best,"invMassB11Best/F");
+		TreeTest.Branch("invMassB21Best",&invMassB21Best,"invMassB21Best/F");
+		TreeTest.Branch("invMassB12Best",&invMassB12Best,"invMassB12Best/F");
+		TreeTest.Branch("invMassB22Best",&invMassB22Best,"invMassB22Best/F");
+		TreeTest.Branch("invMassB13Best",&invMassB13Best,"invMassB13Best/F");
+		TreeTest.Branch("invMassB23Best",&invMassB23Best,"invMassB23Best/F");
+		TreeTest.Branch("invMassB14Best",&invMassB14Best,"invMassB14Best/F");
+		TreeTest.Branch("invMassB24Best",&invMassB24Best,"invMassB24Best/F");
+		TreeTest.Branch("invMassB15Best",&invMassB15Best,"invMassB15Best/F");
+		TreeTest.Branch("invMassB25Best",&invMassB25Best,"invMassB25Best/F");
+		TreeTest.Branch("invMassB16Best",&invMassB16Best,"invMassB16Best/F");
+		TreeTest.Branch("invMassB26Best",&invMassB26Best,"invMassB26Best/F");
+		TreeTest.Branch("invMassB17Best",&invMassB17Best,"invMassB17Best/F");
+		TreeTest.Branch("invMassB27Best",&invMassB27Best,"invMassB27Best/F");
+		TreeTest.Branch("invMassB18Best",&invMassB18Best,"invMassB18Best/F");
+		TreeTest.Branch("invMassB28Best",&invMassB28Best,"invMassB28Best/F");
+	}
 	
-	TreeTest.Branch("aplanarity",&aplanarity,"aplanarity/F");
-	TreeTest.Branch("invMassB1",&invMassB1,"invMassB1/F");
-	TreeTest.Branch("invMassB2",&invMassB2,"invMassB2/F");
-	TreeTest.Branch("minJetM",&minJetM,"minJetM/F");  
-	TreeTest.Branch("sphericity",&sphericity,"sphericity/F");
-	TreeTest.Branch("cosThetaB1",&cosThetaB1,"cosThetaB1/F");
-	TreeTest.Branch("cosThetaB2",&cosThetaB2,"cosThetaB2/F");
-	TreeTest.Branch("cosThetaB3",&cosThetaB3,"cosThetaB3/F");
-	TreeTest.Branch("cosThetaB4",&cosThetaB4,"cosThetaB4/F");
-	TreeTest.Branch("sumPt",&sumPt,"sumPt/F");
-	TreeTest.Branch("jetB1Pt",&jetB1Pt,"jetB1Pt/F");
-	TreeTest.Branch("jetB2Pt",&jetB2Pt,"jetB2Pt/F");
-	TreeTest.Branch("jetB3Pt",&jetB3Pt,"jetB3Pt/F");
-	TreeTest.Branch("jetB4Pt",&jetB4Pt,"jetB4Pt/F");
-	TreeTest.Branch("jetB1M",&jetB1M,"jetB1M/F");
-	TreeTest.Branch("jetB2M",&jetB2M,"jetB2M/F");
-	TreeTest.Branch("jetB3M",&jetB3M,"jetB3M/F");
-	TreeTest.Branch("jetB4M",&jetB4M,"jetB4M/F");
-	TreeTest.Branch("nParticles",&nParticles,"nParticles/F");
-	TreeTest.Branch("constSizeB1",&constSizeB1,"constSizeB1/F");
-	TreeTest.Branch("constSizeB2",&constSizeB2,"constSizeB2/F");
-	TreeTest.Branch("constSizeB3",&constSizeB3,"constSizeB3/F");
-	TreeTest.Branch("constSizeB4",&constSizeB4,"constSizeB4/F");
-	TreeTest.Branch("minConstSize",&minConstSize,"minConstSize/F");
-	TreeTest.Branch("jetNObjects",&jetNObjects,"jetNObjects/F");
-	TreeTest.Branch("minJetNObjects",&minJetNObjects,"minJetNObjects/F");
-	TreeTest.Branch("invMassB1AntiKt",&invMassB1AntiKt,"invMassB1AntiKt/F");
-	TreeTest.Branch("invMassB2AntiKt",&invMassB2AntiKt,"invMassB2AntiKt/F");
-	TreeTest.Branch("nJetsAntiKt",&nJetsAntiKt,"nJetsAntiKt/F");
-	TreeTest.Branch("invMassB11Best",&invMassB11Best,"invMassB11Best/F");
-	TreeTest.Branch("invMassB21Best",&invMassB21Best,"invMassB21Best/F");
-	TreeTest.Branch("invMassB12Best",&invMassB12Best,"invMassB12Best/F");
-	TreeTest.Branch("invMassB22Best",&invMassB22Best,"invMassB22Best/F");
-	TreeTest.Branch("invMassB13Best",&invMassB13Best,"invMassB13Best/F");
-	TreeTest.Branch("invMassB23Best",&invMassB23Best,"invMassB23Best/F");
-	TreeTest.Branch("invMassB14Best",&invMassB14Best,"invMassB14Best/F");
-	TreeTest.Branch("invMassB24Best",&invMassB24Best,"invMassB24Best/F");
-	TreeTest.Branch("invMassB15Best",&invMassB15Best,"invMassB15Best/F");
-	TreeTest.Branch("invMassB25Best",&invMassB25Best,"invMassB25Best/F");
-	TreeTest.Branch("invMassB16Best",&invMassB16Best,"invMassB16Best/F");
-	TreeTest.Branch("invMassB26Best",&invMassB26Best,"invMassB26Best/F");
-	TreeTest.Branch("invMassB17Best",&invMassB17Best,"invMassB17Best/F");
-	TreeTest.Branch("invMassB27Best",&invMassB27Best,"invMassB27Best/F");
-	TreeTest.Branch("invMassB18Best",&invMassB18Best,"invMassB18Best/F");
-	TreeTest.Branch("invMassB28Best",&invMassB28Best,"invMassB28Best/F");
-
+	TreeMerge.Branch("entryIndex",&entryIndex,"entryIndex/F");	
+	//TreeMerge.Branch("nJetsDurham0",&nJetsDurham0,"nJetsDurham0/F");
+	//TreeMerge.Branch("nJetsDurham5",&nJetsDurham5,"nJetsDurham5/F");
+	//TreeMerge.Branch("nJetsDurham10",&nJetsDurham10,"nJetsDurham10/F");
+	TreeMerge.Branch("nJetsDurham15",&nJetsDurham15,"nJetsDurham15/F");
+	TreeMerge.Branch("nJetsDurham20",&nJetsDurham20,"nJetsDurham20/F");
+	TreeMerge.Branch("nJetsDurham25",&nJetsDurham25,"nJetsDurham25/F");
+	TreeMerge.Branch("nJetsDurham30",&nJetsDurham30,"nJetsDurham30/F");
+	TreeMerge.Branch("distanceZ1MinChiSquaredZZMass",&distanceZ1MinChiSquaredZZMass,"distanceZ1MinChiSquaredZZMass/F");
+	TreeMerge.Branch("distanceZ2MinChiSquaredZZMass",&distanceZ2MinChiSquaredZZMass,"distanceZ2MinChiSquaredZZMass/F");
+	TreeMerge.Branch("exclYmerge12",&exclYmerge12,"exclYmerge12/F");
+	TreeMerge.Branch("exclYmerge23",&exclYmerge23,"exclYmerge23/F");
+	TreeMerge.Branch("exclYmerge34",&exclYmerge34,"exclYmerge34/F");
+	TreeMerge.Branch("exclYmerge45",&exclYmerge45,"exclYmerge45/F");
+	TreeMerge.Branch("exclYmerge56",&exclYmerge56,"exclYmerge56/F");
 	
 	for(int entry=0; entry<numberOfEntries; entry++) 
 	{
 		treeReader->ReadEntry(entry);
+		entryIndex=entry;
 		
 		nJetsAntiKt=0;
 		if(branchJetAntiKt->GetEntries() > 0)  nJetsAntiKt =  branchJetAntiKt->GetEntries();
 		int nJetsDurham=0;
 		if(branchJetDurham->GetEntries() > 0)  nJetsDurham =  branchJetDurham->GetEntries();
+		nJetsDurham0=0;
+		if(branchJetDurham0->GetEntries() > 0)  nJetsDurham0 =  branchJetDurham0->GetEntries();
+		nJetsDurham5=0;
+		if(branchJetDurham5->GetEntries() > 0)  nJetsDurham5 =  branchJetDurham5->GetEntries();
+		nJetsDurham10=0;
+		if(branchJetDurham10->GetEntries() > 0)  nJetsDurham10 =  branchJetDurham10->GetEntries();
+		nJetsDurham15=0;
+		if(branchJetDurham15->GetEntries() > 0)  nJetsDurham15 =  branchJetDurham15->GetEntries();
+		nJetsDurham20=0;
+		if(branchJetDurham20->GetEntries() > 0)  nJetsDurham20 =  branchJetDurham20->GetEntries();
+		nJetsDurham25=0;
+		if(branchJetDurham25->GetEntries() > 0)  nJetsDurham25 =  branchJetDurham25->GetEntries();
+		nJetsDurham30=0;
+		if(branchJetDurham30->GetEntries() > 0)  nJetsDurham30 =  branchJetDurham30->GetEntries();
 		
 		//if(nJetsAntiKt == 4) 
 		if(nJetsDurham == 4)
+		//if(1==1)
 		{
 			
 			int contBJetsAntiKt=0, contBJetsDurham=0;
@@ -1249,6 +1486,7 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
 	      		//if(contBJetsAntiKt == 4)
 	      		if(contBJetsDurham == 4 || (contBJetsDurham == 3 && contNBJetsDurham == 1))
 	      		//if(contBJetsDurham == 4)
+	      		//if(1==1)
 	      		{ 
 		      		
 		      		nParticles=0;
@@ -1366,13 +1604,22 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
 	     			}
 	     			
 	     			if(contB>=2)
+		     		//if(1==1)
 		     		{
 		     			contEvents++;
 		     			
 		     			if(contLeptonEvent == 0) //lepton veto
+		     			//if(1==1)
 		     			{
 			     			contEventsPostFilter++;
 			     			histNJetsCompareAlgos->Fill(nJetsDurham, nJetsAntiKt);
+			     			histNJetsDurham0->Fill(nJetsDurham0, weight);
+			     			histNJetsDurham5->Fill(nJetsDurham5, weight);
+			     			histNJetsDurham10->Fill(nJetsDurham10, weight);
+			     			histNJetsDurham15->Fill(nJetsDurham15, weight);
+			     			histNJetsDurham20->Fill(nJetsDurham20, weight);
+			     			histNJetsDurham25->Fill(nJetsDurham25, weight);
+			     			histNJetsDurham30->Fill(nJetsDurham30, weight);
 			     			
 			     			//////inv. mass
 			     			double jetPairB1Index1, jetPairB1Index2, jetPairB2Index1, jetPairB2Index2;
@@ -1381,6 +1628,18 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
 			     			findJetPairs(jetPairB1, jetPairB2, jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1Index1, jetPairB1Index2, jetPairB2Index1, jetPairB2Index2);
 			     			invMassB1 = jetPairB1.M();
 				     		invMassB2 = jetPairB2.M();
+				     		
+			     			bool flagZZMass=false;
+			     			TLorentzVector jetPairB1ZZ, jetPairB2ZZ;
+			     			double jetPairB1ZZIndex1, jetPairB1ZZIndex2, jetPairB2ZZIndex1, jetPairB2ZZIndex2;
+			     			distanceZMass=0.05;
+			     			findJetPairsZZ(jetPairB1ZZ, jetPairB2ZZ, jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1ZZIndex1, jetPairB1ZZIndex2, jetPairB2ZZIndex1, jetPairB2ZZIndex2, flagZZMass, minChiSquaredZZMass, distanceZMass, contEventsZWindow10, contEventsZWindow01, contEventsZWindow05, contEventsZWindow1, contEventsZWindow15, contEventsZWindow2, contEventsZWindow5, distanceZ1MinChiSquaredZZMass, distanceZ2MinChiSquaredZZMass);
+			     			histMinChiSquaredZZMass->Fill(minChiSquaredZZMass, weight);
+			     			histInvMassZZ1->Fill(jetPairB1ZZ.M(), weight);
+			     			histInvMassZZ2->Fill(jetPairB2ZZ.M(), weight);
+			     			histDistanceZ1MinChiSquaredZZMass->Fill(distanceZ1MinChiSquaredZZMass, weight);
+			     			histDistanceZ2MinChiSquaredZZMass->Fill(distanceZ2MinChiSquaredZZMass, weight);
+			     			//if(flagZZMass==true) break;
 				     		
 				     		
 			     			vector<int> bestGroup1Durham, bestGroup2Durham, bestGroup1AntiKt, bestGroup2AntiKt;
@@ -1662,20 +1921,86 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
 						histMinJetNObjects->Fill(minJetNObjects, weight);
 						/////PFOs
 						
+						///////////////////y_nm for jets
+						if(nJetsDurham>0)
+						{
+							for(int i=0;i<1;i++)
+							{
+								Jet *jet = (Jet*) branchJetDurham->At(i);
+								exclYmerge12 = jet->ExclYmerge12;
+								exclYmerge23 = jet->ExclYmerge23;
+								exclYmerge34 = jet->ExclYmerge34;
+								exclYmerge45 = jet->ExclYmerge45;
+								exclYmerge56 = jet->ExclYmerge56;
+	    							histExclYmerge12->Fill(exclYmerge12, weight);
+	    							histExclYmerge23->Fill(exclYmerge23, weight);
+	    							histExclYmerge34->Fill(exclYmerge34, weight);
+	    							histExclYmerge45->Fill(exclYmerge45, weight);
+	    							histExclYmerge56->Fill(exclYmerge56, weight);
+	    						}
+    						}
+    						
+						/*std::vector<fastjet::PseudoJet> eflowObjects;
+						for (int j=0; j<branchEFlowTrack->GetEntries(); j++) 
+						{
+							TLorentzVector *eflowTrack = (TLorentzVector*)branchEFlowTrack->At(j);
+							eflowObjects.emplace_back(eflowTrack->Px(), eflowTrack->Py(), eflowTrack->Pz(), eflowTrack->E());
+							
+						}
+						for (int j=0; j<branchEFlowPhoton->GetEntries(); j++) 
+						{
+							TLorentzVector *eflowPhoton = (TLorentzVector*)branchEFlowPhoton->At(j);
+						    	eflowObjects.emplace_back(eflowPhoton->Px(), eflowPhoton->Py(), eflowPhoton->Pz(), eflowPhoton->E());
+						}
+						for (int j=0; j<branchEFlowNeutralHadron->GetEntries(); j++) 
+						{
+							TLorentzVector *eflowNeutralHadron = (TLorentzVector*)branchEFlowNeutralHadron->At(j);
+						    	eflowObjects.emplace_back(eflowNeutralHadron->Px(), eflowNeutralHadron->Py(), eflowNeutralHadron->Pz(), eflowNeutralHadron->E());
+						}
+						fastjet::JetDefinition jet_def(fastjet::ee_kt_algorithm);
+						fastjet::ClusterSequence cs(eflowObjects, jet_def);
+						std::vector<fastjet::PseudoJet> exclusive_jets = fastjet::sorted_by_pt(cs.exclusive_jets_up_to(4));
+						//Apply minimum PT cut
+						std::vector<fastjet::PseudoJet> final_jets;
+						for (const auto& jet : exclusive_jets) {
+						    if (jet.pt() > 10.0) {
+							final_jets.push_back(jet);
+						    }
+						}
+						//Apply minimum PT cut
+						double y_34 = cs.exclusive_ymerge(3); // 3-jets to 4-jets
+        					double y_45 = cs.exclusive_ymerge(4); // 4-jets to 5-jets
+        					if(contEventsPostFilter<10) cout<<"Entry " << entry << ": y_34 = " << y_34 << ", y_45 = " << y_45 <<endl;*/
+						//////////////////////y_nm for jets
+						
+						
 						/////Filling out tree for BDT
-						random_device rd;  // Will be used to obtain a seed for the random number engine
-						mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-						uniform_int_distribution<> distrib(1, 4); // Uniform distribution between 1 and 4
-						if(distrib(gen) != 1)
-						{ 
-							TreeTrain.Fill();
-							//if(contEventsPostFilter<30) cout<<"contEventsPostFilter: "<<contEventsPostFilter<<"    NO"<<endl;
+						if(fileFunction == "generate")
+						{
+							random_device rd;  // Will be used to obtain a seed for the random number engine
+							mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+							uniform_int_distribution<> distrib(1, 4); // Uniform distribution between 1 and 4
+							if(distrib(gen) != 1)
+							{ 
+								TreeTrain.Fill();
+								//if(contEventsPostFilter<30) cout<<"contEventsPostFilter: "<<contEventsPostFilter<<"    NO"<<endl;
+							}
+							else
+							{ 
+								TreeTest.Fill();
+								//if(contEventsPostFilter<30) cout<<"contEventsPostFilter: "<<contEventsPostFilter<<"    EN CUATRO"<<endl;
+							}
 						}
-						else
-						{ 
-							TreeTest.Fill();
-							//if(contEventsPostFilter<30) cout<<"contEventsPostFilter: "<<contEventsPostFilter<<"    EN CUATRO"<<endl;
+						else if(fileFunction == "merge")
+						{
+							if(contEventsPostFilter<2) cout<<"Merging files!"<<endl;
+							TreeMerge.Fill();
 						}
+						else if(fileFunction == "plot")
+						{ 
+							if(contEventsPostFilter<2) cout<<"Only plotting -- no file generation!"<<endl;
+						}
+						else throw std::runtime_error("ERROR: unknown fileFunction!");
 						/////Filling out tree for BDT
 						
 						
@@ -1883,6 +2208,76 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
     		histJetB2MAntiKt6Jets->Draw("HIST");
     		///////invMass for antiKt pairs when 4 Durham jets*/
     		
+    		/*////nJetsDurham
+    		TCanvas *c154 = new TCanvas();
+    		c154->cd();
+    		histNJetsDurham0->Draw("HIST");
+    		TCanvas *c155 = new TCanvas();
+    		c155->cd();
+    		histNJetsDurham5->Draw("HIST");
+    		TCanvas *c156 = new TCanvas();
+    		c156->cd();
+    		histNJetsDurham10->Draw("HIST");
+    		TCanvas *c157 = new TCanvas();
+    		c157->cd();
+    		histNJetsDurham15->Draw("HIST");
+    		TCanvas *c158 = new TCanvas();
+    		c158->cd();
+    		histNJetsDurham20->Draw("HIST");
+    		TCanvas *c159 = new TCanvas();
+    		c159->cd();
+    		histNJetsDurham25->Draw("HIST");
+    		TCanvas *c160 = new TCanvas();
+    		c160->cd();
+    		histNJetsDurham30->Draw("HIST");
+    		////nJetsDurham*/
+    		
+    		/*///////minChiSquaredZZMass
+    		TCanvas *c161 = new TCanvas();
+    		c161->cd();
+    		histMinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c162 = new TCanvas();
+    		c162->cd();
+    		histInvMassZZ1->Draw("HIST");
+    		TLine* distanceZMassLeft = new TLine(90-distanceZMass, histInvMassZZ1->GetMinimum(), 90-distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassLeft->SetLineColor(kRed);
+	        distanceZMassLeft->SetLineWidth(1);
+	        TLine* distanceZMassRight = new TLine(90+distanceZMass, histInvMassZZ1->GetMinimum(), 90+distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassRight->SetLineColor(kRed);
+	        distanceZMassRight->SetLineWidth(1);
+	        distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+    		TCanvas *c163 = new TCanvas();
+    		c163->cd();
+    		histInvMassZZ2->Draw("HIST");
+    		distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+	        TCanvas *c164 = new TCanvas();
+    		c164->cd();
+    		histDistanceZ1MinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c165 = new TCanvas();
+    		c165->cd();
+    		histDistanceZ2MinChiSquaredZZMass->Draw("HIST");
+    		/////minChiSquaredZZMass*/
+    		
+    		/*////////y_nm
+    		TCanvas *c166 = new TCanvas();
+    		c166->cd();
+    		histExclYmerge12->Draw("HIST");
+    		TCanvas *c167 = new TCanvas();
+    		c167->cd();
+    		histExclYmerge23->Draw("HIST");
+    		TCanvas *c168 = new TCanvas();
+    		c168->cd();
+    		histExclYmerge34->Draw("HIST");
+    		TCanvas *c169 = new TCanvas();
+    		c169->cd();
+    		histExclYmerge45->Draw("HIST");
+    		TCanvas *c170 = new TCanvas();
+    		c170->cd();
+    		histExclYmerge56->Draw("HIST");
+    		///////y_nm*/
+    		
     		
 	} 
 	else if(topology == 2)
@@ -2077,6 +2472,76 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
     		c253->cd();
     		histJetB2MAntiKt6Jets->Draw("HIST");
     		///////invMass for antiKt pairs when 4 Durham jets*/
+    		
+    		/*////nJetsDurham
+    		TCanvas *c254 = new TCanvas();
+    		c254->cd();
+    		histNJetsDurham0->Draw("HIST");
+    		TCanvas *c255 = new TCanvas();
+    		c255->cd();
+    		histNJetsDurham5->Draw("HIST");
+    		TCanvas *c256 = new TCanvas();
+    		c256->cd();
+    		histNJetsDurham10->Draw("HIST");
+    		TCanvas *c257 = new TCanvas();
+    		c257->cd();
+    		histNJetsDurham15->Draw("HIST");
+    		TCanvas *c258 = new TCanvas();
+    		c258->cd();
+    		histNJetsDurham20->Draw("HIST");
+    		TCanvas *c259 = new TCanvas();
+    		c259->cd();
+    		histNJetsDurham25->Draw("HIST");
+    		TCanvas *c260 = new TCanvas();
+    		c260->cd();
+    		histNJetsDurham30->Draw("HIST");
+    		////nJetsDurham*/
+    		
+    		/*///////minChiSquaredZZMass
+    		TCanvas *c261 = new TCanvas();
+    		c261->cd();
+    		histMinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c262 = new TCanvas();
+    		c262->cd();
+    		histInvMassZZ1->Draw("HIST");
+    		TLine* distanceZMassLeft = new TLine(90-distanceZMass, histInvMassZZ1->GetMinimum(), 90-distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassLeft->SetLineColor(kRed);
+	        distanceZMassLeft->SetLineWidth(1);
+	        TLine* distanceZMassRight = new TLine(90+distanceZMass, histInvMassZZ1->GetMinimum(), 90+distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassRight->SetLineColor(kRed);
+	        distanceZMassRight->SetLineWidth(1);
+	        distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+    		TCanvas *c263 = new TCanvas();
+    		c263->cd();
+    		histInvMassZZ2->Draw("HIST");
+    		distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+	        TCanvas *c264 = new TCanvas();
+    		c264->cd();
+    		histDistanceZ1MinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c265 = new TCanvas();
+    		c265->cd();
+    		histDistanceZ2MinChiSquaredZZMass->Draw("HIST");
+    		/////minChiSquaredZZMass*/
+    		
+    		/*////////y_nm
+    		TCanvas *c266 = new TCanvas();
+    		c266->cd();
+    		histExclYmerge12->Draw("HIST");
+    		TCanvas *c267 = new TCanvas();
+    		c267->cd();
+    		histExclYmerge23->Draw("HIST");
+    		TCanvas *c268 = new TCanvas();
+    		c268->cd();
+    		histExclYmerge34->Draw("HIST");
+    		TCanvas *c269 = new TCanvas();
+    		c269->cd();
+    		histExclYmerge45->Draw("HIST");
+    		TCanvas *c270 = new TCanvas();
+    		c270->cd();
+    		histExclYmerge56->Draw("HIST");
+    		///////y_nm*/
 	} 
 	else if(topology == 3)
 	{ 
@@ -2270,6 +2735,76 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
     		c353->cd();
     		histJetB2MAntiKt6Jets->Draw("HIST");
     		///////invMass for antiKt pairs when 4 Durham jets*/
+    		
+    		/*////nJetsDurham
+    		TCanvas *c354 = new TCanvas();
+    		c354->cd();
+    		histNJetsDurham0->Draw("HIST");
+    		TCanvas *c355 = new TCanvas();
+    		c355->cd();
+    		histNJetsDurham5->Draw("HIST");
+    		TCanvas *c356 = new TCanvas();
+    		c356->cd();
+    		histNJetsDurham10->Draw("HIST");
+    		TCanvas *c357 = new TCanvas();
+    		c357->cd();
+    		histNJetsDurham15->Draw("HIST");
+    		TCanvas *c358 = new TCanvas();
+    		c358->cd();
+    		histNJetsDurham20->Draw("HIST");
+    		TCanvas *c359 = new TCanvas();
+    		c359->cd();
+    		histNJetsDurham25->Draw("HIST");
+    		TCanvas *c360 = new TCanvas();
+    		c360->cd();
+    		histNJetsDurham30->Draw("HIST");
+    		////nJetsDurham*/
+    		
+    		/*///////minChiSquaredZZMass
+    		TCanvas *c361 = new TCanvas();
+    		c361->cd();
+    		histMinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c362 = new TCanvas();
+    		c362->cd();
+    		histInvMassZZ1->Draw("HIST");
+    		TLine* distanceZMassLeft = new TLine(90-distanceZMass, histInvMassZZ1->GetMinimum(), 90-distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassLeft->SetLineColor(kRed);
+	        distanceZMassLeft->SetLineWidth(1);
+	        TLine* distanceZMassRight = new TLine(90+distanceZMass, histInvMassZZ1->GetMinimum(), 90+distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassRight->SetLineColor(kRed);
+	        distanceZMassRight->SetLineWidth(1);
+	        distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+    		TCanvas *c363 = new TCanvas();
+    		c363->cd();
+    		histInvMassZZ2->Draw("HIST");
+    		distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+	        TCanvas *c364 = new TCanvas();
+    		c364->cd();
+    		histDistanceZ1MinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c365 = new TCanvas();
+    		c365->cd();
+    		histDistanceZ2MinChiSquaredZZMass->Draw("HIST");
+    		/////minChiSquaredZZMass*/
+    		
+    		/*////////y_nm
+    		TCanvas *c266 = new TCanvas();
+    		c266->cd();
+    		histExclYmerge12->Draw("HIST");
+    		TCanvas *c267 = new TCanvas();
+    		c267->cd();
+    		histExclYmerge23->Draw("HIST");
+    		TCanvas *c268 = new TCanvas();
+    		c268->cd();
+    		histExclYmerge34->Draw("HIST");
+    		TCanvas *c269 = new TCanvas();
+    		c269->cd();
+    		histExclYmerge45->Draw("HIST");
+    		TCanvas *c270 = new TCanvas();
+    		c270->cd();
+    		histExclYmerge56->Draw("HIST");
+    		///////y_nm*/
 	}
 	else if(topology == 4)
 	{ 
@@ -2463,6 +2998,76 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
     		c453->cd();
     		histJetB2MAntiKt6Jets->Draw("HIST");
     		///////invMass for antiKt pairs when 4 Durham jets*/
+    		
+    		/*////nJetsDurham
+    		TCanvas *c454 = new TCanvas();
+    		c454->cd();
+    		histNJetsDurham0->Draw("HIST");
+    		TCanvas *c455 = new TCanvas();
+    		c455->cd();
+    		histNJetsDurham5->Draw("HIST");
+    		TCanvas *c456 = new TCanvas();
+    		c456->cd();
+    		histNJetsDurham10->Draw("HIST");
+    		TCanvas *c457 = new TCanvas();
+    		c457->cd();
+    		histNJetsDurham15->Draw("HIST");
+    		TCanvas *c458 = new TCanvas();
+    		c458->cd();
+    		histNJetsDurham20->Draw("HIST");
+    		TCanvas *c459 = new TCanvas();
+    		c459->cd();
+    		histNJetsDurham25->Draw("HIST");
+    		TCanvas *c460 = new TCanvas();
+    		c460->cd();
+    		histNJetsDurham30->Draw("HIST");
+    		////nJetsDurham*/
+    		
+    		/*///////minChiSquaredZZMass
+    		TCanvas *c461 = new TCanvas();
+    		c461->cd();
+    		histMinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c462 = new TCanvas();
+    		c462->cd();
+    		histInvMassZZ1->Draw("HIST");
+    		TLine* distanceZMassLeft = new TLine(90-distanceZMass, histInvMassZZ1->GetMinimum(), 90-distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassLeft->SetLineColor(kRed);
+	        distanceZMassLeft->SetLineWidth(1);
+	        TLine* distanceZMassRight = new TLine(90+distanceZMass, histInvMassZZ1->GetMinimum(), 90+distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassRight->SetLineColor(kRed);
+	        distanceZMassRight->SetLineWidth(1);
+	        distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+    		TCanvas *c463 = new TCanvas();
+    		c463->cd();
+    		histInvMassZZ2->Draw("HIST");
+    		distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+	        TCanvas *c464 = new TCanvas();
+    		c464->cd();
+    		histDistanceZ1MinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c465 = new TCanvas();
+    		c465->cd();
+    		histDistanceZ2MinChiSquaredZZMass->Draw("HIST");
+    		/////minChiSquaredZZMass*/
+    		
+    		/*/////////y_nm
+    		TCanvas *c466 = new TCanvas();
+    		c466->cd();
+    		histExclYmerge12->Draw("HIST");
+    		TCanvas *c467 = new TCanvas();
+    		c467->cd();
+    		histExclYmerge23->Draw("HIST");
+    		TCanvas *c468 = new TCanvas();
+    		c468->cd();
+    		histExclYmerge34->Draw("HIST");
+    		TCanvas *c469 = new TCanvas();
+    		c469->cd();
+    		histExclYmerge45->Draw("HIST");
+    		TCanvas *c470 = new TCanvas();
+    		c470->cd();
+    		histExclYmerge56->Draw("HIST");
+    		///////y_nm*/
 	}
 	else if(topology == 5)
 	{ 
@@ -2656,6 +3261,76 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
     		c553->cd();
     		histJetB2MAntiKt6Jets->Draw("HIST");
     		///////invMass for antiKt pairs when 4 Durham jets*/
+    		
+    		/*////nJetsDurham
+    		TCanvas *c554 = new TCanvas();
+    		c554->cd();
+    		histNJetsDurham0->Draw("HIST");
+    		TCanvas *c555 = new TCanvas();
+    		c555->cd();
+    		histNJetsDurham5->Draw("HIST");
+    		TCanvas *c556 = new TCanvas();
+    		c556->cd();
+    		histNJetsDurham10->Draw("HIST");
+    		TCanvas *c557 = new TCanvas();
+    		c557->cd();
+    		histNJetsDurham15->Draw("HIST");
+    		TCanvas *c558 = new TCanvas();
+    		c558->cd();
+    		histNJetsDurham20->Draw("HIST");
+    		TCanvas *c559 = new TCanvas();
+    		c559->cd();
+    		histNJetsDurham25->Draw("HIST");
+    		TCanvas *c560 = new TCanvas();
+    		c560->cd();
+    		histNJetsDurham30->Draw("HIST");
+    		////nJetsDurham*/
+    		
+    		/*///////minChiSquaredZZMass
+    		TCanvas *c561 = new TCanvas();
+    		c561->cd();
+    		histMinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c562 = new TCanvas();
+    		c562->cd();
+    		histInvMassZZ1->Draw("HIST");
+    		TLine* distanceZMassLeft = new TLine(90-distanceZMass, histInvMassZZ1->GetMinimum(), 90-distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassLeft->SetLineColor(kRed);
+	        distanceZMassLeft->SetLineWidth(1);
+	        TLine* distanceZMassRight = new TLine(90+distanceZMass, histInvMassZZ1->GetMinimum(), 90+distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassRight->SetLineColor(kRed);
+	        distanceZMassRight->SetLineWidth(1);
+	        distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+    		TCanvas *c563 = new TCanvas();
+    		c563->cd();
+    		histInvMassZZ2->Draw("HIST");
+    		distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+	        TCanvas *c564 = new TCanvas();
+    		c564->cd();
+    		histDistanceZ1MinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c565 = new TCanvas();
+    		c565->cd();
+    		histDistanceZ2MinChiSquaredZZMass->Draw("HIST");
+    		/////minChiSquaredZZMass*/
+    		
+    		/*////////y_nm
+    		TCanvas *c266 = new TCanvas();
+    		c266->cd();
+    		histExclYmerge12->Draw("HIST");
+    		TCanvas *c267 = new TCanvas();
+    		c267->cd();
+    		histExclYmerge23->Draw("HIST");
+    		TCanvas *c268 = new TCanvas();
+    		c268->cd();
+    		histExclYmerge34->Draw("HIST");
+    		TCanvas *c269 = new TCanvas();
+    		c269->cd();
+    		histExclYmerge45->Draw("HIST");
+    		TCanvas *c270 = new TCanvas();
+    		c270->cd();
+    		histExclYmerge56->Draw("HIST");
+    		///////y_nm*/
 	}
 	if(topology == -999) 
 	{
@@ -2672,6 +3347,12 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
 	if(topology == 5) cout<<"For WW: "<<endl;
 	cout<<"Events that have 4b: "<<contEvents<<"    Weighted: "<<contEvents*weight<<endl;
 	cout<<"Events that pass: "<<contEventsPostFilter<<"    Weighted: "<<contEventsPostFilter*weight<<endl<<endl;
+	cout<<"Events in 0.1 Z mass window: "<<contEventsZWindow01<<endl;
+	cout<<"Events in 0.5 Z mass window: "<<contEventsZWindow05<<endl;
+	cout<<"Events in 1.5 Z mass window: "<<contEventsZWindow15<<endl;
+	cout<<"Events in 2 Z mass window: "<<contEventsZWindow2<<endl;
+	cout<<"Events in 5 Z mass window: "<<contEventsZWindow5<<endl;
+	cout<<"Events in 10 Z mass window: "<<contEventsZWindow10<<endl<<endl<<endl;
 	
 	/*cout<<"trueSemiWWEvents: "<<trueSemiWWEvents<<endl;
 	cout<<"trueFullWWEvents: "<<trueFullWWEvents<<endl;
@@ -2689,7 +3370,7 @@ void analysis(const char *inputFile, int topology, string size, float weight, st
 			     		
 }
 
-void trueBPairMass(const char *inputFile, int topology, string size, float weight)
+void trueBPairMass(const char *inputFile, int topology, float weight)
 {
 	
 	if(topology == 1) cout<<"HHtrueBPairMass working!"<<endl;
@@ -2721,18 +3402,9 @@ void trueBPairMass(const char *inputFile, int topology, string size, float weigh
   	
   	TClonesArray *branchParticle;
   	TClonesArray *branchEvent;
+  	branchParticle = treeReader->UseBranch("Particle");
+	branchEvent = treeReader->UseBranch("Event");
   	
-  	if(size == "large")
-  	{
-	  	branchParticle = treeReader->UseBranch("Particle");
-		branchEvent = treeReader->UseBranch("Event");
-  	}
-  	else if(size == "small")
-  	{
-  		branchParticle = treeReader->UseBranch("Particle");
-		branchEvent = treeReader->UseBranch("Event");
-	}
-	
 	GenParticle *b1;
 	GenParticle *b2;
 	
@@ -2807,7 +3479,396 @@ void trueBPairMass(const char *inputFile, int topology, string size, float weigh
 	}
 }
 
-void FSRGammaGammaHHbbbbAnalysis(const char *inputFileHH, const char *inputFileqq, const char *inputFilett, const char *inputFileZZ, const char *inputFileWW, string size)
+//function that fills out to sets, one for trainign and one for teting, with the entry index of the events in the trees for training and testing.
+void generateSetsMerge(int topology, set<int>& setTrain, set<int>& setTest, string rtdCut)
+{
+	TFile *fileTrain, *fileTest;
+	TTree *treeTrain, *treeTest;
+	if(topology == 1)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeSHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeSHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeSTrain", treeTrain);
+		fileTest->GetObject("TreeSTest", treeTest);
+	}
+	if(topology == 2)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeBqqHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeBqqHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeBqqTrain", treeTrain);
+		fileTest->GetObject("TreeBqqTest", treeTest);
+	}
+	if(topology == 3)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeBttHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeBttHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeBttTrain", treeTrain);
+		fileTest->GetObject("TreeBttTest", treeTest);
+	}
+	if(topology == 4)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeBZZHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeBZZHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeBZZTrain", treeTrain);
+		fileTest->GetObject("TreeBZZTest", treeTest);
+	}
+	if(topology == 5)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeBWWHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeBWWHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeBWWTrain", treeTrain);
+		fileTest->GetObject("TreeBWWTest", treeTest);
+	}
+	
+	cout<<"train file: "<<fileTrain->GetName()<<endl;
+	cout<<"test file: "<<fileTest->GetName()<<endl;
+	Float_t entryIndexTrain, entryIndexTest;
+	treeTrain->SetBranchAddress("entryIndex", &entryIndexTrain);
+	treeTest->SetBranchAddress("entryIndex", &entryIndexTest);
+	
+	Long64_t nEntries = treeTrain->GetEntries();
+	for (Long64_t i = 0; i < nEntries; ++i) {
+	 	treeTrain->GetEntry(i);
+	 	setTrain.insert(entryIndexTrain);
+	 }
+	nEntries = treeTest->GetEntries();
+	for (Long64_t i = 0; i < nEntries; ++i) {
+	 	treeTest->GetEntry(i);
+	 	setTest.insert(entryIndexTest);
+	 }
+	 
+	/*for(int i=0; i<100; i++)
+	{
+		if(setTrain.find(i) != setTrain.end()) cout<<"Entry "<<i<<" is in training set"<<endl;
+		else if(setTest.find(i) != setTest.end()) cout<<"Entry "<<i<<" is in testing set"<<endl; 
+		else cout<<"entry "<<i<<" does not pass the filter"<<endl;
+	}*/
+}
+
+////function that receives 43trees, two original for training and 2 for testing and the new one with all the new vars., and merges the respective pairs. It returns the two original trees but now will all the info. from the 3.
+void mergeTrees(int topology, set<int> setTrain, set<int> setTest, TTree& TreeTrainNew, TTree& TreeTestNew, TTree& TreeMerge)
+{
+	TFile *fileTrain, *fileTest;
+	TTree *TreeTrain, *TreeTest;
+	if(topology == 1)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeSHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeSHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeSTrain", TreeTrain);
+		fileTest->GetObject("TreeSTest", TreeTest);
+	}
+	if(topology == 2)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeBqqHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeBqqHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeBqqTrain", TreeTrain);
+		fileTest->GetObject("TreeBqqTest", TreeTest);
+	}
+	if(topology == 3)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeBttHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeBttHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeBttTrain", TreeTrain);
+		fileTest->GetObject("TreeBttTest", TreeTest);
+	}
+	if(topology == 4)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeBZZHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeBZZHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeBZZTrain", TreeTrain);
+		fileTest->GetObject("TreeBZZTest", TreeTest);
+	}
+	if(topology == 5)
+	{
+		fileTrain = TFile::Open("analysis/outputTreeBWWHHbbbbESpreadDurham10Train.root");
+		fileTest = TFile::Open("analysis/outputTreeBWWHHbbbbESpreadDurham10Test.root");
+		fileTrain->GetObject("TreeBWWTrain", TreeTrain);
+		fileTest->GetObject("TreeBWWTest", TreeTest);
+	}
+	
+	float aplanarity, invMassB1, invMassB2, minJetM, sphericity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, sumPt, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, jetB1M, jetB2M, jetB3M, jetB4M, etaB1, etaB2, etaB3, etaB4, nParticles, totalConstSize, constSizeB1, constSizeB2, constSizeB3, constSizeB4, minConstSize, jetB1NCharged, jetB2NCharged, jetB3NCharged, jetB4NCharged, jetB1NNeutrals, jetB2NNeutrals, jetB3NNeutrals, jetB4NNeutrals, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, invMassB1AntiKt2Jets, invMassB2AntiKt2Jets, invMassB1AntiKt3Jets, invMassB2AntiKt3Jets, invMassB1AntiKt4Jets, invMassB2AntiKt4Jets, invMassB1AntiKt5Jets, invMassB2AntiKt5Jets, invMassB1AntiKt6Jets, invMassB2AntiKt6Jets, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best, entryIndex;
+	float entryIndexMerge, nJetsDurham0, nJetsDurham5, nJetsDurham10, nJetsDurham15, nJetsDurham20, nJetsDurham25, nJetsDurham30, minChiSquaredZZMass, distanceZ1MinChiSquaredZZMass, distanceZ2MinChiSquaredZZMass, exclYmerge12, exclYmerge23, exclYmerge34, exclYmerge45, exclYmerge56;
+	float entryIndexMergeHolder, nJetsDurham0Holder, nJetsDurham5Holder, nJetsDurham10Holder, nJetsDurham15Holder, nJetsDurham20Holder, nJetsDurham25Holder, nJetsDurham30Holder, minChiSquaredZZMassHolder, distanceZ1MinChiSquaredZZMassHolder, distanceZ2MinChiSquaredZZMassHolder, exclYmerge12Holder, exclYmerge23Holder, exclYmerge34Holder, exclYmerge45Holder, exclYmerge56Holder;
+	
+	
+	TreeTrainNew.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeTrainNew.Branch("aplanarity",&aplanarity,"aplanarity/F");
+	TreeTrainNew.Branch("invMassB1",&invMassB1,"invMassB1/F");
+	TreeTrainNew.Branch("invMassB2",&invMassB2,"invMassB2/F");
+	TreeTrainNew.Branch("minJetM",&minJetM,"minJetM/F");  
+	TreeTrainNew.Branch("sphericity",&sphericity,"sphericity/F");
+	TreeTrainNew.Branch("cosThetaB1",&cosThetaB1,"cosThetaB1/F");
+	TreeTrainNew.Branch("cosThetaB2",&cosThetaB2,"cosThetaB2/F");
+	TreeTrainNew.Branch("cosThetaB3",&cosThetaB3,"cosThetaB3/F");
+	TreeTrainNew.Branch("cosThetaB4",&cosThetaB4,"cosThetaB4/F");
+	TreeTrainNew.Branch("sumPt",&sumPt,"sumPt/F");
+	TreeTrainNew.Branch("jetB1Pt",&jetB1Pt,"jetB1Pt/F");
+	TreeTrainNew.Branch("jetB2Pt",&jetB2Pt,"jetB2Pt/F");
+	TreeTrainNew.Branch("jetB3Pt",&jetB3Pt,"jetB3Pt/F");
+	TreeTrainNew.Branch("jetB4Pt",&jetB4Pt,"jetB4Pt/F");
+	TreeTrainNew.Branch("jetB1M",&jetB1M,"jetB1M/F");
+	TreeTrainNew.Branch("jetB2M",&jetB2M,"jetB2M/F");
+	TreeTrainNew.Branch("jetB3M",&jetB3M,"jetB3M/F");
+	TreeTrainNew.Branch("jetB4M",&jetB4M,"jetB4M/F");
+	TreeTrainNew.Branch("nParticles",&nParticles,"nParticles/F");
+	TreeTrainNew.Branch("constSizeB1",&constSizeB1,"constSizeB1/F");
+	TreeTrainNew.Branch("constSizeB2",&constSizeB2,"constSizeB2/F");
+	TreeTrainNew.Branch("constSizeB3",&constSizeB3,"constSizeB3/F");
+	TreeTrainNew.Branch("constSizeB4",&constSizeB4,"constSizeB4/F");
+	TreeTrainNew.Branch("minConstSize",&minConstSize,"minConstSize/F");
+	TreeTrainNew.Branch("jetNObjects",&jetNObjects,"jetNObjects/F");
+	TreeTrainNew.Branch("minJetNObjects",&minJetNObjects,"minJetNObjects/F");
+	TreeTrainNew.Branch("invMassB1AntiKt",&invMassB1AntiKt,"invMassB1AntiKt/F");
+	TreeTrainNew.Branch("invMassB2AntiKt",&invMassB2AntiKt,"invMassB2AntiKt/F");
+	TreeTrainNew.Branch("nJetsAntiKt",&nJetsAntiKt,"nJetsAntiKt/F");
+	TreeTrainNew.Branch("invMassB11Best",&invMassB11Best,"invMassB11Best/F");
+	TreeTrainNew.Branch("invMassB21Best",&invMassB21Best,"invMassB21Best/F");
+	TreeTrainNew.Branch("invMassB12Best",&invMassB12Best,"invMassB12Best/F");
+	TreeTrainNew.Branch("invMassB22Best",&invMassB22Best,"invMassB22Best/F");
+	TreeTrainNew.Branch("invMassB13Best",&invMassB13Best,"invMassB13Best/F");
+	TreeTrainNew.Branch("invMassB23Best",&invMassB23Best,"invMassB23Best/F");
+	TreeTrainNew.Branch("invMassB14Best",&invMassB14Best,"invMassB14Best/F");
+	TreeTrainNew.Branch("invMassB24Best",&invMassB24Best,"invMassB24Best/F");
+	TreeTrainNew.Branch("invMassB15Best",&invMassB15Best,"invMassB15Best/F");
+	TreeTrainNew.Branch("invMassB25Best",&invMassB25Best,"invMassB25Best/F");
+	TreeTrainNew.Branch("invMassB16Best",&invMassB16Best,"invMassB16Best/F");
+	TreeTrainNew.Branch("invMassB26Best",&invMassB26Best,"invMassB26Best/F");
+	TreeTrainNew.Branch("invMassB17Best",&invMassB17Best,"invMassB17Best/F");
+	TreeTrainNew.Branch("invMassB27Best",&invMassB27Best,"invMassB27Best/F");
+	TreeTrainNew.Branch("invMassB18Best",&invMassB18Best,"invMassB18Best/F");
+	TreeTrainNew.Branch("invMassB28Best",&invMassB28Best,"invMassB28Best/F");
+	//TreeTrainNew.Branch("nJetsDurham0",&nJetsDurham0,"nJetsDurham0/F");
+	//TreeTrainNew.Branch("nJetsDurham5",&nJetsDurham5,"nJetsDurham5/F");
+	//TreeTrainNew.Branch("nJetsDurham10",&nJetsDurham10,"nJetsDurham10/F");
+	TreeTrainNew.Branch("nJetsDurham15",&nJetsDurham15,"nJetsDurham15/F");
+	TreeTrainNew.Branch("nJetsDurham20",&nJetsDurham20,"nJetsDurham20/F");
+	TreeTrainNew.Branch("nJetsDurham25",&nJetsDurham25,"nJetsDurham25/F");
+	TreeTrainNew.Branch("nJetsDurham30",&nJetsDurham30,"nJetsDurham30/F");
+	TreeTrainNew.Branch("distanceZ1MinChiSquaredZZMass",&distanceZ1MinChiSquaredZZMass,"distanceZ1MinChiSquaredZZMass/F");
+	TreeTrainNew.Branch("distanceZ2MinChiSquaredZZMass",&distanceZ2MinChiSquaredZZMass,"distanceZ2MinChiSquaredZZMass/F");
+	TreeTrainNew.Branch("exclYmerge12",&exclYmerge12,"exclYmerge12/F");
+	TreeTrainNew.Branch("exclYmerge23",&exclYmerge23,"exclYmerge23/F");
+	TreeTrainNew.Branch("exclYmerge34",&exclYmerge34,"exclYmerge34/F");
+	TreeTrainNew.Branch("exclYmerge45",&exclYmerge45,"exclYmerge45/F");
+	TreeTrainNew.Branch("exclYmerge56",&exclYmerge56,"exclYmerge56/F");
+	
+	TreeTestNew.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeTestNew.Branch("aplanarity",&aplanarity,"aplanarity/F");
+	TreeTestNew.Branch("invMassB1",&invMassB1,"invMassB1/F");
+	TreeTestNew.Branch("invMassB2",&invMassB2,"invMassB2/F");
+	TreeTestNew.Branch("minJetM",&minJetM,"minJetM/F");  
+	TreeTestNew.Branch("sphericity",&sphericity,"sphericity/F");
+	TreeTestNew.Branch("cosThetaB1",&cosThetaB1,"cosThetaB1/F");
+	TreeTestNew.Branch("cosThetaB2",&cosThetaB2,"cosThetaB2/F");
+	TreeTestNew.Branch("cosThetaB3",&cosThetaB3,"cosThetaB3/F");
+	TreeTestNew.Branch("cosThetaB4",&cosThetaB4,"cosThetaB4/F");
+	TreeTestNew.Branch("sumPt",&sumPt,"sumPt/F");
+	TreeTestNew.Branch("jetB1Pt",&jetB1Pt,"jetB1Pt/F");
+	TreeTestNew.Branch("jetB2Pt",&jetB2Pt,"jetB2Pt/F");
+	TreeTestNew.Branch("jetB3Pt",&jetB3Pt,"jetB3Pt/F");
+	TreeTestNew.Branch("jetB4Pt",&jetB4Pt,"jetB4Pt/F");
+	TreeTestNew.Branch("jetB1M",&jetB1M,"jetB1M/F");
+	TreeTestNew.Branch("jetB2M",&jetB2M,"jetB2M/F");
+	TreeTestNew.Branch("jetB3M",&jetB3M,"jetB3M/F");
+	TreeTestNew.Branch("jetB4M",&jetB4M,"jetB4M/F");
+	TreeTestNew.Branch("nParticles",&nParticles,"nParticles/F");
+	TreeTestNew.Branch("constSizeB1",&constSizeB1,"constSizeB1/F");
+	TreeTestNew.Branch("constSizeB2",&constSizeB2,"constSizeB2/F");
+	TreeTestNew.Branch("constSizeB3",&constSizeB3,"constSizeB3/F");
+	TreeTestNew.Branch("constSizeB4",&constSizeB4,"constSizeB4/F");
+	TreeTestNew.Branch("minConstSize",&minConstSize,"minConstSize/F");
+	TreeTestNew.Branch("jetNObjects",&jetNObjects,"jetNObjects/F");
+	TreeTestNew.Branch("minJetNObjects",&minJetNObjects,"minJetNObjects/F");
+	TreeTestNew.Branch("invMassB1AntiKt",&invMassB1AntiKt,"invMassB1AntiKt/F");
+	TreeTestNew.Branch("invMassB2AntiKt",&invMassB2AntiKt,"invMassB2AntiKt/F");
+	TreeTestNew.Branch("nJetsAntiKt",&nJetsAntiKt,"nJetsAntiKt/F");
+	TreeTestNew.Branch("invMassB11Best",&invMassB11Best,"invMassB11Best/F");
+	TreeTestNew.Branch("invMassB21Best",&invMassB21Best,"invMassB21Best/F");
+	TreeTestNew.Branch("invMassB12Best",&invMassB12Best,"invMassB12Best/F");
+	TreeTestNew.Branch("invMassB22Best",&invMassB22Best,"invMassB22Best/F");
+	TreeTestNew.Branch("invMassB13Best",&invMassB13Best,"invMassB13Best/F");
+	TreeTestNew.Branch("invMassB23Best",&invMassB23Best,"invMassB23Best/F");
+	TreeTestNew.Branch("invMassB14Best",&invMassB14Best,"invMassB14Best/F");
+	TreeTestNew.Branch("invMassB24Best",&invMassB24Best,"invMassB24Best/F");
+	TreeTestNew.Branch("invMassB15Best",&invMassB15Best,"invMassB15Best/F");
+	TreeTestNew.Branch("invMassB25Best",&invMassB25Best,"invMassB25Best/F");
+	TreeTestNew.Branch("invMassB16Best",&invMassB16Best,"invMassB16Best/F");
+	TreeTestNew.Branch("invMassB26Best",&invMassB26Best,"invMassB26Best/F");
+	TreeTestNew.Branch("invMassB17Best",&invMassB17Best,"invMassB17Best/F");
+	TreeTestNew.Branch("invMassB27Best",&invMassB27Best,"invMassB27Best/F");
+	TreeTestNew.Branch("invMassB18Best",&invMassB18Best,"invMassB18Best/F");
+	TreeTestNew.Branch("invMassB28Best",&invMassB28Best,"invMassB28Best/F");
+	//TreeTestNew.Branch("nJetsDurham0",&nJetsDurham0,"nJetsDurham0/F");
+	//TreeTestNew.Branch("nJetsDurham5",&nJetsDurham5,"nJetsDurham5/F");
+	//TreeTestNew.Branch("nJetsDurham10",&nJetsDurham10,"nJetsDurham10/F");
+	TreeTestNew.Branch("nJetsDurham15",&nJetsDurham15,"nJetsDurham15/F");
+	TreeTestNew.Branch("nJetsDurham20",&nJetsDurham20,"nJetsDurham20/F");
+	TreeTestNew.Branch("nJetsDurham25",&nJetsDurham25,"nJetsDurham25/F");
+	TreeTestNew.Branch("nJetsDurham30",&nJetsDurham30,"nJetsDurham30/F");
+	TreeTestNew.Branch("distanceZ1MinChiSquaredZZMass",&distanceZ1MinChiSquaredZZMass,"distanceZ1MinChiSquaredZZMass/F");
+	TreeTestNew.Branch("distanceZ2MinChiSquaredZZMass",&distanceZ2MinChiSquaredZZMass,"distanceZ2MinChiSquaredZZMass/F");
+	TreeTestNew.Branch("exclYmerge12",&exclYmerge12,"exclYmerge12/F");
+	TreeTestNew.Branch("exclYmerge23",&exclYmerge23,"exclYmerge23/F");
+	TreeTestNew.Branch("exclYmerge34",&exclYmerge34,"exclYmerge34/F");
+	TreeTestNew.Branch("exclYmerge45",&exclYmerge45,"exclYmerge45/F");
+	TreeTestNew.Branch("exclYmerge56",&exclYmerge56,"exclYmerge56/F");
+	
+	TreeTrain->SetBranchAddress("entryIndex", &entryIndex);
+	TreeTrain->SetBranchAddress("aplanarity", &aplanarity);
+	TreeTrain->SetBranchAddress("invMassB1", &invMassB1);
+	TreeTrain->SetBranchAddress("invMassB2", &invMassB2);
+	TreeTrain->SetBranchAddress("minJetM", &minJetM);  
+	TreeTrain->SetBranchAddress("sphericity", &sphericity);
+	TreeTrain->SetBranchAddress("cosThetaB1", &cosThetaB1);
+	TreeTrain->SetBranchAddress("cosThetaB2", &cosThetaB2);
+	TreeTrain->SetBranchAddress("cosThetaB3", &cosThetaB3);
+	TreeTrain->SetBranchAddress("cosThetaB4", &cosThetaB4);
+	TreeTrain->SetBranchAddress("sumPt", &sumPt);
+	TreeTrain->SetBranchAddress("jetB1Pt", &jetB1Pt);
+	TreeTrain->SetBranchAddress("jetB2Pt", &jetB2Pt);
+	TreeTrain->SetBranchAddress("jetB3Pt", &jetB3Pt);
+	TreeTrain->SetBranchAddress("jetB4Pt", &jetB4Pt);
+	TreeTrain->SetBranchAddress("jetB1M", &jetB1M);
+	TreeTrain->SetBranchAddress("jetB2M", &jetB2M);
+	TreeTrain->SetBranchAddress("jetB3M", &jetB3M);
+	TreeTrain->SetBranchAddress("jetB4M", &jetB4M);
+	TreeTrain->SetBranchAddress("nParticles", &nParticles);
+	TreeTrain->SetBranchAddress("constSizeB1", &constSizeB1);
+	TreeTrain->SetBranchAddress("constSizeB2", &constSizeB2);
+	TreeTrain->SetBranchAddress("constSizeB3", &constSizeB3);
+	TreeTrain->SetBranchAddress("constSizeB4", &constSizeB4);
+	TreeTrain->SetBranchAddress("minConstSize", &minConstSize);
+	TreeTrain->SetBranchAddress("jetNObjects", &jetNObjects);
+	TreeTrain->SetBranchAddress("minJetNObjects", &minJetNObjects);
+	TreeTrain->SetBranchAddress("invMassB1AntiKt", &invMassB1AntiKt);
+	TreeTrain->SetBranchAddress("invMassB2AntiKt", &invMassB2AntiKt);
+	TreeTrain->SetBranchAddress("nJetsAntiKt", &nJetsAntiKt);
+	TreeTrain->SetBranchAddress("invMassB11Best", &invMassB11Best);
+	TreeTrain->SetBranchAddress("invMassB21Best", &invMassB21Best);
+	TreeTrain->SetBranchAddress("invMassB12Best", &invMassB12Best);
+	TreeTrain->SetBranchAddress("invMassB22Best", &invMassB22Best);
+	TreeTrain->SetBranchAddress("invMassB13Best", &invMassB13Best);
+	TreeTrain->SetBranchAddress("invMassB23Best", &invMassB23Best);
+	TreeTrain->SetBranchAddress("invMassB14Best", &invMassB14Best);
+	TreeTrain->SetBranchAddress("invMassB24Best", &invMassB24Best);
+	TreeTrain->SetBranchAddress("invMassB15Best", &invMassB15Best);
+	TreeTrain->SetBranchAddress("invMassB25Best", &invMassB25Best);
+	TreeTrain->SetBranchAddress("invMassB16Best", &invMassB16Best);
+	TreeTrain->SetBranchAddress("invMassB26Best", &invMassB26Best);
+	TreeTrain->SetBranchAddress("invMassB17Best", &invMassB17Best);
+	TreeTrain->SetBranchAddress("invMassB27Best", &invMassB27Best);
+	TreeTrain->SetBranchAddress("invMassB18Best", &invMassB18Best);
+	TreeTrain->SetBranchAddress("invMassB28Best", &invMassB28Best);
+	
+	TreeTest->SetBranchAddress("entryIndex", &entryIndex);
+	TreeTest->SetBranchAddress("aplanarity", &aplanarity);
+	TreeTest->SetBranchAddress("invMassB1", &invMassB1);
+	TreeTest->SetBranchAddress("invMassB2", &invMassB2);
+	TreeTest->SetBranchAddress("minJetM", &minJetM);  
+	TreeTest->SetBranchAddress("sphericity", &sphericity);
+	TreeTest->SetBranchAddress("cosThetaB1", &cosThetaB1);
+	TreeTest->SetBranchAddress("cosThetaB2", &cosThetaB2);
+	TreeTest->SetBranchAddress("cosThetaB3", &cosThetaB3);
+	TreeTest->SetBranchAddress("cosThetaB4", &cosThetaB4);
+	TreeTest->SetBranchAddress("sumPt", &sumPt);
+	TreeTest->SetBranchAddress("jetB1Pt", &jetB1Pt);
+	TreeTest->SetBranchAddress("jetB2Pt", &jetB2Pt);
+	TreeTest->SetBranchAddress("jetB3Pt", &jetB3Pt);
+	TreeTest->SetBranchAddress("jetB4Pt", &jetB4Pt);
+	TreeTest->SetBranchAddress("jetB1M", &jetB1M);
+	TreeTest->SetBranchAddress("jetB2M", &jetB2M);
+	TreeTest->SetBranchAddress("jetB3M", &jetB3M);
+	TreeTest->SetBranchAddress("jetB4M", &jetB4M);
+	TreeTest->SetBranchAddress("nParticles", &nParticles);
+	TreeTest->SetBranchAddress("constSizeB1", &constSizeB1);
+	TreeTest->SetBranchAddress("constSizeB2", &constSizeB2);
+	TreeTest->SetBranchAddress("constSizeB3", &constSizeB3);
+	TreeTest->SetBranchAddress("constSizeB4", &constSizeB4);
+	TreeTest->SetBranchAddress("minConstSize", &minConstSize);
+	TreeTest->SetBranchAddress("jetNObjects", &jetNObjects);
+	TreeTest->SetBranchAddress("minJetNObjects", &minJetNObjects);
+	TreeTest->SetBranchAddress("invMassB1AntiKt", &invMassB1AntiKt);
+	TreeTest->SetBranchAddress("invMassB2AntiKt", &invMassB2AntiKt);
+	TreeTest->SetBranchAddress("nJetsAntiKt", &nJetsAntiKt);
+	TreeTest->SetBranchAddress("invMassB11Best", &invMassB11Best);
+	TreeTest->SetBranchAddress("invMassB21Best", &invMassB21Best);
+	TreeTest->SetBranchAddress("invMassB12Best", &invMassB12Best);
+	TreeTest->SetBranchAddress("invMassB22Best", &invMassB22Best);
+	TreeTest->SetBranchAddress("invMassB13Best", &invMassB13Best);
+	TreeTest->SetBranchAddress("invMassB23Best", &invMassB23Best);
+	TreeTest->SetBranchAddress("invMassB14Best", &invMassB14Best);
+	TreeTest->SetBranchAddress("invMassB24Best", &invMassB24Best);
+	TreeTest->SetBranchAddress("invMassB15Best", &invMassB15Best);
+	TreeTest->SetBranchAddress("invMassB25Best", &invMassB25Best);
+	TreeTest->SetBranchAddress("invMassB16Best", &invMassB16Best);
+	TreeTest->SetBranchAddress("invMassB26Best", &invMassB26Best);
+	TreeTest->SetBranchAddress("invMassB17Best", &invMassB17Best);
+	TreeTest->SetBranchAddress("invMassB27Best", &invMassB27Best);
+	TreeTest->SetBranchAddress("invMassB18Best", &invMassB18Best);
+	TreeTest->SetBranchAddress("invMassB28Best", &invMassB28Best);
+	
+	TreeMerge.SetBranchAddress("entryIndex", &entryIndexMergeHolder);	
+	//TreeMerge.SetBranchAddress("nJetsDurham0", &nJetsDurham0Holder);
+	//TreeMerge.SetBranchAddress("nJetsDurham5", &nJetsDurham5Holder);
+	//TreeMerge.SetBranchAddress("nJetsDurham10", &nJetsDurham10Holder);
+	TreeMerge.SetBranchAddress("nJetsDurham15", &nJetsDurham15Holder);
+	TreeMerge.SetBranchAddress("nJetsDurham20", &nJetsDurham20Holder);
+	TreeMerge.SetBranchAddress("nJetsDurham25", &nJetsDurham25Holder);
+	TreeMerge.SetBranchAddress("nJetsDurham30", &nJetsDurham30Holder);
+	TreeMerge.SetBranchAddress("distanceZ1MinChiSquaredZZMass", &distanceZ1MinChiSquaredZZMassHolder);
+	TreeMerge.SetBranchAddress("distanceZ2MinChiSquaredZZMass", &distanceZ2MinChiSquaredZZMassHolder);
+	TreeMerge.SetBranchAddress("exclYmerge12", &exclYmerge12Holder);
+	TreeMerge.SetBranchAddress("exclYmerge23", &exclYmerge23Holder);
+	TreeMerge.SetBranchAddress("exclYmerge34", &exclYmerge34Holder);
+	TreeMerge.SetBranchAddress("exclYmerge45", &exclYmerge45Holder);
+	TreeMerge.SetBranchAddress("exclYmerge56", &exclYmerge56Holder);
+	
+	
+	int entries = TreeMerge.GetEntries();
+	//entries=50;
+	int contEntriesTrain=0, contEntriesTest=0;
+	for(int entry=0; entry<entries; entry++)
+	{
+		TreeMerge.GetEntry(entry);
+		//cout<<"entryIndexMerge: "<<entryIndexMerge<<endl;
+		entryIndexMerge = entryIndexMergeHolder;
+		//nJetsDurham0 = nJetsDurham0Holder;
+		//nJetsDurham5 = nJetsDurham5Holder;
+		//nJetsDurham10 = nJetsDurham10Holder;
+		nJetsDurham15 = nJetsDurham15Holder;
+		nJetsDurham20 = nJetsDurham20Holder;
+		nJetsDurham25 = nJetsDurham25Holder;
+		nJetsDurham30 = nJetsDurham30Holder;
+		distanceZ1MinChiSquaredZZMass = distanceZ1MinChiSquaredZZMassHolder;
+		distanceZ2MinChiSquaredZZMass = distanceZ2MinChiSquaredZZMassHolder;
+		exclYmerge12 = exclYmerge12Holder;
+		exclYmerge23 = exclYmerge23Holder;
+		exclYmerge34 = exclYmerge34Holder;
+		exclYmerge45 = exclYmerge45Holder;
+		exclYmerge56 = exclYmerge56Holder;
+		
+		//if(entry<10) cout<<"entryIndexMerge: "<<entryIndexMerge<<endl<<"distanceZ1MinChiSquaredZZMass: "<<distanceZ1MinChiSquaredZZMass<<endl<<"exclYmerge34Holder: "<<exclYmerge34Holder<<endl;
+
+		if(setTrain.find(entryIndexMerge) != setTrain.end())
+		{
+			TreeTrain->GetEntry(contEntriesTrain);
+			TreeTrainNew.Fill();
+			//if(entry<10) cout<<"Entra train"<<endl<<endl;
+			contEntriesTrain++;
+		}
+		else if(setTest.find(entryIndexMerge) != setTest.end())
+		{
+			TreeTest->GetEntry(contEntriesTest);
+			TreeTestNew.Fill();
+			//if(entry<10) cout<<"Entra test"<<endl<<endl;
+			
+			contEntriesTest++;
+		}
+		//else if(entry<10) cout<<"No entra ninguno"<<endl<<endl;
+	}
+}
+
+void FSRGammaGammaHHbbbbAnalysis(const char *inputFileHH, const char *inputFileqq, const char *inputFilett, const char *inputFileZZ, const char *inputFileWW, string fileFunction)
 {
 	cout<<"New macro working"<<endl;
 	
@@ -2844,95 +3905,118 @@ void FSRGammaGammaHHbbbbAnalysis(const char *inputFileHH, const char *inputFileq
   	
   	cout<<"jetAlgo: "<<jetAlgoText<<endl;
   	
-  	////////creation of File for TMVA for signal HH
-  	TFile *outputTreeSTrain = new TFile(jetAlgoOutputTreeSTrain.c_str(), "recreate");
-  	TTree TreeSTrain("TreeSTrain","a simple Tree with simple variables (Train)");
-  	TFile *outputTreeSTest = new TFile(jetAlgoOutputTreeSTest.c_str(), "recreate");
-  	TTree TreeSTest("TreeSTest","a simple Tree with simple variables (Test)");
-  	
-  	analysis(inputFileHH, 1, size, weightHH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest);
-  	
-  	outputTreeSTrain->cd();
-   	TreeSTrain.Write();
-   	
-   	outputTreeSTest->cd();
-   	TreeSTest.Write();
-   	
-   	outputTreeSTrain->Close();
-	outputTreeSTest->Close();
-  	////////creation of File for TMVA for signal HH
-  	
-	/*////////creation of File for TMVA for back qq  	
-  	TFile *outputTreeBqqTrain = new TFile(jetAlgoOutputTreeBqqTrain.c_str(), "recreate");
-  	TTree TreeBqqTrain("TreeBqqTrain","a bqqimple Tree with bqqimple variables (Train)");
-  	TFile *outputTreeBqqTest = new TFile(jetAlgoOutputTreeBqqTest.c_str(), "recreate");
-  	TTree TreeBqqTest("TreeBqqTest","a bqqimple Tree with bqqimple variables (Test)");
-  	
-  	analysis(inputFileqq, 2, size, weightqq, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqTrain, TreeBqqTest);
-  	
-  	outputTreeBqqTrain->cd();
-   	TreeBqqTrain.Write();
-   	
-   	outputTreeBqqTest->cd();
-   	TreeBqqTest.Write();
-  	
-  	outputTreeBqqTrain->Close();
-	outputTreeBqqTest->Close();
-  	////////creation of File for TMVA for back qq*/ 	
-  	
-  	/*////////creation of File for TMVA for back ttbar  
-	TFile *outputTreeBttTrain = new TFile(jetAlgoOutputTreeBttTrain.c_str(), "recreate");
-  	TTree TreeBttTrain("TreeBttTrain","a bttimple Tree with bttimple variables (Train)");
-  	TFile *outputTreeBttTest = new TFile(jetAlgoOutputTreeBttTest.c_str(), "recreate");
-  	TTree TreeBttTest("TreeBttTest","a bttimple Tree with bttimple variables (Test)");
-  	
-  	analysis(inputFilett, 3, size, weightttbar, jetAlgoText, jetAlgo, genJetAlgo, TreeBttTrain, TreeBttTest);
-  	
-  	outputTreeBttTrain->cd();
-   	TreeBttTrain.Write();
-   	
-   	outputTreeBttTest->cd();
-   	TreeBttTest.Write();
-	
-	outputTreeBttTrain->Close();
-	outputTreeBttTest->Close();
-  	////////creation of File for TMVA for back ttbar*/
-  	
-  	////////creation of File for TMVA for back ZZ  	
-  	TFile *outputTreeBZZTrain = new TFile(jetAlgoOutputTreeBZZTrain.c_str(), "recreate");
-  	TTree TreeBZZTrain("TreeBZZTrain","a bZZimple Tree with bZZimple variables (Train)");
-  	TFile *outputTreeBZZTest = new TFile(jetAlgoOutputTreeBZZTest.c_str(), "recreate");
-  	TTree TreeBZZTest("TreeBZZTest","a bZZimple Tree with bZZimple variables (Test)");
-  	
-  	analysis(inputFileZZ, 4, size, weightZZ, jetAlgoText, jetAlgo, genJetAlgo, TreeBZZTrain, TreeBZZTest);
-  	
-  	outputTreeBZZTrain->cd();
-   	TreeBZZTrain.Write();
-   	
-   	outputTreeBZZTest->cd();
-   	TreeBZZTest.Write();
-  	
-  	outputTreeBZZTrain->Close();
-	outputTreeBZZTest->Close();
-  	////////creation of File for TMVA for back ZZ
-  	
-  	/*///////creation of File for TMVA for back WW  	
-  	TFile *outputTreeBWWTrain = new TFile(jetAlgoOutputTreeBWWTrain.c_str(), "recreate");
-  	TTree TreeBWWTrain("TreeBWWTrain","a bWWimple Tree with bWWimple variables (Train)");
-  	TFile *outputTreeBWWTest = new TFile(jetAlgoOutputTreeBWWTest.c_str(), "recreate");
-  	TTree TreeBWWTest("TreeBWWTest","a bWWimple Tree with bWWimple variables (Test)");
-  	
-  	analysis(inputFileWW, 5, size, weightWW, jetAlgoText, jetAlgo, genJetAlgo, TreeBWWTrain, TreeBWWTest);
-  	
-  	outputTreeBWWTrain->cd();
-   	TreeBWWTrain.Write();
-   	
-   	outputTreeBWWTest->cd();
-   	TreeBWWTest.Write();
-  	
-  	outputTreeBWWTrain->Close();
-	outputTreeBWWTest->Close();
-  	////////creation of File for TMVA for back WW*/
+  	if(fileFunction == "generate" || fileFunction == "merge")
+  	{
+	  	/*////////creation of File for TMVA for signal HH
+	  	TFile *outputTreeSTrain = new TFile(jetAlgoOutputTreeSTrain.c_str(), "recreate");
+	  	TTree TreeSTrain("TreeSTrain","a simple Tree with simple variables (Train)");
+	  	TFile *outputTreeSTest = new TFile(jetAlgoOutputTreeSTest.c_str(), "recreate");
+	  	TTree TreeSTest("TreeSTest","a simple Tree with simple variables (Test)");
+	  	TTree TreeSMerge("TreeSMerge","a simple Tree with simple variables (merge)");
+	  	set<int> setTrainHH, setTestHH;
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(1, setTrainHH, setTestHH, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFileHH, 1, weightHH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, fileFunction);
+	  	if(fileFunction=="merge") mergeTrees(1, setTrainHH, setTestHH, TreeSTrain, TreeSTest, TreeSMerge);
+	  	
+	  	outputTreeSTrain->cd();
+	   	TreeSTrain.Write();
+	   	
+	   	outputTreeSTest->cd();
+	   	TreeSTest.Write();
+	   	
+	   	outputTreeSTrain->Close();
+		outputTreeSTest->Close();
+	  	////////creation of File for TMVA for signal HH*/
+	  	
+		/*////////creation of File for TMVA for back qq  	
+	  	TFile *outputTreeBqqTrain = new TFile(jetAlgoOutputTreeBqqTrain.c_str(), "recreate");
+	  	TTree TreeBqqTrain("TreeBqqTrain","a bqqimple Tree with bqqimple variables (Train)");
+	  	TFile *outputTreeBqqTest = new TFile(jetAlgoOutputTreeBqqTest.c_str(), "recreate");
+	  	TTree TreeBqqTest("TreeBqqTest","a bqqimple Tree with bqqimple variables (Test)");
+	  	TTree TreeBqqMerge("TreeBqqMerge","a bqqimple Tree with bqqimple variables (merge)");
+	  	set<int> setTrainqq, setTestqq;
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(2, setTrainqq, setTestqq, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFileqq, 2, weightqq, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqTrain, TreeBqqTest, TreeBqqMerge, fileFunction);
+	  	if(fileFunction=="merge") mergeTrees(2, setTrainqq, setTestqq, TreeBqqTrain, TreeBqqTest, TreeBqqMerge);
+	  	
+	  	outputTreeBqqTrain->cd();
+	   	TreeBqqTrain.Write();
+	   	
+	   	outputTreeBqqTest->cd();
+	   	TreeBqqTest.Write();
+	  	
+	  	outputTreeBqqTrain->Close();
+		outputTreeBqqTest->Close();
+	  	////////creation of File for TMVA for back qq 	*/
+	  	
+	  	/*////////creation of File for TMVA for back ttbar  
+		TFile *outputTreeBttTrain = new TFile(jetAlgoOutputTreeBttTrain.c_str(), "recreate");
+	  	TTree TreeBttTrain("TreeBttTrain","a bttimple Tree with bttimple variables (Train)");
+	  	TFile *outputTreeBttTest = new TFile(jetAlgoOutputTreeBttTest.c_str(), "recreate");
+	  	TTree TreeBttTest("TreeBttTest","a bttimple Tree with bttimple variables (Test)");
+	  	TTree TreeBttMerge("TreeBttMerge","a bttimple Tree with bttimple variables (merge)");
+	  	set<int> setTrainttbar, setTestttbar;
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(3, setTrainttbar, setTestttbar, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFilett, 3, weightttbar, jetAlgoText, jetAlgo, genJetAlgo, TreeBttTrain, TreeBttTest, TreeBttMerge, fileFunction);
+	  	if(fileFunction=="merge") mergeTrees(3, setTrainttbar, setTestttbar, TreeBttTrain, TreeBttTest, TreeBttMerge);
+	  	
+	  	outputTreeBttTrain->cd();
+	   	TreeBttTrain.Write();
+	   	
+	   	outputTreeBttTest->cd();
+	   	TreeBttTest.Write();
+		
+		outputTreeBttTrain->Close();
+		outputTreeBttTest->Close();
+	  	////////creation of File for TMVA for back ttbar*/
+	  	
+	  	/*////////creation of File for TMVA for back ZZ  	
+	  	TFile *outputTreeBZZTrain = new TFile(jetAlgoOutputTreeBZZTrain.c_str(), "recreate");
+	  	TTree TreeBZZTrain("TreeBZZTrain","a bZZimple Tree with bZZimple variables (Train)");
+	  	TFile *outputTreeBZZTest = new TFile(jetAlgoOutputTreeBZZTest.c_str(), "recreate");
+	  	TTree TreeBZZTest("TreeBZZTest","a bZZimple Tree with bZZimple variables (Test)");
+	  	TTree TreeBZZMerge("TreeBZZMerge","a bZZimple Tree with bZZimple variables (merge)");
+	  	set<int> setTrainZZ, setTestZZ;
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(4, setTrainZZ, setTestZZ, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFileZZ, 4, weightZZ, jetAlgoText, jetAlgo, genJetAlgo, TreeBZZTrain, TreeBZZTest, TreeBZZMerge, fileFunction);
+	  	if(fileFunction=="merge") mergeTrees(4, setTrainZZ, setTestZZ, TreeBZZTrain, TreeBZZTest, TreeBZZMerge);
+	  	
+	  	outputTreeBZZTrain->cd();
+	   	TreeBZZTrain.Write();
+	   	
+	   	outputTreeBZZTest->cd();
+	   	TreeBZZTest.Write();
+	  	
+	  	outputTreeBZZTrain->Close();
+		outputTreeBZZTest->Close();
+	  	////////creation of File for TMVA for back ZZ*/
+	  	
+	  	///////creation of File for TMVA for back WW  	
+	  	TFile *outputTreeBWWTrain = new TFile(jetAlgoOutputTreeBWWTrain.c_str(), "recreate");
+	  	TTree TreeBWWTrain("TreeBWWTrain","a bWWimple Tree with bWWimple variables (Train)");
+	  	TFile *outputTreeBWWTest = new TFile(jetAlgoOutputTreeBWWTest.c_str(), "recreate");
+	  	TTree TreeBWWTest("TreeBWWTest","a bWWimple Tree with bWWimple variables (Test)");
+	  	TTree TreeBWWMerge("TreeBWWMerge","a bWWimple Tree with bWWimple variables (merge)");
+	  	set<int> setTrainWW, setTestWW;
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(5, setTrainWW, setTestWW, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFileWW, 5, weightWW, jetAlgoText, jetAlgo, genJetAlgo, TreeBWWTrain, TreeBWWTest, TreeBWWMerge, fileFunction);
+	  	if(fileFunction=="merge") mergeTrees(5, setTrainWW, setTestWW, TreeBWWTrain, TreeBWWTest, TreeBWWMerge);
+	  	
+	  	outputTreeBWWTrain->cd();
+	   	TreeBWWTrain.Write();
+	   	
+	   	outputTreeBWWTest->cd();
+	   	TreeBWWTest.Write();
+	  	
+	  	outputTreeBWWTrain->Close();
+		outputTreeBWWTest->Close();
+	  	////////creation of File for TMVA for back WW
+  	}
 
   	
 	/*//////Pt
@@ -2942,33 +4026,38 @@ void FSRGammaGammaHHbbbbAnalysis(const char *inputFileHH, const char *inputFileq
 	TCanvas *c1004 = new TCanvas();
 	//////Pt*/
 	
-	
+  	
+  	
 	/////Just to plot; no file creation
 	/*TTree TreeSTrain("TreeSTrain","a simple Tree with simple variables (Train)");
   	TTree TreeSTest("TreeSTest","a simple Tree with simple variables (Test)");
-	analysis(inputFileHH, 1, size, weightHH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest);*/
+  	TTree TreeSMerge("TreeSMerge","a simple Tree with simple variables (merge)");
+	analysis(inputFileHH, 1, weightHH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, fileFunction);*/
 	/*TTree TreeBqqTrain("TreeBqqTrain","a bqqimple Tree with simple variables (Train)");
   	TTree TreeBqqTest("TreeBqqTest","a bqqimple Tree with simple variables (Test)");
-	analysis(inputFileqq, 2, size, weightqq, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqTrain, TreeBqqTest);
-	TTree TreeBttTrain("TreeBttTrain","a bttimple Tree with bttimple variables (Train)");
+  	TTree TreeBqqMerge("TreeBqqMerge","a bqqimple Tree with bqqimple variables (merge)");
+	analysis(inputFileqq, 2, weightqq, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqTrain, TreeBqqTest, TreeBqqMerge, fileFunction);*/
+	/*TTree TreeBttTrain("TreeBttTrain","a bttimple Tree with bttimple variables (Train)");
 	TTree TreeBttTest("TreeBttTest","a bttimple Tree with bttimple variables (Test)");
-	analysis(inputFilett, 3, size, weightttbar, jetAlgoText, jetAlgo, genJetAlgo, TreeBttTrain, TreeBttTest);
-	TTree TreeBZZTrain("TreeBZZTrain","a bZZimple Tree with bZZimple variables (Train)");
+	TTree TreeBttMerge("TreeBttMerge","a bttimple Tree with bttimple variables (merge)");
+	analysis(inputFilett, 3, weightttbar, jetAlgoText, jetAlgo, genJetAlgo, TreeBttTrain, TreeBttTest, TreeBttMerge, fileFunction);*/
+	/*TTree TreeBZZTrain("TreeBZZTrain","a bZZimple Tree with bZZimple variables (Train)");
 	TTree TreeBZZTest("TreeBZZTest","a bZZimple Tree with bZZimple variables (Test)");
-	analysis(inputFileZZ, 4, size, weightZZ, jetAlgoText, jetAlgo, genJetAlgo, TreeBZZTrain, TreeBZZTest);
-	TTree TreeBWWTrain("TreeBWWTrain","a bWWimple Tree with bWWimple variables (Train)");
+	TTree TreeBZZMerge("TreeBZZMerge","a bZZimple Tree with bZZimple variables (merge)");
+	analysis(inputFileZZ, 4, weightZZ, jetAlgoText, jetAlgo, genJetAlgo, TreeBZZTrain, TreeBZZTest, TreeBZZMerge, fileFunction);*/
+	/*TTree TreeBWWTrain("TreeBWWTrain","a bWWimple Tree with bWWimple variables (Train)");
 	TTree TreeBWWTest("TreeBWWTest","a bWWimple Tree with bWWimple variables (Test)");
-	analysis(inputFileWW, 4, size, weightWW, jetAlgoText, jetAlgo, genJetAlgo, TreeBWWTrain, TreeBWWTest);
-	TTree TreeDummy("dummy","dummy");
-	analysis("hh", -999, size, 0.001225, jetAlgoText, jetAlgo, genJetAlgo, TreeDummy, TreeDummy); /////Just to give time for the hists. to load; delete if not plotting.*/
+	TTree TreeBWWMerge("TreeBWWMerge","a bWWimple Tree with bWWimple variables (merge)");
+	analysis(inputFileWW, 4, weightWW, jetAlgoText, jetAlgo, genJetAlgo, TreeBWWTrain, TreeBWWTest, TreeBWWMerge, fileFunction);*/
+	/*TTree TreeDummy("dummy","dummy");
+	analysis("hh", -999, 0.001225, jetAlgoText, jetAlgo, genJetAlgo, TreeDummy, TreeDummy, TreeDummy, fileFunction); /////Just to give time for the hists. to load; delete if not plotting.*/
 	/////Just to plot; no file creation
 	
-	/*trueBPairMass(inputFileHH, 1, size, 0.001225);
-	trueBPairMass(inputFileqq, 2, size, 0.3062);
-	trueBPairMass(inputFilett, 3, size, 0.503);*/
+	/*trueBPairMass(inputFileHH, 1, 0.001225);
+	trueBPairMass(inputFileqq, 2, 0.3062);
+	trueBPairMass(inputFilett, 3, 0.503);*/
 
 }
-
 
 
 
