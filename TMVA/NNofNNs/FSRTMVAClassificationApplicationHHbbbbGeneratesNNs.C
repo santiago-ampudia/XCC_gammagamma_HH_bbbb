@@ -6,7 +6,6 @@
  #include <map>
  #include <algorithm>
  #include <random>
- 
  #include "TFile.h"
  #include "TTree.h"
  #include "TString.h"
@@ -14,10 +13,10 @@
  #include "TROOT.h"
  #include "TRandom.h"
  #include "TStopwatch.h"
- 
  #include "TMVA/Tools.h"
  #include "TMVA/Reader.h"
  #include "TMVA/MethodCuts.h"
+ #include <stdexcept>
  
  
  using namespace TMVA;
@@ -180,6 +179,7 @@
 	reader->AddVariable( "invMassB2", &invMassB2 );
 	reader->AddVariable( "jetB1M", &jetB1M );
 	if(nBack!=3) reader->AddVariable( "jetB2M", &jetB2M );
+	//reader->AddVariable( "jetB2M", &jetB2M );
 	reader->AddVariable( "jetB3M", &jetB3M );
 	reader->AddVariable( "jetB4M", &jetB4M );
 	reader->AddVariable( "jetB1Pt", &jetB1Pt );
@@ -1843,44 +1843,54 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
   	TFile *outputTreeBWWNNTest = new TFile("outputTreeBWWNNTest.root", "recreate");
   	TTree TreeBWWNNTest("TreeBWWNNTest","a bWWimple Tree with simple variables (Test)");
   	
-  	float NN1Output, NN2Output, NN3Output, NN4Output;
+  	float entryIndex, NN1Output, NN2Output, NN3Output, NN4Output;
+  	TreeSNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeSNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeSNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeSNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
   	TreeSNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBqqNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBqqNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBqqNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeBqqNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
   	TreeBqqNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBttbarNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBttbarNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBttbarNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeBttbarNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
   	TreeBttbarNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBZZNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBZZNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBZZNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeBZZNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
   	TreeBZZNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBWWNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBWWNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBWWNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeBWWNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
   	TreeBWWNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
   	
+  	TreeSNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeSNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeSNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeSNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
   	TreeSNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBqqNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBqqNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBqqNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeBqqNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
   	TreeBqqNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBttbarNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBttbarNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBttbarNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeBttbarNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
   	TreeBttbarNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBZZNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBZZNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBZZNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeBZZNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
   	TreeBZZNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBWWNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBWWNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBWWNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
   	TreeBWWNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
@@ -1888,6 +1898,7 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
   	
   	for(int i=0; i<BDTqqOutput.size(); i++)
   	{
+  		entryIndex = i;
   		NN1Output = BDTqqOutput[i];
   		NN2Output = BDTttbarOutput[i];
   		NN3Output = BDTZZOutput[i];
@@ -1903,6 +1914,7 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 			else if(i<sizeHH+sizeqq+sizettbar) TreeBttbarNNTrain.Fill();
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ) TreeBZZNNTrain.Fill();
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW) TreeBWWNNTrain.Fill();
+			else throw std::runtime_error("ERROR: event out of bounds in generate!");	
 		}
 		else
 		{ 
@@ -1911,8 +1923,278 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 			else if(i<sizeHH+sizeqq+sizettbar) TreeBttbarNNTest.Fill();
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ) TreeBZZNNTest.Fill();
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW) TreeBWWNNTest.Fill();
+			else throw std::runtime_error("ERROR: event out of bounds in generate!");	
 		}
 						
+  	}
+  	
+  	outputTreeSNNTrain->cd();
+   	TreeSNNTrain.Write();
+   	outputTreeBqqNNTrain->cd();
+   	TreeBqqNNTrain.Write();
+   	outputTreeBttbarNNTrain->cd();
+   	TreeBttbarNNTrain.Write();
+   	outputTreeBZZNNTrain->cd();
+   	TreeBZZNNTrain.Write();
+   	outputTreeBWWNNTrain->cd();
+   	TreeBWWNNTrain.Write();
+   	
+   	outputTreeSNNTest->cd();
+   	TreeSNNTest.Write();
+   	outputTreeBqqNNTest->cd();
+   	TreeBqqNNTest.Write();
+   	outputTreeBttbarNNTest->cd();
+   	TreeBttbarNNTest.Write();
+   	outputTreeBZZNNTest->cd();
+   	TreeBZZNNTest.Write();
+   	outputTreeBWWNNTest->cd();
+   	TreeBWWNNTest.Write();
+   	
+}
+
+/////Function that REgenerates the files to train NN to find optimal cut for NNs outputs to have the same sampling as some previously given files.
+void reGenerateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW)
+{
+	TFile *fileTrainHH, *fileTestHH, *fileTrainqq, *fileTestqq, *fileTrainttbar, *fileTestttbar, *fileTrainZZ, *fileTestZZ, *fileTrainWW, *fileTestWW;
+	TTree *TreeTrainHH, *TreeTestHH, *TreeTrainqq, *TreeTestqq, *TreeTrainttbar, *TreeTestttbar, *TreeTrainZZ, *TreeTestZZ, *TreeTrainWW, *TreeTestWW;
+	fileTrainHH = TFile::Open("SampleOGNNOfNNs/outputTreeSNNTrain.root");
+	fileTestHH = TFile::Open("SampleOGNNOfNNs/outputTreeSNNTest.root");
+	fileTrainHH->GetObject("TreeSNNTrain", TreeTrainHH);
+	fileTestHH->GetObject("TreeSNNTest", TreeTestHH);
+	fileTrainqq = TFile::Open("SampleOGNNOfNNs/outputTreeBqqNNTrain.root");
+	fileTestqq = TFile::Open("SampleOGNNOfNNs/outputTreeBqqNNTest.root");
+	fileTrainqq->GetObject("TreeBqqNNTrain", TreeTrainqq);
+	fileTestqq->GetObject("TreeBqqNNTest", TreeTestqq);
+	fileTrainttbar = TFile::Open("SampleOGNNOfNNs/outputTreeBttbarNNTrain.root");
+	fileTestttbar = TFile::Open("SampleOGNNOfNNs/outputTreeBttbarNNTest.root");
+	fileTrainttbar->GetObject("TreeBttbarNNTrain", TreeTrainttbar);
+	fileTestttbar->GetObject("TreeBttbarNNTest", TreeTestttbar);
+	fileTrainZZ = TFile::Open("SampleOGNNOfNNs/outputTreeBZZNNTrain.root");
+	fileTestZZ = TFile::Open("SampleOGNNOfNNs/outputTreeBZZNNTest.root");
+	fileTrainZZ->GetObject("TreeBZZNNTrain", TreeTrainZZ);
+	fileTestZZ->GetObject("TreeBZZNNTest", TreeTestZZ);
+	fileTrainWW = TFile::Open("SampleOGNNOfNNs/outputTreeBWWNNTrain.root");
+	fileTestWW = TFile::Open("SampleOGNNOfNNs/outputTreeBWWNNTest.root");
+	fileTrainWW->GetObject("TreeBWWNNTrain", TreeTrainWW);
+	fileTestWW->GetObject("TreeBWWNNTest", TreeTestWW);
+	
+	float NN1OutputTrainHH, NN2OutputTrainHH, NN3OutputTrainHH, NN4OutputTrainHH, NN1OutputTestHH, NN2OutputTestHH, NN3OutputTestHH, NN4OutputTestHH, NN1OutputTrainqq, NN2OutputTrainqq, NN3OutputTrainqq, NN4OutputTrainqq, NN1OutputTestqq, NN2OutputTestqq, NN3OutputTestqq, NN4OutputTestqq, NN1OutputTrainttbar, NN2OutputTrainttbar, NN3OutputTrainttbar, NN4OutputTrainttbar, NN1OutputTestttbar, NN2OutputTestttbar, NN3OutputTestttbar, NN4OutputTestttbar, NN1OutputTrainZZ, NN2OutputTrainZZ, NN3OutputTrainZZ, NN4OutputTrainZZ, NN1OutputTestZZ, NN2OutputTestZZ, NN3OutputTestZZ, NN4OutputTestZZ, NN1OutputTrainWW, NN2OutputTrainWW, NN3OutputTrainWW, NN4OutputTrainWW, NN1OutputTestWW, NN2OutputTestWW, NN3OutputTestWW, NN4OutputTestWW, entryIndexTrain, entryIndexTest;
+	
+	TreeTrainHH->SetBranchAddress("entryIndex", &entryIndexTrain);
+	TreeTestHH->SetBranchAddress("entryIndex", &entryIndexTest);
+	TreeTrainHH->SetBranchAddress("NN1Output", &NN1OutputTrainHH);
+	TreeTestHH->SetBranchAddress("NN1Output", &NN1OutputTestHH);
+	TreeTrainHH->SetBranchAddress("NN2Output", &NN2OutputTrainHH);
+	TreeTestHH->SetBranchAddress("NN2Output", &NN2OutputTestHH);
+	TreeTrainHH->SetBranchAddress("NN3Output", &NN3OutputTrainHH);
+	TreeTestHH->SetBranchAddress("NN3Output", &NN3OutputTestHH);
+	TreeTrainHH->SetBranchAddress("NN4Output", &NN4OutputTrainHH);
+	TreeTestHH->SetBranchAddress("NN4Output", &NN4OutputTestHH);
+	TreeTrainqq->SetBranchAddress("entryIndex", &entryIndexTrain);
+	TreeTestqq->SetBranchAddress("entryIndex", &entryIndexTest);
+	TreeTrainqq->SetBranchAddress("NN1Output", &NN1OutputTrainqq);
+	TreeTestqq->SetBranchAddress("NN1Output", &NN1OutputTestqq);
+	TreeTrainqq->SetBranchAddress("NN2Output", &NN2OutputTrainqq);
+	TreeTestqq->SetBranchAddress("NN2Output", &NN2OutputTestqq);
+	TreeTrainqq->SetBranchAddress("NN3Output", &NN3OutputTrainqq);
+	TreeTestqq->SetBranchAddress("NN3Output", &NN3OutputTestqq);
+	TreeTrainqq->SetBranchAddress("NN4Output", &NN4OutputTrainqq);
+	TreeTestqq->SetBranchAddress("NN4Output", &NN4OutputTestqq);
+	TreeTrainttbar->SetBranchAddress("entryIndex", &entryIndexTrain);
+	TreeTestttbar->SetBranchAddress("entryIndex", &entryIndexTest);
+	TreeTrainttbar->SetBranchAddress("NN1Output", &NN1OutputTrainttbar);
+	TreeTestttbar->SetBranchAddress("NN1Output", &NN1OutputTestttbar);
+	TreeTrainttbar->SetBranchAddress("NN2Output", &NN2OutputTrainttbar);
+	TreeTestttbar->SetBranchAddress("NN2Output", &NN2OutputTestttbar);
+	TreeTrainttbar->SetBranchAddress("NN3Output", &NN3OutputTrainttbar);
+	TreeTestttbar->SetBranchAddress("NN3Output", &NN3OutputTestttbar);
+	TreeTrainttbar->SetBranchAddress("NN4Output", &NN4OutputTrainttbar);
+	TreeTestttbar->SetBranchAddress("NN4Output", &NN4OutputTestttbar);
+	TreeTrainZZ->SetBranchAddress("entryIndex", &entryIndexTrain);
+	TreeTestZZ->SetBranchAddress("entryIndex", &entryIndexTest);
+	TreeTrainZZ->SetBranchAddress("NN1Output", &NN1OutputTrainZZ);
+	TreeTestZZ->SetBranchAddress("NN1Output", &NN1OutputTestZZ);
+	TreeTrainZZ->SetBranchAddress("NN2Output", &NN2OutputTrainZZ);
+	TreeTestZZ->SetBranchAddress("NN2Output", &NN2OutputTestZZ);
+	TreeTrainZZ->SetBranchAddress("NN3Output", &NN3OutputTrainZZ);
+	TreeTestZZ->SetBranchAddress("NN3Output", &NN3OutputTestZZ);
+	TreeTrainZZ->SetBranchAddress("NN4Output", &NN4OutputTrainZZ);
+	TreeTestZZ->SetBranchAddress("NN4Output", &NN4OutputTestZZ);
+	TreeTrainWW->SetBranchAddress("entryIndex", &entryIndexTrain);
+	TreeTestWW->SetBranchAddress("entryIndex", &entryIndexTest);
+	TreeTrainWW->SetBranchAddress("NN1Output", &NN1OutputTrainWW);
+	TreeTestWW->SetBranchAddress("NN1Output", &NN1OutputTestWW);
+	TreeTrainWW->SetBranchAddress("NN2Output", &NN2OutputTrainWW);
+	TreeTestWW->SetBranchAddress("NN2Output", &NN2OutputTestWW);
+	TreeTrainWW->SetBranchAddress("NN3Output", &NN3OutputTrainWW);
+	TreeTestWW->SetBranchAddress("NN3Output", &NN3OutputTestWW);
+	TreeTrainWW->SetBranchAddress("NN4Output", &NN4OutputTrainWW);
+	TreeTestWW->SetBranchAddress("NN4Output", &NN4OutputTestWW);
+	
+	TFile *outputTreeSNNTrain = new TFile("outputTreeSNNTrain.root", "recreate");
+ 	TTree TreeSNNTrain("TreeSNNTrain","a simple Tree with simple variables (Train)");
+  	TFile *outputTreeSNNTest = new TFile("outputTreeSNNTest.root", "recreate");
+  	TTree TreeSNNTest("TreeSNNTest","a simple Tree with simple variables (Test)");
+  	TFile *outputTreeBqqNNTrain = new TFile("outputTreeBqqNNTrain.root", "recreate");
+ 	TTree TreeBqqNNTrain("TreeBqqNNTrain","a bqqimple Tree with simple variables (Train)");
+  	TFile *outputTreeBqqNNTest = new TFile("outputTreeBqqNNTest.root", "recreate");
+  	TTree TreeBqqNNTest("TreeBqqNNTest","a bqqimple Tree with simple variables (Test)");
+  	TFile *outputTreeBttbarNNTrain = new TFile("outputTreeBttbarNNTrain.root", "recreate");
+ 	TTree TreeBttbarNNTrain("TreeBttbarNNTrain","a bttbarimple Tree with simple variables (Train)");
+  	TFile *outputTreeBttbarNNTest = new TFile("outputTreeBttbarNNTest.root", "recreate");
+  	TTree TreeBttbarNNTest("TreeBttbarNNTest","a bttbarimple Tree with simple variables (Test)");
+  	TFile *outputTreeBZZNNTrain = new TFile("outputTreeBZZNNTrain.root", "recreate");
+ 	TTree TreeBZZNNTrain("TreeBZZNNTrain","a bZZimple Tree with simple variables (Train)");
+  	TFile *outputTreeBZZNNTest = new TFile("outputTreeBZZNNTest.root", "recreate");
+  	TTree TreeBZZNNTest("TreeBZZNNTest","a bZZimple Tree with simple variables (Test)");
+  	TFile *outputTreeBWWNNTrain = new TFile("outputTreeBWWNNTrain.root", "recreate");
+ 	TTree TreeBWWNNTrain("TreeBWWNNTrain","a bWWimple Tree with simple variables (Train)");
+  	TFile *outputTreeBWWNNTest = new TFile("outputTreeBWWNNTest.root", "recreate");
+  	TTree TreeBWWNNTest("TreeBWWNNTest","a bWWimple Tree with simple variables (Test)");
+  	
+  	float entryIndex, NN1Output, NN2Output, NN3Output, NN4Output;
+  	TreeSNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeSNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeSNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeSNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeSNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBqqNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBqqNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBqqNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBqqNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBqqNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBttbarNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBttbarNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBttbarNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBttbarNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBttbarNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBZZNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBZZNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBZZNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBZZNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBZZNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBWWNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBWWNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBWWNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBWWNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBWWNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	
+  	TreeSNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeSNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeSNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeSNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeSNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBqqNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBqqNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBqqNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBqqNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBqqNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBttbarNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBttbarNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBttbarNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBttbarNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBttbarNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBZZNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBZZNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBZZNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBZZNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBZZNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeBWWNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBWWNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBWWNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBWWNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBWWNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	
+  	int contTrainHH=0, contTestHH=0, contTrainqq=0, contTestqq=0, contTrainttbar=0, contTestttbar=0, contTrainZZ=0, contTestZZ=0, contTrainWW=0, contTestWW=0;
+  	for(int i=0; i<BDTqqOutput.size(); i++)
+  	{
+  		entryIndex = i;
+  		NN1Output = BDTqqOutput[i];
+  		NN2Output = BDTttbarOutput[i];
+  		NN3Output = BDTZZOutput[i];
+  		NN4Output = BDTWWOutput[i];
+  		
+  		if(i<sizeHH)
+  		{
+  			TreeTrainHH->GetEntry(contTrainHH);
+  			TreeTestHH->GetEntry(contTestHH);
+  			if(entryIndex == entryIndexTrain)
+  			{
+  				TreeSNNTrain.Fill();
+  				contTrainHH++;
+  			}
+  			else if(entryIndex == entryIndexTest)
+  			{
+  				TreeSNNTest.Fill();
+  				contTestHH++;
+  			}
+			else throw std::runtime_error("ERROR: no match for HH entry in regenerate!");		
+  		}
+  		else if(i<sizeHH+sizeqq)
+  		{
+  			TreeTrainqq->GetEntry(contTrainqq);
+  			TreeTestqq->GetEntry(contTestqq);
+  			if(entryIndex == entryIndexTrain)
+  			{
+  				TreeBqqNNTrain.Fill();
+  				contTrainqq++;
+  			}
+  			else if(entryIndex == entryIndexTest)
+  			{
+  				TreeBqqNNTest.Fill();
+  				contTestqq++;
+  			}
+			else throw std::runtime_error("ERROR: no match for qq entry in regenerate!");			
+  		}
+  		else if(i<sizeHH+sizeqq+sizettbar)
+  		{
+  			TreeTrainttbar->GetEntry(contTrainttbar);
+  			TreeTestttbar->GetEntry(contTestttbar);
+  			if(entryIndex == entryIndexTrain)
+  			{
+  				TreeBttbarNNTrain.Fill();
+  				contTrainttbar++;
+  			}
+  			else if(entryIndex == entryIndexTest)
+  			{
+  				TreeBttbarNNTest.Fill();
+  				contTestttbar++;
+  			}
+			else throw std::runtime_error("ERROR: no match for ttbar entry in regenerate!");			
+  		}
+  		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ)
+  		{
+  			TreeTrainZZ->GetEntry(contTrainZZ);
+  			TreeTestZZ->GetEntry(contTestZZ);
+  			if(entryIndex == entryIndexTrain)
+  			{
+  				TreeBZZNNTrain.Fill();
+  				contTrainZZ++;
+  			}
+  			else if(entryIndex == entryIndexTest)
+  			{
+  				TreeBZZNNTest.Fill();
+  				contTestZZ++;
+  			}
+			else throw std::runtime_error("ERROR: no match for ZZ entry in regenerate!");			
+  		}
+  		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW)
+  		{
+  			TreeTrainWW->GetEntry(contTrainWW);
+  			TreeTestWW->GetEntry(contTestWW);
+  			if(entryIndex == entryIndexTrain)
+  			{
+  				TreeBWWNNTrain.Fill();
+  				contTrainWW++;
+  			}
+  			else if(entryIndex == entryIndexTest)
+  			{
+  				TreeBWWNNTest.Fill();
+  				contTestWW++;
+  			}
+			else throw std::runtime_error("ERROR: no match for WW entry in regenerate!");				
+  		}				
+  		else throw std::runtime_error("ERROR: event out of bounds in regenerate!");	
   	}
   	
   	outputTreeSNNTrain->cd();
@@ -2478,7 +2760,8 @@ void checkSigma(vector<double>& BDTqqOutput, int sizeHH, int sizeqq, double weig
  	
  	
  	///////Filling out tree for output NN
- 	generateFilesOutputNN(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW);
+ 	//generateFilesOutputNN(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW);
+  	reGenerateFilesOutputNN(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW);
   	///////Filling out tree for output NN
   	
   	//checkSigma(BDTqqOutput, sizeHH, sizeqq, weightHH, weightqq);
