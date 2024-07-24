@@ -22,6 +22,9 @@ set ExecutionPath {
   HCal
 
   Calorimeter
+  ElectronFilter
+  TrackPileUpSubtractor
+  
   EFlowMerger
   EFlowFilter
   
@@ -30,7 +33,6 @@ set ExecutionPath {
   PhotonEfficiency
   PhotonIsolation
 
-  ElectronFilter
   ElectronEfficiency
   ElectronIsolation
 
@@ -57,7 +59,16 @@ set ExecutionPath {
   FastJetFinder15
   FastJetFinder20
   FastJetFinder25
-  FastJetFinder30
+  FastJetFinder30  
+  
+  JetPileUpSubtractorAntiKt
+  JetPileUpSubtractor0
+  JetPileUpSubtractor5
+  JetPileUpSubtractor10
+  JetPileUpSubtractor15
+  JetPileUpSubtractor20
+  JetPileUpSubtractor25
+  JetPileUpSubtractor30
 
   MissingET
   GenMissingET
@@ -72,6 +83,15 @@ set ExecutionPath {
   JetEnergyScale20
   JetEnergyScale25
   JetEnergyScale30
+  
+  JetEnergyScalePileUpSubtractionAntiKt
+  JetEnergyScalePileUpSubtraction0
+  JetEnergyScalePileUpSubtraction5
+  JetEnergyScalePileUpSubtraction10
+  JetEnergyScalePileUpSubtraction15
+  JetEnergyScalePileUpSubtraction20
+  JetEnergyScalePileUpSubtraction25
+  JetEnergyScalePileUpSubtraction30
 
   JetFlavorAssociationAntiKt
   JetFlavorAssociation0
@@ -81,6 +101,15 @@ set ExecutionPath {
   JetFlavorAssociation20
   JetFlavorAssociation25
   JetFlavorAssociation30
+  
+  JetFlavorAssociationPileUpSubtractionAntiKt
+  JetFlavorAssociationPileUpSubtraction0
+  JetFlavorAssociationPileUpSubtraction5
+  JetFlavorAssociationPileUpSubtraction10
+  JetFlavorAssociationPileUpSubtraction15
+  JetFlavorAssociationPileUpSubtraction20
+  JetFlavorAssociationPileUpSubtraction25
+  JetFlavorAssociationPileUpSubtraction30
 
   BTaggingAntiKt
   BTagging0
@@ -91,6 +120,15 @@ set ExecutionPath {
   BTagging25
   BTagging30
   
+  BTaggingPileUpSubtractionAntiKt
+  BTaggingPileUpSubtraction0
+  BTaggingPileUpSubtraction5
+  BTaggingPileUpSubtraction10
+  BTaggingPileUpSubtraction15
+  BTaggingPileUpSubtraction20
+  BTaggingPileUpSubtraction25
+  BTaggingPileUpSubtraction30
+  
   TauTaggingAntiKt
   TauTagging0
   TauTagging5
@@ -100,6 +138,15 @@ set ExecutionPath {
   TauTagging25
   TauTagging30
   
+  TauTaggingPileUpSubtractionAntiKt
+  TauTaggingPileUpSubtraction0
+  TauTaggingPileUpSubtraction5
+  TauTaggingPileUpSubtraction10
+  TauTaggingPileUpSubtraction15
+  TauTaggingPileUpSubtraction20
+  TauTaggingPileUpSubtraction25
+  TauTaggingPileUpSubtraction30
+    
   ScalarHT
 
   UniqueObjectFinderAntiKt
@@ -110,6 +157,15 @@ set ExecutionPath {
   UniqueObjectFinder20
   UniqueObjectFinder25
   UniqueObjectFinder30
+  
+  UniqueObjectFinderPileUpSubtractionAntiKt
+  UniqueObjectFinderPileUpSubtraction0
+  UniqueObjectFinderPileUpSubtraction5
+  UniqueObjectFinderPileUpSubtraction10
+  UniqueObjectFinderPileUpSubtraction15
+  UniqueObjectFinderPileUpSubtraction20
+  UniqueObjectFinderPileUpSubtraction25
+  UniqueObjectFinderPileUpSubtraction30
 
   TreeWriter
 }
@@ -414,6 +470,23 @@ module PdgCodeFilter ElectronFilter {
   add PdgCode {-11}
 }
 
+##########################
+# Track pile-up subtractor
+##########################
+
+module TrackPileUpSubtractor TrackPileUpSubtractor {
+# add InputArray InputArray OutputArray
+  add InputArray HCal/eflowTracks eflowTracks
+  add InputArray ElectronFilter/electrons electrons
+  add InputArray MuonMomentumSmearing/muons muons
+
+  set VertexInputArray PileUpMerger/vertices
+  # assume perfect pile-up subtraction for tracks with |z| > fZVertexResolution
+  # Z vertex resolution in m
+  # 0.1 micron ideal for DSiDi --- 1 micron more realistic
+  set ZVertexResolution {0.0000001}
+}
+
 ######################
 # ChargedHadronFilter
 ######################
@@ -448,7 +521,7 @@ module Merger Calorimeter {
 
 module Merger EFlowMerger {
 # add InputArray InputArray
-  add InputArray HCal/eflowTracks
+  add InputArray TrackPileUpSubtractor/eflowTracks
   add InputArray ECal/eflowPhotons
   add InputArray HCal/eflowNeutralHadrons
   set OutputArray eflow
@@ -646,7 +719,7 @@ module Merger GenMissingET {
 }
 
 ###################
-# Ger PileUp Missing ET
+# Gen PileUp Missing ET
 ###################
 
 module Merger GenPileUpMissingET {
@@ -790,6 +863,67 @@ module FastJetFinder FastJetFinder30 {
   set rtd_min 30.0
 }
 
+
+###########################
+# Jet Pile-Up Subtraction
+###########################
+
+module JetPileUpSubtractor JetPileUpSubtractorAntiKt {
+  set JetInputArray FastJetFinderAntiKt/jets
+  set RhoInputArray Rho/rho
+  set OutputArray jets
+  set JetPTMin 10.0
+}
+
+module JetPileUpSubtractor JetPileUpSubtractor0 {
+  set JetInputArray FastJetFinder0/jets
+  set RhoInputArray Rho/rho
+  set OutputArray jets
+  set JetPTMin 10.0
+}
+
+module JetPileUpSubtractor JetPileUpSubtractor5 {
+  set JetInputArray FastJetFinder5/jets
+  set RhoInputArray Rho/rho
+  set OutputArray jets
+  set JetPTMin 10.0
+}
+
+module JetPileUpSubtractor JetPileUpSubtractor10 {
+  set JetInputArray FastJetFinder10/jets
+  set RhoInputArray Rho/rho
+  set OutputArray jets
+  set JetPTMin 10.0
+}
+
+module JetPileUpSubtractor JetPileUpSubtractor15 {
+  set JetInputArray FastJetFinder15/jets
+  set RhoInputArray Rho/rho
+  set OutputArray jets
+  set JetPTMin 10.0
+}
+
+module JetPileUpSubtractor JetPileUpSubtractor20 {
+  set JetInputArray FastJetFinder20/jets
+  set RhoInputArray Rho/rho
+  set OutputArray jets
+  set JetPTMin 10.0
+}
+
+module JetPileUpSubtractor JetPileUpSubtractor25 {
+  set JetInputArray FastJetFinder25/jets
+  set RhoInputArray Rho/rho
+  set OutputArray jets
+  set JetPTMin 10.0
+}
+
+module JetPileUpSubtractor JetPileUpSubtractor30 {
+  set JetInputArray FastJetFinder30/jets
+  set RhoInputArray Rho/rho
+  set OutputArray jets
+  set JetPTMin 10.0
+}
+
 ##################
 # Jet Energy Scale
 ##################
@@ -852,6 +986,70 @@ module EnergyScale JetEnergyScale25 {
 
 module EnergyScale JetEnergyScale30 {
   set InputArray FastJetFinder30/jets
+  set OutputArray jets
+
+ # scale formula for jets
+  set ScaleFormula {1.00}
+}
+
+module EnergyScale JetEnergyScalePileUpSubtractionAntiKt {
+  set InputArray JetPileUpSubtractorAntiKt/jets
+  set OutputArray jets
+
+ # scale formula for jets
+  set ScaleFormula {1.00}
+}
+
+module EnergyScale JetEnergyScalePileUpSubtraction0 {
+  set InputArray JetPileUpSubtractor0/jets
+  set OutputArray jets
+
+ # scale formula for jets
+  set ScaleFormula {1.00}
+}
+
+module EnergyScale JetEnergyScalePileUpSubtraction5 {
+  set InputArray JetPileUpSubtractor5/jets
+  set OutputArray jets
+
+ # scale formula for jets
+  set ScaleFormula {1.00}
+}
+
+module EnergyScale JetEnergyScalePileUpSubtraction10 {
+  set InputArray JetPileUpSubtractor10/jets
+  set OutputArray jets
+
+ # scale formula for jets
+  set ScaleFormula {1.00}
+}
+
+module EnergyScale JetEnergyScalePileUpSubtraction15 {
+  set InputArray JetPileUpSubtractor15/jets
+  set OutputArray jets
+
+ # scale formula for jets
+  set ScaleFormula {1.00}
+}
+
+module EnergyScale JetEnergyScalePileUpSubtraction20 {
+  set InputArray JetPileUpSubtractor20/jets
+  set OutputArray jets
+
+ # scale formula for jets
+  set ScaleFormula {1.00}
+}
+
+module EnergyScale JetEnergyScalePileUpSubtraction25 {
+  set InputArray JetPileUpSubtractor25/jets
+  set OutputArray jets
+
+ # scale formula for jets
+  set ScaleFormula {1.00}
+}
+
+module EnergyScale JetEnergyScalePileUpSubtraction30 {
+  set InputArray JetPileUpSubtractor30/jets
   set OutputArray jets
 
  # scale formula for jets
@@ -967,6 +1165,111 @@ module JetFlavorAssociation JetFlavorAssociation30 {
 
 }
 
+module JetFlavorAssociation JetFlavorAssociationPileUpSubtractionAntiKt {
+
+  set PartonInputArray Delphes/partons
+  set ParticleInputArray Delphes/allParticles
+  set ParticleLHEFInputArray Delphes/allParticlesLHEF
+  set JetInputArray JetEnergyScalePileUpSubtractionAntiKt/jets
+
+  set DeltaR 0.5
+  set PartonPTMin 1.0
+  set PartonEtaMax 2.5
+
+}
+
+module JetFlavorAssociation JetFlavorAssociationPileUpSubtraction0 {
+
+  set PartonInputArray Delphes/partons
+  set ParticleInputArray Delphes/allParticles
+  set ParticleLHEFInputArray Delphes/allParticlesLHEF
+  set JetInputArray JetEnergyScalePileUpSubtraction0/jets
+
+  set DeltaR 0.5
+  set PartonPTMin 1.0
+  set PartonEtaMax 2.5
+
+}
+
+module JetFlavorAssociation JetFlavorAssociationPileUpSubtraction5 {
+
+  set PartonInputArray Delphes/partons
+  set ParticleInputArray Delphes/allParticles
+  set ParticleLHEFInputArray Delphes/allParticlesLHEF
+  set JetInputArray JetEnergyScalePileUpSubtraction5/jets
+
+  set DeltaR 0.5
+  set PartonPTMin 1.0
+  set PartonEtaMax 2.5
+
+}
+
+module JetFlavorAssociation JetFlavorAssociationPileUpSubtraction10 {
+
+  set PartonInputArray Delphes/partons
+  set ParticleInputArray Delphes/allParticles
+  set ParticleLHEFInputArray Delphes/allParticlesLHEF
+  set JetInputArray JetEnergyScalePileUpSubtraction10/jets
+
+  set DeltaR 0.5
+  set PartonPTMin 1.0
+  set PartonEtaMax 2.5
+
+}
+
+module JetFlavorAssociation JetFlavorAssociationPileUpSubtraction15 {
+
+  set PartonInputArray Delphes/partons
+  set ParticleInputArray Delphes/allParticles
+  set ParticleLHEFInputArray Delphes/allParticlesLHEF
+  set JetInputArray JetEnergyScalePileUpSubtraction15/jets
+
+  set DeltaR 0.5
+  set PartonPTMin 1.0
+  set PartonEtaMax 2.5
+
+}
+
+module JetFlavorAssociation JetFlavorAssociationPileUpSubtraction20 {
+
+  set PartonInputArray Delphes/partons
+  set ParticleInputArray Delphes/allParticles
+  set ParticleLHEFInputArray Delphes/allParticlesLHEF
+  set JetInputArray JetEnergyScalePileUpSubtraction20/jets
+
+  set DeltaR 0.5
+  set PartonPTMin 1.0
+  set PartonEtaMax 2.5
+
+}
+
+module JetFlavorAssociation JetFlavorAssociationPileUpSubtraction25 {
+
+  set PartonInputArray Delphes/partons
+  set ParticleInputArray Delphes/allParticles
+  set ParticleLHEFInputArray Delphes/allParticlesLHEF
+  set JetInputArray JetEnergyScalePileUpSubtraction25/jets
+
+  set DeltaR 0.5
+  set PartonPTMin 1.0
+  set PartonEtaMax 2.5
+
+}
+
+module JetFlavorAssociation JetFlavorAssociationPileUpSubtraction30 {
+
+  set PartonInputArray Delphes/partons
+  set ParticleInputArray Delphes/allParticles
+  set ParticleLHEFInputArray Delphes/allParticlesLHEF
+  set JetInputArray JetEnergyScalePileUpSubtraction30/jets
+
+  set DeltaR 0.5
+  set PartonPTMin 1.0
+  set PartonEtaMax 2.5
+
+}
+
+
 #############
 # Rho pile-up
 #############
@@ -1028,7 +1331,7 @@ module Isolation PhotonIsolation {
 #####################
 
 module Efficiency ElectronEfficiency {
-  set InputArray ElectronFilter/electrons
+  set InputArray TrackPileUpSubtractor/electrons
   set OutputArray electrons
 
   # set EfficiencyFormula {efficiency formula as a function of eta and pt}
@@ -1063,7 +1366,7 @@ module Isolation ElectronIsolation {
 #################
 
 module Efficiency MuonEfficiency {
-  set InputArray MuonMomentumSmearing/muons
+  set InputArray TrackPileUpSubtractor/muons
   set OutputArray muons
 
   # set EfficiencyFormula {efficiency as a function of eta and pt}
@@ -1268,6 +1571,180 @@ module BTagging BTagging30 {
   add EfficiencyFormula {5} {0.85*tanh(0.0025*pt)*(25.0/(1+0.063*pt))}
 }
 
+module BTagging BTaggingPileUpSubtractionAntiKt {
+  set JetInputArray JetEnergyScalePileUpSubtractionAntiKt/jets
+
+  set BitNumber 0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+  # PDG code = the highest PDG code of a quark or gluon inside DeltaR cone around jet axis
+  # gluon's PDG code has the lowest priority
+
+  # based on arXiv:1211.4462
+  
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.01+0.000038*pt}
+
+  # efficiency formula for c-jets (misidentification rate)
+  add EfficiencyFormula {4} {0.25*tanh(0.018*pt)*(1/(1+ 0.0013*pt))}
+
+  # efficiency formula for b-jets
+  add EfficiencyFormula {5} {0.85*tanh(0.0025*pt)*(25.0/(1+0.063*pt))}
+}
+
+module BTagging BTaggingPileUpSubtraction0 {
+  set JetInputArray JetEnergyScalePileUpSubtraction0/jets
+
+  set BitNumber 0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+  # PDG code = the highest PDG code of a quark or gluon inside DeltaR cone around jet axis
+  # gluon's PDG code has the lowest priority
+
+  # based on arXiv:1211.4462
+  
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.01+0.000038*pt}
+
+  # efficiency formula for c-jets (misidentification rate)
+  add EfficiencyFormula {4} {0.25*tanh(0.018*pt)*(1/(1+ 0.0013*pt))}
+
+  # efficiency formula for b-jets
+  add EfficiencyFormula {5} {0.85*tanh(0.0025*pt)*(25.0/(1+0.063*pt))}
+}
+
+module BTagging BTaggingPileUpSubtraction5 {
+  set JetInputArray JetEnergyScalePileUpSubtraction5/jets
+
+  set BitNumber 0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+  # PDG code = the highest PDG code of a quark or gluon inside DeltaR cone around jet axis
+  # gluon's PDG code has the lowest priority
+
+  # based on arXiv:1211.4462
+  
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.01+0.000038*pt}
+
+  # efficiency formula for c-jets (misidentification rate)
+  add EfficiencyFormula {4} {0.25*tanh(0.018*pt)*(1/(1+ 0.0013*pt))}
+
+  # efficiency formula for b-jets
+  add EfficiencyFormula {5} {0.85*tanh(0.0025*pt)*(25.0/(1+0.063*pt))}
+}
+
+
+module BTagging BTaggingPileUpSubtraction10 {
+  set JetInputArray JetEnergyScalePileUpSubtraction10/jets
+
+  set BitNumber 0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+  # PDG code = the highest PDG code of a quark or gluon inside DeltaR cone around jet axis
+  # gluon's PDG code has the lowest priority
+
+  # based on arXiv:1211.4462
+  
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.01+0.000038*pt}
+
+  # efficiency formula for c-jets (misidentification rate)
+  add EfficiencyFormula {4} {0.25*tanh(0.018*pt)*(1/(1+ 0.0013*pt))}
+
+  # efficiency formula for b-jets
+  add EfficiencyFormula {5} {0.85*tanh(0.0025*pt)*(25.0/(1+0.063*pt))}
+}
+
+
+module BTagging BTaggingPileUpSubtraction15 {
+  set JetInputArray JetEnergyScalePileUpSubtraction15/jets
+
+  set BitNumber 0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+  # PDG code = the highest PDG code of a quark or gluon inside DeltaR cone around jet axis
+  # gluon's PDG code has the lowest priority
+
+  # based on arXiv:1211.4462
+  
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.01+0.000038*pt}
+
+  # efficiency formula for c-jets (misidentification rate)
+  add EfficiencyFormula {4} {0.25*tanh(0.018*pt)*(1/(1+ 0.0013*pt))}
+
+  # efficiency formula for b-jets
+  add EfficiencyFormula {5} {0.85*tanh(0.0025*pt)*(25.0/(1+0.063*pt))}
+}
+
+
+module BTagging BTaggingPileUpSubtraction20 {
+  set JetInputArray JetEnergyScalePileUpSubtraction20/jets
+
+  set BitNumber 0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+  # PDG code = the highest PDG code of a quark or gluon inside DeltaR cone around jet axis
+  # gluon's PDG code has the lowest priority
+
+  # based on arXiv:1211.4462
+  
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.01+0.000038*pt}
+
+  # efficiency formula for c-jets (misidentification rate)
+  add EfficiencyFormula {4} {0.25*tanh(0.018*pt)*(1/(1+ 0.0013*pt))}
+
+  # efficiency formula for b-jets
+  add EfficiencyFormula {5} {0.85*tanh(0.0025*pt)*(25.0/(1+0.063*pt))}
+}
+
+
+module BTagging BTaggingPileUpSubtraction25 {
+  set JetInputArray JetEnergyScalePileUpSubtraction25/jets
+
+  set BitNumber 0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+  # PDG code = the highest PDG code of a quark or gluon inside DeltaR cone around jet axis
+  # gluon's PDG code has the lowest priority
+
+  # based on arXiv:1211.4462
+  
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.01+0.000038*pt}
+
+  # efficiency formula for c-jets (misidentification rate)
+  add EfficiencyFormula {4} {0.25*tanh(0.018*pt)*(1/(1+ 0.0013*pt))}
+
+  # efficiency formula for b-jets
+  add EfficiencyFormula {5} {0.85*tanh(0.0025*pt)*(25.0/(1+0.063*pt))}
+}
+
+
+module BTagging BTaggingPileUpSubtraction30 {
+  set JetInputArray JetEnergyScalePileUpSubtraction30/jets
+
+  set BitNumber 0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+  # PDG code = the highest PDG code of a quark or gluon inside DeltaR cone around jet axis
+  # gluon's PDG code has the lowest priority
+
+  # based on arXiv:1211.4462
+  
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.01+0.000038*pt}
+
+  # efficiency formula for c-jets (misidentification rate)
+  add EfficiencyFormula {4} {0.25*tanh(0.018*pt)*(1/(1+ 0.0013*pt))}
+
+  # efficiency formula for b-jets
+  add EfficiencyFormula {5} {0.85*tanh(0.0025*pt)*(25.0/(1+0.063*pt))}
+}
+
+
 #############
 # tau-tagging
 #############
@@ -1424,6 +1901,159 @@ module TauTagging TauTagging30 {
   add EfficiencyFormula {15} {0.4}
 }
 
+module TauTagging TauTaggingPileUpSubtractionAntiKt {
+  set ParticleInputArray Delphes/allParticles
+  set PartonInputArray Delphes/partons
+  set JetInputArray JetEnergyScalePileUpSubtractionAntiKt/jets
+
+  set DeltaR 0.5
+
+  set TauPTMin 1.0
+
+  set TauEtaMax 4.0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.001}
+  # efficiency formula for tau-jets
+  add EfficiencyFormula {15} {0.4}
+}
+
+module TauTagging TauTaggingPileUpSubtraction0 {
+  set ParticleInputArray Delphes/allParticles
+  set PartonInputArray Delphes/partons
+  set JetInputArray JetEnergyScalePileUpSubtraction0/jets
+
+  set DeltaR 0.5
+
+  set TauPTMin 1.0
+
+  set TauEtaMax 4.0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.001}
+  # efficiency formula for tau-jets
+  add EfficiencyFormula {15} {0.4}
+}
+
+module TauTagging TauTaggingPileUpSubtraction5 {
+  set ParticleInputArray Delphes/allParticles
+  set PartonInputArray Delphes/partons
+  set JetInputArray JetEnergyScalePileUpSubtraction5/jets
+
+  set DeltaR 0.5
+
+  set TauPTMin 1.0
+
+  set TauEtaMax 4.0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.001}
+  # efficiency formula for tau-jets
+  add EfficiencyFormula {15} {0.4}
+}
+
+module TauTagging TauTaggingPileUpSubtraction10 {
+  set ParticleInputArray Delphes/allParticles
+  set PartonInputArray Delphes/partons
+  set JetInputArray JetEnergyScalePileUpSubtraction10/jets
+
+  set DeltaR 0.5
+
+  set TauPTMin 1.0
+
+  set TauEtaMax 4.0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.001}
+  # efficiency formula for tau-jets
+  add EfficiencyFormula {15} {0.4}
+}
+
+module TauTagging TauTaggingPileUpSubtraction15 {
+  set ParticleInputArray Delphes/allParticles
+  set PartonInputArray Delphes/partons
+  set JetInputArray JetEnergyScalePileUpSubtraction15/jets
+
+  set DeltaR 0.5
+
+  set TauPTMin 1.0
+
+  set TauEtaMax 4.0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.001}
+  # efficiency formula for tau-jets
+  add EfficiencyFormula {15} {0.4}
+}
+
+module TauTagging TauTaggingPileUpSubtraction20 {
+  set ParticleInputArray Delphes/allParticles
+  set PartonInputArray Delphes/partons
+  set JetInputArray JetEnergyScalePileUpSubtraction20/jets
+
+  set DeltaR 0.5
+
+  set TauPTMin 1.0
+
+  set TauEtaMax 4.0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.001}
+  # efficiency formula for tau-jets
+  add EfficiencyFormula {15} {0.4}
+}
+
+module TauTagging TauTaggingPileUpSubtraction25 {
+  set ParticleInputArray Delphes/allParticles
+  set PartonInputArray Delphes/partons
+  set JetInputArray JetEnergyScalePileUpSubtraction25/jets
+
+  set DeltaR 0.5
+
+  set TauPTMin 1.0
+
+  set TauEtaMax 4.0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.001}
+  # efficiency formula for tau-jets
+  add EfficiencyFormula {15} {0.4}
+}
+
+module TauTagging TauTaggingPileUpSubtraction30 {
+  set ParticleInputArray Delphes/allParticles
+  set PartonInputArray Delphes/partons
+  set JetInputArray JetEnergyScalePileUpSubtraction30/jets
+
+  set DeltaR 0.5
+
+  set TauPTMin 1.0
+
+  set TauEtaMax 4.0
+
+  # add EfficiencyFormula {abs(PDG code)} {efficiency formula as a function of eta and pt}
+
+  # default efficiency formula (misidentification rate)
+  add EfficiencyFormula {0} {0.001}
+  # efficiency formula for tau-jets
+  add EfficiencyFormula {15} {0.4}
+}
+
+
 #####################################################
 # Find uniquely identified photons/electrons/tau/jets
 #####################################################
@@ -1500,6 +2130,78 @@ module UniqueObjectFinder UniqueObjectFinder30 {
   add InputArray JetEnergyScale30/jets jets
 }
 
+module UniqueObjectFinder UniqueObjectFinderPileUpSubtractionAntiKt {
+# earlier arrays take precedence over later ones
+# add InputArray InputArray OutputArray
+  add InputArray PhotonIsolation/photons photons
+  add InputArray ElectronIsolation/electrons electrons
+  add InputArray MuonIsolation/muons muons
+  add InputArray JetEnergyScalePileUpSubtractionAntiKt/jets jets
+}
+
+module UniqueObjectFinder UniqueObjectFinderPileUpSubtraction0 {
+# earlier arrays take precedence over later ones
+# add InputArray InputArray OutputArray
+  add InputArray PhotonIsolation/photons photons
+  add InputArray ElectronIsolation/electrons electrons
+  add InputArray MuonIsolation/muons muons
+  add InputArray JetEnergyScalePileUpSubtraction0/jets jets
+}
+
+module UniqueObjectFinder UniqueObjectFinderPileUpSubtraction5 {
+# earlier arrays take precedence over later ones
+# add InputArray InputArray OutputArray
+  add InputArray PhotonIsolation/photons photons
+  add InputArray ElectronIsolation/electrons electrons
+  add InputArray MuonIsolation/muons muons
+  add InputArray JetEnergyScalePileUpSubtraction5/jets jets
+}
+
+module UniqueObjectFinder UniqueObjectFinderPileUpSubtraction10 {
+# earlier arrays take precedence over later ones
+# add InputArray InputArray OutputArray
+  add InputArray PhotonIsolation/photons photons
+  add InputArray ElectronIsolation/electrons electrons
+  add InputArray MuonIsolation/muons muons
+  add InputArray JetEnergyScalePileUpSubtraction10/jets jets
+}
+
+module UniqueObjectFinder UniqueObjectFinderPileUpSubtraction15 {
+# earlier arrays take precedence over later ones
+# add InputArray InputArray OutputArray
+  add InputArray PhotonIsolation/photons photons
+  add InputArray ElectronIsolation/electrons electrons
+  add InputArray MuonIsolation/muons muons
+  add InputArray JetEnergyScalePileUpSubtraction15/jets jets
+}
+
+module UniqueObjectFinder UniqueObjectFinderPileUpSubtraction20 {
+# earlier arrays take precedence over later ones
+# add InputArray InputArray OutputArray
+  add InputArray PhotonIsolation/photons photons
+  add InputArray ElectronIsolation/electrons electrons
+  add InputArray MuonIsolation/muons muons
+  add InputArray JetEnergyScalePileUpSubtraction20/jets jets
+}
+
+module UniqueObjectFinder UniqueObjectFinderPileUpSubtraction25 {
+# earlier arrays take precedence over later ones
+# add InputArray InputArray OutputArray
+  add InputArray PhotonIsolation/photons photons
+  add InputArray ElectronIsolation/electrons electrons
+  add InputArray MuonIsolation/muons muons
+  add InputArray JetEnergyScalePileUpSubtraction25/jets jets
+}
+
+module UniqueObjectFinder UniqueObjectFinderPileUpSubtraction30 {
+# earlier arrays take precedence over later ones
+# add InputArray InputArray OutputArray
+  add InputArray PhotonIsolation/photons photons
+  add InputArray ElectronIsolation/electrons electrons
+  add InputArray MuonIsolation/muons muons
+  add InputArray JetEnergyScalePileUpSubtraction30/jets jets
+}
+
 
 ##################
 # ROOT tree writer
@@ -1538,6 +2240,15 @@ module TreeWriter TreeWriter {
   add Branch UniqueObjectFinder20/jets Jet20 Jet
   add Branch UniqueObjectFinder25/jets Jet25 Jet
   add Branch UniqueObjectFinder30/jets Jet30 Jet
+  
+  add Branch UniqueObjectFinderPileUpSubtractionAntiKt/jets JetAntiKt Jet
+  add Branch UniqueObjectFinderPileUpSubtraction0/jets Jet0 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction5/jets Jet5 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction10/jets Jet10 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction15/jets Jet15 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction20/jets Jet20 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction25/jets Jet25 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction30/jets Jet30 Jet
   
   add Branch MissingET/momentum MissingET MissingET
   add Branch ScalarHT/energy ScalarHT ScalarHT
