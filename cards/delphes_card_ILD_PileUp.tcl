@@ -2229,6 +2229,8 @@ module TreeWriter TreeWriter {
   add Branch ECal/eflowPhotons EFlowPhoton Tower
   add Branch HCal/eflowNeutralHadrons EFlowNeutralHadron Tower
   
+  add Branch EFlowMerger/eflow EFlowCandidate ParticleFlowCandidate
+  
   add Branch UniqueObjectFinderAntiKt/photons Photon Photon
   add Branch UniqueObjectFinderAntiKt/electrons Electron Electron
   add Branch UniqueObjectFinderAntiKt/muons Muon Muon
@@ -2241,14 +2243,14 @@ module TreeWriter TreeWriter {
   add Branch UniqueObjectFinder25/jets Jet25 Jet
   add Branch UniqueObjectFinder30/jets Jet30 Jet
   
-  add Branch UniqueObjectFinderPileUpSubtractionAntiKt/jets JetAntiKt Jet
-  add Branch UniqueObjectFinderPileUpSubtraction0/jets Jet0 Jet
-  add Branch UniqueObjectFinderPileUpSubtraction5/jets Jet5 Jet
-  add Branch UniqueObjectFinderPileUpSubtraction10/jets Jet10 Jet
-  add Branch UniqueObjectFinderPileUpSubtraction15/jets Jet15 Jet
-  add Branch UniqueObjectFinderPileUpSubtraction20/jets Jet20 Jet
-  add Branch UniqueObjectFinderPileUpSubtraction25/jets Jet25 Jet
-  add Branch UniqueObjectFinderPileUpSubtraction30/jets Jet30 Jet
+  add Branch UniqueObjectFinderPileUpSubtractionAntiKt/jets JetPileUpSubtractionAntiKt Jet
+  add Branch UniqueObjectFinderPileUpSubtraction0/jets JetPileUpSubtraction0 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction5/jets JetPileUpSubtraction5 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction10/jets JetPileUpSubtraction10 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction15/jets JetPileUpSubtraction15 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction20/jets JetPileUpSubtraction20 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction25/jets JetPileUpSubtraction25 Jet
+  add Branch UniqueObjectFinderPileUpSubtraction30/jets JetPileUpSubtraction30 Jet
   
   add Branch MissingET/momentum MissingET MissingET
   add Branch ScalarHT/energy ScalarHT ScalarHT
