@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdexcept>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ double getMean(const vector<double>& dataVector)
 	return sum/(dataVector.size());
 }
 
-void getStats(int samples, const vector<double>& preliminarySignificances, const vector<double>& significances, const vector<double>& errorsLeft, const vector<double>& errorsRight, double& meanPreliminarySignificances, double& meanSignificances, double& meanErrorsLeft, double& meanErrorsRight)
+void getStats(int samples, const vector<double>& preliminarySignificances, const vector<double>& significances, const vector<double>& errorsLeft, const vector<double>& errorsRight, double& meanPreliminarySignificances, double& meanSignificances, double& meanErrorsLeft, double& meanErrorsRight, int& bestSample)
 {
 	if(samples != significances.size()) throw std::runtime_error("ERROR: size of signifcances vector != n of samples");
 	
@@ -22,12 +23,16 @@ void getStats(int samples, const vector<double>& preliminarySignificances, const
 	meanSignificances = getMean(significances);
 	meanErrorsLeft = getMean(errorsLeft);
 	meanErrorsRight = getMean(errorsRight);
+	auto max_iter = max_element(significances.begin(), significances.end()); 
+	bestSample = distance(significances.begin(), max_iter); 
+	
 	
 	cout<<"For "<<samples<<" samples: "<<endl;
 	cout<<"meanPreliminarySignificances: "<<meanPreliminarySignificances<<endl;
 	cout<<"meanSignificances: "<<meanSignificances<<endl;
 	cout<<"meanErrorsLeft: "<<meanErrorsLeft<<endl;
 	cout<<"meanErrorsRight: "<<meanErrorsRight<<endl<<endl;
+	cout<<"sample that generates the best final significance: "<<bestSample<<endl<<endl;
 }
 
 void trainAllBacks(TString rtdCut, TString preselection, TString vars, TString sampleName)
@@ -49,10 +54,10 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
 	for(int nthSample=0; nthSample<samples; nthSample++)
     	{
     		TString sampleName = "Sample" + TString::Format("%d", nthSample);
-    		gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
-    		trainAllBacks(rtdCut, preselection, vars, sampleName);
+    		//gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
+    		//trainAllBacks(rtdCut, preselection, vars, sampleName);
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C+(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", fileFunction.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
-    		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationOutputNN.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+    		//gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationOutputNN.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationOutputNN.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		
     		ifstream file1("analysis/preliminarySignificanceFile.txt");
@@ -82,10 +87,12 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
 /////For fileFunction, "generate" for new sampling or "merge" to use new data for same sampling using entryIndex
 void FSRWholeClassification(TString fileFunction, TString preselection, TString vars, int samples)
 {
+	////34BSplit
 	TString rtdCut="10";
 	vector<double> preliminarySignificances, significances, errorsLeft, errorsRight;
 	runAll(samples, fileFunction, preselection, vars, rtdCut, preliminarySignificances, significances, errorsLeft, errorsRight);
 	double meanPreliminarySignificances=-999, meanSignificances=-999, meanErrorsLeft=-999, meanErrorsRight=-999;
-	getStats(samples, preliminarySignificances, significances, errorsLeft, errorsRight, meanPreliminarySignificances, meanSignificances, meanErrorsLeft, meanErrorsRight);
+	int bestSample = -999;
+	getStats(samples, preliminarySignificances, significances, errorsLeft, errorsRight, meanPreliminarySignificances, meanSignificances, meanErrorsLeft, meanErrorsRight, bestSample);
     	return 0;
 }
