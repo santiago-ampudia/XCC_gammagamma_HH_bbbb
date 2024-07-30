@@ -2,7 +2,8 @@
 Instructions to run the whole automatized analyisis:
 
 1) Setting up the environment:
-  1.1) All of these files are in girhub.com/santiago-ampudia/XCC_gammagamma_HH_bbbb, in the branch "automatizedAnalysisAfterqqttbarZZWW".
+
+   1.1) All of these files are in girhub.com/santiago-ampudia/XCC_gammagamma_HH_bbbb, in the branch "automatizedAnalysisAfterqqttbarZZWW".
   1.2) In the main delphes folder, create a folder called "analysis".
   1.3) In the analysis folder, create a folder called "FilesPostDelphes". In that folder, download from https://drive.google.com/drive/folders/1J3-QTyudBDuOUP8xE-UI6KjnA1BFSu4H?usp=drive_link the following files (conserve the names):
     1.3.1) GammaGammaHHESpreadAll.root (https://drive.google.com/file/d/1RYew-EAp7osoZN1_TDRtElfalj0ktf4W/view?usp=drive_link)
@@ -20,7 +21,7 @@ Instructions to run the whole automatized analyisis:
     1.8.3) FSRTMVAClassificationOutputNN.C (https://github.com/santiago-ampudia/XCC_gammagamma_HH_bbbb/blob/automatizedAnalysisAfterqqttbarZZWW/automatizedAnalysis/TMVA/FSRTMVAClassificationOutputNN.C)
     1.8.4) FSRTMVAClassificationApplicationOutputNN.C (https://github.com/santiago-ampudia/XCC_gammagamma_HH_bbbb/blob/automatizedAnalysisAfterqqttbarZZWW/automatizedAnalysis/TMVA/FSRTMVAClassificationApplicationOutputNN.C)
 
-2) Replicating result and confirming proper set up:
+3) Replicating result and confirming proper set up:
   2.1) In FSRGammaGammaHHbbbbAnalysis.C, change in line 3907, "string fileFunction = "generate";" for "string fileFunction = "merge";"
   2.2) cd into the main delphes folder and run "root -l -b -q FSRWholeClassification.C'( "merge", "34BSplit", "All4V", 1)' "
     2.2.1) First argument indicates that we are using the same sampling as the one used for the benchmark result (alternatively, we could use "generate" instead of "merge" for new sampling; use "merge" to replicate result).
