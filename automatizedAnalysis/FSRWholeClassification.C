@@ -54,10 +54,10 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
 	for(int nthSample=0; nthSample<samples; nthSample++)
     	{
     		TString sampleName = "Sample" + TString::Format("%d", nthSample);
-    		//gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
-    		//trainAllBacks(rtdCut, preselection, vars, sampleName);
+    		gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
+    	        trainAllBacks(rtdCut, preselection, vars, sampleName);
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C+(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", fileFunction.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
-    		//gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationOutputNN.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+    		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationOutputNN.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationOutputNN.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		
     		ifstream file1("analysis/preliminarySignificanceFile.txt");
@@ -78,8 +78,8 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
 		}
 		file2.close();
     		
-    		cout<<endl<<"preliminarySignificance: "<<preliminarySignificance<<endl<<endl;
-    		cout<<endl<<"significance: "<<significance<<endl<<endl;
+    		//cout<<endl<<"preliminarySignificance: "<<preliminarySignificance<<endl<<endl;
+    		//cout<<endl<<"significance: "<<significance<<endl<<endl;
     		
     	}
 }
