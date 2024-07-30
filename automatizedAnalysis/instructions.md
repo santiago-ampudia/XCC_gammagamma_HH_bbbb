@@ -1,8 +1,6 @@
 
 Instructions to run the whole automatized analyisis:
-
 1) Setting up the environment:
-
    1.1) All of these files are in girhub.com/santiago-ampudia/XCC_gammagamma_HH_bbbb, in the branch "automatizedAnalysisAfterqqttbarZZWW".
   1.2) In the main delphes folder, create a folder called "analysis".
   1.3) In the analysis folder, create a folder called "FilesPostDelphes". In that folder, download from https://drive.google.com/drive/folders/1J3-QTyudBDuOUP8xE-UI6KjnA1BFSu4H?usp=drive_link the following files (conserve the names):
