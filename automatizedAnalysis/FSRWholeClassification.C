@@ -12,7 +12,6 @@ double getMean(const vector<double>& dataVector)
 {
 	double sum=0;
 	for(int i=0; i<dataVector.size(); i++) sum += dataVector[i];
-	cout<<"size: "<<dataVector.size()<<endl;
 	return sum/(dataVector.size());
 }
 
@@ -65,8 +64,8 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
 	for(int nthSample=0; nthSample<samples; nthSample++)
     	{
     		TString sampleName = "Sample" + TString::Format("%d", nthSample);
-    		//gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
-    		//trainAllBacks(rtdCut, preselection, vars, sampleName);
+    		gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
+    		trainAllBacks(rtdCut, preselection, vars, sampleName);
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C+(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", fileFunction.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationOutputNN.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationOutputNN.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
