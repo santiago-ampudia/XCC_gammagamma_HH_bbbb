@@ -369,8 +369,6 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
 	dataloader->AddVariable("invMassB27Best", 'F');
 	dataloader->AddVariable("invMassB18Best", 'F');
 	if(back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB28Best", 'F');
-	dataloader->AddVariable("distanceZ1MinChiSquaredZZMass", 'F');
-	dataloader->AddVariable("distanceZ2MinChiSquaredZZMass", 'F');
    }
    
    // global event weights per tree (see below for setting event-wise weights)
