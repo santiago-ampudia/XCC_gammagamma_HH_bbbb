@@ -295,7 +295,7 @@
 	}
 	if(varVersion == "All5V")
     	{
-		if(nBack != "0" && nBack != "3") reader->AddVariable( "aplanarity", &aplanarity );
+		if(nBack != 0 && nBack != 3) reader->AddVariable( "aplanarity", &aplanarity );
 		reader->AddVariable( "cosThetaB1", &cosThetaB1 );
 		reader->AddVariable( "cosThetaB2", &cosThetaB2 );
 		reader->AddVariable( "cosThetaB3", &cosThetaB3 );
@@ -303,13 +303,13 @@
 		reader->AddVariable( "invMassB1", &invMassB1 );
 		reader->AddVariable( "invMassB2", &invMassB2 );
 		reader->AddVariable( "jetB1M", &jetB1M );
-		if(nBack != "3") reader->AddVariable( "jetB2M", &jetB2M );
+		if(nBack != 3) reader->AddVariable( "jetB2M", &jetB2M );
 		reader->AddVariable( "jetB3M", &jetB3M );
 		reader->AddVariable( "jetB4M", &jetB4M );
 		reader->AddVariable( "jetB1Pt", &jetB1Pt );
 		reader->AddVariable( "jetB2Pt", &jetB2Pt );
 		reader->AddVariable( "jetB3Pt", &jetB3Pt );
-		if(nBack != "0" && nBack != "1" && nBack != "2" && nBack != "3") reader->AddVariable( "jetB4Pt", &jetB4Pt );
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable( "jetB4Pt", &jetB4Pt );
 		reader->AddVariable( "minJetM", &minJetM );
 		reader->AddVariable( "sphericity", &sphericity );
 		reader->AddVariable( "sumPt", &sumPt );
@@ -325,15 +325,13 @@
 		reader->AddVariable("invMassB14Best", &invMassB14Best);
 		reader->AddVariable("invMassB24Best", &invMassB24Best);
 		reader->AddVariable("invMassB15Best", &invMassB15Best);
-		if(nBack != "0" && nBack != "2") reader->AddVariable("invMassB25Best", &invMassB25Best);
+		if(nBack != 0 && nBack != 2) reader->AddVariable("invMassB25Best", &invMassB25Best);
 		reader->AddVariable("invMassB16Best", &invMassB16Best);
-		if(nBack != "1") reader->AddVariable("invMassB26Best", &invMassB26Best);
+		if(nBack != 1) reader->AddVariable("invMassB26Best", &invMassB26Best);
 		reader->AddVariable("invMassB17Best", &invMassB17Best);
 		reader->AddVariable("invMassB27Best", &invMassB27Best);
 		reader->AddVariable("invMassB18Best", &invMassB18Best);
-		if(nBack != "1" && nBack != "2" && nBack != "3") reader->AddVariable("invMassB28Best", &invMassB28Best);
-		reader->AddVariable("distanceZ1MinChiSquaredZZMass", &distanceZ1MinChiSquaredZZMass);
-		reader->AddVariable("distanceZ2MinChiSquaredZZMass", &distanceZ2MinChiSquaredZZMass);
+		if(nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB28Best", &invMassB28Best);
 	}
 
 
