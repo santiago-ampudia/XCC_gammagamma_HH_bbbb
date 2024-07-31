@@ -1371,6 +1371,20 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		TreeTrain.Branch("invMassB27Best",&invMassB27Best,"invMassB27Best/F");
 		TreeTrain.Branch("invMassB18Best",&invMassB18Best,"invMassB18Best/F");
 		TreeTrain.Branch("invMassB28Best",&invMassB28Best,"invMassB28Best/F");
+		//TreeTrain.Branch("nJetsDurham0",&nJetsDurham0,"nJetsDurham0/F");
+		//TreeTrain.Branch("nJetsDurham5",&nJetsDurham5,"nJetsDurham5/F");
+		//TreeTrain.Branch("nJetsDurham10",&nJetsDurham10,"nJetsDurham10/F");
+		TreeTrain.Branch("nJetsDurham15",&nJetsDurham15,"nJetsDurham15/F");
+		TreeTrain.Branch("nJetsDurham20",&nJetsDurham20,"nJetsDurham20/F");
+		TreeTrain.Branch("nJetsDurham25",&nJetsDurham25,"nJetsDurham25/F");
+		TreeTrain.Branch("nJetsDurham30",&nJetsDurham30,"nJetsDurham30/F");
+		TreeTrain.Branch("distanceZ1MinChiSquaredZZMass",&distanceZ1MinChiSquaredZZMass,"distanceZ1MinChiSquaredZZMass/F");
+		TreeTrain.Branch("distanceZ2MinChiSquaredZZMass",&distanceZ2MinChiSquaredZZMass,"distanceZ2MinChiSquaredZZMass/F");
+		TreeTrain.Branch("exclYmerge12",&exclYmerge12,"exclYmerge12/F");
+		TreeTrain.Branch("exclYmerge23",&exclYmerge23,"exclYmerge23/F");
+		TreeTrain.Branch("exclYmerge34",&exclYmerge34,"exclYmerge34/F");
+		TreeTrain.Branch("exclYmerge45",&exclYmerge45,"exclYmerge45/F");
+		TreeTrain.Branch("exclYmerge56",&exclYmerge56,"exclYmerge56/F");
 
 		TreeTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 		TreeTest.Branch("aplanarity",&aplanarity,"aplanarity/F");
@@ -1418,6 +1432,20 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		TreeTest.Branch("invMassB27Best",&invMassB27Best,"invMassB27Best/F");
 		TreeTest.Branch("invMassB18Best",&invMassB18Best,"invMassB18Best/F");
 		TreeTest.Branch("invMassB28Best",&invMassB28Best,"invMassB28Best/F");
+		//TreeTest.Branch("nJetsDurham0",&nJetsDurham0,"nJetsDurham0/F");
+		//TreeTest.Branch("nJetsDurham5",&nJetsDurham5,"nJetsDurham5/F");
+		//TreeTest.Branch("nJetsDurham10",&nJetsDurham10,"nJetsDurham10/F");
+		TreeTest.Branch("nJetsDurham15",&nJetsDurham15,"nJetsDurham15/F");
+		TreeTest.Branch("nJetsDurham20",&nJetsDurham20,"nJetsDurham20/F");
+		TreeTest.Branch("nJetsDurham25",&nJetsDurham25,"nJetsDurham25/F");
+		TreeTest.Branch("nJetsDurham30",&nJetsDurham30,"nJetsDurham30/F");
+		TreeTest.Branch("distanceZ1MinChiSquaredZZMass",&distanceZ1MinChiSquaredZZMass,"distanceZ1MinChiSquaredZZMass/F");
+		TreeTest.Branch("distanceZ2MinChiSquaredZZMass",&distanceZ2MinChiSquaredZZMass,"distanceZ2MinChiSquaredZZMass/F");
+		TreeTest.Branch("exclYmerge12",&exclYmerge12,"exclYmerge12/F");
+		TreeTest.Branch("exclYmerge23",&exclYmerge23,"exclYmerge23/F");
+		TreeTest.Branch("exclYmerge34",&exclYmerge34,"exclYmerge34/F");
+		TreeTest.Branch("exclYmerge45",&exclYmerge45,"exclYmerge45/F");
+		TreeTest.Branch("exclYmerge56",&exclYmerge56,"exclYmerge56/F");
 	}
 	
 	TreeMerge.Branch("entryIndex",&entryIndex,"entryIndex/F");	
@@ -3986,7 +4014,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 		outputTreeSTest->Close();
 	  	////////creation of File for TMVA for signal HH
 	  	
-		////////creation of File for TMVA for back qq  
+		/*////////creation of File for TMVA for back qq  
 		const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAll.root";
 		// Check if file exists and increment sampleIndex if necessary
 		sampleIndex=0;
@@ -4023,7 +4051,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	
 	  	outputTreeBqqTrain->Close();
 		outputTreeBqqTest->Close();
-	  	////////creation of File for TMVA for back qq 	
+	  	////////creation of File for TMVA for back qq 	*/
 	  	
 	  	////////creation of File for TMVA for back ttbar  
 	  	const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattAll.root";
@@ -4183,7 +4211,6 @@ void FSRGammaGammaHHbbbbAnalysis()
 	trueBPairMass(inputFilett, 3, 0.503);*/
 
 }
-
 
 
 
