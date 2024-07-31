@@ -76,7 +76,7 @@ Instructions to run the whole automatized analyisis:
   
   3.2) In FSRGammaGammaHHbbbbAnalysis.C, change in line 3907, "string fileFunction = "merge";" for "string fileFunction = "generate";"
   
-  3.3) cd into the main delphes folder and run "root -l -b -q FSRWholeClassification.C'( "generate", "34BSplit", "All4V", 50)'  "
+  3.3) cd into the main delphes folder and run "root -l -b -q FSRWholeClassification.C'( "generate", "34BSplit", "All4V", 50)'  " or "root -l -b -q FSRWholeClassification.C'( "generate", "34BSplit", "All5V", 50)'  ". All5V eliminates the three variables from 4V with the worst performance for each back, so less computationally heavy. 
   
   3.4) get the results and save them, as well as the files associated to the sample with the highest significance.
 
