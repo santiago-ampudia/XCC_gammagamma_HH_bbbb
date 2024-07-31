@@ -15,7 +15,7 @@ double getMean(const vector<double>& dataVector)
 	return sum/(dataVector.size());
 }
 
-void getStats(int samples, const vector<double>& preliminarySignificances, const vector<double>& significances, const vector<double>& errorsLeft, const vector<double>& errorsRight, double& meanPreliminarySignificances, double& meanSignificances, double& meanErrorsLeft, double& meanErrorsRight, int& bestSample)
+void getStats(int samples, const vector<double>& preliminarySignificances, const vector<double>& significances, const vector<double>& errorsLeft, const vector<double>& errorsRight, double& meanPreliminarySignificances, double& meanSignificances, double& meanErrorsLeft, double& meanErrorsRight, int& bestSample, int& worstSample, double& bestPreliminarySignificances, double& bestSignificances, double& bestErrorsLeft, double& bestErrorsRight, double& worstPreliminarySignificances, double& worstSignificances, double& worstErrorsLeft, double& worstErrorsRight)
 {
 	//if(samples != significances.size()) throw std::runtime_error("ERROR: size of signifcances vector != n of samples");
 	
@@ -25,7 +25,17 @@ void getStats(int samples, const vector<double>& preliminarySignificances, const
 	meanErrorsRight = getMean(errorsRight);
 	auto max_iter = max_element(significances.begin(), significances.end()); 
 	bestSample = distance(significances.begin(), max_iter); 
-	
+	bestPreliminarySignificances = preliminarySignificances[bestSample];	
+	bestSignificances = significances[bestSample];
+	bestErrorsRight = errorsRight[bestSample];
+	bestErrorsLeft = errorsLeft[bestSample];
+	auto min_iter = min_element(significances.begin(), significances.end()); 
+	worstSample = distance(significances.begin(), min_iter);
+	worstPreliminarySignificances = preliminarySignificances[worstSample];	
+	worstSignificances = significances[worstSample];
+	worstErrorsRight = errorsRight[worstSample];
+	worstErrorsLeft = errorsLeft[worstSample];
+
 	
 	cout<<"For "<<samples<<" samples: "<<endl;
 	cout<<"preliminarySignificances: ";
@@ -36,11 +46,20 @@ void getStats(int samples, const vector<double>& preliminarySignificances, const
 	for(int i=0; i<significances.size(); i++) cout<<errorsLeft[i]<<", ";
 	cout<<endl<<"errorsRight: ";
 	for(int i=0; i<significances.size(); i++) cout<<errorsRight[i]<<", ";
-	cout<<"meanPreliminarySignificances: "<<meanPreliminarySignificances<<endl;
+	cout<<endl<<"meanPreliminarySignificances: "<<meanPreliminarySignificances<<endl;
 	cout<<"meanSignificances: "<<meanSignificances<<endl;
 	cout<<"meanErrorsLeft: "<<meanErrorsLeft<<endl;
-	cout<<"meanErrorsRight: "<<meanErrorsRight<<endl<<endl;
-	cout<<"sample that generates the best final significance: "<<bestSample<<endl<<endl;
+	cout<<"meanErrorsRight: "<<meanErrorsRight<<endl;
+	cout<<"sample that generates the best final significance: "<<bestSample<<endl;
+	cout<<"bestPreliminarySignificances: "<<bestPreliminarySignificances<<endl;
+	cout<<"bestSignificances: "<<bestSignificances<<endl;
+	cout<<"bestErrorsLeft: "<<bestErrorsLeft<<endl;
+	cout<<"bestErrorsRight: "<<bestErrorsRight<<endl;
+	cout<<"sample that generates the worst final significance: "<<worstSample<<endl;
+	cout<<"worstPreliminarySignificances: "<<worstPreliminarySignificances<<endl;
+	cout<<"worstSignificances: "<<worstSignificances<<endl;
+	cout<<"worstErrorsLeft: "<<worstErrorsLeft<<endl;
+	cout<<"worstErrorsRight: "<<worstErrorsRight<<endl;
 }
 
 void trainAllBacks(TString rtdCut, TString preselection, TString vars, TString sampleName)
@@ -57,9 +76,9 @@ void trainAllBacks(TString rtdCut, TString preselection, TString vars, TString s
 }
 
 
-void runAll(int samples, TString fileFunction, TString preselection, TString vars, TString rtdCut, vector<double>& preliminarySignificances, vector<double>& significances, vector<double>& errorsLeft, vector<double>& errorsRight)
+void runAll(int samples, TString fileFunction, TString preselection, TString vars, TString rtdCut, vector<double>& preliminarySignificances, vector<double>& significances, vector<double>& errorsLeft, vector<double>& errorsRight, TString outFileText)
 {
-	ofstream outFile("analysis/samplesStats.txt", ios::app);
+	ofstream outFile(outFileText.Data(), ios::app);
 	double prevPreliminarySignificance=-999, prevSignificance=-999, prevErrorRight=-999, prevErrorLeft=-999;
 	for(int nthSample=0; nthSample<samples; nthSample++)
     	{
@@ -110,19 +129,29 @@ void FSRWholeClassification(TString fileFunction, TString preselection, TString 
 {
 	TString rtdCut="10";
 	vector<double> preliminarySignificances, significances, errorsLeft, errorsRight;
-	ofstream outFileCreate("analysis/samplesStats.txt");
-	runAll(samples, fileFunction, preselection, vars, rtdCut, preliminarySignificances, significances, errorsLeft, errorsRight);
+	TString outFileText = "analysis/sampleStats"+rtdCut+vars+preselection+samples+"Samples"+".txt"; 
+	ofstream outFileCreate(outFileText.Data());
+	runAll(samples, fileFunction, preselection, vars, rtdCut, preliminarySignificances, significances, errorsLeft, errorsRight, outFileText);
 	
-	double meanPreliminarySignificances=-999, meanSignificances=-999, meanErrorsLeft=-999, meanErrorsRight=-999;
-	int bestSample = -999;
-	getStats(samples, preliminarySignificances, significances, errorsLeft, errorsRight, meanPreliminarySignificances, meanSignificances, meanErrorsLeft, meanErrorsRight, bestSample);
-	ofstream outFile("analysis/samplesStats.txt", ios::app); 
+	double meanPreliminarySignificances=-999, meanSignificances=-999, meanErrorsLeft=-999, meanErrorsRight=-999, bestPreliminarySignificances=-999, bestSignificances=-999, bestErrorsLeft=-999, bestErrorsRight=-999, worstPreliminarySignificances=-999, worstSignificances=-999, worstErrorsLeft=-999, worstErrorsRight=-999;
+	int bestSample = -999, worstSample=-999;
+	getStats(samples, preliminarySignificances, significances, errorsLeft, errorsRight, meanPreliminarySignificances, meanSignificances, meanErrorsLeft, meanErrorsRight, bestSample, worstSample, bestPreliminarySignificances, bestSignificances, bestErrorsLeft, bestErrorsRight, worstPreliminarySignificances, worstSignificances, worstErrorsLeft, worstErrorsRight);
+	ofstream outFile(outFileText.Data(), ios::app); 
     	outFile << endl << endl << "Summary:" << endl;
     	outFile << "meanPreliminarySignificances: " << meanPreliminarySignificances << endl;
     	outFile << "meanSignificances: " << meanSignificances << endl;
     	outFile << "meanErrorsLeft: " << meanErrorsLeft << endl;
     	outFile << "meanErrorsRight: " << meanErrorsRight << endl;
     	outFile << "Best sample: " << bestSample << endl;
+    	outFile << "bestPreliminarySignificances: " << bestPreliminarySignificances << endl;
+    	outFile << "bestSignificances: " << bestSignificances << endl;
+    	outFile << "bestErrorsLeft: " << bestErrorsLeft << endl;
+    	outFile << "bestErrorsRight: " << bestErrorsRight << endl;
+    	outFile << "Worst sample: " << worstSample << endl;
+    	outFile << "worstPreliminarySignificances: " << worstPreliminarySignificances << endl;
+    	outFile << "worstSignificances: " << worstSignificances << endl;
+    	outFile << "worstErrorsLeft: " << worstErrorsLeft << endl;
+    	outFile << "worstErrorsRight: " << worstErrorsRight << endl;
     	outFile << endl << endl << "fileFunction: " << fileFunction << endl;
     	outFile << "preselection: " << preselection << endl;
     	outFile << "vars: " << vars << endl;
