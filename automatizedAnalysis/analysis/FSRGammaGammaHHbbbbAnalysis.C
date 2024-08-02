@@ -3937,6 +3937,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	string preselection = "34BSplit";
 	int sampleIndex = 0;
 	string sampleName = "Sample" + to_string(sampleIndex);
+	sampleName = "SampleN";
 	
 	cout<<"New macro working"<<endl;
 	
@@ -3980,21 +3981,8 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380All.root";
 	  	// Check if file exists and increment sampleIndex if necessary
 	  	sampleIndex=0;
-		while (fileExists(jetAlgoOutputTreeSTrain)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeSTrain = "analysis/outputTreeSHHbbbbESpreadDurham" + rtdCut + preselection + "Train" + sampleName + ".root";
-		}
 	  	TFile *outputTreeSTrain = new TFile(jetAlgoOutputTreeSTrain.c_str(), "recreate");
 	  	TTree TreeSTrain("TreeSTrain","a simple Tree with simple variables (Train)");
-	  	jetAlgoOutputTreeSTest = "analysis/outputTreeSHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-		while (fileExists(jetAlgoOutputTreeSTest)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeSTest = "analysis/outputTreeSHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-		}
 	  	TFile *outputTreeSTest = new TFile(jetAlgoOutputTreeSTest.c_str(), "recreate");
 	  	TTree TreeSTest("TreeSTest","a simple Tree with simple variables (Test)");
 	  	TTree TreeSMerge("TreeSMerge","a simple Tree with simple variables (merge)");
@@ -4014,26 +4002,12 @@ void FSRGammaGammaHHbbbbAnalysis()
 		outputTreeSTest->Close();
 	  	////////creation of File for TMVA for signal HH
 	  	
-		////////creation of File for TMVA for back qq  
+		/*////////creation of File for TMVA for back qq  
 		const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAll.root";
 		// Check if file exists and increment sampleIndex if necessary
 		sampleIndex=0;
-		jetAlgoOutputTreeBqqTrain = "analysis/outputTreeBqqHHbbbbESpreadDurham" + rtdCut + preselection + "Train" + sampleName + ".root";
-		while (fileExists(jetAlgoOutputTreeBqqTrain)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeBqqTrain = "analysis/outputTreeBqqHHbbbbESpreadDurham" + rtdCut + preselection + "Train" + sampleName + ".root";
-		}
 	  	TFile *outputTreeBqqTrain = new TFile(jetAlgoOutputTreeBqqTrain.c_str(), "recreate");
 	  	TTree TreeBqqTrain("TreeBqqTrain","a bqqimple Tree with bqqimple variables (Train)");
-	  	jetAlgoOutputTreeBqqTest = "analysis/outputTreeBqqHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-	  	while (fileExists(jetAlgoOutputTreeBqqTest)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeBqqTest = "analysis/outputTreeBqqHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-		}
 	  	TFile *outputTreeBqqTest = new TFile(jetAlgoOutputTreeBqqTest.c_str(), "recreate");
 	  	TTree TreeBqqTest("TreeBqqTest","a bqqimple Tree with bqqimple variables (Test)");
 	  	TTree TreeBqqMerge("TreeBqqMerge","a bqqimple Tree with bqqimple variables (merge)");
@@ -4051,28 +4025,14 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	
 	  	outputTreeBqqTrain->Close();
 		outputTreeBqqTest->Close();
-	  	////////creation of File for TMVA for back qq 	
+	  	////////creation of File for TMVA for back qq */	
 	  	
 	  	////////creation of File for TMVA for back ttbar  
 	  	const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattAll.root";
 	  	//const char *inputFilett = "analysis/FilesPostDelphes/GammaGammaZZ380All.root";
 	  	sampleIndex=0;
-	  	jetAlgoOutputTreeBttTrain = "analysis/outputTreeBttHHbbbbESpreadDurham" + rtdCut + preselection + "Train" + sampleName + ".root";
-	  	while (fileExists(jetAlgoOutputTreeBttTrain)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeBttTrain = "analysis/outputTreeBttHHbbbbESpreadDurham" + rtdCut + preselection + "Train" + sampleName + ".root";
-		}
 		TFile *outputTreeBttTrain = new TFile(jetAlgoOutputTreeBttTrain.c_str(), "recreate");
 	  	TTree TreeBttTrain("TreeBttTrain","a bttimple Tree with bttimple variables (Train)");
-	  	jetAlgoOutputTreeBttTest = "analysis/outputTreeBttHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-	  	while (fileExists(jetAlgoOutputTreeBttTest)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeBttTest = "analysis/outputTreeBttHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-		}
 	  	TFile *outputTreeBttTest = new TFile(jetAlgoOutputTreeBttTest.c_str(), "recreate");
 	  	TTree TreeBttTest("TreeBttTest","a bttimple Tree with bttimple variables (Test)");
 	  	TTree TreeBttMerge("TreeBttMerge","a bttimple Tree with bttimple variables (merge)");
@@ -4096,22 +4056,8 @@ void FSRGammaGammaHHbbbbAnalysis()
 		const char *inputFileZZ = "analysis/FilesPostDelphes/GammaGammaZZESpreadAll.root";
 		//const char *inputFileZZ = "analysis/FilesPostDelphes/GammaGammaZZ380All.root";
 		sampleIndex=0;
-		jetAlgoOutputTreeBZZTest = "analysis/outputTreeBZZHHbbbbESpreadDurham" + rtdCut + preselection + "Train" + sampleName + ".root";
-		while (fileExists(jetAlgoOutputTreeBZZTrain)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeBZZTrain = "analysis/outputTreeBZZHHbbbbESpreadDurham" + rtdCut + preselection + "Train" + sampleName + ".root";
-		}
 	  	TFile *outputTreeBZZTrain = new TFile(jetAlgoOutputTreeBZZTrain.c_str(), "recreate");
 	  	TTree TreeBZZTrain("TreeBZZTrain","a bZZimple Tree with bZZimple variables (Train)");
-	  	jetAlgoOutputTreeBZZTest = "analysis/outputTreeBZZHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-	  	while (fileExists(jetAlgoOutputTreeBZZTest)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeBZZTest = "analysis/outputTreeBZZHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-		}
 	  	TFile *outputTreeBZZTest = new TFile(jetAlgoOutputTreeBZZTest.c_str(), "recreate");
 	  	TTree TreeBZZTest("TreeBZZTest","a bZZimple Tree with bZZimple variables (Test)");
 	  	TTree TreeBZZMerge("TreeBZZMerge","a bZZimple Tree with bZZimple variables (merge)");
@@ -4135,22 +4081,8 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	const char *inputFileWW = "analysis/FilesPostDelphes/GammaGammaWWESpreadAll.root";
 	  	//const char *inputFileWW = "analysis/FilesPostDelphes/GammaGammaZZ380All.root";
 	  	sampleIndex=0;
-	  	jetAlgoOutputTreeBWWTrain = "analysis/outputTreeBWWHHbbbbESpreadDurham" + rtdCut + preselection + "Train" + sampleName + ".root";
-	  	while (fileExists(jetAlgoOutputTreeBWWTrain)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeBWWTrain = "analysis/outputTreeBWWHHbbbbESpreadDurham" + rtdCut + preselection + "Train" + sampleName + ".root";
-		}		
 	  	TFile *outputTreeBWWTrain = new TFile(jetAlgoOutputTreeBWWTrain.c_str(), "recreate");
 	  	TTree TreeBWWTrain("TreeBWWTrain","a bWWimple Tree with bWWimple variables (Train)");
-	  	jetAlgoOutputTreeBWWTest = "analysis/outputTreeBWWHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-	  	while (fileExists(jetAlgoOutputTreeBWWTest)) 
-		{
-			sampleIndex++;
-		    	sampleName = "Sample" + to_string(sampleIndex);
-		    	jetAlgoOutputTreeBWWTest = "analysis/outputTreeBWWHHbbbbESpreadDurham" + rtdCut + preselection + "Test" + sampleName + ".root";
-		}
 	  	TFile *outputTreeBWWTest = new TFile(jetAlgoOutputTreeBWWTest.c_str(), "recreate");
 	  	TTree TreeBWWTest("TreeBWWTest","a bWWimple Tree with bWWimple variables (Test)");
 	  	TTree TreeBWWMerge("TreeBWWMerge","a bWWimple Tree with bWWimple variables (merge)");
@@ -4211,7 +4143,6 @@ void FSRGammaGammaHHbbbbAnalysis()
 	trueBPairMass(inputFilett, 3, 0.503);*/
 
 }
-
 
 
 
