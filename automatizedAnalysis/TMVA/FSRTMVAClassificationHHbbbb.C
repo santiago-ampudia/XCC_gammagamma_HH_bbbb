@@ -362,7 +362,7 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
 	dataloader->AddVariable("invMassB14Best", 'F');
 	dataloader->AddVariable("invMassB24Best", 'F');
 	dataloader->AddVariable("invMassB15Best", 'F');
-	if(back != "qq" && back != "ZZ") Sdataloader->AddVariable("invMassB25Best", 'F');
+	if(back != "qq" && back != "ZZ") dataloader->AddVariable("invMassB25Best", 'F');
 	dataloader->AddVariable("invMassB16Best", 'F');
 	if(back != "ttbar") dataloader->AddVariable("invMassB26Best", 'F');
 	dataloader->AddVariable("invMassB17Best", 'F');
