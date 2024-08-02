@@ -8,6 +8,174 @@
 
 using namespace std;
 
+void createEntryIndexFiles(TString nthSample)
+{
+	 TFile *inputFileSTrain = TFile::Open("analysis/outputTreeSHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileSTest = TFile::Open("analysis/outputTreeSHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	 TFile *inputFileSNNTrain = TFile::Open("analysis/outputTreeSNNESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileSNNTest = TFile::Open("analysis/outputTreeSNNESpreadDurham1034BSplitTestSampleN.root");
+	 TFile *inputFileBqqTrain = TFile::Open("analysis/outputTreeBqqHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileBqqTest = TFile::Open("analysis/outputTreeBqqHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	 TFile *inputFileBqqNNTrain = TFile::Open("analysis/outputTreeBqqNNESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileBqqNNTest = TFile::Open("analysis/outputTreeBqqNNESpreadDurham1034BSplitTestSampleN.root");
+	 TFile *inputFileBttTrain = TFile::Open("analysis/outputTreeBttHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileBttTest = TFile::Open("analysis/outputTreeBttHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	 TFile *inputFileBttNNTrain = TFile::Open("analysis/outputTreeBttbarNNESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileBttNNTest = TFile::Open("analysis/outputTreeBttbarNNESpreadDurham1034BSplitTestSampleN.root");
+	 TFile *inputFileBZZTrain = TFile::Open("analysis/outputTreeBZZHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileBZZTest = TFile::Open("analysis/outputTreeBZZHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	 TFile *inputFileBZZNNTrain = TFile::Open("analysis/outputTreeBZZNNESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileBZZNNTest = TFile::Open("analysis/outputTreeBZZNNESpreadDurham1034BSplitTestSampleN.root");
+	 TFile *inputFileBWWTrain = TFile::Open("analysis/outputTreeBWWHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileBWWTest = TFile::Open("analysis/outputTreeBWWHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	 TFile *inputFileBWWNNTrain = TFile::Open("analysis/outputTreeBWWNNESpreadDurham1034BSplitTrainSampleN.root");
+	 TFile *inputFileBWWNNTest = TFile::Open("analysis/outputTreeBWWNNESpreadDurham1034BSplitTestSampleN.root");
+	 
+	 TTree *originalTreeSTrain = nullptr;
+    	 inputFileSTrain->GetObject("TreeSTrain", originalTreeSTrain);
+    	 TTree *originalTreeSTest = nullptr;
+    	 inputFileSTest->GetObject("TreeSTest", originalTreeSTest);
+    	 TTree *originalTreeSNNTrain = nullptr;
+    	 inputFileSNNTrain->GetObject("TreeSNNTrain", originalTreeSNNTrain);
+    	 TTree *originalTreeSNNTest = nullptr;
+    	 inputFileSNNTest->GetObject("TreeSNNTest", originalTreeSNNTest);
+    	 TTree *originalTreeBqqTrain = nullptr;
+    	 inputFileBqqTrain->GetObject("TreeBqqTrain", originalTreeBqqTrain);
+    	 TTree *originalTreeBqqTest = nullptr;
+    	 inputFileBqqTest->GetObject("TreeBqqTest", originalTreeBqqTest);
+    	 TTree *originalTreeBqqNNTrain = nullptr;
+    	 inputFileBqqNNTrain->GetObject("TreeBqqNNTrain", originalTreeBqqNNTrain);
+    	 TTree *originalTreeBqqNNTest = nullptr;
+    	 inputFileBqqNNTest->GetObject("TreeBqqNNTest", originalTreeBqqNNTest);
+    	 TTree *originalTreeBttTrain = nullptr;
+    	 inputFileBttTrain->GetObject("TreeBttTrain", originalTreeBttTrain);
+    	 TTree *originalTreeBttTest = nullptr;
+    	 inputFileBttTest->GetObject("TreeBttTest", originalTreeBttTest);
+    	 TTree *originalTreeBttNNTrain = nullptr;
+    	 inputFileBttNNTrain->GetObject("TreeBttbarNNTrain", originalTreeBttNNTrain);
+    	 TTree *originalTreeBttNNTest = nullptr;
+    	 inputFileBttNNTest->GetObject("TreeBttbarNNTest", originalTreeBttNNTest);
+    	 TTree *originalTreeBZZTrain = nullptr;
+    	 inputFileBZZTrain->GetObject("TreeBZZTrain", originalTreeBZZTrain);
+    	 TTree *originalTreeBZZTest = nullptr;
+    	 inputFileBZZTest->GetObject("TreeBZZTest", originalTreeBZZTest);
+    	 TTree *originalTreeBZZNNTrain = nullptr;
+    	 inputFileBZZNNTrain->GetObject("TreeBZZNNTrain", originalTreeBZZNNTrain);
+    	 TTree *originalTreeBZZNNTest = nullptr;
+    	 inputFileBZZNNTest->GetObject("TreeBZZNNTest", originalTreeBZZNNTest);
+    	 TTree *originalTreeBWWTrain = nullptr;
+    	 inputFileBWWTrain->GetObject("TreeBWWTrain", originalTreeBWWTrain);
+    	 TTree *originalTreeBWWTest = nullptr;
+    	 inputFileBWWTest->GetObject("TreeBWWTest", originalTreeBWWTest);
+    	 TTree *originalTreeBWWNNTrain = nullptr;
+    	 inputFileBWWNNTrain->GetObject("TreeBWWNNTrain", originalTreeBWWNNTrain);
+    	 TTree *originalTreeBWWNNTest = nullptr;
+    	 inputFileBWWNNTest->GetObject("TreeBWWNNTest", originalTreeBWWNNTest);
+    	 
+    	 TString sampleNameEntryIndexFile = "Sample" + TString::Format("%d", nthSample);
+    	 TString outputFileText = "analysis/entryIndexFile"+sampleNameEntryIndexFile+".root";
+    	 TFile *outputFile = new TFile(outputFileText.Data(), "RECREATE");
+    	 
+    	 TTree *TreeEntryIndex = new TTree("TreeEntryIndex", "Tree with only entryIndex branch"); // Give a new name to the new tree
+    	 float entryIndexSTrain, entryIndexSTest, entryIndexSNNTrain, entryIndexSNNTest, entryIndexqqTrain, entryIndexqqTest, entryIndexqqNNTrain, entryIndexqqNNTest, entryIndexttTrain, entryIndexttTest, entryIndexttNNTrain, entryIndexttNNTest, entryIndexZZTrain, entryIndexZZTest, entryIndexZZNNTrain, entryIndexZZNNTest, entryIndexWWTrain, entryIndexWWTest, entryIndexWWNNTrain, entryIndexWWNNTest;
+    	 
+    	 originalTreeSTrain->SetBranchAddress("entryIndex", &entryIndexSTrain);
+    	 originalTreeSTest->SetBranchAddress("entryIndex", &entryIndexSTest);
+    	 originalTreeSNNTrain->SetBranchAddress("entryIndex", &entryIndexSNNTrain);
+    	 originalTreeSNNTest->SetBranchAddress("entryIndex", &entryIndexSNNTest);
+    	 originalTreeBqqTrain->SetBranchAddress("entryIndex", &entryIndexqqTrain);
+    	 originalTreeBqqTest->SetBranchAddress("entryIndex", &entryIndexqqTest);
+    	 originalTreeBqqNNTrain->SetBranchAddress("entryIndex", &entryIndexqqNNTrain);
+    	 originalTreeBqqNNTest->SetBranchAddress("entryIndex", &entryIndexqqNNTest);
+    	 originalTreeBttTrain->SetBranchAddress("entryIndex", &entryIndexttTrain);
+    	 originalTreeBttTest->SetBranchAddress("entryIndex", &entryIndexttTest);
+    	 originalTreeBttNNTrain->SetBranchAddress("entryIndex", &entryIndexttNNTrain);
+    	 originalTreeBttNNTest->SetBranchAddress("entryIndex", &entryIndexttNNTest);
+    	 originalTreeBZZTrain->SetBranchAddress("entryIndex", &entryIndexZZTrain);
+    	 originalTreeBZZTest->SetBranchAddress("entryIndex", &entryIndexZZTest);
+    	 originalTreeBZZNNTrain->SetBranchAddress("entryIndex", &entryIndexZZNNTrain);
+    	 originalTreeBZZNNTest->SetBranchAddress("entryIndex", &entryIndexZZNNTest);
+    	 originalTreeBWWTrain->SetBranchAddress("entryIndex", &entryIndexWWTrain);
+    	 originalTreeBWWTest->SetBranchAddress("entryIndex", &entryIndexWWTest);
+    	 originalTreeBWWNNTrain->SetBranchAddress("entryIndex", &entryIndexWWNNTrain);
+    	 originalTreeBWWNNTest->SetBranchAddress("entryIndex", &entryIndexWWNNTest);
+    	 
+    	 TreeEntryIndex->Branch("entryIndexSTrain", &entryIndexSTrain);
+    	 TreeEntryIndex->Branch("entryIndexSTest", &entryIndexSTest);
+    	 TreeEntryIndex->Branch("entryIndexSNNTrain", &entryIndexSNNTrain);
+    	 TreeEntryIndex->Branch("entryIndexSNNTest", &entryIndexSNNTest);
+    	 TreeEntryIndex->Branch("entryIndexqqTrain", &entryIndexqqTrain);
+	 TreeEntryIndex->Branch("entryIndexqqTest", &entryIndexqqTest);
+	 TreeEntryIndex->Branch("entryIndexqqNNTrain", &entryIndexqqNNTrain);
+	 TreeEntryIndex->Branch("entryIndexqqNNTest", &entryIndexqqNNTest);
+	 TreeEntryIndex->Branch("entryIndexttTrain", &entryIndexttTrain);
+	 TreeEntryIndex->Branch("entryIndexttTest", &entryIndexttTest);
+	 TreeEntryIndex->Branch("entryIndexttNNTrain", &entryIndexttNNTrain);
+	 TreeEntryIndex->Branch("entryIndexttNNTest", &entryIndexttNNTest);
+	 TreeEntryIndex->Branch("entryIndexZZTrain", &entryIndexZZTrain);
+	 TreeEntryIndex->Branch("entryIndexZZTest", &entryIndexZZTest);
+	 TreeEntryIndex->Branch("entryIndexZZNNTrain", &entryIndexZZNNTrain);
+	 TreeEntryIndex->Branch("entryIndexZZNNTest", &entryIndexZZNNTest);
+	 TreeEntryIndex->Branch("entryIndexWWTrain", &entryIndexWWTrain);
+	 TreeEntryIndex->Branch("entryIndexWWTest", &entryIndexWWTest);
+	 TreeEntryIndex->Branch("entryIndexWWNNTrain", &entryIndexWWNNTrain);
+	 TreeEntryIndex->Branch("entryIndexWWNNTest", &entryIndexWWNNTest);
+	 
+	 Long64_t nEntriesSTrain = originalTreeSTrain->GetEntries();
+    	Long64_t nEntriesSTest = originalTreeSTest->GetEntries();
+	 Long64_t nEntriesSNNTrain = originalTreeSNNTrain->GetEntries();
+	    Long64_t nEntriesSNNTest = originalTreeSNNTest->GetEntries();
+	    Long64_t nEntriesBqqTrain = originalTreeBqqTrain->GetEntries();
+	    Long64_t nEntriesBqqTest = originalTreeBqqTest->GetEntries();
+	    Long64_t nEntriesBqqNNTrain = originalTreeBqqNNTrain->GetEntries();
+	    Long64_t nEntriesBqqNNTest = originalTreeBqqNNTest->GetEntries();
+	    Long64_t nEntriesBttTrain = originalTreeBttTrain->GetEntries();
+	    Long64_t nEntriesBttTest = originalTreeBttTest->GetEntries();
+	    Long64_t nEntriesBttNNTrain = originalTreeBttNNTrain->GetEntries();
+	    Long64_t nEntriesBttNNTest = originalTreeBttNNTest->GetEntries();
+	    Long64_t nEntriesBZZTrain = originalTreeBZZTrain->GetEntries();
+	    Long64_t nEntriesBZZTest = originalTreeBZZTest->GetEntries();
+	    Long64_t nEntriesBZZNNTrain = originalTreeBZZNNTrain->GetEntries();
+	    Long64_t nEntriesBZZNNTest = originalTreeBZZNNTest->GetEntries();
+	    Long64_t nEntriesBWWTrain = originalTreeBWWTrain->GetEntries();
+	    Long64_t nEntriesBWWTest = originalTreeBWWTest->GetEntries();
+	    Long64_t nEntriesBWWNNTrain = originalTreeBWWNNTrain->GetEntries();
+	    Long64_t nEntriesBWWNNTest = originalTreeBWWNNTest->GetEntries();
+
+	    for (Long64_t i = 0; i < max({nEntriesSTrain, nEntriesSTest, nEntriesSNNTrain, nEntriesSNNTest,
+		                          nEntriesBqqTrain, nEntriesBqqTest, nEntriesBqqNNTrain, nEntriesBqqNNTest,
+		                          nEntriesBttTrain, nEntriesBttTest, nEntriesBttNNTrain, nEntriesBttNNTest,
+		                          nEntriesBZZTrain, nEntriesBZZTest, nEntriesBZZNNTrain, nEntriesBZZNNTest,
+		                          nEntriesBWWTrain, nEntriesBWWTest, nEntriesBWWNNTrain, nEntriesBWWNNTest}); ++i) {
+		if (i < nEntriesSTrain) originalTreeSTrain->GetEntry(i);
+		if (i < nEntriesSTest) originalTreeSTest->GetEntry(i);
+		if (i < nEntriesSNNTrain) originalTreeSNNTrain->GetEntry(i);
+		if (i < nEntriesSNNTest) originalTreeSNNTest->GetEntry(i);
+		if (i < nEntriesBqqTrain) originalTreeBqqTrain->GetEntry(i);
+		if (i < nEntriesBqqTest) originalTreeBqqTest->GetEntry(i);
+		if (i < nEntriesBqqNNTrain) originalTreeBqqNNTrain->GetEntry(i);
+		if (i < nEntriesBqqNNTest) originalTreeBqqNNTest->GetEntry(i);
+		if (i < nEntriesBttTrain) originalTreeBttTrain->GetEntry(i);
+		if (i < nEntriesBttTest) originalTreeBttTest->GetEntry(i);
+		if (i < nEntriesBttNNTrain) originalTreeBttNNTrain->GetEntry(i);
+		if (i < nEntriesBttNNTest) originalTreeBttNNTest->GetEntry(i);
+		if (i < nEntriesBZZTrain) originalTreeBZZTrain->GetEntry(i);
+		if (i < nEntriesBZZTest) originalTreeBZZTest->GetEntry(i);
+		if (i < nEntriesBZZNNTrain) originalTreeBZZNNTrain->GetEntry(i);
+		if (i < nEntriesBZZNNTest) originalTreeBZZNNTest->GetEntry(i);
+		if (i < nEntriesBWWTrain) originalTreeBWWTrain->GetEntry(i);
+		if (i < nEntriesBWWTest) originalTreeBWWTest->GetEntry(i);
+		if (i < nEntriesBWWNNTrain) originalTreeBWWNNTrain->GetEntry(i);
+		if (i < nEntriesBWWNNTest) originalTreeBWWNNTest->GetEntry(i);
+		TreeEntryIndex->Fill();
+    }
+
+    outputFile->cd();
+    TreeEntryIndex->Write();
+    outputFile->Close();
+    	 
+}
+
 double getMean(const vector<double>& dataVector)
 {
 	double sum=0;
@@ -83,8 +251,9 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
 	for(int nthSample=0; nthSample<samples; nthSample++)
     	{
     		TString sampleName = "Sample" + TString::Format("%d", nthSample);
-    		gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
-    		trainAllBacks(rtdCut, preselection, vars, sampleName);
+    		sampleName = "SampleN";
+    		//gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
+    		//trainAllBacks(rtdCut, preselection, vars, sampleName);
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C+(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", fileFunction.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationOutputNN.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationOutputNN.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
@@ -120,6 +289,8 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
     		cout<<"Sample: "<<nthSample;
     		cout<<endl<<"preliminarySignificance: "<<preliminarySignificance<<endl;
     		cout<<endl<<"significance: "<<significance<<endl<<endl;
+    		
+    		createEntryIndexFiles(nthSample);
     	}
     	outFile.close();
 }
