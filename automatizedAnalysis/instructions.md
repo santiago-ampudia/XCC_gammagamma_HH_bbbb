@@ -39,7 +39,7 @@ Instructions to run the whole automatized analyisis:
 
 2) Replicating result and confirming proper set up:
    
-  2.1) In FSRGammaGammaHHbbbbAnalysis.C, change in line 3907, "string fileFunction = "generate";" for "string fileFunction = "merge";"
+  2.1) In FSRGammaGammaHHbbbbAnalysis.C, change in line 3935, "string fileFunction = "generate";" for "string fileFunction = "merge";"
   
   2.2) cd into the main delphes folder and run "root -l -b -q FSRWholeClassification.C'( "merge", "34BSplit", "All4V", 1)' "
   
