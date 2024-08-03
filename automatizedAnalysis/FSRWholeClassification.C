@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void createEntryIndexFiles(TString nthSample)
+void createEntryIndexFiles(int nthSample)
 {
 	 TFile *inputFileSTrain = TFile::Open("analysis/outputTreeSHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
 	 TFile *inputFileSTest = TFile::Open("analysis/outputTreeSHHbbbbESpreadDurham1034BSplitTestSampleN.root");
@@ -76,8 +76,29 @@ void createEntryIndexFiles(TString nthSample)
     	 TString outputFileText = "analysis/entryIndexFile"+sampleNameEntryIndexFile+".root";
     	 TFile *outputFile = new TFile(outputFileText.Data(), "RECREATE");
     	 
-    	 TTree *TreeEntryIndex = new TTree("TreeEntryIndex", "Tree with only entryIndex branch"); // Give a new name to the new tree
-    	 float entryIndexSTrain, entryIndexSTest, entryIndexSNNTrain, entryIndexSNNTest, entryIndexqqTrain, entryIndexqqTest, entryIndexqqNNTrain, entryIndexqqNNTest, entryIndexttTrain, entryIndexttTest, entryIndexttNNTrain, entryIndexttNNTest, entryIndexZZTrain, entryIndexZZTest, entryIndexZZNNTrain, entryIndexZZNNTest, entryIndexWWTrain, entryIndexWWTest, entryIndexWWNNTrain, entryIndexWWNNTest;
+    	 TTree *TreeSTrainEntryIndex = new TTree("TreeSTrainEntryIndex", "TreeSTrain with only entryIndex branch"); 
+    	 TTree *TreeSTestEntryIndex = new TTree("TreeSTestEntryIndex", "TreeSTest with only entryIndex branch"); 
+    	 TTree *TreeSNNTrainEntryIndex = new TTree("TreeSNNTrainEntryIndex", "TreeSNNTrain with only entryIndex branch");
+	 TTree *TreeSNNTestEntryIndex = new TTree("TreeSNNTestEntryIndex", "TreeSNNTest with only entryIndex branch");
+	 TTree *TreeBqqTrainEntryIndex = new TTree("TreeBqqTrainEntryIndex", "TreeBqqTrain with only entryIndex branch");
+	 TTree *TreeBqqTestEntryIndex = new TTree("TreeBqqTestEntryIndex", "TreeBqqTest with only entryIndex branch");
+	 TTree *TreeBqqNNTrainEntryIndex = new TTree("TreeBqqNNTrainEntryIndex", "TreeBqqNNTrain with only entryIndex branch");
+	 TTree *TreeBqqNNTestEntryIndex = new TTree("TreeBqqNNTestEntryIndex", "TreeBqqNNTest with only entryIndex branch");
+	 TTree *TreeBttTrainEntryIndex = new TTree("TreeBttTrainEntryIndex", "TreeBttTrain with only entryIndex branch");
+	 TTree *TreeBttTestEntryIndex = new TTree("TreeBttTestEntryIndex", "TreeBttTest with only entryIndex branch");
+	 TTree *TreeBttNNTrainEntryIndex = new TTree("TreeBttNNTrainEntryIndex", "TreeBttNNTrain with only entryIndex branch");
+	 TTree *TreeBttNNTestEntryIndex = new TTree("TreeBttNNTestEntryIndex", "TreeBttNNTest with only entryIndex branch");
+	 TTree *TreeBZZTrainEntryIndex = new TTree("TreeBZZTrainEntryIndex", "TreeBZZTrain with only entryIndex branch");
+	 TTree *TreeBZZTestEntryIndex = new TTree("TreeBZZTestEntryIndex", "TreeBZZTest with only entryIndex branch");
+	 TTree *TreeBZZNNTrainEntryIndex = new TTree("TreeBZZNNTrainEntryIndex", "TreeBZZNNTrain with only entryIndex branch");
+	 TTree *TreeBZZNNTestEntryIndex = new TTree("TreeBZZNNTestEntryIndex", "TreeBZZNNTest with only entryIndex branch");
+	 TTree *TreeBWWTrainEntryIndex = new TTree("TreeBWWTrainEntryIndex", "TreeBWWTrain with only entryIndex branch");
+	 TTree *TreeBWWTestEntryIndex = new TTree("TreeBWWTestEntryIndex", "TreeBWWTest with only entryIndex branch");
+	 TTree *TreeBWWNNTrainEntryIndex = new TTree("TreeBWWNNTrainEntryIndex", "TreeBWWNNTrain with only entryIndex branch");
+	 TTree *TreeBWWNNTestEntryIndex = new TTree("TreeBWWNNTestEntryIndex", "TreeBWWNNTest with only entryIndex branch");
+
+
+    	 float entryIndex, entryIndexSTrain, entryIndexSTest, entryIndexSNNTrain, entryIndexSNNTest, entryIndexqqTrain, entryIndexqqTest, entryIndexqqNNTrain, entryIndexqqNNTest, entryIndexttTrain, entryIndexttTest, entryIndexttNNTrain, entryIndexttNNTest, entryIndexZZTrain, entryIndexZZTest, entryIndexZZNNTrain, entryIndexZZNNTest, entryIndexWWTrain, entryIndexWWTest, entryIndexWWNNTrain, entryIndexWWNNTest;
     	 
     	 originalTreeSTrain->SetBranchAddress("entryIndex", &entryIndexSTrain);
     	 originalTreeSTest->SetBranchAddress("entryIndex", &entryIndexSTest);
@@ -100,26 +121,29 @@ void createEntryIndexFiles(TString nthSample)
     	 originalTreeBWWNNTrain->SetBranchAddress("entryIndex", &entryIndexWWNNTrain);
     	 originalTreeBWWNNTest->SetBranchAddress("entryIndex", &entryIndexWWNNTest);
     	 
-    	 TreeEntryIndex->Branch("entryIndexSTrain", &entryIndexSTrain);
-    	 TreeEntryIndex->Branch("entryIndexSTest", &entryIndexSTest);
-    	 TreeEntryIndex->Branch("entryIndexSNNTrain", &entryIndexSNNTrain);
-    	 TreeEntryIndex->Branch("entryIndexSNNTest", &entryIndexSNNTest);
-    	 TreeEntryIndex->Branch("entryIndexqqTrain", &entryIndexqqTrain);
-	 TreeEntryIndex->Branch("entryIndexqqTest", &entryIndexqqTest);
-	 TreeEntryIndex->Branch("entryIndexqqNNTrain", &entryIndexqqNNTrain);
-	 TreeEntryIndex->Branch("entryIndexqqNNTest", &entryIndexqqNNTest);
-	 TreeEntryIndex->Branch("entryIndexttTrain", &entryIndexttTrain);
-	 TreeEntryIndex->Branch("entryIndexttTest", &entryIndexttTest);
-	 TreeEntryIndex->Branch("entryIndexttNNTrain", &entryIndexttNNTrain);
-	 TreeEntryIndex->Branch("entryIndexttNNTest", &entryIndexttNNTest);
-	 TreeEntryIndex->Branch("entryIndexZZTrain", &entryIndexZZTrain);
-	 TreeEntryIndex->Branch("entryIndexZZTest", &entryIndexZZTest);
-	 TreeEntryIndex->Branch("entryIndexZZNNTrain", &entryIndexZZNNTrain);
-	 TreeEntryIndex->Branch("entryIndexZZNNTest", &entryIndexZZNNTest);
-	 TreeEntryIndex->Branch("entryIndexWWTrain", &entryIndexWWTrain);
-	 TreeEntryIndex->Branch("entryIndexWWTest", &entryIndexWWTest);
-	 TreeEntryIndex->Branch("entryIndexWWNNTrain", &entryIndexWWNNTrain);
-	 TreeEntryIndex->Branch("entryIndexWWNNTest", &entryIndexWWNNTest);
+    	 TreeSTrainEntryIndex->Branch("entryIndex", &entryIndexSTrain);
+    	 TreeSTestEntryIndex->Branch("entryIndex", &entryIndexSTest);
+    	 TreeSTrainEntryIndex->Branch("entryIndex", &entryIndexSTrain);
+	 TreeSTestEntryIndex->Branch("entryIndex", &entryIndexSTest);
+	 TreeSNNTrainEntryIndex->Branch("entryIndex", &entryIndexSNNTrain);
+	 TreeSNNTestEntryIndex->Branch("entryIndex", &entryIndexSNNTest);
+	 TreeBqqTrainEntryIndex->Branch("entryIndex", &entryIndexqqTrain);
+	 TreeBqqTestEntryIndex->Branch("entryIndex", &entryIndexqqTest);
+	 TreeBqqNNTrainEntryIndex->Branch("entryIndex", &entryIndexqqNNTrain);
+	 TreeBqqNNTestEntryIndex->Branch("entryIndex", &entryIndexqqNNTest);
+	 TreeBttTrainEntryIndex->Branch("entryIndex", &entryIndexttTrain);
+	 TreeBttTestEntryIndex->Branch("entryIndex", &entryIndexttTest);
+	 TreeBttNNTrainEntryIndex->Branch("entryIndex", &entryIndexttNNTrain);
+	 TreeBttNNTestEntryIndex->Branch("entryIndex", &entryIndexttNNTest);
+	 TreeBZZTrainEntryIndex->Branch("entryIndex", &entryIndexZZTrain);
+	 TreeBZZTestEntryIndex->Branch("entryIndex", &entryIndexZZTest);
+	 TreeBZZNNTrainEntryIndex->Branch("entryIndex", &entryIndexZZNNTrain);
+	 TreeBZZNNTestEntryIndex->Branch("entryIndex", &entryIndexZZNNTest);
+	 TreeBWWTrainEntryIndex->Branch("entryIndex", &entryIndexWWTrain);
+	 TreeBWWTestEntryIndex->Branch("entryIndex", &entryIndexWWTest);
+	 TreeBWWNNTrainEntryIndex->Branch("entryIndex", &entryIndexWWNNTrain);
+	 TreeBWWNNTestEntryIndex->Branch("entryIndex", &entryIndexWWNNTest);
+
 	 
 	 Long64_t nEntriesSTrain = originalTreeSTrain->GetEntries();
     	Long64_t nEntriesSTest = originalTreeSTest->GetEntries();
@@ -147,31 +171,109 @@ void createEntryIndexFiles(TString nthSample)
 		                          nEntriesBttTrain, nEntriesBttTest, nEntriesBttNNTrain, nEntriesBttNNTest,
 		                          nEntriesBZZTrain, nEntriesBZZTest, nEntriesBZZNNTrain, nEntriesBZZNNTest,
 		                          nEntriesBWWTrain, nEntriesBWWTest, nEntriesBWWNNTrain, nEntriesBWWNNTest}); ++i) {
-		if (i < nEntriesSTrain) originalTreeSTrain->GetEntry(i);
-		if (i < nEntriesSTest) originalTreeSTest->GetEntry(i);
-		if (i < nEntriesSNNTrain) originalTreeSNNTrain->GetEntry(i);
-		if (i < nEntriesSNNTest) originalTreeSNNTest->GetEntry(i);
-		if (i < nEntriesBqqTrain) originalTreeBqqTrain->GetEntry(i);
-		if (i < nEntriesBqqTest) originalTreeBqqTest->GetEntry(i);
-		if (i < nEntriesBqqNNTrain) originalTreeBqqNNTrain->GetEntry(i);
-		if (i < nEntriesBqqNNTest) originalTreeBqqNNTest->GetEntry(i);
-		if (i < nEntriesBttTrain) originalTreeBttTrain->GetEntry(i);
-		if (i < nEntriesBttTest) originalTreeBttTest->GetEntry(i);
-		if (i < nEntriesBttNNTrain) originalTreeBttNNTrain->GetEntry(i);
-		if (i < nEntriesBttNNTest) originalTreeBttNNTest->GetEntry(i);
-		if (i < nEntriesBZZTrain) originalTreeBZZTrain->GetEntry(i);
-		if (i < nEntriesBZZTest) originalTreeBZZTest->GetEntry(i);
-		if (i < nEntriesBZZNNTrain) originalTreeBZZNNTrain->GetEntry(i);
-		if (i < nEntriesBZZNNTest) originalTreeBZZNNTest->GetEntry(i);
-		if (i < nEntriesBWWTrain) originalTreeBWWTrain->GetEntry(i);
-		if (i < nEntriesBWWTest) originalTreeBWWTest->GetEntry(i);
-		if (i < nEntriesBWWNNTrain) originalTreeBWWNNTrain->GetEntry(i);
-		if (i < nEntriesBWWNNTest) originalTreeBWWNNTest->GetEntry(i);
-		TreeEntryIndex->Fill();
+		    if (i < nEntriesSTrain) {
+			originalTreeSTrain->GetEntry(i);
+			TreeSTrainEntryIndex->Fill();
+		    }
+		    if (i < nEntriesSTest) {
+			originalTreeSTest->GetEntry(i);
+			TreeSTestEntryIndex->Fill();
+		    }
+		    if (i < nEntriesSNNTrain) {
+		    	originalTreeSNNTrain->GetEntry(i);
+		    	TreeSNNTrainEntryIndex->Fill();
+			}
+			if (i < nEntriesSNNTest) {
+			    originalTreeSNNTest->GetEntry(i);
+			    TreeSNNTestEntryIndex->Fill();
+			}
+			if (i < nEntriesBqqTrain) {
+			    originalTreeBqqTrain->GetEntry(i);
+			    TreeBqqTrainEntryIndex->Fill();
+			}
+			if (i < nEntriesBqqTest) {
+			    originalTreeBqqTest->GetEntry(i);
+			    TreeBqqTestEntryIndex->Fill();
+			}
+			if (i < nEntriesBqqNNTrain) {
+			    originalTreeBqqNNTrain->GetEntry(i);
+			    TreeBqqNNTrainEntryIndex->Fill();
+			}
+			if (i < nEntriesBqqNNTest) {
+			    originalTreeBqqNNTest->GetEntry(i);
+			    TreeBqqNNTestEntryIndex->Fill();
+			}
+			if (i < nEntriesBttTrain) {
+			    originalTreeBttTrain->GetEntry(i);
+			    TreeBttTrainEntryIndex->Fill();
+			}
+			if (i < nEntriesBttTest) {
+			    originalTreeBttTest->GetEntry(i);
+			    TreeBttTestEntryIndex->Fill();
+			}
+			if (i < nEntriesBttNNTrain) {
+			    originalTreeBttNNTrain->GetEntry(i);
+			    TreeBttNNTrainEntryIndex->Fill();
+			}
+			if (i < nEntriesBttNNTest) {
+			    originalTreeBttNNTest->GetEntry(i);
+			    TreeBttNNTestEntryIndex->Fill();
+			}
+			if (i < nEntriesBZZTrain) {
+			    originalTreeBZZTrain->GetEntry(i);
+			    TreeBZZTrainEntryIndex->Fill();
+			}
+			if (i < nEntriesBZZTest) {
+			    originalTreeBZZTest->GetEntry(i);
+			    TreeBZZTestEntryIndex->Fill();
+			}
+			if (i < nEntriesBZZNNTrain) {
+			    originalTreeBZZNNTrain->GetEntry(i);
+			    TreeBZZNNTrainEntryIndex->Fill();
+			}
+			if (i < nEntriesBZZNNTest) {
+			    originalTreeBZZNNTest->GetEntry(i);
+			    TreeBZZNNTestEntryIndex->Fill();
+			}
+			if (i < nEntriesBWWTrain) {
+			    originalTreeBWWTrain->GetEntry(i);
+			    TreeBWWTrainEntryIndex->Fill();
+			}
+			if (i < nEntriesBWWTest) {
+			    originalTreeBWWTest->GetEntry(i);
+			    TreeBWWTestEntryIndex->Fill();
+			}
+			if (i < nEntriesBWWNNTrain) {
+			    originalTreeBWWNNTrain->GetEntry(i);
+			    TreeBWWNNTrainEntryIndex->Fill();
+			}
+			if (i < nEntriesBWWNNTest) {
+			    originalTreeBWWNNTest->GetEntry(i);
+			    TreeBWWNNTestEntryIndex->Fill();
+			}
     }
 
     outputFile->cd();
-    TreeEntryIndex->Write();
+    TreeSTrainEntryIndex->Write();
+    TreeSTestEntryIndex->Write();
+    TreeSNNTrainEntryIndex->Write();
+    TreeSNNTestEntryIndex->Write();
+    TreeBqqTrainEntryIndex->Write();
+    TreeBqqTestEntryIndex->Write();
+    TreeBqqNNTrainEntryIndex->Write();
+    TreeBqqNNTestEntryIndex->Write();
+    TreeBttTrainEntryIndex->Write();
+    TreeBttTestEntryIndex->Write();
+    TreeBttNNTrainEntryIndex->Write();
+    TreeBttNNTestEntryIndex->Write();
+    TreeBZZTrainEntryIndex->Write();
+    TreeBZZTestEntryIndex->Write();
+    TreeBZZNNTrainEntryIndex->Write();
+    TreeBZZNNTestEntryIndex->Write();
+    TreeBWWTrainEntryIndex->Write();
+    TreeBWWTestEntryIndex->Write();
+    TreeBWWNNTrainEntryIndex->Write();
+    TreeBWWNNTestEntryIndex->Write();
     outputFile->Close();
     	 
 }
@@ -252,8 +354,8 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
     	{
     		TString sampleName = "Sample" + TString::Format("%d", nthSample);
     		sampleName = "SampleN";
-    		//gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
-    		//trainAllBacks(rtdCut, preselection, vars, sampleName);
+    		gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
+    		trainAllBacks(rtdCut, preselection, vars, sampleName);
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C+(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", fileFunction.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationOutputNN.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     		gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationOutputNN.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
