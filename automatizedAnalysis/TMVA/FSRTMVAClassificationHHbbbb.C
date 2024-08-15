@@ -370,6 +370,86 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
 	dataloader->AddVariable("invMassB18Best", 'F');
 	if(back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB28Best", 'F');
    }
+   else if(varVersion == "All6V")
+   {
+   	if(back != "qq" && back != "ZZ" && back != "WW") dataloader->AddVariable( "aplanarity", 'F' );
+	dataloader->AddVariable( "cosThetaB1", 'F' );
+	if(back != "qq") dataloader->AddVariable( "cosThetaB2", 'F' );
+	dataloader->AddVariable( "cosThetaB3", 'F' );
+   	dataloader->AddVariable( "cosThetaB4", 'F' );
+	dataloader->AddVariable( "invMassB1", 'F' );
+   	dataloader->AddVariable( "invMassB2", 'F' );
+   	dataloader->AddVariable( "jetB1M", 'F' );
+   	if(back != "WW") dataloader->AddVariable( "jetB2M", 'F' );
+   	dataloader->AddVariable( "jetB3M", 'F' );
+   	dataloader->AddVariable( "jetB4M", 'F' );
+   	dataloader->AddVariable( "jetB1Pt", 'F' );
+   	dataloader->AddVariable( "jetB2Pt", 'F' );
+   	dataloader->AddVariable( "jetB3Pt", 'F' );
+   	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable( "jetB4Pt", 'F' );
+   	dataloader->AddVariable( "minJetM", 'F' );
+   	dataloader->AddVariable( "sphericity", 'F' );
+   	if(back != "qq" && back != "WW") dataloader->AddVariable( "sumPt", 'F' );
+   	dataloader->AddVariable("invMassB1AntiKt", 'F');
+	dataloader->AddVariable("invMassB2AntiKt", 'F');
+	if(back != "ZZ") dataloader->AddVariable("nJetsAntiKt", 'F');
+	dataloader->AddVariable("invMassB11Best", 'F');
+	dataloader->AddVariable("invMassB21Best", 'F');
+	dataloader->AddVariable("invMassB12Best", 'F');
+	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB22Best", 'F');
+	if(back != "ttbar") dataloader->AddVariable("invMassB13Best", 'F');
+	if(back != "qq" && back != "WW") dataloader->AddVariable("invMassB23Best", 'F');
+	if(back != "ttbar") dataloader->AddVariable("invMassB14Best", 'F');
+	if(back != "ZZ") dataloader->AddVariable("invMassB24Best", 'F');
+	dataloader->AddVariable("invMassB15Best", 'F');
+	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB25Best", 'F');
+	if(back != "ttbar") dataloader->AddVariable("invMassB16Best", 'F');
+	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB26Best", 'F');
+	if(back != "ttbar") dataloader->AddVariable("invMassB17Best", 'F');
+	if(back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB27Best", 'F');
+	dataloader->AddVariable("invMassB18Best", 'F');
+	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB28Best", 'F');
+   }
+   else if(varVersion == "All7V")
+   {
+   	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable( "aplanarity", 'F' );
+	if(back != "WW") dataloader->AddVariable( "cosThetaB1", 'F' );
+	if(back != "qq") dataloader->AddVariable( "cosThetaB2", 'F' );
+	if(back != "qq") dataloader->AddVariable( "cosThetaB3", 'F' );
+   	if(back != "qq") dataloader->AddVariable( "cosThetaB4", 'F' );
+	dataloader->AddVariable( "invMassB1", 'F' );
+   	dataloader->AddVariable( "invMassB2", 'F' );
+   	dataloader->AddVariable( "jetB1M", 'F' );
+   	if(back != "WW") dataloader->AddVariable( "jetB2M", 'F' );
+   	dataloader->AddVariable( "jetB3M", 'F' );
+   	dataloader->AddVariable( "jetB4M", 'F' );
+   	dataloader->AddVariable( "jetB1Pt", 'F' );
+   	dataloader->AddVariable( "jetB2Pt", 'F' );
+   	dataloader->AddVariable( "jetB3Pt", 'F' );
+   	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable( "jetB4Pt", 'F' );
+   	dataloader->AddVariable( "minJetM", 'F' );
+   	dataloader->AddVariable( "sphericity", 'F' );
+   	if(back != "qq" && back!= "ZZ" && back != "WW") dataloader->AddVariable( "sumPt", 'F' );
+   	dataloader->AddVariable("invMassB1AntiKt", 'F');
+	dataloader->AddVariable("invMassB2AntiKt", 'F');
+	if(back != "ZZ" && back != "WW") dataloader->AddVariable("nJetsAntiKt", 'F');
+	dataloader->AddVariable("invMassB11Best", 'F');
+	dataloader->AddVariable("invMassB21Best", 'F');
+	if(back != "ttbar") dataloader->AddVariable("invMassB12Best", 'F');
+	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB22Best", 'F');
+	if(back != "ttbar") dataloader->AddVariable("invMassB13Best", 'F');
+	if(back != "qq" && back!= "ZZ" && back != "WW") dataloader->AddVariable("invMassB23Best", 'F');
+	if(back != "ttbar") dataloader->AddVariable("invMassB14Best", 'F');
+	if(back != "ZZ") dataloader->AddVariable("invMassB24Best", 'F');
+	dataloader->AddVariable("invMassB15Best", 'F');
+	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB25Best", 'F');
+	if(back != "ttbar") dataloader->AddVariable("invMassB16Best", 'F');
+	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB26Best", 'F');
+	if(back != "ttbar") dataloader->AddVariable("invMassB17Best", 'F');
+	if(back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB27Best", 'F');
+	dataloader->AddVariable("invMassB18Best", 'F');
+	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB28Best", 'F');
+   }
    
    // global event weights per tree (see below for setting event-wise weights)
    Double_t signalWeight, backgroundWeight;
