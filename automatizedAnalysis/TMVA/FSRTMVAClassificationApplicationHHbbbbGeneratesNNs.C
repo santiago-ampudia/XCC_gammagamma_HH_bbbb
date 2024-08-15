@@ -333,6 +333,86 @@
 		reader->AddVariable("invMassB18Best", &invMassB18Best);
 		if(nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB28Best", &invMassB28Best);
 	}
+	if(varVersion == "All6V")
+    	{
+		if(nBack != 0 && nBack != 2 && nBack != 3) reader->AddVariable( "aplanarity", &aplanarity );
+		reader->AddVariable( "cosThetaB1", &cosThetaB1 );
+		if(nBack != 0) reader->AddVariable( "cosThetaB2", &cosThetaB2 );
+		reader->AddVariable( "cosThetaB3", &cosThetaB3 );
+		reader->AddVariable( "cosThetaB4", &cosThetaB4 );
+		reader->AddVariable( "invMassB1", &invMassB1 );
+		reader->AddVariable( "invMassB2", &invMassB2 );
+		reader->AddVariable( "jetB1M", &jetB1M );
+		if(nBack != 3) reader->AddVariable( "jetB2M", &jetB2M );
+		reader->AddVariable( "jetB3M", &jetB3M );
+		reader->AddVariable( "jetB4M", &jetB4M );
+		reader->AddVariable( "jetB1Pt", &jetB1Pt );
+		reader->AddVariable( "jetB2Pt", &jetB2Pt );
+		reader->AddVariable( "jetB3Pt", &jetB3Pt );
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable( "jetB4Pt", &jetB4Pt );
+		reader->AddVariable( "minJetM", &minJetM );
+		reader->AddVariable( "sphericity", &sphericity );
+		if(nBack != 0 && nBack != 3) reader->AddVariable( "sumPt", &sumPt );
+		reader->AddVariable("invMassB1AntiKt", &invMassB1AntiKt);
+		reader->AddVariable("invMassB2AntiKt", &invMassB2AntiKt);
+		if(nBack != 2) reader->AddVariable("nJetsAntiKt", &nJetsAntiKt);
+		reader->AddVariable("invMassB11Best", &invMassB11Best);
+		reader->AddVariable("invMassB21Best", &invMassB21Best);
+		reader->AddVariable("invMassB12Best", &invMassB12Best);
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB22Best", &invMassB22Best);
+		if(nBack != 1) reader->AddVariable("invMassB13Best", &invMassB13Best);
+		if(nBack != 0 && nBack != 3) reader->AddVariable("invMassB23Best", &invMassB23Best);
+		if(nBack != 1) reader->AddVariable("invMassB14Best", &invMassB14Best);
+		if(nBack != 2) reader->AddVariable("invMassB24Best", &invMassB24Best);
+		reader->AddVariable("invMassB15Best", &invMassB15Best);
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB25Best", &invMassB25Best);
+		if(nBack != 1) reader->AddVariable("invMassB16Best", &invMassB16Best);
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB26Best", &invMassB26Best);
+		if(nBack != 1) reader->AddVariable("invMassB17Best", &invMassB17Best);
+		if(nBack != 2 && nBack != 3) reader->AddVariable("invMassB27Best", &invMassB27Best);
+		reader->AddVariable("invMassB18Best", &invMassB18Best);
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB28Best", &invMassB28Best);
+	}
+	if(varVersion == "All7V")
+    	{
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable( "aplanarity", &aplanarity );
+		if(nBack != 3) reader->AddVariable( "cosThetaB1", &cosThetaB1 );
+		if(nBack != 0) reader->AddVariable( "cosThetaB2", &cosThetaB2 );
+		if(nBack != 0) reader->AddVariable( "cosThetaB3", &cosThetaB3 );
+		if(nBack != 0) reader->AddVariable( "cosThetaB4", &cosThetaB4 );
+		reader->AddVariable( "invMassB1", &invMassB1 );
+		reader->AddVariable( "invMassB2", &invMassB2 );
+		reader->AddVariable( "jetB1M", &jetB1M );
+		if(nBack != 3) reader->AddVariable( "jetB2M", &jetB2M );
+		reader->AddVariable( "jetB3M", &jetB3M );
+		reader->AddVariable( "jetB4M", &jetB4M );
+		reader->AddVariable( "jetB1Pt", &jetB1Pt );
+		reader->AddVariable( "jetB2Pt", &jetB2Pt );
+		reader->AddVariable( "jetB3Pt", &jetB3Pt );
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable( "jetB4Pt", &jetB4Pt );
+		reader->AddVariable( "minJetM", &minJetM );
+		reader->AddVariable( "sphericity", &sphericity );
+		if(nBack != 0 && nBack != 2 && nBack != 3) reader->AddVariable( "sumPt", &sumPt );
+		reader->AddVariable("invMassB1AntiKt", &invMassB1AntiKt);
+		reader->AddVariable("invMassB2AntiKt", &invMassB2AntiKt);
+		if(nBack != 2 && nBack != 3) reader->AddVariable("nJetsAntiKt", &nJetsAntiKt);
+		reader->AddVariable("invMassB11Best", &invMassB11Best);
+		reader->AddVariable("invMassB21Best", &invMassB21Best);
+		if(nBack != 1) reader->AddVariable("invMassB12Best", &invMassB12Best);
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB22Best", &invMassB22Best);
+		if(nBack != 1) reader->AddVariable("invMassB13Best", &invMassB13Best);
+		if(nBack != 0 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB23Best", &invMassB23Best);
+		if(nBack != 1) reader->AddVariable("invMassB14Best", &invMassB14Best);
+		if(nBack != 2) reader->AddVariable("invMassB24Best", &invMassB24Best);
+		reader->AddVariable("invMassB15Best", &invMassB15Best);
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB25Best", &invMassB25Best);
+		if(nBack != 1) reader->AddVariable("invMassB16Best", &invMassB16Best);
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB26Best", &invMassB26Best);
+		if(nBack != 1) reader->AddVariable("invMassB17Best", &invMassB17Best);
+		if(nBack != 2 && nBack != 3) reader->AddVariable("invMassB27Best", &invMassB27Best);
+		reader->AddVariable("invMassB18Best", &invMassB18Best);
+		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB28Best", &invMassB28Best);
+	}
 
 
 
