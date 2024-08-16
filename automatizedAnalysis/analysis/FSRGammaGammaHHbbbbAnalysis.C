@@ -713,6 +713,47 @@ void sortVectorTriple(std::vector<double>& vector1, std::vector<vector<int>>& ve
 }
 ////////////
 
+// Function to calculate the magnitude of a vector
+float Magnitude(TLorentzVector vec) 
+{
+    return vec.P();
+}
+//////
+
+//////Function that returns the maxThrust of the events
+float findThrust(vector<TLorentzVector>& momenta)
+{
+	float maxThrust = 0.0;
+	TLorentzVector thrustAxis;
+	
+	for(float theta = 0.0; theta < TMath::Pi(); theta += 0.1) 
+        {
+        	for(float phi = 0.0; phi < 2.0 * TMath::Pi(); phi += 0.1) 
+       		{
+                	TLorentzVector axis(TMath::Sin(theta) * TMath::Cos(phi), 
+                                    TMath::Sin(theta) * TMath::Sin(phi), 
+                                    TMath::Cos(theta), 0.0);
+                
+                	float sumP = 0.0;
+                	float sumP_parallel = 0.0;
+		        for (auto& p : momenta) 
+		        {
+		            sumP += p.P();
+		            sumP_parallel += TMath::Abs(p.Dot(axis) / Magnitude(axis));
+		        }
+
+		        float thrust = sumP_parallel / sumP;
+		        if (thrust > maxThrust) 
+		        {
+		            maxThrust = thrust;
+		            thrustAxis = axis;
+		        }
+            	}
+	}
+	return maxThrust;
+}
+//////////
+
 /*gamma gamma -> xx analysis. For topology: 
 1) HH
 2) qqbar
@@ -1318,7 +1359,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	double distanceZMass;
 	int contEventsZWindow10=0, contEventsZWindow01=0, contEventsZWindow05=0, contEventsZWindow1=0, contEventsZWindow15=0, contEventsZWindow2=0, contEventsZWindow5=0;
 	
-	float aplanarity, invMassB1, invMassB2, minJetM, sphericity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, sumPt, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, jetB1M, jetB2M, jetB3M, jetB4M, etaB1, etaB2, etaB3, etaB4, nParticles, totalConstSize, constSizeB1, constSizeB2, constSizeB3, constSizeB4, minConstSize, jetB1NCharged, jetB2NCharged, jetB3NCharged, jetB4NCharged, jetB1NNeutrals, jetB2NNeutrals, jetB3NNeutrals, jetB4NNeutrals, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, invMassB1AntiKt2Jets, invMassB2AntiKt2Jets, invMassB1AntiKt3Jets, invMassB2AntiKt3Jets, invMassB1AntiKt4Jets, invMassB2AntiKt4Jets, invMassB1AntiKt5Jets, invMassB2AntiKt5Jets, invMassB1AntiKt6Jets, invMassB2AntiKt6Jets, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best, entryIndex, nJetsDurham0, nJetsDurham5, nJetsDurham10, nJetsDurham15, nJetsDurham20, nJetsDurham25, nJetsDurham30, minChiSquaredZZMass, distanceZ1MinChiSquaredZZMass, distanceZ2MinChiSquaredZZMass, exclYmerge12, exclYmerge23, exclYmerge34, exclYmerge45, exclYmerge56;
+	float aplanarity, invMassB1, invMassB2, minJetM, sphericity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, sumPt, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, jetB1M, jetB2M, jetB3M, jetB4M, etaB1, etaB2, etaB3, etaB4, nParticles, totalConstSize, constSizeB1, constSizeB2, constSizeB3, constSizeB4, minConstSize, jetB1NCharged, jetB2NCharged, jetB3NCharged, jetB4NCharged, jetB1NNeutrals, jetB2NNeutrals, jetB3NNeutrals, jetB4NNeutrals, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, invMassB1AntiKt2Jets, invMassB2AntiKt2Jets, invMassB1AntiKt3Jets, invMassB2AntiKt3Jets, invMassB1AntiKt4Jets, invMassB2AntiKt4Jets, invMassB1AntiKt5Jets, invMassB2AntiKt5Jets, invMassB1AntiKt6Jets, invMassB2AntiKt6Jets, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best, entryIndex, nJetsDurham0, nJetsDurham5, nJetsDurham10, nJetsDurham15, nJetsDurham20, nJetsDurham25, nJetsDurham30, minChiSquaredZZMass, distanceZ1MinChiSquaredZZMass, distanceZ2MinChiSquaredZZMass, exclYmerge12, exclYmerge23, exclYmerge34, exclYmerge45, exclYmerge56, invMassZZ1, invMassZZ2, thrust;
 	
 	int contLargeBMass=0, contSmallBMass=0;
 	
@@ -1385,6 +1426,9 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		TreeTrain.Branch("exclYmerge34",&exclYmerge34,"exclYmerge34/F");
 		TreeTrain.Branch("exclYmerge45",&exclYmerge45,"exclYmerge45/F");
 		TreeTrain.Branch("exclYmerge56",&exclYmerge56,"exclYmerge56/F");
+		TreeTrain.Branch("invMassZZ1",&invMassZZ1,"invMassZZ1/F");
+		TreeTrain.Branch("invMassZZ2",&invMassZZ2,"invMassZZ2/F");
+		TreeTrain.Branch("thrust",&thrust,"thrust/F");
 
 		TreeTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 		TreeTest.Branch("aplanarity",&aplanarity,"aplanarity/F");
@@ -1446,6 +1490,9 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		TreeTest.Branch("exclYmerge34",&exclYmerge34,"exclYmerge34/F");
 		TreeTest.Branch("exclYmerge45",&exclYmerge45,"exclYmerge45/F");
 		TreeTest.Branch("exclYmerge56",&exclYmerge56,"exclYmerge56/F");
+		TreeTest.Branch("invMassZZ1",&invMassZZ1,"invMassZZ1/F");
+		TreeTest.Branch("invMassZZ2",&invMassZZ2,"invMassZZ2/F");
+		TreeTest.Branch("thrust",&thrust,"thrust/F");
 	}
 	
 	TreeMerge.Branch("entryIndex",&entryIndex,"entryIndex/F");	
@@ -1670,8 +1717,10 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 			     			distanceZMass=0.05;
 			     			findJetPairsZZ(jetPairB1ZZ, jetPairB2ZZ, jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1ZZIndex1, jetPairB1ZZIndex2, jetPairB2ZZIndex1, jetPairB2ZZIndex2, flagZZMass, minChiSquaredZZMass, distanceZMass, contEventsZWindow10, contEventsZWindow01, contEventsZWindow05, contEventsZWindow1, contEventsZWindow15, contEventsZWindow2, contEventsZWindow5, distanceZ1MinChiSquaredZZMass, distanceZ2MinChiSquaredZZMass);
 			     			histMinChiSquaredZZMass->Fill(minChiSquaredZZMass, weight);
-			     			histInvMassZZ1->Fill(jetPairB1ZZ.M(), weight);
-			     			histInvMassZZ2->Fill(jetPairB2ZZ.M(), weight);
+			     			invMassZZ1 = jetPairB1ZZ.M();
+			     			invMassZZ2 = jetPairB2ZZ.M();
+			     			histInvMassZZ1->Fill(invMassZZ1, weight);
+			     			histInvMassZZ2->Fill(invMassZZ2, weight);
 			     			histDistanceZ1MinChiSquaredZZMass->Fill(distanceZ1MinChiSquaredZZMass, weight);
 			     			histDistanceZ2MinChiSquaredZZMass->Fill(distanceZ2MinChiSquaredZZMass, weight);
 			     			//if(flagZZMass==true) break;
@@ -2007,6 +2056,33 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
         					double y_45 = cs.exclusive_ymerge(4); // 4-jets to 5-jets
         					if(contEventsPostFilter<10) cout<<"Entry " << entry << ": y_34 = " << y_34 << ", y_45 = " << y_45 <<endl;*/
 						//////////////////////y_nm for jets
+						
+						/////Thrust
+						vector<TLorentzVector> momenta;
+						for (int i = 0; i < branchEFlowTrack->GetEntries(); ++i) 
+						{
+						    	Track *track = (Track*) branchEFlowTrack->At(i);
+						    	TLorentzVector track4V;
+						    	track4V.SetPtEtaPhiM(track->PT, track->Eta, track->Phi, 0.0);
+						    	momenta.push_back(track4V);
+						}
+						for (int i = 0; i < branchEFlowPhoton->GetEntries(); ++i) 
+						{
+						    	Tower *photon = (Tower*) branchEFlowPhoton->At(i);
+						    	TLorentzVector photon4V;
+						    	photon4V.SetPtEtaPhiM(photon->ET, photon->Eta, photon->Phi, 0.0);
+						    	momenta.push_back(photon4V);
+						}
+						for (int i = 0; i < branchEFlowNeutralHadron->GetEntries(); ++i) 
+						{
+						    	Tower *neutralHadron = (Tower*) branchEFlowNeutralHadron->At(i);
+						    	TLorentzVector neutralHadron4V;
+						    	neutralHadron4V.SetPtEtaPhiM(neutralHadron->ET, neutralHadron->Eta, neutralHadron->Phi, 0.0);
+						    	momenta.push_back(neutralHadron4V);
+						}
+						
+						thrust = findThrust(momenta);
+						////////Thrust
 						
 						
 						/////Filling out tree for BDT
@@ -4002,7 +4078,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 		outputTreeSTest->Close();
 	  	////////creation of File for TMVA for signal HH
 	  	
-		////////creation of File for TMVA for back qq  
+		/*////////creation of File for TMVA for back qq  
 		const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAll.root";
 		// Check if file exists and increment sampleIndex if necessary
 		sampleIndex=0;
@@ -4025,7 +4101,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	
 	  	outputTreeBqqTrain->Close();
 		outputTreeBqqTest->Close();
-	  	////////creation of File for TMVA for back qq 	
+	  	////////creation of File for TMVA for back qq*/ 	
 	  	
 	  	////////creation of File for TMVA for back ttbar  
 	  	const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattAll.root";
@@ -4143,7 +4219,6 @@ void FSRGammaGammaHHbbbbAnalysis()
 	trueBPairMass(inputFilett, 3, 0.503);*/
 
 }
-
 
 
 
