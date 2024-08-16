@@ -178,7 +178,7 @@
  
     // Create a set of variables and declare them to the reader
     // - the variable names MUST corresponds in name and type to those given in the weight file(s) used
-    Float_t aplanarity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, invMassB1, invMassB2, jetB1M, jetB2M, jetB3M, jetB4M, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, minJetM, sphericity, sumPt, nParticles, minConstSize, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best;
+    Float_t aplanarity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, invMassB1, invMassB2, jetB1M, jetB2M, jetB3M, jetB4M, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, minJetM, sphericity, sumPt, nParticles, minConstSize, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best, exclYmerge12, exclYmerge23, exclYmerge34, exclYmerge45, exclYmerge56, invMassZZ1, invMassZZ2, thrust;
     
     	if(varVersion == "All1V")
    	{
@@ -413,6 +413,48 @@
 		reader->AddVariable("invMassB18Best", &invMassB18Best);
 		if(nBack != 0 && nBack != 1 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB28Best", &invMassB28Best);
 	}
+	if(varVersion == "All8V")
+    	{
+		if(nBack != 3) reader->AddVariable( "cosThetaB1", &cosThetaB1 );
+		if(nBack != 0) reader->AddVariable( "cosThetaB2", &cosThetaB2 );
+		if(nBack != 0) reader->AddVariable( "cosThetaB3", &cosThetaB3 );
+		if(nBack != 0) reader->AddVariable( "cosThetaB4", &cosThetaB4 );
+		reader->AddVariable( "invMassB1", &invMassB1 );
+		reader->AddVariable( "invMassB2", &invMassB2 );
+		reader->AddVariable( "jetB1M", &jetB1M );
+		if(nBack != 3) reader->AddVariable( "jetB2M", &jetB2M );
+		reader->AddVariable( "jetB3M", &jetB3M );
+		reader->AddVariable( "jetB4M", &jetB4M );
+		reader->AddVariable( "jetB1Pt", &jetB1Pt );
+		reader->AddVariable( "jetB2Pt", &jetB2Pt );
+		reader->AddVariable( "jetB3Pt", &jetB3Pt );
+		reader->AddVariable( "minJetM", &minJetM );
+		reader->AddVariable( "sphericity", &sphericity );
+		if(nBack != 0 && nBack != 2 && nBack != 3) reader->AddVariable( "sumPt", &sumPt );
+		reader->AddVariable("invMassB1AntiKt", &invMassB1AntiKt);
+		reader->AddVariable("invMassB2AntiKt", &invMassB2AntiKt);
+		if(nBack != 2 && nBack != 3) reader->AddVariable("nJetsAntiKt", &nJetsAntiKt);
+		reader->AddVariable("invMassB11Best", &invMassB11Best);
+		reader->AddVariable("invMassB21Best", &invMassB21Best);
+		if(nBack != 1) reader->AddVariable("invMassB12Best", &invMassB12Best);
+		if(nBack != 1) reader->AddVariable("invMassB13Best", &invMassB13Best);
+		if(nBack != 0 && nBack != 2 && nBack != 3) reader->AddVariable("invMassB23Best", &invMassB23Best);
+		if(nBack != 1) reader->AddVariable("invMassB14Best", &invMassB14Best);
+		if(nBack != 2) reader->AddVariable("invMassB24Best", &invMassB24Best);
+		reader->AddVariable("invMassB15Best", &invMassB15Best);
+		if(nBack != 1) reader->AddVariable("invMassB16Best", &invMassB16Best);
+		if(nBack != 1) reader->AddVariable("invMassB17Best", &invMassB17Best);
+		if(nBack != 2 && nBack != 3) reader->AddVariable("invMassB27Best", &invMassB27Best);
+		reader->AddVariable("invMassB18Best", &invMassB18Best);
+		reader->AddVariable("exclYmerge12", &exclYmerge12);
+		reader->AddVariable("exclYmerge23", &exclYmerge23);
+		reader->AddVariable("exclYmerge34", &exclYmerge34);
+		reader->AddVariable("exclYmerge45", &exclYmerge45);
+		reader->AddVariable("exclYmerge56", &exclYmerge56);
+		reader->AddVariable("invMassZZ1", &invMassZZ1);
+		reader->AddVariable("invMassZZ2", &invMassZZ2);
+		reader->AddVariable("thrust", &thrust);
+	}
 
 
 
@@ -493,6 +535,14 @@
 	theTree->SetBranchAddress("invMassB27Best", &invMassB27Best);
 	theTree->SetBranchAddress("invMassB18Best", &invMassB18Best);
 	theTree->SetBranchAddress("invMassB28Best", &invMassB28Best);
+	theTree->SetBranchAddress("exclYmerge12", &exclYmerge12);
+	theTree->SetBranchAddress("exclYmerge23", &exclYmerge23);
+	theTree->SetBranchAddress("exclYmerge34", &exclYmerge34);
+	theTree->SetBranchAddress("exclYmerge45", &exclYmerge45);
+	theTree->SetBranchAddress("exclYmerge56", &exclYmerge56);
+	theTree->SetBranchAddress("invMassZZ1", &invMassZZ1);
+	theTree->SetBranchAddress("invMassZZ2", &invMassZZ2);
+	theTree->SetBranchAddress("thrust", &thrust);
 
     
     
