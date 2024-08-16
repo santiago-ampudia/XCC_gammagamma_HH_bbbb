@@ -415,6 +415,8 @@ void FSRWholeClassification(TString fileFunction, TString preselection, TString 
     	outFile << "meanSignificances: " << meanSignificances << endl;
     	outFile << "meanErrorsLeft: " << meanErrorsLeft << endl;
     	outFile << "meanErrorsRight: " << meanErrorsRight << endl;
+    	outFile << "stdSignificances: " << TMath::StdDev(significances.size(), &significances[0]) << endl;
+    	outFile << "varianceSignificances: " << (TMath::StdDev(significances.size(), &significances[0]))*(TMath::StdDev(significances.size(), &significances[0])) << endl;
     	outFile << "Best sample: " << bestSample << endl;
     	outFile << "bestPreliminarySignificances: " << bestPreliminarySignificances << endl;
     	outFile << "bestSignificances: " << bestSignificances << endl;
