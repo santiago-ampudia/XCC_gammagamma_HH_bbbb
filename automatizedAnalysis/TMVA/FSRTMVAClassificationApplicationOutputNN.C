@@ -228,7 +228,7 @@
 	 
 	       theTree->GetEntry(ievt);
 	       
-	       TString methodName = inputMethod + TString(" method");
+	       TString methodName = TString(inputMethod) + TString(" method");
 	       
 	        sum+=reader->EvaluateMVA( methodName );
 	       
@@ -257,7 +257,7 @@
     if (Use["CutsGA"]) std::cout << "--- Efficiency for CutsGA method: " << double(nSelCutsGA)/theTree->GetEntries()
                                  << " (for a required signal efficiency of " << effS << ")" << std::endl;
  
-    if (Use["CutsGA"]) {
+    /*if (Use["CutsGA"]) {
  
        // test: retrieve cuts for particular signal efficiency
        // CINT ignores dynamic_casts so we have to use a cuts-secific Reader function to acces the pointer
@@ -279,7 +279,7 @@
           }
           std::cout << "--- -------------------------------------------------------------" << std::endl;
        }
-    }
+    }*/
  
     // Write histograms
  
