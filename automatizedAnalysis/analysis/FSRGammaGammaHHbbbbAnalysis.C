@@ -26,7 +26,6 @@ R__LOAD_LIBRARY(libDelphes)
 #include "TRandom.h"
 #include "TVector3.h"
 #include "TMatrixDSymEigen.h"
-#include "EventShape/Class/interface/EventShape.h"
 #include "vector"
 #include <vector>
 #include "TMatrixDSym.h"
@@ -4078,7 +4077,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 		outputTreeSTest->Close();
 	  	////////creation of File for TMVA for signal HH
 	  	
-		/*////////creation of File for TMVA for back qq  
+		////////creation of File for TMVA for back qq  
 		const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAll.root";
 		// Check if file exists and increment sampleIndex if necessary
 		sampleIndex=0;
@@ -4101,7 +4100,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	
 	  	outputTreeBqqTrain->Close();
 		outputTreeBqqTest->Close();
-	  	////////creation of File for TMVA for back qq*/ 	
+	  	////////creation of File for TMVA for back qq 	
 	  	
 	  	////////creation of File for TMVA for back ttbar  
 	  	const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattAll.root";
