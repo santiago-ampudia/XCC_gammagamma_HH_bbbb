@@ -569,10 +569,10 @@
 	   
 	    // Book the MVA methods
 	    TString dir;
-	    if(nBack == 0) dir    = "analysis/datasetqq" + rtdCut + NNVars + sampleName + "/weights/";
-	    else if(nBack == 1) dir    = "analysis/datasetttbar" + rtdCut + NNVars + sampleName + "/weights/";
-	    else if(nBack == 2) dir    = "analysis/datasetZZ" + rtdCut + NNVars + sampleName + "/weights/";
-	    else if(nBack == 3) dir    = "analysis/datasetWW" + rtdCut + NNVars + sampleName + "/weights/";
+	    if(nBack == 0) dir    = TString("analysis/datasetqq") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
+	    else if(nBack == 1) dir    = TString("analysis/datasetttbar") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
+	    else if(nBack == 2) dir    = TString("analysis/datasetZZ") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
+	    else if(nBack == 3) dir    = TString("analysis/datasetWW") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
 	    TString prefix = "TMVAClassification";
 	    // Book method(s)
 	    for (std::map<std::string,int>::iterator it = Use.begin(); it != Use.end(); it++) {
@@ -589,7 +589,7 @@
 	 
 	       theTree->GetEntry(ievt);
 	       
-	       TString methodName = inputMethod + TString(" method");
+	       TString methodName = TString(inputMethod) + TString(" method");
 	       
 	        sum+=reader->EvaluateMVA( methodName );
 	       
@@ -620,7 +620,7 @@
     if (Use["CutsGA"]) std::cout << "--- Efficiency for CutsGA method: " << double(nSelCutsGA)/theTree->GetEntries()
                                  << " (for a required signal efficiency of " << effS << ")" << std::endl;
  
-    if (Use["CutsGA"]) {
+    /*if (Use["CutsGA"]) {
  
        // test: retrieve cuts for particular signal efficiency
        // CINT ignores dynamic_casts so we have to use a cuts-secific Reader function to acces the pointer
@@ -642,7 +642,7 @@
           }
           std::cout << "--- -------------------------------------------------------------" << std::endl;
        }
-    }
+    }*/
  
     // Write histograms
  
