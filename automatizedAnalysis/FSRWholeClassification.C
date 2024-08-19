@@ -434,5 +434,4 @@ void FSRWholeClassification(TString fileFunction, TString preselection, TString 
     	outFile << "rtdCut: " << rtdCut << endl;
     	outFile.close();
     	
-    	return 0;
 }
