@@ -138,12 +138,14 @@
  
     // Create a set of variables and declare them to the reader
     // - the variable names MUST corresponds in name and type to those given in the weight file(s) used
-    Float_t NN1Output, NN2Output, NN3Output, NN4Output;
+    Float_t NN1Output, NN2Output, NN3Output, NN4Output, NN5Output, NN6Output, NN7Output;
     reader->AddVariable( "NN1Output", &NN1Output );
     reader->AddVariable( "NN2Output", &NN2Output );
     reader->AddVariable( "NN3Output", &NN3Output );
     reader->AddVariable( "NN4Output", &NN4Output );
- 
+	reader->AddVariable( "NN5Output", &NN5Output );
+	reader->AddVariable( "NN6Output", &NN6Output );
+	reader->AddVariable( "NN7Output", &NN7Output );
  
     // Prepare input tree (this must be replaced by your data source)
     // in this example, there is a toy tree with signal and one with background events
@@ -154,18 +156,27 @@
     string inputBttbarText = "analysis/outputTreeBttbarNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
     string inputBZZText = "analysis/outputTreeBZZNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
     string inputBWWText = "analysis/outputTreeBWWNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string inputBqqXText = "analysis/outputTreeBqqXNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string inputBqqqqXText = "analysis/outputTreeBqqqqXNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string inputBqqHXText = "analysis/outputTreeBqqHXNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	
     TFile* inputS = new TFile(inputSText.c_str());
     TFile* inputBqq = new TFile(inputBqqText.c_str());
     TFile* inputBttbar = new TFile(inputBttbarText.c_str());
     TFile* inputBZZ = new TFile(inputBZZText.c_str());
     TFile* inputBWW = new TFile(inputBWWText.c_str());
-    
+	TFile* inputBqqX = new TFile(inputBqqXText.c_str());
+	TFile* inputBqqqqX = new TFile(inputBqqqqXText.c_str());
+	TFile* inputBqqHX = new TFile(inputBqqHXText.c_str());
     
     if(topology==0) std::cout << "--- TMVAClassificationApplicationOutputNN   : Using input file for signal: " << inputS->GetName() << std::endl;
     else if(topology==1) std::cout << "--- TMVAClassificationApplicationOutputNN   : Using input file for qq background: " << inputBqq->GetName() << std::endl;
     else if(topology==2) std::cout << "--- TMVAClassificationApplicationOutputNN   : Using input file for ttbar background: " << inputBttbar->GetName() << std::endl;
     else if(topology==3) std::cout << "--- TMVAClassificationApplicationOutputNN   : Using input file for ZZ background: " << inputBZZ->GetName() << std::endl;
     else if(topology==4) std::cout << "--- TMVAClassificationApplicationOutputNN   : Using input file for WW background: " << inputBWW->GetName() << std::endl;
+	else if(topology==5) std::cout << "--- TMVAClassificationApplicationOutputNN   : Using input file for qqX background: " << inputBqqX->GetName() << std::endl;
+	else if(topology==6) std::cout << "--- TMVAClassificationApplicationOutputNN   : Using input file for qqqqX background: " << inputBqqqqX->GetName() << std::endl;
+	else if(topology==7) std::cout << "--- TMVAClassificationApplicationOutputNN   : Using input file for qqHX background: " << inputBqqHX->GetName() << std::endl;
     
     // Event loop
  
@@ -182,16 +193,18 @@
     else if(topology == 2) theTree = (TTree*)inputBttbar->Get("TreeBttbarNNTest");
     else if(topology == 3) theTree = (TTree*)inputBZZ->Get("TreeBZZNNTest");
     else if(topology == 4) theTree = (TTree*)inputBWW->Get("TreeBWWNNTest");
-    
+	else if(topology == 5) theTree = (TTree*)inputBqqX->Get("TreeBqqXNNTest");
+	else if(topology == 6) theTree = (TTree*)inputBqqqqX->Get("TreeBqqqqXNNTest");
+	else if(topology == 7) theTree = (TTree*)inputBqqHX->Get("TreeBqqHXNNTest");
     
     theTree->SetBranchAddress( "NN1Output", &NN1Output );
     theTree->SetBranchAddress( "NN2Output", &NN2Output );
     theTree->SetBranchAddress( "NN3Output", &NN3Output );
     theTree->SetBranchAddress( "NN4Output", &NN4Output );
+	theTree->SetBranchAddress( "NN5Output", &NN5Output );
+	theTree->SetBranchAddress( "NN6Output", &NN6Output );
+	theTree->SetBranchAddress( "NN7Output", &NN7Output );
 
-    
-    
-    
     // Efficiency calculator for cut method
     Int_t    nSelCutsGA = 0;
     Double_t effS       = 0.7;
@@ -203,13 +216,16 @@
     else if(topology == 2) std::cout << "--- Processing: " << theTree->GetEntries() << " ttbar background events" << std::endl;
     else if(topology == 3) std::cout << "--- Processing: " << theTree->GetEntries() << " ZZ background events" << std::endl;
     else if(topology == 4) std::cout << "--- Processing: " << theTree->GetEntries() << " WW background events" << std::endl;
+	else if(topology == 5) std::cout << "--- Processing: " << theTree->GetEntries() << " qqX background events" << std::endl;
+	else if(topology == 6) std::cout << "--- Processing: " << theTree->GetEntries() << " qqqqX background events" << std::endl;
+	else if(topology == 7) std::cout << "--- Processing: " << theTree->GetEntries() << " qqHX background events" << std::endl;
     
     TStopwatch sw;
     sw.Start();
    
 	    // Book the MVA methods
 	    TString dir;
-	    dir    = "analysis/datasetOutputNNqqttbarZZWW"+rtdCut+varVersion+preselection+sampleName+"/weights/";
+	    dir    = "analysis/datasetOutputNNqqttbarZZWWqqXqqqqXqqHX"+rtdCut+varVersion+preselection+sampleName+"/weights/";
 	    TString prefix = "TMVAClassification";
 	    // Book method(s)
 	    for (std::map<std::string,int>::iterator it = Use.begin(); it != Use.end(); it++) {
@@ -306,6 +322,9 @@
  	TH1F *histBDTBackClone = (TH1F*)histBDTBack.Clone("histBDTBackClone");
  	histBDTHHClone->SetFillColor(colorHH);
  	histBDTBackClone->SetFillColor(colorBack);
+
+	histBDTHHClone->Scale(1.0 / histBDTHHClone->Integral());
+	histBDTBackClone->Scale(1.0 / histBDTBackClone->Integral());
  	
  	
  	double contEventsHH=0, contEventsBack=0;
@@ -424,7 +443,7 @@
  }
  
  /////Function that generates ROC curve without using histograms and integrals, as well as calculates the max. significance
- void findSignificance(double bottomHistLimit, double topHistLimit, double nbin, vector<double> NNOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, double& defCut, double& maxSignificance, double weightHH, double weightBackqq, double weightBackttbar, double weightBackZZ, double& weightBackWW, TH2F& histROC, TH2F& histROCRej, TH2F& histSignificance, double& totalRemaining, double& HHRemaining, double& backRemaining, double& backqqRemaining, double& backttbarRemaining, double& backZZRemaining, double& backWWRemaining)
+ void findSignificance(double bottomHistLimit, double topHistLimit, double nbin, vector<double> NNOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, double& defCut, double& maxSignificance, double weightHH, double weightBackqq, double weightBackttbar, double weightBackZZ, double& weightBackWW, double& weightBackqqX, double& weightBackqqqqX, double& weightBackqqHX, TH2F& histROC, TH2F& histROCRej, TH2F& histSignificance, double& totalRemaining, double& HHRemaining, double& backRemaining, double& backqqRemaining, double& backttbarRemaining, double& backZZRemaining, double& backWWRemaining, double& backqqXRemaining, double& backqqqqXRemaining, double& backqqHXRemaining)
  {
  	defCut=bottomHistLimit;
 	double significance; 	
@@ -451,9 +470,20 @@
 	vector<double> NNOutputBackZZ(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
 	
 	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ;
-	topLimitBack = size;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW;
 	vector<double> NNOutputBackWW(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
+
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX;
+	vector<double> NNOutputBackqqX(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
+
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX;
+	vector<double> NNOutputBackqqqqX(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
 	
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX;
+	vector<double> NNOutputBackqqHX(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
 	
 	cout<<"HH size in significance function: "<<NNOutputHH.size()<<endl<<"qq size in significance function: "<<NNOutputBackqq.size()<<endl<<"ttbar size in significance function: "<<NNOutputBackttbar.size()<<endl<<"ZZ size in significance function: "<<NNOutputBackZZ.size()<<endl<<"WW size in significance function: "<<NNOutputBackWW.size()<<endl<<endl;
 	//cout<<"bottomLimitBack: "<<bottomLimitBack<<"      topLimitBack: "<<topLimitBack<<endl<<endl<<endl<<endl;
@@ -468,9 +498,14 @@
 	int sizeBackttbar = NNOutputBackttbar.size();
 	int sizeBackZZ = NNOutputBackZZ.size();
 	int sizeBackWW = NNOutputBackWW.size();
-	int sizeBack = sizeqq + sizettbar + sizeZZ + sizeWW;
+	int sizeBackqqX = NNOutputBackqqX.size();
+	int sizeBackqqqqX = NNOutputBackqqqqX.size();
+	int sizeBackqqHX = NNOutputBackqqHX.size();
+	int sizeBack = sizeqq + sizettbar + sizeZZ + sizeWW + sizeqqX + sizeqqqqX + sizeqqHX;
 	
 	cout<<"sizeBack: "<<sizeBack<<endl<<"sizeBackqq: "<<sizeBackqq<<endl<<endl;
+
+	cout<<"Events starting significance functions: "<<endl<<"HH: "<<NNOutputHH.size()*weightHH<<endl<<"qq: "<<NNOutputBackqq.size()*weightBackqq<<endl<<"ttbar: "<<NNOutputBackttbar.size()*weightBackttbar<<endl<<"ZZ: "<<NNOutputBackZZ.size()*weightBackZZ<<endl<<"WW: "<<NNOutputBackWW.size()*weightBackWW<<endl<<"qqX: "<<NNOutputBackqqX.size()*weightBackqqX<<endl<<"qqqqX: "<<NNOutputBackqqqqX.size()*weightBackqqqqX<<endl<<"qqHX: "<<NNOutputBackqqHX.size()*weightBackqqHX<<endl<<endl;
 	
 	//cout<<"Size: "<<size<<endl<<"SizeHH: "<<NNOutputHH.size()<<endl<<"SizeBack: "<<NNOutputBack.size()<<endl<<endl;
 	/*for(int i=0; i<100; i++) cout<<NNOutputHH[i]<<", ";
@@ -478,10 +513,9 @@
 	for(int i=0; i<100; i++) cout<<NNOutputBack[i]<<", ";
 	cout<<endl;*/
 	
-	int indexHH=0, indexBackqq=0, indexBackttbar=0, indexBackZZ=0, indexBackWW=0;
-	double elementNHH=NNOutputHH[indexHH],elementN1HH, elementNBackqq=NNOutputBackqq[indexBackqq], elementN1Backqq;
-	double elementNBackttbar=NNOutputBackttbar[indexBackttbar], elementN1Backttbar, elementNBackZZ=NNOutputBackZZ[indexBackZZ], elementN1BackZZ, elementNBackWW=NNOutputBackWW[indexBackWW], elementN1BackWW;
-	double eventsRemainingHH=0, eventsCutHH=0, eventsRemainingBack=0, eventsCutBack=0, eventsRemainingBackqq=0, eventsCutBackqq=0, eventsRemainingBackttbar=0, eventsCutBackttbar=0, eventsRemainingBackZZ=0, eventsCutBackZZ=0, eventsRemainingBackWW=0, eventsCutBackWW=0;
+	int indexHH=0, indexBackqq=0, indexBackttbar=0, indexBackZZ=0, indexBackWW=0, indexBackqqX=0, indexBackqqqqX=0, indexBackqqHX=0;
+	double elementNHH=NNOutputHH[indexHH],elementN1HH, elementNBackqq=NNOutputBackqq[indexBackqq], elementN1Backqq, elementNBackttbar=NNOutputBackttbar[indexBackttbar], elementN1Backttbar, elementNBackZZ=NNOutputBackZZ[indexBackZZ], elementN1BackZZ, elementNBackWW=NNOutputBackWW[indexBackWW], elementN1BackWW, elementNBackqqX=NNOutputBackqqX[indexBackqqX], elementN1BackqqX, elementNBackqqqqX=NNOutputBackqqqqX[indexBackqqqqX], elementN1BackqqqqX, elementNBackqqHX=NNOutputBackqqHX[indexBackqqHX], elementN1BackqqHX;
+	double eventsRemainingHH=0, eventsCutHH=0, eventsRemainingBack=0, eventsCutBack=0, eventsRemainingBackqq=0, eventsCutBackqq=0, eventsRemainingBackttbar=0, eventsCutBackttbar=0, eventsRemainingBackZZ=0, eventsCutBackZZ=0, eventsRemainingBackWW=0, eventsCutBackWW=0, eventsRemainingBackqqX=0, eventsCutBackqqX=0, eventsRemainingBackqqqqX=0, eventsCutBackqqqqX=0, eventsRemainingBackqqHX=0, eventsCutBackqqHX=0;
 	bool flagFraction=false;
 	//for(double cut=bottomHistLimit; cut<=topHistLimit; cut+=0.000001)
 	for(double cut=bottomHistLimit; cut<=topHistLimit; cut+=0.0001)
@@ -511,20 +545,38 @@
 			indexBackWW++;
 			if(indexBackWW<sizeBackWW) elementNBackWW = NNOutputBackWW[indexBackWW];
 		}
+		while(cut>elementNBackqqX && indexBackqqX<sizeBackqqX)
+		{
+			indexBackqqX++;
+			if(indexBackqqX<sizeBackqqX) elementNBackqqX = NNOutputBackqqX[indexBackqqX];
+		}
+		while(cut>elementNBackqqqqX && indexBackqqqqX<sizeBackqqqqX)
+		{
+			indexBackqqqqX++;
+			if(indexBackqqqqX<sizeBackqqqqX) elementNBackqqqqX = NNOutputBackqqqqX[indexBackqqqqX];
+		}
+		while(cut>elementNBackqqHX && indexBackqqHX<sizeBackqqHX)
+		{
+			indexBackqqHX++;
+			if(indexBackqqHX<sizeBackqqHX) elementNBackqqHX = NNOutputBackqqHX[indexBackqqHX];
+		}
 		
 		eventsRemainingHH = sizeHH-indexHH;
 		eventsRemainingBackqq = sizeBackqq-indexBackqq;
 		eventsRemainingBackttbar = sizeBackttbar-indexBackttbar;
 		eventsRemainingBackZZ = sizeBackZZ-indexBackZZ;
 		eventsRemainingBackWW = sizeBackWW-indexBackWW;
-		eventsRemainingBack = eventsRemainingBackqq + eventsRemainingBackttbar + eventsRemainingBackZZ + eventsRemainingBackWW;
+		eventsRemainingBackqqX = sizeBackqqX-indexBackqqX;
+		eventsRemainingBackqqqqX = sizeBackqqqqX-indexBackqqqqX;
+		eventsRemainingBackqqHX = sizeBackqqHX-indexBackqqHX;
+		eventsRemainingBack = eventsRemainingBackqq + eventsRemainingBackttbar + eventsRemainingBackZZ + eventsRemainingBackWW + eventsRemainingBackqqX + eventsRemainingBackqqqqX + eventsRemainingBackqqHX;
 		
 		double fractionHH = eventsRemainingHH/sizeHH;
 		double fractionBack = eventsRemainingBack/sizeBack;
 		histROCRej.Fill(fractionHH, 1/(fractionBack));
 		histROC.Fill(eventsRemainingHH/sizeHH, eventsRemainingBack/sizeBack);
 		
-		significance=(eventsRemainingHH*weightHH)/(sqrt((eventsRemainingHH*weightHH)+(eventsRemainingBackqq*weightBackqq+eventsRemainingBackttbar*weightBackttbar+eventsRemainingBackZZ*weightBackZZ+eventsRemainingBackWW*weightBackWW)));
+		significance=(eventsRemainingHH*weightHH)/(sqrt((eventsRemainingHH*weightHH)+(eventsRemainingBackqq*weightBackqq+eventsRemainingBackttbar*weightBackttbar+eventsRemainingBackZZ*weightBackZZ+eventsRemainingBackWW*weightBackWW+eventsRemainingBackqqX*weightBackqqX+eventsRemainingBackqqqqX*weightBackqqqqX+eventsRemainingBackqqHX*weightBackqqHX)));
 		/*cout<<"CUT: "<<cut<<endl<<endl;
 		cout<<"IndexHH: "<<indexHH<<"    elem: "<<elementNHH<<endl<<"Signal remaining: "<<eventsRemainingHH<<"    signal cut: "<<sizeHH-eventsRemainingHH<<endl<<endl;
 		cout<<"IndexBack: "<<indexBack<<"    elem: "<<elementNBack<<endl<<"Back remaining: "<<eventsRemainingBack<<"    back cut: "<<sizeBack-eventsRemainingBack<<endl;*/
@@ -535,17 +587,20 @@
 	   	{
 	   		maxSignificance=significance;
 	   		defCut=cut;
-	   		backRemaining=eventsRemainingBackqq*weightBackqq+eventsRemainingBackttbar*weightBackttbar+eventsRemainingBackZZ*weightBackZZ+eventsRemainingBackWW*weightBackWW;
+	   		backRemaining=eventsRemainingBackqq*weightBackqq+eventsRemainingBackttbar*weightBackttbar+eventsRemainingBackZZ*weightBackZZ+eventsRemainingBackWW*weightBackWW+eventsRemainingBackqqX*weightBackqqX+eventsRemainingBackqqqqX*weightBackqqqqX+eventsRemainingBackqqHX*weightBackqqHX;
 	   		backqqRemaining=eventsRemainingBackqq*weightBackqq;
 	   		backttbarRemaining=eventsRemainingBackttbar*weightBackttbar;
 	   		backZZRemaining=eventsRemainingBackZZ*weightBackZZ;
 	   		backWWRemaining=eventsRemainingBackWW*weightBackWW;
+	   		backqqXRemaining=eventsRemainingBackqqX*weightBackqqX;
+	   		backqqqqXRemaining=eventsRemainingBackqqqqX*weightBackqqqqX;
+	   		backqqHXRemaining=eventsRemainingBackqqHX*weightBackqqHX;
 	   		HHRemaining=eventsRemainingHH*weightHH;
 	   		totalRemaining=eventsRemainingHH+eventsRemainingBack;
 	   	}
 	}
-	cout<<"HHRemainingUnweighted: "<<HHRemaining/weightHH<<endl<<"backqqRemainingUnweighted: "<<backqqRemaining/weightBackqq<<endl<<"backttbarRemainingUnweighted: "<<backttbarRemaining/weightBackttbar<<endl<<"backZZRemainingUnweighted: "<<backZZRemaining/weightBackZZ<<endl<<"backWWRemainingUnweighted: "<<backWWRemaining/weightBackWW<<endl<<endl; 
-	cout<<"HHRemaining: "<<HHRemaining<<endl<<"backRemaining: "<<backRemaining<<endl<<"backqqRemaining: "<<backqqRemaining<<endl<<"backttbarRemaining: "<<backttbarRemaining<<endl<<"backZZRemaining: "<<backZZRemaining<<endl<<"backWWRemaining: "<<backWWRemaining<<endl<<endl; 
+	cout<<"HHRemainingUnweighted: "<<HHRemaining/weightHH<<endl<<"backqqRemainingUnweighted: "<<backqqRemaining/weightBackqq<<endl<<"backttbarRemainingUnweighted: "<<backttbarRemaining/weightBackttbar<<endl<<"backZZRemainingUnweighted: "<<backZZRemaining/weightBackZZ<<endl<<"backWWRemainingUnweighted: "<<backWWRemaining/weightBackWW<<endl<<"backqqXRemainingUnweighted: "<<backqqXRemaining/weightBackqqX<<endl<<"backqqqqXRemainingUnweighted: "<<backqqqqXRemaining/weightBackqqqqX<<endl<<"backqqHXRemainingUnweighted: "<<backqqHXRemaining/weightBackqqHX<<endl<<endl; 
+	cout<<"HHRemaining: "<<HHRemaining<<endl<<"backRemaining: "<<backRemaining<<endl<<"backqqRemaining: "<<backqqRemaining<<endl<<"backttbarRemaining: "<<backttbarRemaining<<endl<<"backZZRemaining: "<<backZZRemaining<<endl<<"backWWRemaining: "<<backWWRemaining<<endl<<"backqqXRemaining: "<<backqqXRemaining<<endl<<"backqqqqXRemaining: "<<backqqqqXRemaining<<endl<<"backqqHXRemaining: "<<backqqHXRemaining<<endl<<endl; 
 	cout<<"Significance from manual formula: "<<HHRemaining/sqrt(HHRemaining+backRemaining)<<endl;
 	
 	TCanvas *cfindSignificance1 = new TCanvas();
@@ -562,7 +617,6 @@
 	
 	cfindSignificance3->cd();
 	histSignificance.Draw("BOX");
-	
  }
 
 
@@ -694,7 +748,7 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
 	
 	double significance; 	
 	
-	int sizettbar, sizeZZ, sizeWW;
+	int sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX;
   	 
 	double size = NNOutput.size();
 	
@@ -720,7 +774,22 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
 	else if(nBack == 3)
 	{
 		bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ;
-		topLimitBack = size;
+		topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW;
+	}
+	else if(nBack == 4)
+	{
+		bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW;
+		topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX;
+	}
+	else if(nBack == 5)
+	{
+		bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX;
+		topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX;
+	}
+	else if(nBack == 6)
+	{
+		bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX;
+		topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX;
 	}
 	//cout<<"bottomLimitBack: "<<bottomLimitBack<<"      topLimitBack: "<<topLimitBack<<endl<<endl<<endl<<endl;
 	vector<double> NNOutputBack(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
@@ -994,103 +1063,155 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
  	string inputTrainHHText="analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
  	string inputTestHHText="analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
  	TFile* inputTrainHH = new TFile(inputTrainHHText.c_str());
-    	TTree* theTreeTrainHH = (TTree*)inputTrainHH->Get("TreeSTrain");
+    TTree* theTreeTrainHH = (TTree*)inputTrainHH->Get("TreeSTrain");
  	TFile* inputTestHH = new TFile(inputTestHHText.c_str());
-    	TTree* theTreeTestHH = (TTree*)inputTestHH->Get("TreeSTest");
-    	double weightFactorHH = (theTreeTestHH->GetEntries()+theTreeTrainHH->GetEntries());
-    	weightFactorHH = weightFactorHH/(theTreeTestHH->GetEntries());
-    	string inputTrainqqText="analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+    TTree* theTreeTestHH = (TTree*)inputTestHH->Get("TreeSTest");
+    double weightFactorHH = (theTreeTestHH->GetEntries()+theTreeTrainHH->GetEntries());
+    weightFactorHH = weightFactorHH/(theTreeTestHH->GetEntries());
+	string inputTrainqqText="analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
  	string inputTestqqText="analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-    	TFile* inputTrainqq = new TFile(inputTrainqqText.c_str());
-    	TTree* theTreeTrainqq = (TTree*)inputTrainqq->Get("TreeBqqTrain");
+	TFile* inputTrainqq = new TFile(inputTrainqqText.c_str());
+	TTree* theTreeTrainqq = (TTree*)inputTrainqq->Get("TreeBqqTrain");
  	TFile* inputTestqq = new TFile(inputTestqqText.c_str());
-    	TTree* theTreeTestqq = (TTree*)inputTestqq->Get("TreeBqqTest");
-    	double weightFactorqq = (theTreeTestqq->GetEntries()+theTreeTrainqq->GetEntries());
-    	weightFactorqq = weightFactorqq/(theTreeTestqq->GetEntries());
-    	string inputTrainttbarText="analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+    TTree* theTreeTestqq = (TTree*)inputTestqq->Get("TreeBqqTest");
+    double weightFactorqq = (theTreeTestqq->GetEntries()+theTreeTrainqq->GetEntries());
+    weightFactorqq = weightFactorqq/(theTreeTestqq->GetEntries());
+    string inputTrainttbarText="analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
  	string inputTestttbarText="analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-    	TFile* inputTrainttbar = new TFile(inputTrainttbarText.c_str());
-    	TTree* theTreeTrainttbar = (TTree*)inputTrainttbar->Get("TreeBttTrain");
+    TFile* inputTrainttbar = new TFile(inputTrainttbarText.c_str());
+    TTree* theTreeTrainttbar = (TTree*)inputTrainttbar->Get("TreeBttTrain");
  	TFile* inputTestttbar = new TFile(inputTestttbarText.c_str());
-    	TTree* theTreeTestttbar = (TTree*)inputTestttbar->Get("TreeBttTest");
-    	double weightFactorttbar = (theTreeTestttbar->GetEntries()+theTreeTrainttbar->GetEntries());
-    	weightFactorttbar = weightFactorttbar/(theTreeTestttbar->GetEntries());
-    	string inputTrainZZText="analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+    TTree* theTreeTestttbar = (TTree*)inputTestttbar->Get("TreeBttTest");
+    double weightFactorttbar = (theTreeTestttbar->GetEntries()+theTreeTrainttbar->GetEntries());
+    weightFactorttbar = weightFactorttbar/(theTreeTestttbar->GetEntries());
+    string inputTrainZZText="analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
  	string inputTestZZText="analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-    	TFile* inputTrainZZ = new TFile(inputTrainZZText.c_str());
-    	TTree* theTreeTrainZZ = (TTree*)inputTrainZZ->Get("TreeBZZTrain");
+    TFile* inputTrainZZ = new TFile(inputTrainZZText.c_str());
+    TTree* theTreeTrainZZ = (TTree*)inputTrainZZ->Get("TreeBZZTrain");
  	TFile* inputTestZZ = new TFile(inputTestZZText.c_str());
-    	TTree* theTreeTestZZ = (TTree*)inputTestZZ->Get("TreeBZZTest");
-    	double weightFactorZZ = (theTreeTestZZ->GetEntries()+theTreeTrainZZ->GetEntries());
-    	weightFactorZZ = weightFactorZZ/(theTreeTestZZ->GetEntries());
-    	string inputTrainWWText="analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+    TTree* theTreeTestZZ = (TTree*)inputTestZZ->Get("TreeBZZTest");
+    double weightFactorZZ = (theTreeTestZZ->GetEntries()+theTreeTrainZZ->GetEntries());
+    weightFactorZZ = weightFactorZZ/(theTreeTestZZ->GetEntries());
+    string inputTrainWWText="analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
  	string inputTestWWText="analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-    	TFile* inputTrainWW = new TFile(inputTrainWWText.c_str());
-    	TTree* theTreeTrainWW = (TTree*)inputTrainWW->Get("TreeBWWTrain");
+    TFile* inputTrainWW = new TFile(inputTrainWWText.c_str());
+    TTree* theTreeTrainWW = (TTree*)inputTrainWW->Get("TreeBWWTrain");
  	TFile* inputTestWW = new TFile(inputTestWWText.c_str());
-    	TTree* theTreeTestWW = (TTree*)inputTestWW->Get("TreeBWWTest");
-    	double weightFactorWW = (theTreeTestWW->GetEntries()+theTreeTrainWW->GetEntries());
-    	weightFactorWW = weightFactorWW/(theTreeTestWW->GetEntries());
-    	
-    	string inputTrainHHNNText = "analysis/outputTreeSNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-    	string inputTestHHNNText = "analysis/outputTreeSNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-    	TFile* inputTrainHHNN = new TFile(inputTrainHHNNText.c_str());
-    	TTree* theTreeTrainHHNN = (TTree*)inputTrainHHNN->Get("TreeSNNTrain");
+    TTree* theTreeTestWW = (TTree*)inputTestWW->Get("TreeBWWTest");
+    double weightFactorWW = (theTreeTestWW->GetEntries()+theTreeTrainWW->GetEntries());
+    weightFactorWW = weightFactorWW/(theTreeTestWW->GetEntries());
+	string inputTrainqqXText="analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string inputTestqqXText="analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	TFile* inputTrainqqX = new TFile(inputTrainqqXText.c_str());
+	TTree* theTreeTrainqqX = (TTree*)inputTrainqqX->Get("TreeBqqXTrain");
+	TFile* inputTestqqX = new TFile(inputTestqqXText.c_str());
+	TTree* theTreeTestqqX = (TTree*)inputTestqqX->Get("TreeBqqXTest");
+	double weightFactorqqX = (theTreeTestqqX->GetEntries()+theTreeTrainqqX->GetEntries());
+	weightFactorqqX = weightFactorqqX/(theTreeTestqqX->GetEntries());
+	string inputTrainqqqqXText="analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string inputTestqqqqXText="analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	TFile* inputTrainqqqqX = new TFile(inputTrainqqqqXText.c_str());
+	TTree* theTreeTrainqqqqX = (TTree*)inputTrainqqqqX->Get("TreeBqqqqXTrain");
+	TFile* inputTestqqqqX = new TFile(inputTestqqqqXText.c_str());
+	TTree* theTreeTestqqqqX = (TTree*)inputTestqqqqX->Get("TreeBqqqqXTest");
+	double weightFactorqqqqX = (theTreeTestqqqqX->GetEntries()+theTreeTrainqqqqX->GetEntries());
+	weightFactorqqqqX = weightFactorqqqqX/(theTreeTestqqqqX->GetEntries());
+	string inputTrainqqHXText="analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string inputTestqqHXText="analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	TFile* inputTrainqqHX = new TFile(inputTrainqqHXText.c_str());
+	TTree* theTreeTrainqqHX = (TTree*)inputTrainqqHX->Get("TreeBqqHXTrain");
+	TFile* inputTestqqHX = new TFile(inputTestqqHXText.c_str());
+	TTree* theTreeTestqqHX = (TTree*)inputTestqqHX->Get("TreeBqqHXTest");
+	double weightFactorqqHX = (theTreeTestqqHX->GetEntries()+theTreeTrainqqHX->GetEntries());
+	weightFactorqqHX = weightFactorqqHX/(theTreeTestqqHX->GetEntries());
+
+    string inputTrainHHNNText = "analysis/outputTreeSNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+    string inputTestHHNNText = "analysis/outputTreeSNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputTrainHHNN = new TFile(inputTrainHHNNText.c_str());
+    TTree* theTreeTrainHHNN = (TTree*)inputTrainHHNN->Get("TreeSNNTrain");
  	TFile* inputTestHHNN = new TFile(inputTestHHNNText.c_str());
-    	TTree* theTreeTestHHNN = (TTree*)inputTestHHNN->Get("TreeSNNTest");
-    	double weightFactorHHNN = (theTreeTestHHNN->GetEntries()+theTreeTrainHHNN->GetEntries());
-    	weightFactorHHNN = weightFactorHHNN/(theTreeTestHHNN->GetEntries());
-    	string inputTrainqqNNText = "analysis/outputTreeBqqNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-    	string inputTestqqNNText = "analysis/outputTreeBqqNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-    	TFile* inputTrainqqNN = new TFile(inputTrainqqNNText.c_str());
-    	TTree* theTreeTrainqqNN = (TTree*)inputTrainqqNN->Get("TreeBqqNNTrain");
+    TTree* theTreeTestHHNN = (TTree*)inputTestHHNN->Get("TreeSNNTest");
+    double weightFactorHHNN = (theTreeTestHHNN->GetEntries()+theTreeTrainHHNN->GetEntries());
+    weightFactorHHNN = weightFactorHHNN/(theTreeTestHHNN->GetEntries());
+    string inputTrainqqNNText = "analysis/outputTreeBqqNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+    string inputTestqqNNText = "analysis/outputTreeBqqNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputTrainqqNN = new TFile(inputTrainqqNNText.c_str());
+    TTree* theTreeTrainqqNN = (TTree*)inputTrainqqNN->Get("TreeBqqNNTrain");
  	TFile* inputTestqqNN = new TFile(inputTestqqNNText.c_str());
-    	TTree* theTreeTestqqNN = (TTree*)inputTestqqNN->Get("TreeBqqNNTest");
-    	double weightFactorqqNN = (theTreeTestqqNN->GetEntries()+theTreeTrainqqNN->GetEntries());
-    	weightFactorqqNN = weightFactorqqNN/(theTreeTestqqNN->GetEntries());
-    	string inputTrainttbarNNText = "analysis/outputTreeBttbarNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-    	string inputTestttbarNNText = "analysis/outputTreeBttbarNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-    	TFile* inputTrainttbarNN = new TFile(inputTrainttbarNNText.c_str());
-    	TTree* theTreeTrainttbarNN = (TTree*)inputTrainttbarNN->Get("TreeBttbarNNTrain");
+    TTree* theTreeTestqqNN = (TTree*)inputTestqqNN->Get("TreeBqqNNTest");
+    double weightFactorqqNN = (theTreeTestqqNN->GetEntries()+theTreeTrainqqNN->GetEntries());
+    weightFactorqqNN = weightFactorqqNN/(theTreeTestqqNN->GetEntries());
+    string inputTrainttbarNNText = "analysis/outputTreeBttbarNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+    string inputTestttbarNNText = "analysis/outputTreeBttbarNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	TFile* inputTrainttbarNN = new TFile(inputTrainttbarNNText.c_str());
+    TTree* theTreeTrainttbarNN = (TTree*)inputTrainttbarNN->Get("TreeBttbarNNTrain");
  	TFile* inputTestttbarNN = new TFile(inputTestttbarNNText.c_str());
-    	TTree* theTreeTestttbarNN = (TTree*)inputTestttbarNN->Get("TreeBttbarNNTest");
-    	double weightFactorttbarNN = (theTreeTestttbarNN->GetEntries()+theTreeTrainttbarNN->GetEntries());
-    	weightFactorttbarNN = weightFactorttbarNN/(theTreeTestttbarNN->GetEntries());
-    	string inputTrainZZNNText = "analysis/outputTreeBZZNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-    	string inputTestZZNNText = "analysis/outputTreeBZZNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-    	TFile* inputTrainZZNN = new TFile(inputTrainZZNNText.c_str());
-    	TTree* theTreeTrainZZNN = (TTree*)inputTrainZZNN->Get("TreeBZZNNTrain");
+    TTree* theTreeTestttbarNN = (TTree*)inputTestttbarNN->Get("TreeBttbarNNTest");
+	double weightFactorttbarNN = (theTreeTestttbarNN->GetEntries()+theTreeTrainttbarNN->GetEntries());
+    weightFactorttbarNN = weightFactorttbarNN/(theTreeTestttbarNN->GetEntries());
+    string inputTrainZZNNText = "analysis/outputTreeBZZNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+    string inputTestZZNNText = "analysis/outputTreeBZZNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputTrainZZNN = new TFile(inputTrainZZNNText.c_str());
+    TTree* theTreeTrainZZNN = (TTree*)inputTrainZZNN->Get("TreeBZZNNTrain");
  	TFile* inputTestZZNN = new TFile(inputTestZZNNText.c_str());
-    	TTree* theTreeTestZZNN = (TTree*)inputTestZZNN->Get("TreeBZZNNTest");
-    	double weightFactorZZNN = (theTreeTestZZNN->GetEntries()+theTreeTrainZZNN->GetEntries());
-    	weightFactorZZNN = weightFactorZZNN/(theTreeTestZZNN->GetEntries());
-    	string inputTrainWWNNText = "analysis/outputTreeBWWNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-    	string inputTestWWNNText = "analysis/outputTreeBWWNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-    	TFile* inputTrainWWNN = new TFile(inputTrainWWNNText.c_str());
-    	TTree* theTreeTrainWWNN = (TTree*)inputTrainWWNN->Get("TreeBWWNNTrain");
+    TTree* theTreeTestZZNN = (TTree*)inputTestZZNN->Get("TreeBZZNNTest");
+    double weightFactorZZNN = (theTreeTestZZNN->GetEntries()+theTreeTrainZZNN->GetEntries());
+    weightFactorZZNN = weightFactorZZNN/(theTreeTestZZNN->GetEntries());
+    string inputTrainWWNNText = "analysis/outputTreeBWWNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+    string inputTestWWNNText = "analysis/outputTreeBWWNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputTrainWWNN = new TFile(inputTrainWWNNText.c_str());
+    TTree* theTreeTrainWWNN = (TTree*)inputTrainWWNN->Get("TreeBWWNNTrain");
  	TFile* inputTestWWNN = new TFile(inputTestWWNNText.c_str());
-    	TTree* theTreeTestWWNN = (TTree*)inputTestWWNN->Get("TreeBWWNNTest");
-    	double weightFactorWWNN = (theTreeTestWWNN->GetEntries()+theTreeTrainWWNN->GetEntries());
-    	weightFactorWWNN = weightFactorWWNN/(theTreeTestWWNN->GetEntries());
-    	
-    	cout<<"WeightFactorHH: "<<weightFactorHH<<endl<<"WeightFactorHHNN: "<<weightFactorHHNN<<endl;
-    	cout<<"WeightFactorqq: "<<weightFactorqq<<endl<<"WeightFactorqqNN: "<<weightFactorqqNN<<endl;
-    	cout<<"WeightFactorttbar: "<<weightFactorttbar<<endl<<"WeightFactorttbarNN: "<<weightFactorttbarNN<<endl;
-    	cout<<"WeightFactorZZ: "<<weightFactorZZ<<endl<<"WeightFactorZZNN: "<<weightFactorZZNN<<endl;
-    	cout<<"WeightFactorWW: "<<weightFactorWW<<endl<<"WeightFactorWWNN: "<<weightFactorWWNN<<endl;
+    TTree* theTreeTestWWNN = (TTree*)inputTestWWNN->Get("TreeBWWNNTest");
+    double weightFactorWWNN = (theTreeTestWWNN->GetEntries()+theTreeTrainWWNN->GetEntries());
+    weightFactorWWNN = weightFactorWWNN/(theTreeTestWWNN->GetEntries());
+	string inputTrainqqXNNText = "analysis/outputTreeBqqXNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string inputTestqqXNNText = "analysis/outputTreeBqqXNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	TFile* inputTrainqqXNN = new TFile(inputTrainqqXNNText.c_str());
+	TTree* theTreeTrainqqXNN = (TTree*)inputTrainqqXNN->Get("TreeBqqXNNTrain");
+	TFile* inputTestqqXNN = new TFile(inputTestqqXNNText.c_str());
+	TTree* theTreeTestqqXNN = (TTree*)inputTestqqXNN->Get("TreeBqqXNNTest");
+	double weightFactorqqXNN = (theTreeTestqqXNN->GetEntries()+theTreeTrainqqXNN->GetEntries());
+	weightFactorqqXNN = weightFactorqqXNN/(theTreeTestqqXNN->GetEntries());
+	string inputTrainqqqqXNNText = "analysis/outputTreeBqqqqXNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string inputTestqqqqXNNText = "analysis/outputTreeBqqqqXNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	TFile* inputTrainqqqqXNN = new TFile(inputTrainqqqqXNNText.c_str());
+	TTree* theTreeTrainqqqqXNN = (TTree*)inputTrainqqqqXNN->Get("TreeBqqqqXNNTrain");
+	TFile* inputTestqqqqXNN = new TFile(inputTestqqqqXNNText.c_str());
+	TTree* theTreeTestqqqqXNN = (TTree*)inputTestqqqqXNN->Get("TreeBqqqqXNNTest");
+	double weightFactorqqqqXNN = (theTreeTestqqqqXNN->GetEntries()+theTreeTrainqqqqXNN->GetEntries());
+	weightFactorqqqqXNN = weightFactorqqqqXNN/(theTreeTestqqqqXNN->GetEntries());
+	string inputTrainqqHXNNText = "analysis/outputTreeBqqHXNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string inputTestqqHXNNText = "analysis/outputTreeBqqHXNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	TFile* inputTrainqqHXNN = new TFile(inputTrainqqHXNNText.c_str());
+	TTree* theTreeTrainqqHXNN = (TTree*)inputTrainqqHXNN->Get("TreeBqqHXNNTrain");
+	TFile* inputTestqqHXNN = new TFile(inputTestqqHXNNText.c_str());
+	TTree* theTreeTestqqHXNN = (TTree*)inputTestqqHXNN->Get("TreeBqqHXNNTest");
+	double weightFactorqqHXNN = (theTreeTestqqHXNN->GetEntries()+theTreeTrainqqHXNN->GetEntries());
+	weightFactorqqHXNN = weightFactorqqHXNN/(theTreeTestqqHXNN->GetEntries());
+
+
+    cout<<"WeightFactorHH: "<<weightFactorHH<<endl<<"WeightFactorHHNN: "<<weightFactorHHNN<<endl;
+    cout<<"WeightFactorqq: "<<weightFactorqq<<endl<<"WeightFactorqqNN: "<<weightFactorqqNN<<endl;
+    cout<<"WeightFactorttbar: "<<weightFactorttbar<<endl<<"WeightFactorttbarNN: "<<weightFactorttbarNN<<endl;
+    cout<<"WeightFactorZZ: "<<weightFactorZZ<<endl<<"WeightFactorZZNN: "<<weightFactorZZNN<<endl;
+    cout<<"WeightFactorWW: "<<weightFactorWW<<endl<<"WeightFactorWWNN: "<<weightFactorWWNN<<endl;
+	cout<<"WeightFactorqqX: "<<weightFactorqqX<<endl<<"WeightFactorqqXNN: "<<weightFactorqqXNN<<endl;
+	cout<<"WeightFactorqqqqX: "<<weightFactorqqqqX<<endl<<"WeightFactorqqqqXNN: "<<weightFactorqqqqXNN<<endl;
+	cout<<"WeightFactorqqHX: "<<weightFactorqqHX<<endl<<"WeightFactorqqHXNN: "<<weightFactorqqHXNN<<endl;
     	
     	//double weightFactorHH=1, weightFactorqq=1, weightFactorttbar=1, weightFactorZZ=1, weightFactorWW=1; 
     	//cout<<"Issue before"<<endl;
  	
  	string method = "BDTG";
- 	string variables = "qqttbarZZWW";
+ 	string variables = "qqttbarZZWqqXqqqqXqqHX";
  	double bottomHistLimit=0.0, topHistLimit=0.0;
  	int methodColor;
  	findHistLimits(method, bottomHistLimit, topHistLimit, methodColor);
  
- 	int sizeHH=0, sizeqq=0, sizettbar=0, sizeZZ=0, sizeWW=0;
+ 	int sizeHH=0, sizeqq=0, sizettbar=0, sizeZZ=0, sizeWW=0, sizeqqX=0, sizeqqqqX=0, sizeqqHX=0;
  	int nbin=10000, nbinNN=100;
- 	double weightHH=0.001225*weightFactorHH*weightFactorHHNN, weightqq=0.0349*weightFactorqq*weightFactorqqNN, weightttbar=0.503*weightFactorttbar*weightFactorttbarNN, weightZZ=0.8167*weightFactorZZ*weightFactorZZNN, weightWW=0.5149*weightFactorWW*weightFactorWWNN;
+ 	double weightHH=0.001225*weightFactorHH*weightFactorHHNN, weightqq=0.0349*weightFactorqq*weightFactorqqNN, weightttbar=0.503*weightFactorttbar*weightFactorttbarNN, weightZZ=0.8167*weightFactorZZ*weightFactorZZNN, weightWW=0.5149*weightFactorWW*weightFactorWWNN, weightqqX=0.04347826*weightFactorqqX*weightFactorqqXNN, weightqqqqX=0.04*weightFactorqqqqX*weightFactorqqqqXNN, weightqqHX=0.001*weightFactorqqHX*weightFactorqqHXNN;
  	vector<double> NNOutput;
  	
  	
@@ -1100,6 +1221,9 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
  	TH1F *histNNBttbar     = new TH1F( "NNBttbar",      "NNoutput on ttbar",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
  	TH1F *histNNBZZ     = new TH1F( "NNBZZ",            "NNoutput on ZZ",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
  	TH1F *histNNBWW     = new TH1F( "NNBWW",            "NNoutput on WW",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histNNBqqX     = new TH1F( "NNBqqX",            "NNoutput on qqX",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histNNBqqqqX     = new TH1F( "NNBqqqqX",            "NNoutput on qqqqX",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histNNBqqHX     = new TH1F( "NNBqqHX",            "NNoutput on qqHX",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
  	
  	histNNHH->SetLineColor(kBlue);
  	histNNB->SetLineColor(kRed+2);
@@ -1107,6 +1231,9 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
  	histNNBttbar->SetLineColor(kRed+2);
  	histNNBZZ->SetLineColor(kRed+2);
  	histNNBWW->SetLineColor(kRed+2);
+ 	histNNBqqX->SetLineColor(kRed+2);
+ 	histNNBqqqqX->SetLineColor(kRed+2);
+ 	histNNBqqHX->SetLineColor(kRed+2);
  	
  	histNNHH->SetFillColor(kBlue);
  	histNNB->SetFillColor(kRed+2);
@@ -1114,6 +1241,9 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
  	histNNBttbar->SetFillColor(kRed+2);
  	histNNBZZ->SetFillColor(kRed+2);
  	histNNBWW->SetFillColor(kRed+2);
+ 	histNNBqqX->SetFillColor(kRed+2);
+ 	histNNBqqqqX->SetFillColor(kRed+2);
+ 	histNNBqqHX->SetFillColor(kRed+2);
  	
  	/////For arguments: empty string, vector for output of NN on all events, size of sample, number of bins, hist for output, string with type of NN, string with vars in the dataset, topology (i.e. 0 for HH, 1 for qq, 2 for ttbar, 3 for ZZ).
  	//////////
@@ -1122,18 +1252,21 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
  	FSRTMVAClassificationApplicationOutputNNHelper("", NNOutput, sizettbar, nbinNN, *histNNBttbar, method, variables, 2, rtdCut, preselection, varVersion, sampleName);
  	FSRTMVAClassificationApplicationOutputNNHelper("", NNOutput, sizeZZ, nbinNN, *histNNBZZ, method, variables, 3, rtdCut, preselection, varVersion, sampleName);
  	FSRTMVAClassificationApplicationOutputNNHelper("", NNOutput, sizeWW, nbinNN, *histNNBWW, method, variables, 4, rtdCut, preselection, varVersion, sampleName);
+	FSRTMVAClassificationApplicationOutputNNHelper("", NNOutput, sizeqqX, nbinNN, *histNNBqqX, method, variables, 5, rtdCut, preselection, varVersion, sampleName);
+	FSRTMVAClassificationApplicationOutputNNHelper("", NNOutput, sizeqqqqX, nbinNN, *histNNBqqqqX, method, variables, 6, rtdCut, preselection, varVersion, sampleName);
+	FSRTMVAClassificationApplicationOutputNNHelper("", NNOutput, sizeqqHX, nbinNN, *histNNBqqHX, method, variables, 7, rtdCut, preselection, varVersion, sampleName);
  	//////////////
  	
  	cout<<"NNOutput size: "<<NNOutput.size()<<endl;
- 	cout<<"sizeHH: "<<sizeHH<<endl<<"sizeqq: "<<sizeqq<<endl<<"sizettbar: "<<sizettbar<<endl<<"sizeZZ: "<<sizeZZ<<endl<<"sizeWW: "<<sizeWW<<endl;
+ 	cout<<"sizeHH: "<<sizeHH<<endl<<"sizeqq: "<<sizeqq<<endl<<"sizettbar: "<<sizettbar<<endl<<"sizeZZ: "<<sizeZZ<<endl<<"sizeWW: "<<sizeWW<<endl<<"sizeqqX: "<<sizeqqX<<endl<<"sizeqqqqX: "<<sizeqqqqX<<endl<<"sizeqqHX: "<<sizeqqHX<<endl<<endl;
  	
  	
  	///////////////////////
- 	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histNNHH, kBlue, *histNNB, kRed+2, method + "NN of NN outputs on HH and all backs (qq+ttbar+ZZ) (unweighted)");
+ 	BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histNNHH, kBlue, *histNNBqq, kRed+2, method + "NN of NN outputs on HH and all backs (qq+ttbar+ZZ) (unweighted)");
  	/////////////////////////
  	
  	///////////////////
- 	double maxSignificance=0, defCut, totalRemaining=0, HHRemaining=0, backqqRemaining=0, backttbarRemaining=0, backZZRemaining=0, backWWRemaining=0, backRemaining=0;
+ 	double maxSignificance=0, defCut, totalRemaining=0, HHRemaining=0, backqqRemaining=0, backttbarRemaining=0, backZZRemaining=0, backWWRemaining=0, backqqXRemaining=0, backqqqqXRemaining=0, backqqHXRemaining=0, backRemaining=0;
  	
  	TH2F *histROC = new TH2F("hROC", "Signal and Background Acceptance (NN of NN outputs)", nbin, 0.0, 1.0, nbin, 0, 1.0);
   	TH2F *histROCRej = new TH2F("hROCRej", "Signal Acceptance and Background Rejection (NN of NN outputs)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
@@ -1142,10 +1275,9 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
   	histSignificance->GetXaxis()->SetTitle("Cut value for NN of NN outputs");
    	histSignificance->GetYaxis()->SetTitle("Significance for NN of NN outputs");
    	
-   	///////////////TERMINAR SIGNIFICANCE
    	
-   	cout<<endl<<"Significance for "<<method<<" of NN outputs applied to HH and qq"<<endl;
- 	findSignificance(bottomHistLimit, topHistLimit, nbin, NNOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, defCut, maxSignificance, weightHH, weightqq, weightttbar, weightZZ, weightWW, *histROC, *histROCRej, *histSignificance, totalRemaining, HHRemaining, backRemaining, backqqRemaining, backttbarRemaining, backZZRemaining, backWWRemaining);
+   	cout<<endl<<"Significance for "<<method<<" of NN outputs applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX"<<endl;
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, NNOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, defCut, maxSignificance, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, *histROC, *histROCRej, *histSignificance, totalRemaining, HHRemaining, backRemaining, backqqRemaining, backttbarRemaining, backZZRemaining, backWWRemaining, backqqXRemaining, backqqqqXRemaining, backqqHXRemaining);
  	cout<<"maxSignificance: "<<maxSignificance<<endl<<"Cut in NN of NN outputs for max significance: "<<defCut<<endl;
  	double finalSignificance = maxSignificance;
  	///////////////////////
@@ -1161,6 +1293,10 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
  	double luminosity = 4900, crossSectionqq, errorTopqq, errorBottomqq;
  	double crossSectionttbar, errorTopttbar, errorBottomttbar;
  	double crossSectionZZ, errorTopZZ, errorBottomZZ;
+	double crossSectionWW, errorTopWW, errorBottomWW;
+	double crossSectionqqX, errorTopqqX, errorBottomqqX;
+	double crossSectionqqqqX, errorTopqqqqX, errorBottomqqqqX;
+	double crossSectionqqHX, errorTopqqHX, errorBottomqqHX;
  	double crossSectionCombined, errorTopCombined, errorBottomCombined;
  	
  	cout<<endl<<endl;
@@ -1170,8 +1306,16 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
  	cout<<"Cross-section and error for the output of "<<method<<"ttbar applied only to HH and ttbar: "<<endl;
  	findCrossSectionHHbbbb(HHRemainingttbar+backRemainingttbar, HHRemainingttbar, backRemainingttbar, luminosity, crossSectionttbar, errorTopttbar, errorBottomttbar, nbin);
  	cout<<"Cross-section and error for the output of "<<method<<"ZZ applied only to HH and ZZ: "<<endl;
- 	findCrossSectionHHbbbb(HHRemainingZZ+backRemainingZZ, HHRemainingZZ, backRemainingZZ, luminosity, crossSectionttbar, errorTopZZ, errorBottomZZ, nbin);*/
- 	cout<<"Cross-section and error for the output of "<<method<<" combined applied to HH, qq, ttbar, ZZ, and WW: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingZZ+backRemainingZZ, HHRemainingZZ, backRemainingZZ, luminosity, crossSectionttbar, errorTopZZ, errorBottomZZ, nbin);
+ 	cout<<"Cross-section and error for the output of "<<method<<"WW applied only to HH and WW: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingWW+backRemainingWW, HHRemainingWW, backRemainingWW, luminosity, crossSectionWW, errorTopWW, errorBottomWW, nbin);
+ 	cout<<"Cross-section and error for the output of "<<method<<"qqX applied only to HH and qqX: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingqqX+backRemainingqqX, HHRemainingqqX, backRemainingqqX, luminosity, crossSectionqqX, errorTopqqX, errorBottomqqX, nbin);
+ 	cout<<"Cross-section and error for the output of "<<method<<"qqqqX applied only to HH and qqqqX: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingqqqqX+backRemainingqqqqX, HHRemainingqqqqX, backRemainingqqqqX, luminosity, crossSectionqqqqX, errorTopqqqqX, errorBottomqqqqX, nbin);
+ 	cout<<"Cross-section and error for the output of "<<method<<"qqHX applied only to HH and qqHX: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingqqHX+backRemainingqqHX, HHRemainingqqHX, backRemainingqqHX, luminosity, crossSectionqqHX, errorTopqqHX, errorBottomqqHX, nbin);*/
+ 	cout<<"Cross-section and error for the output of "<<method<<" combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX: "<<endl;
  	cout<<"HHRemaining: "<<HHRemaining<<endl<<"backRemaining: "<<backRemaining<<endl;
  	findCrossSectionHHbbbb(HHRemaining+backRemaining, HHRemaining, backRemaining, luminosity, crossSectionCombined, errorTopCombined, errorBottomCombined, nbin);
  	double finalErrorLeft = errorBottomCombined;
@@ -1219,11 +1363,10 @@ void checkSigmaOGStyle(double bottomHistLimit, double topHistLimit, int nBack, d
  	cout<<"w ttbar size: "<<sizettbar*weightttbar<<endl<<"uw ttbar size: "<<sizettbar<<endl<<endl;
  	cout<<"w ZZ size: "<<sizeZZ*weightZZ<<endl<<"uw ZZ size: "<<sizeZZ<<endl<<endl;
  	cout<<"w WW size: "<<sizeWW*weightWW<<endl<<"uw WW size: "<<sizeWW<<endl<<endl;
- 	
+ 	cout<<"w qqX size: "<<sizeqqX*weightqqX<<endl<<"uw qqX size: "<<sizeqqX<<endl<<endl;
+ 	cout<<"w qqqqX size: "<<sizeqqqqX*weightqqqqX<<endl<<"uw qqqqX size: "<<sizeqqqqX<<endl<<endl;
+ 	cout<<"w qqHX size: "<<sizeqqHX*weightqqHX<<endl<<"uw qqHX size: "<<sizeqqHX<<endl<<endl;
 
- 	
- 	
- 	
  	return;
  }
  
