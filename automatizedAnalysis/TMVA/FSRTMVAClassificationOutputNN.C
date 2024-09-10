@@ -133,16 +133,27 @@ int FSRTMVAClassificationOutputNN( TString myMethodList = "", string rtdCut = "i
    string inputBttbarText = "analysis/outputTreeBttbarNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
    string inputBZZText = "analysis/outputTreeBZZNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
    string inputBWWText = "analysis/outputTreeBWWNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+   string inputBqqXText = "analysis/outputTreeBqqXNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+   string inputBqqqqXText = "analysis/outputTreeBqqqqXNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+   string inputBqqHXText = "analysis/outputTreeBqqHXNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+   
    TFile* inputS = new TFile(inputSText.c_str());
    TFile* inputBqq = new TFile(inputBqqText.c_str());
    TFile* inputBttbar = new TFile(inputBttbarText.c_str());
    TFile* inputBZZ = new TFile(inputBZZText.c_str());
    TFile* inputBWW = new TFile(inputBWWText.c_str());
+   TFile* inputBqqX = new TFile(inputBqqXText.c_str());
+   TFile* inputBqqqqX = new TFile(inputBqqqqXText.c_str());
+   TFile* inputBqqHX = new TFile(inputBqqHXText.c_str());
+
    std::cout << "--- TMVAClassification       : Using input file for signal: " << inputS->GetName() << std::endl;
    std::cout << "--- TMVAClassification       : Using input file for qq background: " << inputBqq->GetName() << std::endl;
    std::cout << "--- TMVAClassification       : Using input file for ttbar background: " << inputBttbar->GetName() << std::endl;
    std::cout << "--- TMVAClassification       : Using input file for ZZ background: " << inputBZZ->GetName() << std::endl;
    std::cout << "--- TMVAClassification       : Using input file for WW background: " << inputBWW->GetName() << std::endl;
+   std::cout << "--- TMVAClassification       : Using input file for qqX background: " << inputBqqX->GetName() << std::endl;
+   std::cout << "--- TMVAClassification       : Using input file for qqqqX background: " << inputBqqqqX->GetName() << std::endl;
+   std::cout << "--- TMVAClassification       : Using input file for qqHX background: " << inputBqqHX->GetName() << std::endl;
  
    // Register the training and test trees
  
@@ -151,11 +162,18 @@ int FSRTMVAClassificationOutputNN( TString myMethodList = "", string rtdCut = "i
    TTree *backgroundttbar = (TTree*)inputBttbar->Get("TreeBttbarNNTrain");
    TTree *backgroundZZ = (TTree*)inputBZZ->Get("TreeBZZNNTrain");
    TTree *backgroundWW = (TTree*)inputBWW->Get("TreeBWWNNTrain");
+   TTree *backgroundqqX = (TTree*)inputBqqX->Get("TreeBqqXNNTrain");
+   TTree *backgroundqqqqX = (TTree*)inputBqqqqX->Get("TreeBqqqqXNNTrain");
+   TTree *backgroundqqHX = (TTree*)inputBqqHX->Get("TreeBqqHXNNTrain");
+
    int signalTreeSize = signalTree->GetEntries();
    int backgroundqqSize = backgroundqq->GetEntries();
    int backgroundttbarSize = backgroundttbar->GetEntries();
    int backgroundZZSize = backgroundZZ->GetEntries();
    int backgroundWWSize = backgroundWW->GetEntries();
+   int backgroundqqXSize = backgroundqqX->GetEntries();
+   int backgroundqqqqXSize = backgroundqqqqX->GetEntries();
+   int backgroundqqHXSize = backgroundqqHX->GetEntries();
    
    // Create a ROOT output file where TMVA will store ntuples, histograms, etc.
    TString outfileName( "analysis/TMVAOutputNN.root" );
@@ -175,7 +193,7 @@ int FSRTMVAClassificationOutputNN( TString myMethodList = "", string rtdCut = "i
    //TMVA::Factory *factory = new TMVA::Factory( "TMVAClassification", outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;G,D:AnalysisType=Classification" );   
  
    TMVA::DataLoader *dataloader;
-   string dataloaderText = "analysis/datasetOutputNNqqttbarZZWW"+rtdCut+varVersion+preselection+sampleName;
+   string dataloaderText = "analysis/datasetOutputNNqqttbarZZWWqqXqqqqXqqHX"+rtdCut+varVersion+preselection+sampleName;
    dataloader=new TMVA::DataLoader(dataloaderText.c_str());
    //dataloader=new TMVA::DataLoader("datasetOutputNNqq");
    
@@ -197,10 +215,13 @@ int FSRTMVAClassificationOutputNN( TString myMethodList = "", string rtdCut = "i
    dataloader->AddVariable( "NN2Output", 'F' );
    dataloader->AddVariable( "NN3Output", 'F' );
    dataloader->AddVariable( "NN4Output", 'F' );
+   dataloader->AddVariable( "NN5Output", 'F' );
+   dataloader->AddVariable( "NN6Output", 'F' );
+   dataloader->AddVariable( "NN7Output", 'F' );
 
  
    // global event weights per tree (see below for setting event-wise weights)
-   Double_t signalWeight, backgroundqqWeight, backgroundttbarWeight, backgroundZZWeight, backgroundWWWeight;
+   Double_t signalWeight, backgroundqqWeight, backgroundttbarWeight, backgroundZZWeight, backgroundWWWeight, backgroundqqXWeight, backgroundqqqqXWeight, backgroundqqHXWeight;
    /*signalWeight = 0.001225;
    if(back == "qq") backgroundWeight = 0.3062;
    if(back == "ttbar") backgroundWeight = 0.503;*/
@@ -208,7 +229,10 @@ int FSRTMVAClassificationOutputNN( TString myMethodList = "", string rtdCut = "i
    backgroundqqWeight = 1.0;
    backgroundttbarWeight = 1.0;
    backgroundZZWeight = 1.0;  
-   backgroundWWWeight = 1.0;  
+   backgroundWWWeight = 1.0; 
+   backgroundqqXWeight = 1.0;
+   backgroundqqqqXWeight = 1.0;
+   backgroundqqHXWeight = 1.0; 
  
    // You can add an arbitrary number of signal or background trees
    dataloader->AddSignalTree    ( signalTree, signalWeight );
@@ -216,6 +240,9 @@ int FSRTMVAClassificationOutputNN( TString myMethodList = "", string rtdCut = "i
    dataloader->AddBackgroundTree( backgroundttbar, backgroundttbarWeight );
    dataloader->AddBackgroundTree( backgroundZZ, backgroundZZWeight );
    dataloader->AddBackgroundTree( backgroundWW, backgroundWWWeight );
+   dataloader->AddBackgroundTree( backgroundqqX, backgroundqqXWeight );
+   dataloader->AddBackgroundTree( backgroundqqqqX, backgroundqqqqXWeight );
+   dataloader->AddBackgroundTree( backgroundqqHX, backgroundqqHXWeight );
    
    // To give different trees for training and testing, do as follows:
    //
@@ -280,7 +307,7 @@ int FSRTMVAClassificationOutputNN( TString myMethodList = "", string rtdCut = "i
    //dataloader->PrepareTrainingAndTestTree("nTrain_Signal=1000:nTrain_Background=1000:SplitMode=Random:NormMode=NumEvents:!V" );
  
    signalTreeSize--;
-   int backgroundSize=backgroundqqSize+backgroundttbarSize+backgroundZZSize;
+   int backgroundSize=backgroundqqSize+backgroundttbarSize+backgroundZZSize+backgroundWWSize+backgroundqqXSize+backgroundqqqqXSize+backgroundqqHXSize;
    backgroundSize--;
    //dataloader->PrepareTrainingAndTestTree(mycuts, mycutb, "nTrain_Signal=signalTreeSize:nTrain_Background=backgroundSize:nTest_Signal=1:nTest_Background=1:SplitMode=Random:!V" );
    dataloader->PrepareTrainingAndTestTree(mycuts, mycutb, "nTrain_Signal=signalTreeSize:nTrain_Background=backgroundSize:nTest_Signal=1:nTest_Background=1:SplitMode=Random:NormMode=NumEvents:!V");
