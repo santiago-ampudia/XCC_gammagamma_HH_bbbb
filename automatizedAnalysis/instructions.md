@@ -1,3 +1,7 @@
+If using analysis code for backgrounds post WW, skip step 2 and download all the root files for said backgrounds in same folders as the first 4.
+
+
+
 
 Instructions to run the whole automatized analyisis:
    1) Setting up the environment:
