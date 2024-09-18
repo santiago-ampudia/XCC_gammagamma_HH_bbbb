@@ -485,7 +485,7 @@
 	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX;
 	vector<double> NNOutputBackqqHX(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
 	
-	cout<<"HH size in significance function: "<<NNOutputHH.size()<<endl<<"qq size in significance function: "<<NNOutputBackqq.size()<<endl<<"ttbar size in significance function: "<<NNOutputBackttbar.size()<<endl<<"ZZ size in significance function: "<<NNOutputBackZZ.size()<<endl<<"WW size in significance function: "<<NNOutputBackWW.size()<<endl<<endl;
+	cout<<"HH size in significance function: "<<NNOutputHH.size()<<endl<<"qq size in significance function: "<<NNOutputBackqq.size()<<endl<<"ttbar size in significance function: "<<NNOutputBackttbar.size()<<endl<<"ZZ size in significance function: "<<NNOutputBackZZ.size()<<endl<<"WW size in significance function: "<<NNOutputBackWW.size()<<endl<<"qqX size in significance function: "<<NNOutputBackqqX.size()<<endl<<"qqqqX size in significance function: "<<NNOutputBackqqqqX.size()<<endl<<"qqHX size in significance function: "<<NNOutputBackqqHX.size()<<endl<<endl;
 	//cout<<"bottomLimitBack: "<<bottomLimitBack<<"      topLimitBack: "<<topLimitBack<<endl<<endl<<endl<<endl;
 	//cout<<"No crashea en la creacion del vector de back ouputs"<<endl<<endl<<endl;
 	sort(NNOutputHH.begin(), NNOutputHH.end());
@@ -493,6 +493,9 @@
 	sort(NNOutputBackttbar.begin(), NNOutputBackttbar.end());
 	sort(NNOutputBackZZ.begin(), NNOutputBackZZ.end());
 	sort(NNOutputBackWW.begin(), NNOutputBackWW.end());
+	sort(NNOutputBackqqX.begin(), NNOutputBackqqX.end());
+	sort(NNOutputBackqqqqX.begin(), NNOutputBackqqqqX.end());
+	sort(NNOutputBackqqHX.begin(), NNOutputBackqqHX.end());
 	
 	int sizeBackqq = NNOutputBackqq.size();
 	int sizeBackttbar = NNOutputBackttbar.size();
