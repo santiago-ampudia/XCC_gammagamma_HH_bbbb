@@ -1189,7 +1189,7 @@ void sortVectorEightuple(std::vector<double>& vector1, std::vector<double>& vect
 	double eventsRemainingHH=0, eventsCutHH=0, eventsRemainingBack=0, eventsCutBack=0;
 	bool flagFraction=false;
 	//for(double cut=bottomHistLimit; cut<=topHistLimit; cut+=0.000001)
-	for(double cut=bottomHistLimit; cut<=topHistLimit; cut+=0.0001)
+	for(double cut=bottomHistLimit; cut<topHistLimit; cut+=0.0001)
 	{
 		
 		
@@ -1269,7 +1269,7 @@ void sortVectorEightuple(std::vector<double>& vector1, std::vector<double>& vect
  void findSignificanceAllBacks(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NNOutput, double& defCut, double& maxSignificance, double& nBack, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double cutStep)
  {
  	
-	//cout<<"calling findSignificanceAllBacks"<<endl;
+	//cout<<"calling findSignificanceAllBacks";
 	
 	defCut=bottomHistLimit;
 	double significance, HHRemaining, backRemaining; 	
@@ -1322,7 +1322,7 @@ void sortVectorEightuple(std::vector<double>& vector1, std::vector<double>& vect
 	double eventsRemainingHH=0, eventsCutHH=0, eventsRemainingBack=0, eventsCutBack=0, eventsRemainingBackW=0, eventsCutBackW=0, eventsRemainingBackqq=0, eventsCutBackqq=0, eventsRemainingBackttbar=0, eventsCutBackttbar=0, eventsRemainingBackZZ=0, eventsCutBackZZ=0, eventsRemainingBackWW=0, eventsCutBackWW=0, eventsRemainingBackqqX=0, eventsCutBackqqX=0, eventsRemainingBackqqqqX=0, eventsCutBackqqqqX=0, eventsRemainingBackqqHX=0, eventsCutBackqqHX=0;
 	//double cutStep=0.001;
 	//cout<<endl<<"cutStep: "<<cutStep<<endl;
-	for(double cut=bottomHistLimit; cut<=topHistLimit; cut+=cutStep)
+	for(double cut=bottomHistLimit; cut<topHistLimit; cut+=cutStep)
 	{
 		while(cut>elementNHH && indexHH<sizeHH)
 		{
@@ -1417,11 +1417,11 @@ void sortVectorEightuple(std::vector<double>& vector1, std::vector<double>& vect
 		NNOutputBackqqHX.erase(NNOutputBackqqHX.begin(), NNOutputBackqqHX.begin()+indexBackqqHXMaxSignificance);
 
 	
- }
+}
  
- ////Function that finds the optimal cuts for all the indivivual NNs considering all backs
+////Function that finds the optimal cuts for all the indivivual NNs considering all backs
 void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, double& defCutqq, double& defCutttbar, double& defCutZZ, double& defCutWW, double& defCutqqX, double& defCutqqqqX, double& defCutqqHX, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX)
- {
+{
 	vector<double> BDTqqOutputCopy(BDTqqOutput.begin(), BDTqqOutput.end());
 	vector<double> BDTttbarOutputCopy(BDTttbarOutput.begin(), BDTttbarOutput.end());
 	vector<double> BDTZZOutputCopy(BDTZZOutput.begin(), BDTZZOutput.end());
@@ -1500,12 +1500,203 @@ void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vecto
 	{
 		cout<<"maxSignificance ("<<method<<NNCuts[i]<<"): "<<maxSignificances[i]<<endl<<"Cut in NN"<<NNCuts[i]<<" for max significance ("<<method<<NNCuts[i]<<"): "<<NNOutputs[i][0]<<endl;
 	}*/
+}
+
+///Function that finds cut for NNs individually applied to eGamma backs
+ void findSignificanceEGammaBacks(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NNOutput, double& defCut, double& maxSignificance, double& nBack, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double cutStep)
+ {
+ 	
+	//cout<<"calling findSignificanceEGammaBacks";
+	
+	defCut=bottomHistLimit;
+	double significance, HHRemaining, backRemaining; 	
+	double size = NNOutput.size();
+	double bottomLimitBack, topLimitBack;
+
+	vector<double> NNOutputHH(NNOutput.begin(), NNOutput.begin()+sizeHH);
+	bottomLimitBack = sizeHH;
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX;
+	vector<double> NNOutputBackqqX(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX;
+	vector<double> NNOutputBackqqqqX(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX;
+	vector<double> NNOutputBackqqHX(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
+
+	sort(NNOutputHH.begin(), NNOutputHH.end());
+	sort(NNOutputBackqqX.begin(), NNOutputBackqqX.end());
+	sort(NNOutputBackqqqqX.begin(), NNOutputBackqqqqX.end());
+	sort(NNOutputBackqqHX.begin(), NNOutputBackqqHX.end());
+
+	int sizeBackqqX = NNOutputBackqqX.size();
+	int sizeBackqqqqX = NNOutputBackqqqqX.size();
+	int sizeBackqqHX = NNOutputBackqqHX.size();
+
+	int indexHH=0, indexBackqqX=0, indexBackqqqqX=0, indexBackqqHX=0;
+	int indexHHMaxSignificance=0, indexBackqqXMaxSignificance=0, indexBackqqqqXMaxSignificance=0, indexBackqqHXMaxSignificance=0;
+	double elementNHH=NNOutputHH[indexHH], elementN1HH, elementNBackqqX=NNOutputBackqqX[indexBackqqX], elementN1BackqqX, elementNBackqqqqX=NNOutputBackqqqqX[indexBackqqqqX], elementN1BackqqqqX, elementNBackqqHX=NNOutputBackqqHX[indexBackqqHX], elementN1BackqqHX;
+	double eventsRemainingHH=0, eventsCutHH=0, eventsRemainingBack=0, eventsCutBack=0, eventsRemainingBackW=0, eventsCutBackW=0, eventsRemainingBackqqX=0, eventsCutBackqqX=0, eventsRemainingBackqqqqX=0, eventsCutBackqqqqX=0, eventsRemainingBackqqHX=0, eventsCutBackqqHX=0;
+	//double cutStep=0.001;
+	//cout<<endl<<"cutStep: "<<cutStep<<endl;
+	for(double cut=bottomHistLimit; cut<topHistLimit; cut+=cutStep)
+	{
+		while(cut>elementNHH && indexHH<sizeHH)
+		{
+			indexHH++;
+			if(indexHH<sizeHH) elementNHH = NNOutputHH[indexHH];
+		}
+		while(cut>elementNBackqqX && indexBackqqX<sizeBackqqX)
+		{
+			indexBackqqX++;
+			if(indexBackqqX<sizeBackqqX) elementNBackqqX = NNOutputBackqqX[indexBackqqX];
+		}
+		while(cut>elementNBackqqqqX && indexBackqqqqX<sizeBackqqqqX)
+		{
+			indexBackqqqqX++;
+			if(indexBackqqqqX<sizeBackqqqqX) elementNBackqqqqX = NNOutputBackqqqqX[indexBackqqqqX];
+		}
+		while(cut>elementNBackqqHX && indexBackqqHX<sizeBackqqHX)
+		{
+			indexBackqqHX++;
+			if(indexBackqqHX<sizeBackqqHX) elementNBackqqHX = NNOutputBackqqHX[indexBackqqHX];
+		}
+
+		eventsRemainingHH = sizeHH-indexHH;
+		eventsRemainingBackqqX = sizeBackqqX-indexBackqqX;
+		eventsRemainingBackqqqqX = sizeBackqqqqX-indexBackqqqqX;
+		eventsRemainingBackqqHX = sizeBackqqHX-indexBackqqHX;
+
+		eventsRemainingBack = eventsRemainingBackqqX+eventsRemainingBackqqqqX+eventsRemainingBackqqHX;
+		eventsRemainingBackW = eventsRemainingBackqqX*weightqqX+eventsRemainingBackqqqqX*weightqqqqX+eventsRemainingBackqqHX*weightqqHX;
+
+		significance=(eventsRemainingHH*weightHH)/(sqrt((eventsRemainingHH*weightHH)+(eventsRemainingBackW)));
+		/*cout<<"CUT: "<<cut<<endl<<endl;
+		cout<<"IndexHH: "<<indexHH<<"    elem: "<<elementNHH<<endl<<"Signal remaining: "<<eventsRemainingHH<<"    signal cut: "<<sizeHH-eventsRemainingHH<<endl<<endl;
+		cout<<"IndexBackqq: "<<indexBackqq<<"    elemqq: "<<elementNBackqq<<endl<<"Backqq remaining: "<<eventsRemainingBackqq<<"    backqq cut: "<<sizeBackqq-eventsRemainingBackqq<<endl;
+		cout<<"IndexBackttbar: "<<indexBackttbar<<"    elemttbar: "<<elementNBackttbar<<endl<<"Backttbar remaining: "<<eventsRemainingBackttbar<<"    backttbar cut: "<<sizeBackttbar-eventsRemainingBackttbar<<endl;
+		cout<<"IndexBackZZ: "<<indexBackZZ<<"    elemZZ: "<<elementNBackZZ<<endl<<"BackZZ remaining: "<<eventsRemainingBackZZ<<"    backZZ cut: "<<sizeBackZZ-eventsRemainingBackZZ<<endl;
+		cout<<"IndexBackWW: "<<indexBackWW<<"    elemWW: "<<elementNBackWW<<endl<<"BackWW remaining: "<<eventsRemainingBackWW<<"    backWW cut: "<<sizeBackWW-eventsRemainingBackWW<<endl;
+		cout<<"IndexBackqqX: "<<indexBackqqX<<"    elemqqX: "<<elementNBackqqX<<endl<<"BackqqX remaining: "<<eventsRemainingBackqqX<<"    backqqX cut: "<<sizeBackqqX-eventsRemainingBackqqX<<endl;
+		cout<<"IndexBackqqqqX: "<<indexBackqqqqX<<"    elemqqqqX: "<<elementNBackqqqqX<<endl<<"BackqqqqX remaining: "<<eventsRemainingBackqqqqX<<"    backqqqqX cut: "<<sizeBackqqqqX-eventsRemainingBackqqqqX<<endl;
+		cout<<"IndexBackqqHX: "<<indexBackqqHX<<"    elemqqHX: "<<elementNBackqqHX<<endl<<"BackqqHX remaining: "<<eventsRemainingBackqqHX<<"    backqqHX cut: "<<sizeBackqqHX-eventsRemainingBackqqHX<<endl;
+		cout<<"Significance: "<<significance<<"         maxSignificnace: "<<maxSignificance<<endl<<endl;*/
+	   	if(significance>maxSignificance) 
+	   	{
+	   		maxSignificance=significance;
+	   		defCut=cut;
+	   		backRemaining=eventsRemainingBack;
+	   		HHRemaining=eventsRemainingHH*weightHH;
+			indexHHMaxSignificance=indexHH;
+			indexBackqqXMaxSignificance=indexBackqqX;
+			indexBackqqqqXMaxSignificance=indexBackqqqqX;
+			indexBackqqHXMaxSignificance=indexBackqqHX;
+	   	}
+
+		//cout<<"cut: "<<cut<<endl;
+		//cout<<"Significance: "<<significance<<"         maxSignificnace: "<<maxSignificance<<endl<<endl;
+		//cout<<"--------"<<endl;
+	}
+		NNOutputHH.erase(NNOutputHH.begin(), NNOutputHH.begin()+indexHHMaxSignificance);
+		NNOutputBackqqX.erase(NNOutputBackqqX.begin(), NNOutputBackqqX.begin()+indexBackqqXMaxSignificance);
+		NNOutputBackqqqqX.erase(NNOutputBackqqqqX.begin(), NNOutputBackqqqqX.begin()+indexBackqqqqXMaxSignificance);
+		NNOutputBackqqHX.erase(NNOutputBackqqHX.begin(), NNOutputBackqqHX.begin()+indexBackqqHXMaxSignificance);
+
+	
+}
 
 
- }
+////Function that finds the optimal cuts for the eGamma indivivual NNs considering eGamma backs
+void findDefEGammaCuts(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, double& defCutqq, double& defCutttbar, double& defCutZZ, double& defCutWW, double& defCutqqX, double& defCutqqqqX, double& defCutqqHX, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX)
+{
+	vector<double> BDTqqXOutputCopy(BDTqqXOutput.begin(), BDTqqXOutput.end());
+	vector<double> BDTqqqqXOutputCopy(BDTqqqqXOutput.begin(), BDTqqqqXOutput.end());
+	vector<double> BDTqqHXOutputCopy(BDTqqHXOutput.begin(), BDTqqHXOutput.end());
 
- ///Function that calculates the significance of the data after applying multiple NNs.
- void findSignificanceCombined(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NN1Output, vector<double>& NN2Output, int sizeHH, int sizeBack1, int sizeBack2, int topology1, int topology2, double& defCutNN1, double& defCutNN2, double& maxSignificanceCombined, double weightHH, double weightBack1, double weightBack2, TH2F& histROCCombined, TH2F& histROCRejCombined, TH2F& histSignificanceCombined, double& totalRemainingCombined, double& HHRemainingCombined, double& backRemainingCombined)
+	vector<vector<double>> NNOutputs = {BDTqqXOutputCopy, BDTqqqqXOutputCopy, BDTqqHXOutputCopy};
+	double defCutqqXSen=bottomHistLimit, defCutqqqqXSen=bottomHistLimit, defCutqqHXSen=bottomHistLimit;
+	vector<double> NNCuts = {defCutqqXSen, defCutqqqqXSen, defCutqqHXSen};
+	vector<double> maxSignificances = {-999, -999, -999};
+	vector<double> nBacks = {4, 5, 6};
+	double numberOfBacks=nBacks.size();
+	double cutPrev=0, cutStep=0;
+	int contEventsRounds=0;
+	for(int i=0; i<numberOfBacks; i++)
+	{
+		//cout<<endl<<endl<<endl<<endl<<"Starting round "<<i<<": "<<endl;
+
+		for(int j=0; j<NNOutputs.size(); j++)
+		{
+			//cout<<"In position "<<j<<": "<<endl;
+			//cout<<"Back: "<<nBacks[j]<<endl<<"number of events staring the round: ";
+			for(int k=0; k<NNOutputs[j].size(); k++) if(NNOutputs[j][k] != bottomHistLimit) contEventsRounds++;
+			//cout<<contEventsRounds<<endl;
+			contEventsRounds=0;
+			//cout<<"Before findSignificanceEGammaBacks: "<<endl<<"maxSignificance: "<<maxSignificances[j]<<endl<<"Cut in NN"<<NNCuts[j]<<endl<<endl;
+			cutStep = 1.0 / pow(10, i + 1);
+			findSignificanceEGammaBacks(bottomHistLimit, topHistLimit, nbin, NNOutputs[j], NNCuts[j], maxSignificances[j], nBacks[j], sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, cutStep);
+
+			//cout<<"After findSignificanceEGammaBacks: "<<endl<<"maxSignificance: "<<maxSignificances[j]<<endl<<"Cut in NN: "<<NNCuts[j]<<endl<<endl;
+			//cout<<"maxSignificance: "<<maxSignificances[j]<<endl<<"Cut in NN: "<<NNCuts[j]<<endl<<endl;
+		}
+
+		//cout<<endl<<endl<<"Ends round findSignificanceEGammaBacks and starts sortVectorQuadruple: "<<endl<<endl;
+		sortVectorQuadruple(maxSignificances, NNCuts, NNOutputs, nBacks);
+		//cout<<"last after sortVectorQuadruple: "<<nBacks[nBacks.size()-1]<<endl<<"first after sortVectorQuadruple: "<<nBacks[0]<<endl;
+		//cout<<endl<<endl<<"Ends sortVectorQuadruple and starts event elimination: "<<endl<<endl;
+		for(int j=0; j<NNOutputs[NNOutputs.size()-1].size(); j++)
+		{
+			//if(j==0) cout<<"range: "<<NNOutputs[NNOutputs.size()-1].size()<<endl;
+			//if(j<30) cout<<"NNOutputs[NNOutputs.size()-1][j]: "<<NNOutputs[NNOutputs.size()-1][j]<<endl;
+			//if(j<30) cout<<"NNCuts[NNCuts.size()-1]: "<<NNCuts[NNCuts.size()-1]<<endl;
+			if(NNOutputs[NNOutputs.size()-1][j] != bottomHistLimit && NNOutputs[NNOutputs.size()-1][j] < NNCuts[(NNCuts.size()-1)])
+			{
+				//if(j<30) cout<<"Event eliminated"<<endl;
+				for(int k=1; k<=NNOutputs.size(); k++)
+				{
+					//if(j<30) cout<<"Before: "<<NNOutputs[NNOutputs.size()-k][j]<<"     ";
+					NNOutputs[NNOutputs.size()-k][j] = bottomHistLimit;
+					//if(j<30) cout<<"After: "<<NNOutputs[NNOutputs.size()-k][j]<<endl;
+				}
+			} 
+		}
+		//cout<<"number of events finishing the round: ";
+		for(int j=0; j<NNOutputs[0].size(); j++) if(NNOutputs[0][j] != bottomHistLimit) contEventsRounds++;
+		//cout<<contEventsRounds<<endl;
+		contEventsRounds=0;
+
+		//cout<<endl<<endl<<"Ends event elimination and starts cut assignment: "<<endl<<endl;
+		if(nBacks[nBacks.size()-1] == 4) defCutqqX = NNCuts[NNCuts.size()-1];
+		else if(nBacks[nBacks.size()-1] == 5) defCutqqqqX = NNCuts[NNCuts.size()-1];
+		else if(nBacks[nBacks.size()-1] == 6) defCutqqHX = NNCuts[NNCuts.size()-1];
+		maxSignificances.pop_back();
+		NNCuts.pop_back();
+		NNOutputs.pop_back();
+		nBacks.pop_back();
+		//cout<<endl<<endl<<"Ends cut assignment and ends round: "<<endl<<endl;
+	}
+}
+
+void cutEGamma(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, double& defCutqqX, double& defCutqqqqX, double& defCutqqHX)
+{
+	for(int i=0; i<BDTqqOutput.size(); i++)
+	{
+		if((BDTqqXOutput[i] < defCutqqX) || (BDTqqqqXOutput[i] < defCutqqqqX) || (BDTqqHXOutput[i] < defCutqqHX))
+		{
+			BDTqqOutput[i] = -999;
+			BDTttbarOutput[i] = -999;
+			BDTZZOutput[i] = -999;
+			BDTWWOutput[i] = -999;
+			BDTqqXOutput[i] = -999;
+			BDTqqqqXOutput[i] = -999;
+			BDTqqHXOutput[i] = -999;
+		}
+	}
+}
+
+///Function that calculates the significance of the data after applying multiple NNs.
+void findSignificanceCombined(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NN1Output, vector<double>& NN2Output, int sizeHH, int sizeBack1, int sizeBack2, int topology1, int topology2, double& defCutNN1, double& defCutNN2, double& maxSignificanceCombined, double weightHH, double weightBack1, double weightBack2, TH2F& histROCCombined, TH2F& histROCRejCombined, TH2F& histSignificanceCombined, double& totalRemainingCombined, double& HHRemainingCombined, double& backRemainingCombined)
 {
 	defCutNN1=bottomHistLimit;
 	defCutNN2=bottomHistLimit;
@@ -1665,6 +1856,7 @@ void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vecto
 	cout<<"backRemainingCombined: "<<backRemainingCombined<<endl;*/
 
 }
+
 void findSignificanceCutsCombined(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NN1Output, vector<double>& NN2Output, vector<double>& NN3Output, vector<double>& NN4Output, vector<double>& NN5Output, vector<double>& NN6Output, vector<double>& NN7Output, int sizeHH, int sizeBack1, int sizeBack2, int sizeBack3, int sizeBack4, int sizeBack5, int sizeBack6, int sizeBack7, double defCutNN1, double defCutNN2, double defCutNN3, double defCutNN4, double defCutNN5, double defCutNN6, double defCutNN7, double& maxSignificanceCombined, double weightHH, double weightBack1, double weightBack2, double weightBack3, double weightBack4, double weightBack5, double weightBack6, double weightBack7, TH2F& histROCCombined, TH2F& histROCRejCombined, TH2F& histSignificanceCombined, double& totalRemainingCombined, double& HHRemainingCombined, double& backRemainingCombined)
 {
 	vector<double> topologyTracker;
@@ -3057,6 +3249,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
    TreeBqqHXNNTest.Branch("NN5Output",&NN5Output,"NN5Output/F");
    TreeBqqHXNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
    TreeBqqHXNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
+
+   int contEventsSurvived=0;
+   int contEventsEliminated=0;
+   //cout<<"size of NNOutputs: "<<BDTqqOutput.size()<<endl;
   	
   	for(int i=0; i<BDTqqOutput.size(); i++)
   	{
@@ -3068,6 +3264,11 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 		NN5Output = BDTqqXOutput[i];
 		NN6Output = BDTqqqqXOutput[i];
 		NN7Output = BDTqqHXOutput[i];
+
+		if(NN1Output != -999) contEventsSurvived++;
+		else contEventsEliminated++;
+
+		if(NN1Output == -999) continue;
 
   		random_device rd;  // Will be used to obtain a seed for the random number engine
 		mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
@@ -3098,6 +3299,8 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 		}
 						
   	}
+	//cout<<"contEventsSurvived: "<<contEventsSurvived<<endl;
+	//cout<<"contEventsEliminated: "<<contEventsEliminated<<endl;
   	
   	outputTreeSNNTrain->cd();
    	TreeSNNTrain.Write();
@@ -3692,6 +3895,131 @@ void checkSigma(vector<double>& BDTqqOutput, int sizeHH, int sizeqq, double weig
   	
 }
 
+//////function to plot the outputs of the NNs
+void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vector<double>& BDTOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, string title)
+{
+	string completeTitle = title + " on HH";
+	TH1F *histNNHH = new TH1F("NNHH", completeTitle.c_str(), nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+	histNNHH->SetLineColor(kBlue);
+	histNNHH->SetFillColor(kBlue);
+	for(int i=0; i<sizeHH; i++)
+	{
+		histNNHH->Fill(BDTOutput[i]);
+	}
+	completeTitle = title + " on qq";
+	TH1F *histNNqq = new TH1F("NNqq", completeTitle.c_str(), nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+	histNNqq->SetLineColor(kRed+2);
+	histNNqq->SetFillColor(kRed+2);
+	for(int i=sizeHH; i<sizeHH+sizeqq; i++)
+	{
+		histNNqq->Fill(BDTOutput[i]);
+	}
+	completeTitle = title + " on ttbar";
+	TH1F *histNNttbar = new TH1F("NNttbar", completeTitle.c_str(), nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+	histNNttbar->SetLineColor(kPink+6);
+	histNNttbar->SetFillColor(kPink+6);
+	for(int i=sizeHH+sizeqq; i<sizeHH+sizeqq+sizettbar; i++)
+	{
+		histNNttbar->Fill(BDTOutput[i]);
+	}
+	completeTitle = title + " on ZZ";
+	TH1F *histNNZZ = new TH1F("NNZZ", completeTitle.c_str(), nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+	histNNZZ->SetLineColor(kGreen+1);
+	histNNZZ->SetFillColor(kGreen+1);
+	for(int i=sizeHH+sizeqq+sizettbar; i<sizeHH+sizeqq+sizettbar+sizeZZ; i++)
+	{
+		histNNZZ->Fill(BDTOutput[i]);
+	}
+	completeTitle = title + " on WW";
+	TH1F *histNNWW = new TH1F("NNWW", completeTitle.c_str(), nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+	histNNWW->SetLineColor(kYellow-2);
+	histNNWW->SetFillColor(kYellow-2);
+	for(int i=sizeHH+sizeqq+sizettbar+sizeZZ; i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW; i++)
+	{
+		histNNWW->Fill(BDTOutput[i]);
+	}
+	completeTitle = title + " on qqX";
+	TH1F *histNNqqX = new TH1F("NNqqX", completeTitle.c_str(), nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+	histNNqqX->SetLineColor(kTeal-6);
+	histNNqqX->SetFillColor(kTeal-6);
+	for(int i=sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW; i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX; i++)
+	{
+		histNNqqX->Fill(BDTOutput[i]);
+	}
+	completeTitle = title + " on qqqqX";
+	TH1F *histNNqqqqX = new TH1F("NNqqqqX", completeTitle.c_str(), nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+	histNNqqqqX->SetLineColor(kMagenta+2);
+	histNNqqqqX->SetFillColor(kMagenta+2);
+	for(int i=sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX; i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX; i++)
+	{
+		histNNqqqqX->Fill(BDTOutput[i]);
+	}
+	completeTitle = title + " on qqHX";
+	TH1F *histNNqqHX = new TH1F("NNqqHX", completeTitle.c_str(), nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+	histNNqqHX->SetLineColor(kOrange+7);
+	histNNqqHX->SetFillColor(kOrange+7);
+	for(int i=sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX; i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX; i++)
+	{
+		histNNqqHX->Fill(BDTOutput[i]);
+	}
+
+	string saveTitle = "analysis/generatePlots/analysisPlots/NNOutputs/" + title + "HH" + ".png";
+	TCanvas *cPlotNNOutputs1 = new TCanvas();
+   	cPlotNNOutputs1->cd();
+	histNNHH->Draw();
+	cPlotNNOutputs1->Update();
+	cPlotNNOutputs1->SaveAs(saveTitle.c_str());
+
+	saveTitle = "analysis/generatePlots/analysisPlots/NNOutputs/" + title + "qq" + ".png";
+	TCanvas *cPlotNNOutputs2 = new TCanvas();
+   	cPlotNNOutputs2->cd();
+	histNNqq->Draw();
+	cPlotNNOutputs2->Update();
+	cPlotNNOutputs2->SaveAs(saveTitle.c_str());
+
+	saveTitle = "analysis/generatePlots/analysisPlots/NNOutputs/" + title + "ttbar" + ".png";
+	TCanvas *cPlotNNOutputs3 = new TCanvas();
+   	cPlotNNOutputs3->cd();
+	histNNttbar->Draw();
+	cPlotNNOutputs3->Update();
+	cPlotNNOutputs3->SaveAs(saveTitle.c_str());
+
+	saveTitle = "analysis/generatePlots/analysisPlots/NNOutputs/" + title + "ZZ" + ".png";
+	TCanvas *cPlotNNOutputs4 = new TCanvas();
+   	cPlotNNOutputs4->cd();
+	histNNZZ->Draw();
+	cPlotNNOutputs4->Update();
+	cPlotNNOutputs4->SaveAs(saveTitle.c_str());
+
+	saveTitle = "analysis/generatePlots/analysisPlots/NNOutputs/" + title + "WW" + ".png";
+	TCanvas *cPlotNNOutputs5 = new TCanvas();
+   	cPlotNNOutputs5->cd();
+	histNNWW->Draw();
+	cPlotNNOutputs5->Update();
+	cPlotNNOutputs5->SaveAs(saveTitle.c_str());
+
+	saveTitle = "analysis/generatePlots/analysisPlots/NNOutputs/" + title + "qqX" + ".png";
+	TCanvas *cPlotNNOutputs6 = new TCanvas();
+   	cPlotNNOutputs6->cd();
+		histNNqqX->Draw();
+	cPlotNNOutputs6->Update();
+	cPlotNNOutputs6->SaveAs(saveTitle.c_str());
+
+	saveTitle = "analysis/generatePlots/analysisPlots/NNOutputs/" + title + "qqqqX" + ".png";
+	TCanvas *cPlotNNOutputs7 = new TCanvas();
+   	cPlotNNOutputs7->cd();
+	histNNqqqqX->Draw();
+	cPlotNNOutputs7->Update();
+	cPlotNNOutputs7->SaveAs(saveTitle.c_str());
+
+	saveTitle = "analysis/generatePlots/analysisPlots/NNOutputs/" + title + "qqHX" + ".png";
+	TCanvas *cPlotNNOutputs8 = new TCanvas();
+   	cPlotNNOutputs8->cd();
+	histNNqqHX->Draw();
+	cPlotNNOutputs8->Update();
+	cPlotNNOutputs8->SaveAs(saveTitle.c_str());
+}
+
  ///Function that finds the limits of the NN output
  void findHistLimits(string method, double& bottomHistLimit, double& topHistLimit, int& methodColor)
  {
@@ -4151,6 +4479,18 @@ void checkSigma(vector<double>& BDTqqOutput, int sizeHH, int sizeqq, double weig
  	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtqqHXHH, kBlue, *histBdtqqHXqqHX, kOrange+7, method + "qqHX on HH and qqHX (normalized)");
  	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtqqHXHHW, kBlue, *histBdtqqHXqqHXW, kOrange+7, method + "qqHX on HH and qqHX (weighted)");
  	/////////////////////////
+
+	/*////////plotting outputs of NNs
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, "NNqq");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTttbarOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, "NNttbar");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTZZOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, "NNZZ");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTWWOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, "NNWW");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, "NNqqX");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, "NNqqqqX");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, "NNqqHX");
+	/////plotting outputs of NNs*/
+
+	
  	
  	//double n, b, optCut;
  	//double maxSignificance=0;
@@ -4242,19 +4582,20 @@ void checkSigma(vector<double>& BDTqqOutput, int sizeHH, int sizeqq, double weig
  	//findSignificanceCombined(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, sizeHH, sizeqq, sizettbar, 0, 1, defCutqqCombined, defCutttbarCombined, maxSignificanceCombined, weightHH, weightqq, weightttbar, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
  	//cout<<"maxSignificance (combined): "<<maxSignificanceCombined<<endl<<"Cut in NNqq for max significance (combined): "<<defCutqqCombined<<endl<<"Cut in NNttbar for max significance (combined): "<<defCutttbarCombined<<endl;
  	
- 	//////////////
+ 	/*//////////////
  	//defCutqq=0.636;
  	//defCutttbar=0.802;
  	cout<<endl<<"Significance for "<<method<<"qq, "<<method<<"ttbar, "<<method<<"ZZ, and "<<method<<"WW, "<<method<<"qqX, "<<method<<"qqqqX, and "<<method<<"qqHX combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, and qqHX (trained and applied independently): "<<endl;
  	findSignificanceCutsCombined(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
  	cout<<"maxSignificance (combined): "<<maxSignificanceCombined<<endl<<endl<<endl;
- 	//////////////
+ 	//////////////*/
  	
  	///////Find significance by max. each NNs significance against its own back -- check / brute force
 	cout<<endl<<"CHECK Significance for "<<method<<"qq, "<<method<<"ttbar, "<<method<<"ZZ, and "<<method<<"WW, "<<method<<"qqX, "<<method<<"qqqqX, and "<<method<<"qqHX combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, and qqHX (trained and applied independently): "<<endl;
 	findSignificanceCutsCombinedCheck (bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
 	cout<<"CHECK maxSignificance (combined): "<<maxSignificanceCombined<<endl<<endl<<endl;	
 	double preliminarySignificance = maxSignificanceCombined;
+	//////////////
  	
  	/*//////////DEBUGGING PURPOSES
  	vector<double> testNN1Output = {0.01, 0.61, 0.11, 0.81, 0.91, 0.98, 0.03, 0.933, 0.13, 0.23, 0.98, 0.85, 0.95, 0.92, 0.92};
@@ -4273,6 +4614,13 @@ void checkSigma(vector<double>& BDTqqOutput, int sizeHH, int sizeqq, double weig
 	cout<<"(optimizing NNs for all backs.) CHECK maxSignificance (combined): "<<maxSignificanceCombined<<endl<<endl<<endl;	
 	preliminarySignificance = maxSignificanceCombined;
  	/////////////find significance by finding cuts for each NNs significance against all backs
+
+
+	////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts
+	findDefEGammaCuts(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX);
+	cout<<endl<<"defCutqqX: "<<defCutqqX<<endl<<"defCutqqqqX: "<<defCutqqqqX<<endl<<"defCutqqHX: "<<defCutqqHX<<endl;
+	cutEGamma(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, defCutqqX, defCutqqqqX, defCutqqHX);
+	///////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts
  	
  	
  	//add2DHistToFile(*histROCRej, "ROCHists.root", "ROCRej"+method);
@@ -4331,7 +4679,7 @@ void checkSigma(vector<double>& BDTqqOutput, int sizeHH, int sizeqq, double weig
 	    cerr << "Unable to open file for writing preliminary significance" << endl;
 	}
 	/////////saving preliminarySignificance in a txt	
- 	///////
+ 	/////// 
  	
  	
  	
