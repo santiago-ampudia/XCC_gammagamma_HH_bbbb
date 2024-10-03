@@ -729,10 +729,9 @@ float Magnitude(TLorentzVector vec)
 //////
 
 //////Function that returns the maxThrust of the events
-float findThrust(vector<TLorentzVector>& momenta)
+float findThrust(vector<TLorentzVector>& momenta, TLorentzVector& thrustAxis)
 {
 	float maxThrust = 0.0;
-	TLorentzVector thrustAxis;
 	
 	for(float theta = 0.0; theta < TMath::Pi(); theta += 0.1) 
         {
@@ -767,7 +766,7 @@ float findThrust(vector<TLorentzVector>& momenta)
 2) qqbar
 3) ttbar
 4) ZZ*/ 
-void analysis(const char *inputFile, int topology, float weight, string jetAlgoText, string jetAlgo, string genJetAlgo, TTree& TreeTrain, TTree& TreeTest, TTree& TreeMerge, string fileFunction, string preselection)
+void analysis(const char *inputFile, int topology, float weight, string jetAlgoText, string jetAlgo, string genJetAlgo, TTree& TreeTrain, TTree& TreeTest, TTree& TreeMerge, TTree& TreeFull, string fileFunction, string preselection)
 {
 	if(topology == 1) cout<<"HHAnalysis working!"<<endl;
 	else if(topology == 2) cout<<"qqAnalysis working!"<<endl;
@@ -1518,6 +1517,76 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		TreeTest.Branch("boostB4",&boostB4,"boostB4/F");
 		TreeTest.Branch("boostSystem",&boostSystem,"boostSystem/F");
 		TreeTest.Branch("missingET",&missingET,"missingET/F");
+
+		TreeFull.Branch("entryIndex",&entryIndex,"entryIndex/F");
+		TreeFull.Branch("aplanarity",&aplanarity,"aplanarity/F");
+		TreeFull.Branch("invMassB1",&invMassB1,"invMassB1/F");
+		TreeFull.Branch("invMassB2",&invMassB2,"invMassB2/F");
+		TreeFull.Branch("minJetM",&minJetM,"minJetM/F");  
+		TreeFull.Branch("sphericity",&sphericity,"sphericity/F");
+		TreeFull.Branch("cosThetaB1",&cosThetaB1,"cosThetaB1/F");
+		TreeFull.Branch("cosThetaB2",&cosThetaB2,"cosThetaB2/F");
+		TreeFull.Branch("cosThetaB3",&cosThetaB3,"cosThetaB3/F");
+		TreeFull.Branch("cosThetaB4",&cosThetaB4,"cosThetaB4/F");
+		TreeFull.Branch("sumPt",&sumPt,"sumPt/F");
+		TreeFull.Branch("jetB1Pt",&jetB1Pt,"jetB1Pt/F");
+		TreeFull.Branch("jetB2Pt",&jetB2Pt,"jetB2Pt/F");
+		TreeFull.Branch("jetB3Pt",&jetB3Pt,"jetB3Pt/F");
+		TreeFull.Branch("jetB4Pt",&jetB4Pt,"jetB4Pt/F");
+		TreeFull.Branch("jetB1M",&jetB1M,"jetB1M/F");
+		TreeFull.Branch("jetB2M",&jetB2M,"jetB2M/F");
+		TreeFull.Branch("jetB3M",&jetB3M,"jetB3M/F");
+		TreeFull.Branch("jetB4M",&jetB4M,"jetB4M/F");
+		TreeFull.Branch("nParticles",&nParticles,"nParticles/F");
+		TreeFull.Branch("constSizeB1",&constSizeB1,"constSizeB1/F");
+		TreeFull.Branch("constSizeB2",&constSizeB2,"constSizeB2/F");
+		TreeFull.Branch("constSizeB3",&constSizeB3,"constSizeB3/F");
+		TreeFull.Branch("constSizeB4",&constSizeB4,"constSizeB4/F");
+		TreeFull.Branch("minConstSize",&minConstSize,"minConstSize/F");
+		TreeFull.Branch("jetNObjects",&jetNObjects,"jetNObjects/F");
+		TreeFull.Branch("minJetNObjects",&minJetNObjects,"minJetNObjects/F");
+		TreeFull.Branch("invMassB1AntiKt",&invMassB1AntiKt,"invMassB1AntiKt/F");
+		TreeFull.Branch("invMassB2AntiKt",&invMassB2AntiKt,"invMassB2AntiKt/F");
+		TreeFull.Branch("nJetsAntiKt",&nJetsAntiKt,"nJetsAntiKt/F");
+		TreeFull.Branch("invMassB11Best",&invMassB11Best,"invMassB11Best/F");
+		TreeFull.Branch("invMassB21Best",&invMassB21Best,"invMassB21Best/F");
+		TreeFull.Branch("invMassB12Best",&invMassB12Best,"invMassB12Best/F");
+		TreeFull.Branch("invMassB22Best",&invMassB22Best,"invMassB22Best/F");
+		TreeFull.Branch("invMassB13Best",&invMassB13Best,"invMassB13Best/F");
+		TreeFull.Branch("invMassB23Best",&invMassB23Best,"invMassB23Best/F");
+		TreeFull.Branch("invMassB14Best",&invMassB14Best,"invMassB14Best/F");
+		TreeFull.Branch("invMassB24Best",&invMassB24Best,"invMassB24Best/F");
+		TreeFull.Branch("invMassB15Best",&invMassB15Best,"invMassB15Best/F");
+		TreeFull.Branch("invMassB25Best",&invMassB25Best,"invMassB25Best/F");
+		TreeFull.Branch("invMassB16Best",&invMassB16Best,"invMassB16Best/F");
+		TreeFull.Branch("invMassB26Best",&invMassB26Best,"invMassB26Best/F");
+		TreeFull.Branch("invMassB17Best",&invMassB17Best,"invMassB17Best/F");
+		TreeFull.Branch("invMassB27Best",&invMassB27Best,"invMassB27Best/F");
+		TreeFull.Branch("invMassB18Best",&invMassB18Best,"invMassB18Best/F");
+		TreeFull.Branch("invMassB28Best",&invMassB28Best,"invMassB28Best/F");
+		//TreeFull.Branch("nJetsDurham0",&nJetsDurham0,"nJetsDurham0/F");
+		//TreeFull.Branch("nJetsDurham5",&nJetsDurham5,"nJetsDurham5/F");
+		//TreeFull.Branch("nJetsDurham10",&nJetsDurham10,"nJetsDurham10/F");
+		TreeFull.Branch("nJetsDurham15",&nJetsDurham15,"nJetsDurham15/F");
+		TreeFull.Branch("nJetsDurham20",&nJetsDurham20,"nJetsDurham20/F");
+		TreeFull.Branch("nJetsDurham25",&nJetsDurham25,"nJetsDurham25/F");
+		TreeFull.Branch("nJetsDurham30",&nJetsDurham30,"nJetsDurham30/F");
+		TreeFull.Branch("distanceZ1MinChiSquaredZZMass",&distanceZ1MinChiSquaredZZMass,"distanceZ1MinChiSquaredZZMass/F");
+		TreeFull.Branch("distanceZ2MinChiSquaredZZMass",&distanceZ2MinChiSquaredZZMass,"distanceZ2MinChiSquaredZZMass/F");
+		TreeFull.Branch("exclYmerge12",&exclYmerge12,"exclYmerge12/F");
+		TreeFull.Branch("exclYmerge23",&exclYmerge23,"exclYmerge23/F");
+		TreeFull.Branch("exclYmerge34",&exclYmerge34,"exclYmerge34/F");
+		TreeFull.Branch("exclYmerge45",&exclYmerge45,"exclYmerge45/F");
+		TreeFull.Branch("exclYmerge56",&exclYmerge56,"exclYmerge56/F");
+		TreeFull.Branch("invMassZZ1",&invMassZZ1,"invMassZZ1/F");
+		TreeFull.Branch("invMassZZ2",&invMassZZ2,"invMassZZ2/F");
+		TreeFull.Branch("thrust",&thrust,"thrust/F");
+		TreeFull.Branch("boostB1",&boostB1,"boostB1/F");
+		TreeFull.Branch("boostB2",&boostB2,"boostB2/F");
+		TreeFull.Branch("boostB3",&boostB3,"boostB3/F");
+		TreeFull.Branch("boostB4",&boostB4,"boostB4/F");
+		TreeFull.Branch("boostSystem",&boostSystem,"boostSystem/F");
+		TreeFull.Branch("missingET",&missingET,"missingET/F");
 	}
 	
 	TreeMerge.Branch("entryIndex",&entryIndex,"entryIndex/F");	
@@ -2121,8 +2190,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 						    	neutralHadron4V.SetPtEtaPhiM(neutralHadron->ET, neutralHadron->Eta, neutralHadron->Phi, 0.0);
 						    	momenta.push_back(neutralHadron4V);
 						}
-						
-						thrust = findThrust(momenta);
+						TLorentzVector thrustAxis;
+						thrust = findThrust(momenta, thrustAxis);
 						////////Thrust
 
 						//////// Boost
@@ -2143,6 +2212,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 						/////Filling out tree for BDT
 						if(fileFunction == "generate")
 						{
+							TreeFull.Fill();
 							random_device rd;  // Will be used to obtain a seed for the random number engine
 							mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
 							uniform_int_distribution<> distrib(1, 4); // Uniform distribution between 1 and 4
@@ -4151,6 +4221,16 @@ void FSRGammaGammaHHbbbbAnalysis()
   	string jetAlgoOutputTreeBqqqqXTest = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
 	string jetAlgoOutputTreeBqqHXTrain = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
   	string jetAlgoOutputTreeBqqHXTest = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+
+	string jetAlgoOutputTreeS = "analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqq = "analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBtt = "analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBZZ = "analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBWW = "analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqqX = "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqqqqX = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqqHX = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	
   	
   	/*string jetAlgoText = "(antiKt R=0.5) ";
   	string jetAlgo = "JetAntiKt";
@@ -4188,9 +4268,12 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	TTree TreeSTest("TreeSTest","a simple Tree with simple variables (Test)");
 	  	TTree TreeSMerge("TreeSMerge","a simple Tree with simple variables (merge)");
 	  	set<int> setTrainHH, setTestHH;
+		TFile *outputTreeS = new TFile(jetAlgoOutputTreeS.c_str(), "recreate");
+	  	TTree TreeS("TreeS","a simple Tree with simple variables (full)");
 	  	
 	  	if(fileFunction=="merge") generateSetsMerge(1, setTrainHH, setTestHH, rtdCut); ///arguments: topology, set for training events, set for testing events
-	  	analysis(inputFileHH, 1, weightHH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, fileFunction, preselection);
+		cout<<"size before analysis: "<<TreeS->GetEntries();
+	  	analysis(inputFileHH, 1, weightHH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 	  	if(fileFunction=="merge") mergeTrees(1, setTrainHH, setTestHH, TreeSTrain, TreeSTest, TreeSMerge, rtdCut);
 	  	
 	  	outputTreeSTrain->cd();
@@ -4198,13 +4281,18 @@ void FSRGammaGammaHHbbbbAnalysis()
 	   	
 	   	outputTreeSTest->cd();
 	   	TreeSTest.Write();
+
+		outputTreeS->cd();
+	   	TreeS.Write();
 	   	
 	   	outputTreeSTrain->Close();
 		outputTreeSTest->Close();
+		outputTreeS->Close();
 	  	////////creation of File for TMVA for signal HH
 	  	
 		////////creation of File for TMVA for back qq  
 		const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAll.root";
+		//const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammaZZ380All.root";
 		// Check if file exists and increment sampleIndex if necessary
 		sampleIndex=0;
 	  	TFile *outputTreeBqqTrain = new TFile(jetAlgoOutputTreeBqqTrain.c_str(), "recreate");
@@ -4213,9 +4301,11 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	TTree TreeBqqTest("TreeBqqTest","a bqqimple Tree with bqqimple variables (Test)");
 	  	TTree TreeBqqMerge("TreeBqqMerge","a bqqimple Tree with bqqimple variables (merge)");
 	  	set<int> setTrainqq, setTestqq;
+		TFile *outputTreeBqq = new TFile(jetAlgoOutputTreeBqq.c_str(), "recreate");
+	  	TTree TreeBqq("TreeBqq","a bqqimple Tree with simple variables (full)");
 	  	
 	  	if(fileFunction=="merge") generateSetsMerge(2, setTrainqq, setTestqq, rtdCut); ///arguments: topology, set for training events, set for testing events
-	  	analysis(inputFileqq, 2, weightqq, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqTrain, TreeBqqTest, TreeBqqMerge, fileFunction, preselection);
+	  	analysis(inputFileqq, 2, weightqq, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqTrain, TreeBqqTest, TreeBqqMerge, TreeBqq, fileFunction, preselection);
 	  	if(fileFunction=="merge") mergeTrees(2, setTrainqq, setTestqq, TreeBqqTrain, TreeBqqTest, TreeBqqMerge, rtdCut);
 	  	
 	  	outputTreeBqqTrain->cd();
@@ -4223,10 +4313,14 @@ void FSRGammaGammaHHbbbbAnalysis()
 	   	
 	   	outputTreeBqqTest->cd();
 	   	TreeBqqTest.Write();
+
+		outputTreeBqq->cd();
+	   	TreeBqq.Write();
 	  	
 	  	outputTreeBqqTrain->Close();
 		outputTreeBqqTest->Close();
-	  	////////creation of File for TMVA for back qq 	
+		outputTreeBqq->Close();
+	  	////////creation of File for TMVA for back qq	
 	  	
 	  	////////creation of File for TMVA for back ttbar  
 	  	const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattAll.root";
@@ -4238,9 +4332,11 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	TTree TreeBttTest("TreeBttTest","a bttimple Tree with bttimple variables (Test)");
 	  	TTree TreeBttMerge("TreeBttMerge","a bttimple Tree with bttimple variables (merge)");
 	  	set<int> setTrainttbar, setTestttbar;
+		TFile *outputTreeBtt = new TFile(jetAlgoOutputTreeBtt.c_str(), "recreate");
+	  	TTree TreeBtt("TreeBtt","a bttimple Tree with simple variables (full)");
 	  	
 	  	if(fileFunction=="merge") generateSetsMerge(3, setTrainttbar, setTestttbar, rtdCut); ///arguments: topology, set for training events, set for testing events
-	  	analysis(inputFilett, 3, weightttbar, jetAlgoText, jetAlgo, genJetAlgo, TreeBttTrain, TreeBttTest, TreeBttMerge, fileFunction, preselection);
+	  	analysis(inputFilett, 3, weightttbar, jetAlgoText, jetAlgo, genJetAlgo, TreeBttTrain, TreeBttTest, TreeBttMerge, TreeBtt, fileFunction, preselection);
 	  	if(fileFunction=="merge") mergeTrees(3, setTrainttbar, setTestttbar, TreeBttTrain, TreeBttTest, TreeBttMerge, rtdCut);
 	  	
 	  	outputTreeBttTrain->cd();
@@ -4248,9 +4344,13 @@ void FSRGammaGammaHHbbbbAnalysis()
 	   	
 	   	outputTreeBttTest->cd();
 	   	TreeBttTest.Write();
+
+		outputTreeBtt->cd();
+	   	TreeBtt.Write();
 		
 		outputTreeBttTrain->Close();
 		outputTreeBttTest->Close();
+		outputTreeBtt->Close();
 	  	////////creation of File for TMVA for back ttbar
 	  	
 	  	////////creation of File for TMVA for back ZZ  	
@@ -4263,9 +4363,11 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	TTree TreeBZZTest("TreeBZZTest","a bZZimple Tree with bZZimple variables (Test)");
 	  	TTree TreeBZZMerge("TreeBZZMerge","a bZZimple Tree with bZZimple variables (merge)");
 	  	set<int> setTrainZZ, setTestZZ;
+		TFile *outputTreeBZZ = new TFile(jetAlgoOutputTreeBZZ.c_str(), "recreate");
+	  	TTree TreeBZZ("TreeBZZ","a bZZimple Tree with simple variables (full)");
 	  	
 	  	if(fileFunction=="merge") generateSetsMerge(4, setTrainZZ, setTestZZ, rtdCut); ///arguments: topology, set for training events, set for testing events
-	  	analysis(inputFileZZ, 4, weightZZ, jetAlgoText, jetAlgo, genJetAlgo, TreeBZZTrain, TreeBZZTest, TreeBZZMerge, fileFunction, preselection);
+	  	analysis(inputFileZZ, 4, weightZZ, jetAlgoText, jetAlgo, genJetAlgo, TreeBZZTrain, TreeBZZTest, TreeBZZMerge, TreeBZZ, fileFunction, preselection);
 	  	if(fileFunction=="merge") mergeTrees(4, setTrainZZ, setTestZZ, TreeBZZTrain, TreeBZZTest, TreeBZZMerge, rtdCut);
 	  	
 	  	outputTreeBZZTrain->cd();
@@ -4273,9 +4375,13 @@ void FSRGammaGammaHHbbbbAnalysis()
 	   	
 	   	outputTreeBZZTest->cd();
 	   	TreeBZZTest.Write();
+
+		outputTreeBZZ->cd();
+	   	TreeBZZ.Write();
 	  	
 	  	outputTreeBZZTrain->Close();
 		outputTreeBZZTest->Close();
+		outputTreeBZZ->Close();
 	  	////////creation of File for TMVA for back ZZ
 	  	
 	  	///////creation of File for TMVA for back WW  
@@ -4288,9 +4394,11 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	TTree TreeBWWTest("TreeBWWTest","a bWWimple Tree with bWWimple variables (Test)");
 	  	TTree TreeBWWMerge("TreeBWWMerge","a bWWimple Tree with bWWimple variables (merge)");
 	  	set<int> setTrainWW, setTestWW;
+		TFile *outputTreeBWW = new TFile(jetAlgoOutputTreeBWW.c_str(), "recreate");
+	  	TTree TreeBWW("TreeBWW","a bWWimple Tree with simple variables (full)");
 	  	
 	  	if(fileFunction=="merge") generateSetsMerge(5, setTrainWW, setTestWW, rtdCut); ///arguments: topology, set for training events, set for testing events
-	  	analysis(inputFileWW, 5, weightWW, jetAlgoText, jetAlgo, genJetAlgo, TreeBWWTrain, TreeBWWTest, TreeBWWMerge, fileFunction, preselection);
+	  	analysis(inputFileWW, 5, weightWW, jetAlgoText, jetAlgo, genJetAlgo, TreeBWWTrain, TreeBWWTest, TreeBWWMerge, TreeBWW, fileFunction, preselection);
 	  	if(fileFunction=="merge") mergeTrees(5, setTrainWW, setTestWW, TreeBWWTrain, TreeBWWTest, TreeBWWMerge, rtdCut);
 	  	
 	  	outputTreeBWWTrain->cd();
@@ -4298,9 +4406,13 @@ void FSRGammaGammaHHbbbbAnalysis()
 	   	
 	   	outputTreeBWWTest->cd();
 	   	TreeBWWTest.Write();
+
+		outputTreeBWW->cd();
+	   	TreeBWW.Write();
 	  	
 	  	outputTreeBWWTrain->Close();
 		outputTreeBWWTest->Close();
+		outputTreeBWW->Close();
 	  	////////creation of File for TMVA for back WW
 
 		///////creation of File for TMVA for back qqX
@@ -4313,9 +4425,11 @@ void FSRGammaGammaHHbbbbAnalysis()
 		TTree TreeBqqXTest("TreeBqqXTest","a bqqXimple Tree with bqqXimple variables (Test)");
 		TTree TreeBqqXMerge("TreeBqqXMerge","a bqqXimple Tree with bqqXimple variables (merge)");
 		set<int> setTrainqqX, setTestqqX;
+		TFile *outputTreeBqqX = new TFile(jetAlgoOutputTreeBqqX.c_str(), "recreate");
+	  	TTree TreeBqqX("TreeBqqX","a bqqXimple Tree with simple variables (full)");
 		
 		if(fileFunction=="merge") generateSetsMerge(6, setTrainqqX, setTestqqX, rtdCut); ///arguments: topology, set for training events, set for testing events
-		analysis(inputFileqqX, 6, weightqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqXTrain, TreeBqqXTest, TreeBqqXMerge, fileFunction, preselection);
+		analysis(inputFileqqX, 6, weightqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqXTrain, TreeBqqXTest, TreeBqqXMerge, TreeBqqX, fileFunction, preselection);
 		if(fileFunction=="merge") mergeTrees(6, setTrainqqX, setTestqqX, TreeBqqXTrain, TreeBqqXTest, TreeBqqXMerge, rtdCut);
 		
 		outputTreeBqqXTrain->cd();
@@ -4323,9 +4437,13 @@ void FSRGammaGammaHHbbbbAnalysis()
 		
 		outputTreeBqqXTest->cd();
 		TreeBqqXTest.Write();
+
+		outputTreeBqqX->cd();
+	   	TreeBqqX.Write();
 		
 		outputTreeBqqXTrain->Close();
 		outputTreeBqqXTest->Close();
+		outputTreeBqqX->Close();
 	  	////////creation of File for TMVA for back qqX
 
 		///////creation of File for TMVA for back qqqqX
@@ -4338,9 +4456,11 @@ void FSRGammaGammaHHbbbbAnalysis()
 		TTree TreeBqqqqXTest("TreeBqqqqXTest","a bqqqqXimple Tree with bqqqqXimple variables (Test)");
 		TTree TreeBqqqqXMerge("TreeBqqqqXMerge","a bqqqqXimple Tree with bqqqqXimple variables (merge)");
 		set<int> setTrainqqqqX, setTestqqqqX;
+		TFile *outputTreeBqqqqX = new TFile(jetAlgoOutputTreeBqqqqX.c_str(), "recreate");
+	  	TTree TreeBqqqqX("TreeBqqqqX","a bqqqqXimple Tree with bqqqqXimple variables (full)");
 		
 		if(fileFunction=="merge") generateSetsMerge(7, setTrainqqqqX, setTestqqqqX, rtdCut); ///arguments: topology, set for training events, set for testing events
-		analysis(inputFileqqqqX, 7, weightqqqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqqqXTrain, TreeBqqqqXTest, TreeBqqqqXMerge, fileFunction, preselection);
+		analysis(inputFileqqqqX, 7, weightqqqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqqqXTrain, TreeBqqqqXTest, TreeBqqqqXMerge, TreeBqqqqX, fileFunction, preselection);
 		if(fileFunction=="merge") mergeTrees(7, setTrainqqqqX, setTestqqqqX, TreeBqqqqXTrain, TreeBqqqqXTest, TreeBqqqqXMerge, rtdCut);
 		
 		outputTreeBqqqqXTrain->cd();
@@ -4348,9 +4468,13 @@ void FSRGammaGammaHHbbbbAnalysis()
 		
 		outputTreeBqqqqXTest->cd();
 		TreeBqqqqXTest.Write();
+
+		outputTreeBqqqqX->cd();
+	   	TreeBqqqqX.Write();
 		
 		outputTreeBqqqqXTrain->Close();
 		outputTreeBqqqqXTest->Close();
+		outputTreeBqqqqX->Close();
 		////////creation of File for TMVA for back qqqqX
 		
 		///////creation of File for TMVA for back qqHX
@@ -4363,9 +4487,11 @@ void FSRGammaGammaHHbbbbAnalysis()
 		TTree TreeBqqHXTest("TreeBqqHXTest","a bqqHXimple Tree with bqqHXimple variables (Test)");
 		TTree TreeBqqHXMerge("TreeBqqHXMerge","a bqqHXimple Tree with bqqHXimple variables (merge)");
 		set<int> setTrainqqHX, setTestqqHX;
+		TFile *outputTreeBqqHX = new TFile(jetAlgoOutputTreeBqqHX.c_str(), "recreate");
+	  	TTree TreeBqqHX("TreeBqqHX","a bqqHXimple Tree with simple variables (full)");
 		
 		if(fileFunction=="merge") generateSetsMerge(8, setTrainqqHX, setTestqqHX, rtdCut); ///arguments: topology, set for training events, set for testing events
-		analysis(inputFileqqHX, 8, weightqqHX, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqHXTrain, TreeBqqHXTest, TreeBqqHXMerge, fileFunction, preselection);
+		analysis(inputFileqqHX, 8, weightqqHX, jetAlgoText, jetAlgo, genJetAlgo, TreeBqqHXTrain, TreeBqqHXTest, TreeBqqHXMerge, TreeBqqHX, fileFunction, preselection);
 		if(fileFunction=="merge") mergeTrees(8, setTrainqqHX, setTestqqHX, TreeBqqHXTrain, TreeBqqHXTest, TreeBqqHXMerge, rtdCut);
 		
 		outputTreeBqqHXTrain->cd();
@@ -4373,9 +4499,13 @@ void FSRGammaGammaHHbbbbAnalysis()
 		
 		outputTreeBqqHXTest->cd();
 		TreeBqqHXTest.Write();
+
+		outputTreeBqqHX->cd();
+	   	TreeBqqHX.Write();
 		
 		outputTreeBqqHXTrain->Close();
 		outputTreeBqqHXTest->Close();
+		outputTreeBqqHX->Close();
 	  	////////creation of File for TMVA for back qqHX
 
   	}
