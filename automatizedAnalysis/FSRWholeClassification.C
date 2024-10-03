@@ -430,7 +430,7 @@ double getMean(const vector<double>& dataVector)
 	return sum/(dataVector.size());
 }
 
-void getStats(int samples, const vector<double>& preliminarySignificances, const vector<double>& preliminaryErrorsLeft, const vector<double>& preliminaryErrorsRight, const vector<double>& significances, const vector<double>& errorsLeft, const vector<double>& errorsRight, double& meanPreliminarySignificances, double& meanPreliminaryErrorsLeft, double& meanPreliminaryErrorsRight, double& meanSignificances, double& meanErrorsLeft, double& meanErrorsRight, int& bestSample, int& worstSample, double& bestPreliminarySignificances, double& bestPreliminaryErrorsLeft, double& bestPreliminaryErrorsRight, double& bestSignificances, double& bestErrorsLeft, double& bestErrorsRight, double& worstPreliminarySignificances, double& worstPreliminaryErrorsLeft, double& worstPreliminaryErrorsRight, double& worstSignificances, double& worstErrorsLeft, double& worstErrorsRight)
+void getStats(int samples, const vector<double>& preliminarySignificances, const vector<double>& preliminaryErrorsLeft, const vector<double>& preliminaryErrorsRight, const vector<double>& significances, const vector<double>& errorsLeft, const vector<double>& errorsRight, double& meanPreliminarySignificances, double& meanPreliminaryErrorsLeft, double& meanPreliminaryErrorsRight, double& meanSignificances, double& meanErrorsLeft, double& meanErrorsRight, double& stdPreliminarySignificances, double& variancePreliminarySignificances, double& stdSignificances, double& varianceSignificances,int& bestSample, int& worstSample, double& bestPreliminarySignificances, double& bestPreliminaryErrorsLeft, double& bestPreliminaryErrorsRight, double& bestSignificances, double& bestErrorsLeft, double& bestErrorsRight, double& worstPreliminarySignificances, double& worstPreliminaryErrorsLeft, double& worstPreliminaryErrorsRight, double& worstSignificances, double& worstErrorsLeft, double& worstErrorsRight)
 {
 	//if(samples != significances.size()) throw std::runtime_error("ERROR: size of signifcances vector != n of samples");
 	
@@ -442,6 +442,10 @@ void getStats(int samples, const vector<double>& preliminarySignificances, const
 	meanSignificances = getMean(significances);
 	meanErrorsLeft = getMean(errorsLeft);
 	meanErrorsRight = getMean(errorsRight);
+	stdPreliminarySignificances = TMath::StdDev(preliminarySignificances.size(), &preliminarySignificances[0]);
+    variancePreliminarySignificances = (TMath::StdDev(preliminarySignificances.size(), &preliminarySignificances[0]))*(TMath::StdDev(preliminarySignificances.size(), &preliminarySignificances[0]));
+    stdSignificances = TMath::StdDev(significances.size(), &significances[0]);
+    varianceSignificances = (TMath::StdDev(significances.size(), &significances[0]))*(TMath::StdDev(significances.size(), &significances[0]));
 	auto max_iter = max_element(significances.begin(), significances.end()); 
 	bestSample = distance(significances.begin(), max_iter); 
 	bestPreliminarySignificances = preliminarySignificances[bestSample];
@@ -479,6 +483,10 @@ void getStats(int samples, const vector<double>& preliminarySignificances, const
 	cout<<"meanSignificances: "<<meanSignificances<<endl;
 	cout<<"meanErrorsLeft: "<<meanErrorsLeft<<endl;
 	cout<<"meanErrorsRight: "<<meanErrorsRight<<endl;
+	cout<<"stdPreliminarySignificances: "<<stdPreliminarySignificances<<endl;
+	cout<<"variancePreliminarySignificances: "<<variancePreliminarySignificances<<endl;
+	cout<<"stdSignificances: "<<stdSignificances<<endl;
+	cout<<"varianceSignificances: "<<varianceSignificances<<endl;
 	cout<<"sample that generates the best final significance: "<<bestSample<<endl;
 	cout<<"bestPreliminarySignificances: "<<bestPreliminarySignificances<<endl;
 	cout<<"bestPreliminaryErrorsLeft: "<<bestPreliminaryErrorsLeft<<endl;
@@ -522,11 +530,13 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
     {
     	TString sampleName = "Sample" + TString::Format("%d", nthSample);
     	sampleName = "SampleN";
-    	//gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
-    	//trainAllBacks(rtdCut, preselection, vars, sampleName);
-    	//gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C+(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", fileFunction.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
-    	//gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationOutputNN.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
-    	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationOutputNN.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+    	gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
+		gSystem->Exec(Form("root -l -b -q 'analysis/samplingTrainTest.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+    	trainAllBacks(rtdCut, preselection, vars, sampleName);
+    	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C+(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", fileFunction.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+    	gSystem->Exec(Form("root -l -b -q 'analysis/TMVACutsGA.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+		//gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationOutputNN.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+    	//gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationOutputNN.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     
     	double preliminarySignificance=-999, preliminaryErrorLeft=-999, preliminaryErrorRight=-999, significance=-999, errorLeft=-999, errorRight=-999;
     	ifstream file1("analysis/preliminarySignificanceAndErrorsFile.txt");
@@ -566,7 +576,7 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
     		cout<<endl<<"preliminarySignificance: "<<preliminarySignificance<<endl;
     		cout<<endl<<"significance: "<<significance<<endl<<endl;
     		
-    		createEntryIndexFiles(nthSample);
+    		//createEntryIndexFiles(nthSample);
     }
     outFile.close();
 }
@@ -580,9 +590,9 @@ void FSRWholeClassification(TString fileFunction, TString preselection, TString 
 	ofstream outFileCreate(outFileText.Data());
 	runAll(samples, fileFunction, preselection, vars, rtdCut, preliminarySignificances, preliminaryErrorsLeft, preliminaryErrorsRight, significances, errorsLeft, errorsRight, outFileText);
 	
-	double meanPreliminarySignificances=-999, meanPreliminaryErrorsLeft=-999, meanPreliminaryErrorsRight=-999, meanSignificances=-999, meanErrorsLeft=-999, meanErrorsRight=-999, bestPreliminarySignificances=-999, bestPreliminaryErrorsLeft=-999, bestPreliminaryErrorsRight=-999, bestSignificances=-999, bestErrorsLeft=-999, bestErrorsRight=-999, worstPreliminarySignificances=-999, worstPreliminaryErrorsLeft=-999, worstPreliminaryErrorsRight=-999, worstSignificances=-999, worstErrorsLeft=-999, worstErrorsRight=-999;
+	double meanPreliminarySignificances=-999, meanPreliminaryErrorsLeft=-999, meanPreliminaryErrorsRight=-999, meanSignificances=-999, meanErrorsLeft=-999, meanErrorsRight=-999, stdPreliminarySignificances=-999,  variancePreliminarySignificances=-999, stdSignificances=-999, varianceSignificances=-999,bestPreliminarySignificances=-999, bestPreliminaryErrorsLeft=-999, bestPreliminaryErrorsRight=-999, bestSignificances=-999, bestErrorsLeft=-999, bestErrorsRight=-999, worstPreliminarySignificances=-999, worstPreliminaryErrorsLeft=-999, worstPreliminaryErrorsRight=-999, worstSignificances=-999, worstErrorsLeft=-999, worstErrorsRight=-999;
 	int bestSample = -999, worstSample=-999;
-	getStats(samples, preliminarySignificances, preliminaryErrorsLeft, preliminaryErrorsRight, significances, errorsLeft, errorsRight, meanPreliminarySignificances, meanPreliminaryErrorsLeft, meanPreliminaryErrorsRight, meanSignificances, meanErrorsLeft, meanErrorsRight, bestSample, worstSample, bestPreliminarySignificances, bestPreliminaryErrorsLeft, bestPreliminaryErrorsRight, bestSignificances, bestErrorsLeft, bestErrorsRight, worstPreliminarySignificances, worstPreliminaryErrorsLeft, worstPreliminaryErrorsRight, worstSignificances, worstErrorsLeft, worstErrorsRight);
+	getStats(samples, preliminarySignificances, preliminaryErrorsLeft, preliminaryErrorsRight, significances, errorsLeft, errorsRight, meanPreliminarySignificances, meanPreliminaryErrorsLeft, meanPreliminaryErrorsRight, meanSignificances, meanErrorsLeft, meanErrorsRight, stdPreliminarySignificances,  variancePreliminarySignificances, stdSignificances, varianceSignificances, bestSample, worstSample, bestPreliminarySignificances, bestPreliminaryErrorsLeft, bestPreliminaryErrorsRight, bestSignificances, bestErrorsLeft, bestErrorsRight, worstPreliminarySignificances, worstPreliminaryErrorsLeft, worstPreliminaryErrorsRight, worstSignificances, worstErrorsLeft, worstErrorsRight);
 	ofstream outFile(outFileText.Data(), ios::app); 
     outFile << endl << endl << "Summary:" << endl;
     outFile << "meanPreliminarySignificances: " << meanPreliminarySignificances << endl;
@@ -591,10 +601,10 @@ void FSRWholeClassification(TString fileFunction, TString preselection, TString 
     outFile << "meanSignificances: " << meanSignificances << endl;
     outFile << "meanErrorsLeft: " << meanErrorsLeft << endl;
     outFile << "meanErrorsRight: " << meanErrorsRight << endl;
-	outFile << "stdPreliminarySignificances: " << TMath::StdDev(preliminarySignificances.size(), &preliminarySignificances[0]) << endl;
-    outFile << "variancePreliminarySignificances: " << (TMath::StdDev(preliminarySignificances.size(), &preliminarySignificances[0]))*(TMath::StdDev(preliminarySignificances.size(), &preliminarySignificances[0])) << endl;
-    outFile << "stdSignificances: " << TMath::StdDev(significances.size(), &significances[0]) << endl;
-    outFile << "varianceSignificances: " << (TMath::StdDev(significances.size(), &significances[0]))*(TMath::StdDev(significances.size(), &significances[0])) << endl;
+	outFile << "stdPreliminarySignificances: " << stdPreliminarySignificances << endl;
+    outFile << "variancePreliminarySignificances: " << variancePreliminarySignificances << endl;
+    outFile << "stdSignificances: " << stdSignificances << endl;
+    outFile << "varianceSignificances: " << varianceSignificances << endl;
     outFile << "Best sample: " << bestSample << endl;
     outFile << "bestPreliminarySignificances: " << bestPreliminarySignificances << endl;
 	outFile << "bestPreliminaryErrorsLeft: " << bestPreliminaryErrorsLeft << endl;
