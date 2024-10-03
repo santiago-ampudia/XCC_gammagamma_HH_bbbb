@@ -3066,6 +3066,140 @@ void findCrossSectionHHbbbb(double totalRemaining, double HHRemaining, double ba
 	
 }
 
+//////Function that generates the files to run genetic algorithm
+void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, string rtdCut, string preselection, string sampleName)
+{
+	string outputTreeSGAText = "analysis/outputTreeSGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeSGA = new TFile(outputTreeSGAText.c_str(), "recreate");	
+	TTree TreeSGA("TreeSGA","a simple Tree with simple variables (GA)");
+	string outputTreeBqqGAText = "analysis/outputTreeBqqGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBqqGA = new TFile(outputTreeBqqGAText.c_str(), "recreate");
+	TTree TreeBqqGA("TreeBqqGA","a bqqimple Tree with bqqimple variables (GA)");
+	string outputTreeBttbarGAText = "analysis/outputTreeBttbarGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBttbarGA = new TFile(outputTreeBttbarGAText.c_str(), "recreate");
+	TTree TreeBttbarGA("TreeBttbarGA","a bttbarimple Tree with bttbarimple variables (GA)");
+	string outputTreeBZZGAText = "analysis/outputTreeBZZGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBZZGA = new TFile(outputTreeBZZGAText.c_str(), "recreate");
+	TTree TreeBZZGA("TreeBZZGA","a bZZimple Tree with bZZimple variables (GA)");
+	string outputTreeBWWGAText = "analysis/outputTreeBWWGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBWWGA = new TFile(outputTreeBWWGAText.c_str(), "recreate");
+	TTree TreeBWWGA("TreeBWWGA","a bWWimple Tree with bWWimple variables (GA)");
+	string outputTreeBqqXGAText = "analysis/outputTreeBqqXGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBqqXGA = new TFile(outputTreeBqqXGAText.c_str(), "recreate");
+	TTree TreeBqqXGA("TreeBqqXGA","a bqqXimple Tree with bqqXimple variables (GA)");
+	string outputTreeBqqqqXGAText = "analysis/outputTreeBqqqqXGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBqqqqXGA = new TFile(outputTreeBqqqqXGAText.c_str(), "recreate");
+	TTree TreeBqqqqXGA("TreeBqqqqXGA","a bqqqqXimple Tree with bqqqqXimple variables (GA)");
+	string outputTreeBqqHXGAText = "analysis/outputTreeBqqHXGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBqqHXGA = new TFile(outputTreeBqqHXGAText.c_str(), "recreate");
+	TTree TreeBqqHXGA("TreeBqqHXGA","a bqqHXimple Tree with bqqHXimple variables (GA)");
+
+	float entryIndex, NN1Output, NN2Output, NN3Output, NN4Output, NN5Output, NN6Output, NN7Output;
+  	TreeSGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeSGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeSGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeSGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeSGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+  	TreeSGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeSGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+ 	TreeSGA.Branch("NN7Output",&NN7Output,"NN7Output/F");	
+  	TreeBqqGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBqqGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBqqGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBqqGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBqqGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBqqGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBqqGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBqqGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+  	TreeBttbarGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBttbarGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBttbarGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBttbarGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBttbarGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBttbarGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBttbarGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBttbarGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+  	TreeBZZGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBZZGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBZZGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBZZGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBZZGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBZZGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBZZGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBZZGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+  	TreeBWWGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBWWGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBWWGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBWWGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBWWGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBWWGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBWWGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBWWGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBqqXGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBqqXGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBqqXGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBqqXGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBqqXGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBqqXGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBqqXGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBqqXGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBqqqqXGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBqqqqXGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBqqqqXGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBqqqqXGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBqqqqXGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBqqqqXGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBqqqqXGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBqqqqXGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBqqHXGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBqqHXGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBqqHXGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBqqHXGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBqqHXGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBqqHXGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBqqHXGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBqqHXGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+
+	for(int i=0; i<BDTqqOutput.size(); i++)
+  	{
+  		entryIndex = i;
+  		NN1Output = BDTqqOutput[i];
+  		NN2Output = BDTttbarOutput[i];
+  		NN3Output = BDTZZOutput[i];
+  		NN4Output = BDTWWOutput[i];
+		NN5Output = BDTqqXOutput[i];
+		NN6Output = BDTqqqqXOutput[i];
+		NN7Output = BDTqqHXOutput[i];
+
+		if(i<sizeHH) TreeSGA.Fill();
+		else if(i<sizeHH+sizeqq) TreeBqqGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar) TreeBttbarGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ) TreeBZZGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW) TreeBWWGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX) TreeBqqXGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX) TreeBqqqqXGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX) TreeBqqHXGA.Fill();
+		else throw std::runtime_error("ERROR: event out of bounds in generate!");	
+	}	
+
+	outputTreeSGA->cd();
+   	TreeSGA.Write();
+   	outputTreeBqqGA->cd();
+   	TreeBqqGA.Write();
+   	outputTreeBttbarGA->cd();
+   	TreeBttbarGA.Write();
+   	outputTreeBZZGA->cd();
+   	TreeBZZGA.Write();
+   	outputTreeBWWGA->cd();
+   	TreeBWWGA.Write();
+	outputTreeBqqXGA->cd();
+	TreeBqqXGA.Write();
+	outputTreeBqqqqXGA->cd();
+	TreeBqqqqXGA.Write();
+	outputTreeBqqHXGA->cd();
+	TreeBqqHXGA.Write();
+}
+
 /////Function that generates the files to train NN to find optimal cut for NNs outputs
 void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, string rtdCut, string preselection, string sampleName)
 {
@@ -4610,18 +4744,16 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	//////////////find significance by finding cuts for each NNs significance against all backs
 	findDefCuts(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX);
 	cout<<endl<<"(optimizing NNs for all backs.) CHECK Significance for "<<method<<"qq, "<<method<<"ttbar, "<<method<<"ZZ, and "<<method<<"WW, "<<method<<"qqX, "<<method<<"qqqqX, and "<<method<<"qqHX combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, and qqHX (trained and applied independently): "<<endl;
-	findSignificanceCutsCombinedCheck (bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
+	findSignificanceCutsCombinedCheck(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
 	cout<<"(optimizing NNs for all backs.) CHECK maxSignificance (combined): "<<maxSignificanceCombined<<endl<<endl<<endl;	
 	preliminarySignificance = maxSignificanceCombined;
  	/////////////find significance by finding cuts for each NNs significance against all backs
-
 
 	////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts
 	findDefEGammaCuts(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX);
 	cout<<endl<<"defCutqqX: "<<defCutqqX<<endl<<"defCutqqqqX: "<<defCutqqqqX<<endl<<"defCutqqHX: "<<defCutqqHX<<endl;
 	cutEGamma(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, defCutqqX, defCutqqqqX, defCutqqHX);
-	///////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts
- 	
+	///////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts 	
  	
  	//add2DHistToFile(*histROCRej, "ROCHists.root", "ROCRej"+method);
  	
@@ -4722,6 +4854,7 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
  	cout<<"BDTqqHXOutput size: "<<BDTqqHXOutput.size()<<endl;	
  	
  	///////Filling out tree for output NN
+	if(fileFunction == "generateGA") generateFilesGA(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, rtdCut, preselection, sampleName);
  	if(fileFunction == "generate") generateFilesOutputNN(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, rtdCut, preselection, sampleName);
   	else if(fileFunction == "merge") reGenerateFilesOutputNN(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, rtdCut, preselection, sampleName);
   	///////Filling out tree for output NN
