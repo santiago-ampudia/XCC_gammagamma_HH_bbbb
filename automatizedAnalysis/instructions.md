@@ -22,11 +22,11 @@ Instructions to run the whole automatized analyisis:
     
     1.3.5) GammaGammaWWESpreadAll.root (https://drive.google.com/file/d/1x6FT7avVS4VxrHtToImq2Jf7CJbYl5FZ/view?usp=drive_link)
 
-    1.3.6) GammaGammaqqXESpreadAll.root (https://drive.google.com/file/d/133gpNNG6VWHIT79wuP2paYfFXOAKV5ue/view?usp=share_link)
+    1.3.6) eGammaqqXESpreadAll.root (https://drive.google.com/file/d/133gpNNG6VWHIT79wuP2paYfFXOAKV5ue/view?usp=share_link)
 
-    1.3.7) GammaGammaqqqqXESpreadAll.root (https://drive.google.com/file/d/1dtZ882B9XKreyCj8earzoii1QL6K_N1f/view?usp=share_link)
+    1.3.7) eGammaqqqqXESpreadAll.root (https://drive.google.com/file/d/1dtZ882B9XKreyCj8earzoii1QL6K_N1f/view?usp=share_link)
 
-    1.3.8) GammaGammaqqHXESpreadAll.root (https://drive.google.com/file/d/1_-nl4B7McsB0a4b_c_thcVJJ-MDVUXLe/view?usp=share_link)
+    1.3.8) eGammaqqHXESpreadAll.root (https://drive.google.com/file/d/1_-nl4B7McsB0a4b_c_thcVJJ-MDVUXLe/view?usp=share_link)
     
   1.4) In the analysis folder, create a folder called "SampleOG" and download there the files post-initial preselection used for benchmark significance; found in automatizedAnalysis/TMVA/postPreselectionTrainingAndTestingFiles (link to drive: https://drive.google.com/drive/folders/1mVbKmLJLOGIIjmmfpWWev66vmpt5V6Zu?usp=drive_link); conserve the names of the files
   
