@@ -10,7 +10,7 @@ Instructions to run the whole automatized analyisis:
 
   1.2) In the main delphes folder, create a folder called "analysis".
   
-  1.3) In the analysis folder, create a folder called "FilesPostDelphes". In that folder, download from https://drive.google.com/drive/folders/1J3-QTyudBDuOUP8xE-UI6KjnA1BFSu4H?usp=drive_link the following files (conserve the names):
+  1.3) In the analysis folder, create a folder called "filesPostDelphes". In that folder, download from https://drive.google.com/drive/folders/1J3-QTyudBDuOUP8xE-UI6KjnA1BFSu4H?usp=drive_link the following files (conserve the names):
   
     1.3.1) GammaGammaHHESpreadAll.root (https://drive.google.com/file/d/1RYew-EAp7osoZN1_TDRtElfalj0ktf4W/view?usp=drive_link)
     
