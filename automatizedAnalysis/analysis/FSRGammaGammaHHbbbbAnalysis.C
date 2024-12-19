@@ -309,6 +309,54 @@ void findFinalDecaysWW(TClonesArray *branchParticle, GenParticle *particle, vect
   	return;
 }
 
+//Function that recursively goes over the daughters of a particle until it finds a quark, a lepton or a b. It also finds if the top decays into a W. Used only for ZH.
+void findFinalDecaysZH(TClonesArray *branchParticle, GenParticle *particle, vector<int>& finalDecays, int& contNeutrinoEvent, int& contLeptonEvent, int& contHadronEvent, int index) 
+{	
+  	int pid = abs(particle->PID);
+  	finalDecays.push_back(pid);
+  	int m1 = abs(findMother(branchParticle, particle, 1));
+  	//cout<<endl<<endl;
+  	//cout<<"Index: "<<index<<endl<<"Pid func: "<<pid<<endl<<"m1 func: "<<m1<<endl;
+  	
+  	
+  	if((pid == 1 || pid == 2 || pid == 3 || pid == 4 || pid == 5) && (m1 == 23 || m1 == 25 || m1 == 36)) //lookinf for u, d, s, c quarks from Z or H
+  	{
+  		contHadronEvent++;
+  		//cout<<"Entra hadron"<<endl;
+  		return;
+  	}
+  	if((pid == 11 || pid == 13 || pid == 15 || pid == 17) && (m1 == 23 || m1 == 25 || m1 == 36))  //looking for leptons from Z or H
+  	{
+  		contLeptonEvent++;
+  		//cout<<"Entra lepton"<<endl;
+  		return;
+  	}
+  	if((pid == 12 || pid == 14 || pid == 16 || pid == 18) && (m1 == 23 || m1 == 25 || m1 == 36))  //looking for neutrino from Z or H
+  	{
+  		contNeutrinoEvent++;
+  		//cout<<"Entra neutrino"<<endl;
+  		return;
+  	}
+  	
+  	
+  	int d1Index = findDaughterIndex(branchParticle, particle, 1);
+  	if(d1Index != -999)
+  	{
+  		GenParticle *d1 = (GenParticle*) branchParticle->At(d1Index);
+  		//cout<<"Entra d1"<<endl;
+  		findFinalDecaysZH(branchParticle, d1, finalDecays, contNeutrinoEvent, contLeptonEvent, contHadronEvent, d1Index);
+  	}
+  	int d2Index = findDaughterIndex(branchParticle, particle, 2);
+  	if(d2Index != -999 && d1Index != d2Index)
+  	{
+  		GenParticle *d2 = (GenParticle*) branchParticle->At(d2Index);
+  		//cout<<"Entra d2"<<endl;
+  		findFinalDecaysZH(branchParticle, d2, finalDecays, contNeutrinoEvent, contLeptonEvent, contHadronEvent, d2Index);
+  	}
+  		
+  	return;
+}
+
 
 
 //Function that recursively goes over the mothers of a particle until it finds a H, a q, or a t. Then it returns the pid of the first decay of those. 
@@ -645,6 +693,198 @@ void findJetPairsZZ(TLorentzVector& jetPairB1, TLorentzVector& jetPairB2, TLoren
 }
 ///////
 
+//////Function that finds the jet pair combinations that minimizes chiSquared for Z mass. 
+void findJetPairsZH(TLorentzVector& jetPairB1, TLorentzVector& jetPairB2, TLorentzVector jetB1, TLorentzVector jetB2, TLorentzVector jetB3, TLorentzVector jetB4, double& jetPairB1Index1, double& jetPairB1Index2, double& jetPairB2Index1, double& jetPairB2Index2, bool& flagZHMass, float& minChiSquaredZHMass, double distanceZMass, int& contEventsZWindow10, int& contEventsZWindow01, int& contEventsZWindow05, int& contEventsZWindow1, int& contEventsZWindow15, int& contEventsZWindow2, int& contEventsZWindow5, float& distanceZ1MinChiSquaredZHMass, float& distanceZ2MinChiSquaredZHMass, float& invMassZHZ, float& invMassZHH, int contEventsPostFilter)
+{
+	double errorJetPairMass=1; ///////Should eventually measure this (? -- CHECK)
+	jetPairB1=jetB1+jetB2;
+	jetPairB2=jetB3+jetB4;
+	//if(abs(jetPairB1.M()-90)<distanceZMass && abs(jetPairB2.M()-90)<distanceZMass) flagZHMass=true; 
+	float jetChiS12=pow((jetPairB1.M()-125), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
+	float jetChiS21=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-125), 2)/errorJetPairMass;
+	if(contEventsPostFilter<20) 
+	{
+		cout<<"jetPairB1 (1,2): Mass: "<<jetPairB1.M()<<endl;
+		cout<<"jetPairB2 (3,4): Mass: "<<jetPairB2.M()<<endl;
+		cout<<"jetChiS12 (B1 125, B2 90): "<<jetChiS12<<endl;
+		cout<<"jetChiS21 (B1 90, B2 125): "<<jetChiS21<<endl<<endl;
+	}
+	jetPairB1=jetB1+jetB3;
+	jetPairB2=jetB2+jetB4;
+	//if(abs(jetPairB1.M()-90)<distanceZMass && abs(jetPairB2.M()-90)<distanceZMass) flagZHMass=true;
+	float jetChiS13=pow((jetPairB1.M()-125), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
+	float jetChiS31=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-125), 2)/errorJetPairMass;
+	if(contEventsPostFilter<20) 
+	{
+		cout<<"jetPairB1 (1,3): Mass: "<<jetPairB1.M()<<endl;
+		cout<<"jetPairB2 (2,4): Mass: "<<jetPairB2.M()<<endl;
+		cout<<"jetChiS13 (B1 125, B2 90): "<<jetChiS13<<endl;
+		cout<<"jetChiS31 (B1 90, B2 125): "<<jetChiS31<<endl<<endl;
+	}
+	jetPairB1=jetB1+jetB4;
+	jetPairB2=jetB2+jetB3;
+	//if(abs(jetPairB1.M()-90)<distanceZMass && abs(jetPairB2.M()-90)<distanceZMass) flagZHMass=true;
+	float jetChiS14=pow((jetPairB1.M()-125), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
+	float jetChiS41=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-125), 2)/errorJetPairMass;
+	if(contEventsPostFilter<20) 
+	{
+		cout<<"jetPairB1 (1,4): Mass: "<<jetPairB1.M()<<endl;
+		cout<<"jetPairB2 (2,3): Mass: "<<jetPairB2.M()<<endl;
+		cout<<"jetChiS14 (B1 125, B2 90): "<<jetChiS14<<endl;
+		cout<<"jetChiS41 (B1 90, B2 125): "<<jetChiS41<<endl<<endl;
+	}
+	//minChiSquaredZHMass = TMath::Min(TMath::Min(TMath::Min(TMath::Min(TMath::Min(jetChiS21, jetChiS31), jetChiS41), jetChiS12), jetChiS13), jetChiS14);
+	minChiSquaredZHMass = std::min({jetChiS21, jetChiS31, jetChiS41, jetChiS12, jetChiS13, jetChiS14});
+	if(contEventsPostFilter<20) cout<<"minChiSquaredZHMass: "<<minChiSquaredZHMass<<"    ";
+	if(minChiSquaredZHMass==jetChiS12)
+	{
+		jetPairB1=jetB1+jetB2;
+		jetPairB2=jetB3+jetB4;
+		jetPairB1Index1=0;
+		jetPairB1Index2=1;
+		jetPairB2Index1=2;
+		jetPairB2Index2=3;
+		invMassZHZ = jetPairB2.M();
+		invMassZHH = jetPairB1.M();
+		if(contEventsPostFilter<20) cout<<"entra 12"<<endl<<endl<<endl;
+	}
+	if(minChiSquaredZHMass==jetChiS21)
+	{
+		jetPairB1=jetB1+jetB2;
+		jetPairB2=jetB3+jetB4;
+		jetPairB1Index1=0;
+		jetPairB1Index2=1;
+		jetPairB2Index1=2;
+		jetPairB2Index2=3;
+		invMassZHZ = jetPairB1.M();
+		invMassZHH = jetPairB2.M();
+		if(contEventsPostFilter<20) cout<<"entra 21"<<endl<<endl<<endl;
+	}
+	else if(minChiSquaredZHMass==jetChiS13)
+	{
+		jetPairB1=jetB1+jetB3;
+		jetPairB2=jetB2+jetB4;
+		jetPairB1Index1=0;
+		jetPairB1Index2=2;
+		jetPairB2Index1=1;
+		jetPairB2Index2=3;
+		invMassZHZ = jetPairB2.M();
+		invMassZHH = jetPairB1.M();
+		if(contEventsPostFilter<20) cout<<"entra 13"<<endl<<endl<<endl;
+	}
+	else if(minChiSquaredZHMass==jetChiS31)
+	{
+		jetPairB1=jetB1+jetB3;
+		jetPairB2=jetB2+jetB4;
+		jetPairB1Index1=0;
+		jetPairB1Index2=2;
+		jetPairB2Index1=1;
+		jetPairB2Index2=3;
+		invMassZHZ = jetPairB1.M();
+		invMassZHH = jetPairB2.M();
+		if(contEventsPostFilter<20) cout<<"entra 31"<<endl<<endl<<endl;
+	}
+	else if(minChiSquaredZHMass==jetChiS14)
+	{
+		jetPairB1=jetB1+jetB4;
+		jetPairB2=jetB2+jetB3;
+		jetPairB1Index1=0;
+		jetPairB1Index2=3;
+		jetPairB2Index1=1;
+		jetPairB2Index2=2;
+		invMassZHZ = jetPairB2.M();
+		invMassZHH = jetPairB1.M();
+		if(contEventsPostFilter<20) cout<<"entra 14"<<endl<<endl<<endl;
+	}
+	else if(minChiSquaredZHMass==jetChiS41)
+	{
+		jetPairB1=jetB1+jetB4;
+		jetPairB2=jetB2+jetB3;
+		jetPairB1Index1=0;
+		jetPairB1Index2=3;
+		jetPairB2Index1=1;
+		jetPairB2Index2=2;
+		invMassZHZ = jetPairB1.M();
+		invMassZHH = jetPairB2.M();
+		if(contEventsPostFilter<20) cout<<"entra 41"<<endl<<endl<<endl;
+	}
+	else 
+	{
+		if(contEventsPostFilter<20) cout<<"no entra lpm"<<endl<<endl<<endl;
+	}
+	if(abs(jetPairB1.M()-90)<distanceZMass && abs(jetPairB2.M()-90)<distanceZMass) flagZHMass=true; 
+	if(abs(jetPairB1.M()-90)<0.1 && abs(jetPairB2.M()-90)<0.1) contEventsZWindow01++;
+	if(abs(jetPairB1.M()-90)<0.5 && abs(jetPairB2.M()-90)<0.5) contEventsZWindow05++;
+	if(abs(jetPairB1.M()-90)<1 && abs(jetPairB2.M()-90)<1) contEventsZWindow1++;
+	if(abs(jetPairB1.M()-90)<1.5 && abs(jetPairB2.M()-90)<1.5) contEventsZWindow15++;
+	if(abs(jetPairB1.M()-90)<2 && abs(jetPairB2.M()-90)<2) contEventsZWindow2++;
+	if(abs(jetPairB1.M()-90)<5 && abs(jetPairB2.M()-90)<5) contEventsZWindow5++;
+	if(abs(jetPairB1.M()-90)<10 && abs(jetPairB2.M()-90)<10) contEventsZWindow10++;
+	distanceZ1MinChiSquaredZHMass=abs(invMassZHZ-90);
+	distanceZ2MinChiSquaredZHMass=abs(invMassZHH-125);
+	
+	
+	return;
+}
+///////
+
+////////Function for ZH that given two jet pairs, uses chiSquare min to say which pair recos. the Z and which the H
+bool tagZHJetPairMasses(TLorentzVector& jetPairB1, TLorentzVector& jetPairB2)
+{
+	double errorJetPairMass=1;
+	double chiSquared1=pow((jetPairB1.M()-125), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
+	double chiSquared2=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-125), 2)/errorJetPairMass;
+	if(chiSquared2 < chiSquared1) return true;
+	else return false;
+}
+
+//////// Function to calculate chi-squared for Z (90 GeV) and H (125 GeV)
+double calculateChiSquaredZH(TClonesArray *branchJet, const vector<int>& group1, const vector<int>& group2) {
+    TLorentzVector jetPairB1, jetPairB2;
+    for (const auto& index : group1)
+    { 
+    	Jet *jet = (Jet*) branchJet->At(index);
+    	jetPairB1 += jet->P4();
+    }
+    for (const auto& index : group2)
+    { 
+    	Jet *jet = (Jet*) branchJet->At(index);
+    	jetPairB2 += jet->P4();
+    }
+    double errorJetPairMass=1;
+    double chiSquared1=pow((jetPairB1.M()-125), 2)/errorJetPairMass + pow((jetPairB2.M()-90), 2)/errorJetPairMass;
+	double chiSquared2=pow((jetPairB1.M()-90), 2)/errorJetPairMass + pow((jetPairB2.M()-125), 2)/errorJetPairMass;
+    return TMath::Min(chiSquared1, chiSquared2);
+}
+///////
+
+///////Function to try all jet pair combinations for ZH mass reco
+void findBestCombinationZH(TClonesArray *branchJet, int n, vector<int>& bestGroup1, vector<int>& bestGroup2, vector<double>& chiSquares, vector<vector<int>>& group1s, vector<vector<int>>& group2s) 
+{
+    	double minChiSquared = numeric_limits<double>::max();
+
+    	// Generate all possible combinations of jets into two groups
+    	for (int i = 1; i < (1 << n) - 1; ++i) {
+        	vector<int> group1, group2;
+        	group1.push_back(0);
+        	for (int j = 1; j < n; ++j) {
+            	if (i & (1 << (j-1))) group1.push_back(j);
+            	else group2.push_back(j);
+        	}
+
+			double chiSquared = calculateChiSquaredZH(branchJet, group1, group2);
+			if (chiSquared < minChiSquared) {
+				minChiSquared = chiSquared;
+				bestGroup1 = group1;
+				bestGroup2 = group2;
+			}
+			chiSquares.push_back(chiSquared);
+			group1s.push_back(group1);
+			group2s.push_back(group2);
+    	}
+}
+///////
+
 //////// Function to calculate chi-squared
 double calculateChiSquared(TClonesArray *branchJet, const vector<int>& group1, const vector<int>& group2) {
     TLorentzVector jetPairB1, jetPairB2;
@@ -674,19 +914,19 @@ void findBestCombination(TClonesArray *branchJet, int n, vector<int>& bestGroup1
         	vector<int> group1, group2;
         	group1.push_back(0);
         	for (int j = 1; j < n; ++j) {
-            		if (i & (1 << (j-1))) group1.push_back(j);
-            		else group2.push_back(j);
+            	if (i & (1 << (j-1))) group1.push_back(j);
+            	else group2.push_back(j);
         	}
 
-        double chiSquared = calculateChiSquared(branchJet, group1, group2);
-        if (chiSquared < minChiSquared) {
-            	minChiSquared = chiSquared;
-            	bestGroup1 = group1;
-            	bestGroup2 = group2;
-        	}
-        chiSquares.push_back(chiSquared);
-        group1s.push_back(group1);
-        group2s.push_back(group2);
+			double chiSquared = calculateChiSquared(branchJet, group1, group2);
+			if (chiSquared < minChiSquared) {
+				minChiSquared = chiSquared;
+				bestGroup1 = group1;
+				bestGroup2 = group2;
+			}
+			chiSquares.push_back(chiSquared);
+			group1s.push_back(group1);
+			group2s.push_back(group2);
     	}
 }
 ///////
@@ -765,7 +1005,12 @@ float findThrust(vector<TLorentzVector>& momenta, TLorentzVector& thrustAxis)
 1) HH
 2) qqbar
 3) ttbar
-4) ZZ*/ 
+4) ZZ
+5) WW
+6) eGamma->qqX
+7) eGamma->qqqqX
+8) eGamma->qqHX
+9) ZH*/ 
 void analysis(const char *inputFile, int topology, float weight, string jetAlgoText, string jetAlgo, string genJetAlgo, TTree& TreeTrain, TTree& TreeTest, TTree& TreeMerge, TTree& TreeFull, string fileFunction, string preselection)
 {
 	if(topology == 1) cout<<"HHAnalysis working!"<<endl;
@@ -776,6 +1021,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	else if(topology == 6) cout<<"qqXAnalysis working!"<<endl;
 	else if(topology == 7) cout<<"qqqqXAnalysis working!"<<endl;
 	else if(topology == 8) cout<<"qqHXAnalysis working!"<<endl;
+	else if(topology == 9) cout<<"ZHAnalysis working!"<<endl;
 	//else if(topology == -999) return;
 	
 	
@@ -788,12 +1034,12 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   	
   	ExRootTreeReader *treeReader = new ExRootTreeReader(&chain);
   	Long64_t numberOfEntries = treeReader->GetEntries();
-  	//numberOfEntries=1000;
+  	//numberOfEntries=10000;
   	//int pos=7;
   	int contEntriesPostFilter=0;
   	cout<<"numberOfEntries: "<<numberOfEntries<<endl;
   	
-  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText, histNJetsDurham0Text, histNJetsDurham5Text, histNJetsDurham10Text, histNJetsDurham15Text, histNJetsDurham20Text, histNJetsDurham25Text, histNJetsDurham30Text, histMinChiSquaredZZMassText, histInvMassZZ1Text, histInvMassZZ2Text, histDistanceZ1MinChiSquaredZZMassText, histDistanceZ2MinChiSquaredZZMassText, histExclYmerge12Text, histExclYmerge23Text, histExclYmerge34Text, histExclYmerge45Text, histExclYmerge56Text, histJetB1M1BestText, histJetB2M1BestText; 
+  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText, histNJetsDurham0Text, histNJetsDurham5Text, histNJetsDurham10Text, histNJetsDurham15Text, histNJetsDurham20Text, histNJetsDurham25Text, histNJetsDurham30Text, histMinChiSquaredZZMassText, histInvMassZZ1Text, histInvMassZZ2Text, histDistanceZ1MinChiSquaredZZMassText, histDistanceZ2MinChiSquaredZZMassText, histMinChiSquaredZHMassText, histInvMassZH1Text, histInvMassZH2Text, histDistanceZ1MinChiSquaredZHMassText, histDistanceZ2MinChiSquaredZHMassText, histExclYmerge12Text, histExclYmerge23Text, histExclYmerge34Text, histExclYmerge45Text, histExclYmerge56Text, histJetB1M1BestText, histJetB2M1BestText; 
 	if(topology == 1) 
 	{
   		histJetEtaText = jetAlgoText + "Jet Eta for events with HH to bb and bb (4b)";
@@ -873,6 +1119,12 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   		histInvMassZZ2Text =  jetAlgoText + "Mass of jetPair2 of comb. with min. chiSquared for ZZ (HH)";
   		histDistanceZ1MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair1 of comb. with min. chiSquared for ZZ (HH)";
   		histDistanceZ2MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair2 of comb. with min. chiSquared for ZZ (HH)";
+
+		histMinChiSquaredZHMassText = jetAlgoText + "minChiSquared for the three possible jet pair comb. for ZH mass (HH)"; 
+  		histInvMassZH1Text =  jetAlgoText + "Mass of jetPair1 of comb. with min. chiSquared for ZH (HH)";
+  		histInvMassZH2Text =  jetAlgoText + "Mass of jetPair2 of comb. with min. chiSquared for ZH (HH)";
+  		histDistanceZ1MinChiSquaredZHMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair1 of comb. with min. chiSquared for ZH (HH)";
+  		histDistanceZ2MinChiSquaredZHMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair2 of comb. with min. chiSquared for ZH (HH)";
   		
   		histExclYmerge12Text = jetAlgoText + "y value when merging from 1 to 2 jets (HH)"; 
   		histExclYmerge23Text = jetAlgoText + "y value when merging from 2 to 3 jets (HH)"; 
@@ -880,8 +1132,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   		histExclYmerge45Text = jetAlgoText + "y value when merging from 4 to 5 jets (HH)"; 
   		histExclYmerge56Text = jetAlgoText + "y value when merging from 5 to 6 jets (HH)"; 
 
-		histJetB1M1BestText = jetAlgoText + "b-tagged jet-pair 1 mass for best comb. (HH";
-  		histJetB2M1BestText = jetAlgoText + "b-tagged jet-pair 2 mass for best comb. (HH)";
+		histJetB1M1BestText = jetAlgoText + "b-tagged jet-pair 1 mass for best comb. for HH mass (HH";
+  		histJetB2M1BestText = jetAlgoText + "b-tagged jet-pair 2 mass for best comb. for HH mass (HH)";
   	}
   	if(topology == 2) 
 	{
@@ -1226,7 +1478,102 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   		histExclYmerge34Text = jetAlgoText + "y value when merging from 3 to 4 jets (WW)"; 
   		histExclYmerge45Text = jetAlgoText + "y value when merging from 4 to 5 jets (WW)"; 
   		histExclYmerge56Text = jetAlgoText + "y value when merging from 5 to 6 jets (WW)"; 
-  	}  	
+  	} 
+	if(topology == 9) 
+	{
+		histJetEtaText = jetAlgoText + "Jet Eta for events with ZH (4b)";
+  		histJet1EtaText = jetAlgoText + "JetB1 Eta for events with ZH (4b)";
+  		histJet2EtaText = jetAlgoText + "JetB2 Eta for events with ZH (4b)";
+  		histJet3EtaText = jetAlgoText + "JetB3 Eta for events with ZH (4b)";
+  		histJet4EtaText = jetAlgoText + "JetB4 Eta for events with ZH (4b)";
+  		
+  		histJetCosThetaText = jetAlgoText + "Jet cosTheta for events with ZH (4b)";
+  		histJet1CosThetaText = jetAlgoText + "JetB1 cosTheta for events with ZH (4b)";
+  		histJet2CosThetaText = jetAlgoText + "JetB2 cosTheta for events with ZH (4b)";
+  		histJet3CosThetaText = jetAlgoText + "JetB3 cosTheta for events with ZH (4b)";
+  		histJet4CosThetaText = jetAlgoText + "JetB4 cosTheta for events with ZH (4b)";
+  		
+  		histSumJetPtText = jetAlgoText + "Sum of jet Pt for events with ZH (4b)";
+		histJetPtText = jetAlgoText + "Jet Pt for events with ZH (4b)";
+		histJet4PtText = jetAlgoText + "Ind. jet Pt for events with ZH (4b)";
+		
+		histJetB1MText = jetAlgoText + "b-tagged jet-pair 1 mass (ZH)";
+  		histJetB2MText = jetAlgoText + "b-tagged jet-pair 2 mass (ZH)";
+  		histMinJetMText = jetAlgoText + "Mass of the jet-pair comb. with the least inv. mass (ZH)";
+  		histJet1MText = jetAlgoText + "JetB1 mass (ZH)";
+  		histJet2MText = jetAlgoText + "JetB2 mass (ZH)";
+  		histJet3MText = jetAlgoText + "JetB3 mass (ZH)";
+  		histJet4MText = jetAlgoText + "JetB4 mass (ZH)";
+  		
+  		histAplanText = jetAlgoText + "Aplanarity (ZH)";
+  		histSpherText = jetAlgoText + "Sphericity (ZH)";
+  		
+  		histNParticlesText = jetAlgoText + "Number of particles (ZH)";
+  		histTotalConstSizeText = jetAlgoText + "Number of constituents in the event (ZH)";
+  		histConstSizeB1Text = jetAlgoText + "Number of constituents in jetB1 (ZH)";
+  		histConstSizeB2Text = jetAlgoText + "Number of constituents in jetB2 (ZH)";
+  		histConstSizeB3Text = jetAlgoText + "Number of constituents in jetB3 (ZH)";
+  		histConstSizeB4Text = jetAlgoText + "Number of constituents in jetB4 (ZH)";
+  		histMinConstSizeText = jetAlgoText + "Number of constituents in jet with min. number of consts. (ZH)";
+  		
+  		histNEFlowTracksText = jetAlgoText + "Number of eflow tracks (ZH)";
+  		histNEFlowPhotonsText = jetAlgoText + "Number of eflow photons (ZH)";
+  		histNEFlowNeutralHadronsText = jetAlgoText + "Number of eflow neutral hadrons (ZH)";
+  		histNEFlowObjectsText = jetAlgoText + "Number of total eflow objects (i.e. tracks + photons + neutral hadrons) (ZH)";
+  		
+  		histJetB1NChargedText = jetAlgoText + "Number of charged objects in jetB1 (ZH)";
+  		histJetB2NChargedText = jetAlgoText + "Number of charged objects in jetB2 (ZH)";
+  		histJetB3NChargedText = jetAlgoText + "Number of charged objects in jetB3 (ZH)";
+  		histJetB4NChargedText = jetAlgoText + "Number of charged objects in jetB4 (ZH)";
+  		histJetB1NNeutralsText = jetAlgoText + "Number of neutral objects in jetB1 (ZH)";
+  		histJetB2NNeutralsText = jetAlgoText + "Number of neutral objects in jetB2 (ZH)";
+  		histJetB3NNeutralsText = jetAlgoText + "Number of neutral objects in jetB3 (ZH)";
+  		histJetB4NNeutralsText = jetAlgoText + "Number of neutral objects in jetB4 (ZH)";
+  		histJetNObjectsText = jetAlgoText + "Total number of eflow objects in the event (ZH)";
+  		histMinJetNObjectsText = jetAlgoText + "Number of eflow objects in jet with min. number of eflow objects. (ZH)";
+  		
+  		histNJetsCompareAlgosText = jetAlgoText + "nJets in durham vs. antiKt (ZH)";
+  		
+  		histJetB1MAntiKt2JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 2 antiKt (ZH)";
+  		histJetB2MAntiKt2JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 2 antiKt (ZH)";
+  		histJetB1MAntiKt3JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 3 antiKt (ZH)";
+  		histJetB2MAntiKt3JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 3 antiKt (ZH)";
+  		histJetB1MAntiKt4JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 4 antiKt (ZH)";
+  		histJetB2MAntiKt4JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 4 antiKt (ZH)";
+  		histJetB1MAntiKt5JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 5 antiKt (ZH)";
+  		histJetB2MAntiKt5JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 5 antiKt (ZH)";
+  		histJetB1MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 1 mass -- 4 durham, 6 antiKt (ZH)";
+  		histJetB2MAntiKt6JetsText = jetAlgoText + "b-tagged jet-pair 2 mass -- 4 durham, 6 antiKt (ZH)";
+  		
+  		histNJetsDurham0Text = jetAlgoText + "nJets in durham with rtdCut = 0 (ZH)"; 
+  		histNJetsDurham5Text = jetAlgoText + "nJets in durham with rtdCut = 5 (ZH)"; 
+  		histNJetsDurham10Text = jetAlgoText + "nJets in durham with rtdCut = 10 (ZH)"; 
+  		histNJetsDurham15Text = jetAlgoText + "nJets in durham with rtdCut = 15 (ZH)"; 
+  		histNJetsDurham20Text = jetAlgoText + "nJets in durham with rtdCut = 20 (ZH)"; 
+  		histNJetsDurham25Text = jetAlgoText + "nJets in durham with rtdCut = 25 (ZH)"; 
+  		histNJetsDurham30Text = jetAlgoText + "nJets in durham with rtdCut = 30 (ZH)";
+  		
+  		histMinChiSquaredZZMassText = jetAlgoText + "minChiSquared for the three possible jet pair comb. for ZZ mass (ZH)"; 
+  		histInvMassZZ1Text =  jetAlgoText + "Mass of jetPair1 of comb. with min. chiSquared for ZZ (ZH)";
+  		histInvMassZZ2Text =  jetAlgoText + "Mass of jetPair2 of comb. with min. chiSquared for ZZ (ZH)";
+  		histDistanceZ1MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair1 of comb. with min. chiSquared for ZZ (ZH)";
+  		histDistanceZ2MinChiSquaredZZMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair2 of comb. with min. chiSquared for ZZ (ZH)";
+
+		histMinChiSquaredZHMassText = jetAlgoText + "minChiSquared for the three possible jet pair comb. for ZH mass (ZH)"; 
+  		histInvMassZH1Text =  jetAlgoText + "Mass of jetPair1 of comb. with min. chiSquared for ZH (ZH)";
+  		histInvMassZH2Text =  jetAlgoText + "Mass of jetPair2 of comb. with min. chiSquared for ZH (ZH)";
+  		histDistanceZ1MinChiSquaredZHMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair1 of comb. with min. chiSquared for ZH (ZH)";
+  		histDistanceZ2MinChiSquaredZHMassText = jetAlgoText + "Abs. delta between Z mass and mass of jetPair2 of comb. with min. chiSquared for ZH (ZH)";
+  		
+  		histExclYmerge12Text = jetAlgoText + "y value when merging from 1 to 2 jets (ZH)"; 
+  		histExclYmerge23Text = jetAlgoText + "y value when merging from 2 to 3 jets (ZH)"; 
+  		histExclYmerge34Text = jetAlgoText + "y value when merging from 3 to 4 jets (ZH)"; 
+  		histExclYmerge45Text = jetAlgoText + "y value when merging from 4 to 5 jets (ZH)"; 
+  		histExclYmerge56Text = jetAlgoText + "y value when merging from 5 to 6 jets (ZH)";
+
+		histJetB1M1BestText = jetAlgoText + "b-tagged jet-pair 1 mass for best comb. for HH mass (ZH)";
+  		histJetB2M1BestText = jetAlgoText + "b-tagged jet-pair 2 mass for best comb. for HH mass (ZH)"; 
+  	} 	
   	
   	TH1 *histJetEta = new TH1F("jeteta", histJetEtaText.c_str(), 142.0, -4.0, 4.0);
   	TH1 *histJet1Eta = new TH1F("jeteta1", histJet1EtaText.c_str(), 142.0, -4.0, 4.0);
@@ -1314,6 +1661,12 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   	TH1 *histInvMassZZ2 = new TH1F("InvMassZZ2,", histInvMassZZ2Text.c_str(), 142.0, -1.0, 350);
   	TH1 *histDistanceZ1MinChiSquaredZZMass = new TH1F("distanceZ1MinChiSquaredZZMass,", histDistanceZ1MinChiSquaredZZMassText.c_str(), 142.0, -1.0, 100);
   	TH1 *histDistanceZ2MinChiSquaredZZMass = new TH1F("distanceZ2MinChiSquaredZZMass,", histDistanceZ2MinChiSquaredZZMassText.c_str(), 142.0, -1.0, 100);
+
+	TH1 *histMinChiSquaredZHMass = new TH1F("MinChiSquaredZHMass,", histMinChiSquaredZHMassText.c_str(), 142.0, -100.0, 6000);
+  	TH1 *histInvMassZH1 = new TH1F("InvMassZH1,", histInvMassZH1Text.c_str(), 142.0, -1.0, 350);
+  	TH1 *histInvMassZH2 = new TH1F("InvMassZH2,", histInvMassZH2Text.c_str(), 142.0, -1.0, 350);
+  	TH1 *histDistanceZ1MinChiSquaredZHMass = new TH1F("distanceZ1MinChiSquaredZHMass,", histDistanceZ1MinChiSquaredZHMassText.c_str(), 142.0, -1.0, 100);
+  	TH1 *histDistanceZ2MinChiSquaredZHMass = new TH1F("distanceZ2MinChiSquaredZHMass,", histDistanceZ2MinChiSquaredZHMassText.c_str(), 142.0, -1.0, 100);
   	
   	TH1 *histExclYmerge12 = new TH1F("ExclYmerge12,", histExclYmerge12Text.c_str(), 142.0, -0.1, 1);
   	TH1 *histExclYmerge23 = new TH1F("ExclYmerge23,", histExclYmerge23Text.c_str(), 142.0, -0.05, 0.35);
@@ -1375,14 +1728,15 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	branchMissingET = treeReader->UseBranch("MissingET");
   	
 	
-	int trueFullTopEvents=0, trueSemiTopEvents=0, trueFullZEvents=0, trueSemiZEvents=0, trueFullWEvents=0, trueSemiWWEvents=0, trueFullWWEvents=0, trueSemiWEvents=0, trueFullLeptonEvents=0, trueSemiLeptonEvents=0, trueFullHadronEvents=0, trueSemiHadronEvents=0, trueFullNeutrinoEvents=0, trueSemiNeutrinoEvents=0, weirdDecays=0, contEtaCut=0, contCosThetaCut=0, trueLeptonEvents=0, trueHadronEvents=0, trueNeutrinoEvents=0;
+	int trueFullTopEvents=0, trueSemiTopEvents=0, trueFullZEvents=0, trueSemiZEvents=0, trueFullZHEvents=0, trueSemiZHEvents=0, trueFullWEvents=0, trueSemiWWEvents=0, trueFullWWEvents=0, trueSemiWEvents=0, trueFullLeptonEvents=0, trueSemiLeptonEvents=0, trueFullHadronEvents=0, trueSemiHadronEvents=0, trueFullNeutrinoEvents=0, trueSemiNeutrinoEvents=0, weirdDecays=0, contEtaCut=0, contCosThetaCut=0, trueLeptonEvents=0, trueHadronEvents=0, trueNeutrinoEvents=0;
 	int trueLeptonNeutrinoEvents=0, trueLeptonHadronEvents=0, trueHadronNeutrinoEvents=0; 
 	float pt1=0, pt2=0, pt3=0, pt4=0, ptSum=0, contMassB1Window=0, contMassB2Window=0, windowBLeft=0, windowBRight=0, windowB2Left=0, windowB2Right=0, contEventsWindow=0, contEvents=0, contEventsPostFilter=0, contEvents4Jets=0;
 	double distanceZMass;
+	double contLeptonEventsZH=0;
 	int contEventsZWindow10=0, contEventsZWindow01=0, contEventsZWindow05=0, contEventsZWindow1=0, contEventsZWindow15=0, contEventsZWindow2=0, contEventsZWindow5=0;
 	
 	float aplanarity, invMassB1, invMassB2, minJetM, sphericity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, sumPt, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, jetB1M, jetB2M, jetB3M, jetB4M, etaB1, etaB2, etaB3, etaB4, nParticles, totalConstSize, constSizeB1, constSizeB2, constSizeB3, constSizeB4, minConstSize, jetB1NCharged, jetB2NCharged, jetB3NCharged, jetB4NCharged, jetB1NNeutrals, jetB2NNeutrals, jetB3NNeutrals, jetB4NNeutrals, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, invMassB1AntiKt2Jets, invMassB2AntiKt2Jets, invMassB1AntiKt3Jets, invMassB2AntiKt3Jets, invMassB1AntiKt4Jets, invMassB2AntiKt4Jets, invMassB1AntiKt5Jets, invMassB2AntiKt5Jets, invMassB1AntiKt6Jets, invMassB2AntiKt6Jets, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best, entryIndex, nJetsDurham0, nJetsDurham5, nJetsDurham10, nJetsDurham15, nJetsDurham20, nJetsDurham25, nJetsDurham30, minChiSquaredZZMass, distanceZ1MinChiSquaredZZMass, distanceZ2MinChiSquaredZZMass, exclYmerge12, exclYmerge23, exclYmerge34, exclYmerge45, exclYmerge56, invMassZZ1, invMassZZ2, thrust, boostB1, boostB2, boostB3, boostB4, boostSystem, missingET;
-	
+	float minChiSquaredZHMass, distanceZ1MinChiSquaredZHMass, distanceZ2MinChiSquaredZHMass, invMassZHZ, invMassZHH;
 	int contLargeBMass=0, contSmallBMass=0;
 	
 	if(fileFunction == "generate")
@@ -1681,7 +2035,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		      		
 				if(branchParticle->GetEntries() > 0)  nParticles =  branchParticle->GetEntries();
 				
-				int contTopEvent=0, contZEvent=0, contWEvent=0, contLeptonEvent=0, contHadronEvent=0, contNeutrinoEvent=0, contG=0, contB=0, contWWEvent=0;
+				int contTopEvent=0, contZEvent=0, contWEvent=0, contLeptonEvent=0, contHadronEvent=0, contNeutrinoEvent=0, contG=0, contB=0, contWWEvent=0, contZHEvent=0;
 				
 				//////Looking only for HH->bbbb for signal
 				if(topology == 1)
@@ -1799,6 +2153,35 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 					if(contEEGamma >= 2 && electronCosTheta < 0.95) contLeptonEvent++;
 				}
 				///////Lepton veto for qqX, qqqqX, or qqHX
+
+				///////Lepton veto for ZH
+				if(topology == 9)
+				{
+					for(int i=0;i<nParticles;i++)
+			    	{
+			  			GenParticle *particle = (GenParticle*) branchParticle->At(i); 
+			  			int pid = abs(particle->PID);
+				  		vector<int> finalDecays;
+				  		if(((pid == 23 || pid == 32 || pid == 33) || (pid == 25 || pid == 36)) && findMother(branchParticle, particle, 1) == -999 && findMother(branchParticle, particle, 2) == -999)
+				  		{
+					  		findFinalDecaysZH(branchParticle, particle, finalDecays, contNeutrinoEvent, contLeptonEvent, contHadronEvent, i);
+					  		contZHEvent++;
+					  	}
+			    	}
+					if(contLeptonEvent>0) trueLeptonEvents++;
+					if(contHadronEvent>0) trueHadronEvents++;
+					if(contNeutrinoEvent>0) trueNeutrinoEvents++;
+					
+					if(contZHEvent == 1) trueSemiZHEvents++;
+					if(contZHEvent >= 2) trueFullZHEvents++;
+					if(contLeptonEvent == 2 && contHadronEvent == 2) trueLeptonHadronEvents++;
+					if(contLeptonEvent == 2 && contNeutrinoEvent == 2) trueLeptonNeutrinoEvents++;
+					if(contNeutrinoEvent == 2 && contHadronEvent == 2) trueHadronNeutrinoEvents++;
+					if(contLeptonEvent == 4) trueFullLeptonEvents++;
+					if(contHadronEvent == 4) trueFullHadronEvents++;
+					if(contNeutrinoEvent == 4) trueFullNeutrinoEvents++;
+	     		}
+	     		///////Lepton veto for ZH
 	     			
 	     			if(topology != 1)
 	     			{
@@ -1845,16 +2228,30 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 			     			histDistanceZ2MinChiSquaredZZMass->Fill(distanceZ2MinChiSquaredZZMass, weight);
 			     			//if(flagZZMass==true) break;
 				     		
+							/*bool flagZHMass=false;
+			     			TLorentzVector jetPairB1ZH, jetPairB2ZH;
+			     			double jetPairB1ZHIndex1, jetPairB1ZHIndex2, jetPairB2ZHIndex1, jetPairB2ZHIndex2;
+			     			distanceZMass=0.05;
+			     			findJetPairsZH(jetPairB1ZH, jetPairB2ZH, jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1ZHIndex1, jetPairB1ZHIndex2, jetPairB2ZHIndex1, jetPairB2ZHIndex2, flagZHMass, minChiSquaredZHMass, distanceZMass, contEventsZWindow10, contEventsZWindow01, contEventsZWindow05, contEventsZWindow1, contEventsZWindow15, contEventsZWindow2, contEventsZWindow5, distanceZ1MinChiSquaredZHMass, distanceZ2MinChiSquaredZHMass, invMassZHZ, invMassZHH, contEventsPostFilter);
+			     			histMinChiSquaredZHMass->Fill(minChiSquaredZHMass, weight);
+			     			//histInvMassZH1->Fill(invMassZHZ, weight);
+			     			//histInvMassZH2->Fill(invMassZHH, weight);
+			     			histDistanceZ1MinChiSquaredZHMass->Fill(distanceZ1MinChiSquaredZHMass, weight);
+			     			histDistanceZ2MinChiSquaredZHMass->Fill(distanceZ2MinChiSquaredZHMass, weight);
+			     			//if(flagZHMass==true) break;*/
 				     		
 			     			vector<int> bestGroup1Durham, bestGroup2Durham, bestGroup1AntiKt, bestGroup2AntiKt;
 			     			vector<double> chiSquares, chiSquaresAntiKt;
 			     			vector<vector<int>> group1s, group2s, group1sAntiKt, group2sAntiKt;
     						findBestCombination(branchJetDurham, nJetsDurham, bestGroup1Durham, bestGroup2Durham, chiSquares, group1s, group2s);
     						findBestCombination(branchJetAntiKt, nJetsAntiKt, bestGroup1AntiKt, bestGroup2AntiKt, chiSquaresAntiKt, group1sAntiKt, group2sAntiKt);
-    						sortVectorTriple(chiSquares, group1s, group2s);
+
+							//findBestCombinationZH(branchJetDurham, nJetsDurham, bestGroup1Durham, bestGroup2Durham, chiSquares, group1s, group2s);
+							sortVectorTriple(chiSquares, group1s, group2s);
     						double senChiSquared=0;
     						queue<int> combinationsIndices;
     						int chiSquaresIndex=0;
+							double recoMassZ=0, recoMassH=0;
     						for(const auto& chiSquare : chiSquares) ///To find first n unique combinations that minimize chiSquared 
     						{ 
     							if(chiSquare != senChiSquared) 
@@ -1880,10 +2277,24 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 						    	}
 						    	if(i==0)
 						    	{
-							    	invMassB11Best = jetPairB1Sen.M();
+							    	
+									/*bool flagZ1H2 = tagZHJetPairMasses(jetPairB1Sen, jetPairB2Sen);
+									if(flagZ1H2)
+									{
+										recoMassZ = jetPairB1Sen.M();
+										recoMassH = jetPairB2Sen.M();
+									}
+									else
+									{
+										recoMassH = jetPairB1Sen.M();
+										recoMassZ = jetPairB2Sen.M();
+									}*/
+									invMassB11Best = jetPairB1Sen.M();
 				     				invMassB21Best = jetPairB2Sen.M();
 									histJetB1M1Best->Fill(invMassB11Best, weight);
 									histJetB2M1Best->Fill(invMassB21Best, weight);
+									/*histInvMassZH1->Fill(recoMassZ, weight);
+			     					histInvMassZH2->Fill(recoMassH, weight);*/
 									
 			     				}
 			     				if(i==1)
@@ -2021,37 +2432,37 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 						if(invMassB < 30 && contSmallBMass < 4) cout<<"Small b mass event: "<<entry<<endl;*/
 			     			//////inv. mass
 			     			
-			     			//////angles
-			     			etaB1 = jetB1Durham.Eta();
-			     			etaB2 = jetB2Durham.Eta();
-			     			etaB3 = jetB3Durham.Eta();
-			     			etaB4 = jetB4Durham.Eta();
-			     			
+						//////angles
+						etaB1 = jetB1Durham.Eta();
+						etaB2 = jetB2Durham.Eta();
+						etaB3 = jetB3Durham.Eta();
+						etaB4 = jetB4Durham.Eta();
+						
 						histJetEta->Fill(etaB1, weight);
-			     			histJetEta->Fill(etaB2, weight);
-			     			histJetEta->Fill(etaB3, weight);
-			     			histJetEta->Fill(etaB4, weight);
-			     			
-			     			histJet1Eta->Fill(etaB1, weight);
-			     			histJet2Eta->Fill(etaB2, weight);
-			     			histJet3Eta->Fill(etaB3, weight);
-			     			histJet4Eta->Fill(etaB4, weight);
-			     			
-			     			cosThetaB1 = findCosTheta(etaB1);
-			     			cosThetaB2 = findCosTheta(etaB2);
-			     			cosThetaB3 = findCosTheta(etaB3);
-			     			cosThetaB4 = findCosTheta(etaB4);
-			     			
-			     			histJetCosTheta->Fill(cosThetaB1, weight);
-			     			histJetCosTheta->Fill(cosThetaB2, weight);
-			     			histJetCosTheta->Fill(cosThetaB3, weight);
-			     			histJetCosTheta->Fill(cosThetaB4, weight);
-			     			
-			     			histJet1CosTheta->Fill(cosThetaB1, weight);
-			     			histJet2CosTheta->Fill(cosThetaB2, weight);
-			     			histJet3CosTheta->Fill(cosThetaB3, weight);
-			     			histJet4CosTheta->Fill(cosThetaB4, weight);
-			     			//////angles
+						histJetEta->Fill(etaB2, weight);
+						histJetEta->Fill(etaB3, weight);
+						histJetEta->Fill(etaB4, weight);
+						
+						histJet1Eta->Fill(etaB1, weight);
+						histJet2Eta->Fill(etaB2, weight);
+						histJet3Eta->Fill(etaB3, weight);
+						histJet4Eta->Fill(etaB4, weight);
+						
+						cosThetaB1 = findCosTheta(etaB1);
+						cosThetaB2 = findCosTheta(etaB2);
+						cosThetaB3 = findCosTheta(etaB3);
+						cosThetaB4 = findCosTheta(etaB4);
+						
+						histJetCosTheta->Fill(cosThetaB1, weight);
+						histJetCosTheta->Fill(cosThetaB2, weight);
+						histJetCosTheta->Fill(cosThetaB3, weight);
+						histJetCosTheta->Fill(cosThetaB4, weight);
+						
+						histJet1CosTheta->Fill(cosThetaB1, weight);
+						histJet2CosTheta->Fill(cosThetaB2, weight);
+						histJet3CosTheta->Fill(cosThetaB3, weight);
+						histJet4CosTheta->Fill(cosThetaB4, weight);
+						//////angles
 						
 						//////Pt
 						sumPt = jetB1Durham.Pt() + jetB2Durham.Pt() + jetB3Durham.Pt() + jetB4Durham.Pt();
@@ -2139,13 +2550,13 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 								exclYmerge34 = jet->ExclYmerge34;
 								exclYmerge45 = jet->ExclYmerge45;
 								exclYmerge56 = jet->ExclYmerge56;
-	    							histExclYmerge12->Fill(exclYmerge12, weight);
-	    							histExclYmerge23->Fill(exclYmerge23, weight);
-	    							histExclYmerge34->Fill(exclYmerge34, weight);
-	    							histExclYmerge45->Fill(exclYmerge45, weight);
-	    							histExclYmerge56->Fill(exclYmerge56, weight);
-	    						}
-    						}
+								histExclYmerge12->Fill(exclYmerge12, weight);
+								histExclYmerge23->Fill(exclYmerge23, weight);
+								histExclYmerge34->Fill(exclYmerge34, weight);
+								histExclYmerge45->Fill(exclYmerge45, weight);
+								histExclYmerge56->Fill(exclYmerge56, weight);
+	    					}
+    					}
     						
 						/*std::vector<fastjet::PseudoJet> eflowObjects;
 						for (int j=0; j<branchEFlowTrack->GetEntries(); j++) 
@@ -2185,22 +2596,19 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 						for (int i = 0; i < branchEFlowTrack->GetEntries(); ++i) 
 						{
 						    	Track *track = (Track*) branchEFlowTrack->At(i);
-						    	TLorentzVector track4V;
-						    	track4V.SetPtEtaPhiM(track->PT, track->Eta, track->Phi, 0.0);
+						    	TLorentzVector track4V = track->P4();
 						    	momenta.push_back(track4V);
 						}
 						for (int i = 0; i < branchEFlowPhoton->GetEntries(); ++i) 
 						{
 						    	Tower *photon = (Tower*) branchEFlowPhoton->At(i);
-						    	TLorentzVector photon4V;
-						    	photon4V.SetPtEtaPhiM(photon->ET, photon->Eta, photon->Phi, 0.0);
+						    	TLorentzVector photon4V = photon->P4();
 						    	momenta.push_back(photon4V);
 						}
 						for (int i = 0; i < branchEFlowNeutralHadron->GetEntries(); ++i) 
 						{
 						    	Tower *neutralHadron = (Tower*) branchEFlowNeutralHadron->At(i);
-						    	TLorentzVector neutralHadron4V;
-						    	neutralHadron4V.SetPtEtaPhiM(neutralHadron->ET, neutralHadron->Eta, neutralHadron->Phi, 0.0);
+						    	TLorentzVector neutralHadron4V = neutralHadron->P4();
 						    	momenta.push_back(neutralHadron4V);
 						}
 						TLorentzVector thrustAxis;
@@ -2534,13 +2942,41 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		histJetB1M1Best->Draw("HIST");
 		c172->cd();
 		histJetB2M1Best->Draw("HIST");
-		/////////inv. mass for best comb*/	
+		/////////inv. mass for best comb*/
 
 		/*////jet dist.
 		TCanvas *c173 = new TCanvas();
 		c173->cd();
     	histNJets2D->Draw("TEXT");
 		/////jet dist.*/
+
+		///////minChiSquaredZHMass
+    	/*TCanvas *c174 = new TCanvas();
+    	c174->cd();
+		histMinChiSquaredZHMass->Draw("HIST");
+		TCanvas *c175 = new TCanvas();
+		c175->cd();
+		histInvMassZH1->Draw("HIST");
+		TLine* distanceZMassLeft = new TLine(90-distanceZMass, histInvMassZZ1->GetMinimum(), 90-distanceZMass, histInvMassZZ1->GetMaximum());
+		distanceZMassLeft->SetLineColor(kRed);
+		distanceZMassLeft->SetLineWidth(1);
+		TLine* distanceZMassRight = new TLine(90+distanceZMass, histInvMassZZ1->GetMinimum(), 90+distanceZMass, histInvMassZZ1->GetMaximum());
+		distanceZMassRight->SetLineColor(kRed);
+		distanceZMassRight->SetLineWidth(1);
+		distanceZMassLeft->Draw("same");
+		distanceZMassRight->Draw("same");
+		TCanvas *c176 = new TCanvas();
+		c176->cd();
+		histInvMassZH2->Draw("HIST");
+		distanceZMassLeft->Draw("same");
+		distanceZMassRight->Draw("same");
+		TCanvas *c177 = new TCanvas();
+		c177->cd();
+		histDistanceZ1MinChiSquaredZZMass->Draw("HIST");
+		TCanvas *c178 = new TCanvas();
+		c178->cd();
+		histDistanceZ2MinChiSquaredZZMass->Draw("HIST");*/
+		/////minChiSquaredZHMass
     		
 	} 
 	else if(topology == 2)
@@ -3578,22 +4014,322 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
     		/////minChiSquaredZZMass*/
     		
     		/*////////y_nm
-    		TCanvas *c266 = new TCanvas();
-    		c266->cd();
+    		TCanvas *c566 = new TCanvas();
+    		c566->cd();
     		histExclYmerge12->Draw("HIST");
-    		TCanvas *c267 = new TCanvas();
-    		c267->cd();
+    		TCanvas *c567 = new TCanvas();
+    		c567->cd();
     		histExclYmerge23->Draw("HIST");
-    		TCanvas *c268 = new TCanvas();
-    		c268->cd();
+    		TCanvas *c568 = new TCanvas();
+    		c568->cd();
     		histExclYmerge34->Draw("HIST");
-    		TCanvas *c269 = new TCanvas();
-    		c269->cd();
+    		TCanvas *c569 = new TCanvas();
+    		c569->cd();
     		histExclYmerge45->Draw("HIST");
-    		TCanvas *c270 = new TCanvas();
-    		c270->cd();
+    		TCanvas *c570 = new TCanvas();
+    		c570->cd();
     		histExclYmerge56->Draw("HIST");
     		///////y_nm*/
+	}
+	else if(topology == 9)
+	{ 
+		/*//////eta
+		TCanvas *c91 = new TCanvas();
+		TCanvas *c92 = new TCanvas();
+		TCanvas *c93 = new TCanvas();
+		TCanvas *c94 = new TCanvas();
+		TCanvas *c95 = new TCanvas();			
+		c91->cd();
+    		histJetEta->Draw("HIST");
+    		c92->cd();
+    		histJet1Eta->Draw("HIST");				
+    		c93->cd();
+    		histJet2Eta->Draw("HIST");				
+    		c94->cd();
+    		histJet3Eta->Draw("HIST");				
+    		c95->cd();
+    		histJet4Eta->Draw("HIST");
+    		//////eta*/
+    		
+    		/*//////cosTheta
+		TCanvas *c96 = new TCanvas();
+		TCanvas *c97 = new TCanvas();
+		TCanvas *c98 = new TCanvas();
+		TCanvas *c99 = new TCanvas();
+		TCanvas *c910 = new TCanvas();			
+		c96->cd();
+    		histJetCosTheta->Draw("HIST");
+    		c97->cd();
+    		histJet1CosTheta->Draw("HIST");				
+    		c98->cd();
+    		histJet2CosTheta->Draw("HIST");				
+    		c99->cd();
+    		histJet3CosTheta->Draw("HIST");				
+    		c910->cd();
+    		histJet4CosTheta->Draw("HIST");
+    		//////cosTheta*/
+    		
+    		/*/////Pt
+    		c1001->cd();
+    		histJet4Pt->Draw("HIST");
+    		histJet1Pt->Draw("HIST same");
+    		histJet2Pt->Draw("HIST same");
+    		histJet3Pt->Draw("HIST same");
+    		TCanvas *c911 = new TCanvas();
+		TCanvas *c912 = new TCanvas();	
+		c911->cd();
+    		histSumJetPt->Draw("HIST");
+    		c912->cd();
+    		histJetPt->Draw("HIST");	
+    		/////Pt
+    		
+    		///////inv. masses
+    		TCanvas *c913 = new TCanvas();
+		TCanvas *c914 = new TCanvas();
+		TCanvas *c915 = new TCanvas();
+		TCanvas *c916 = new TCanvas();
+		TCanvas *c917 = new TCanvas();
+		TCanvas *c918 = new TCanvas();
+		TCanvas *c919 = new TCanvas();
+		c913->cd();
+		histJetB1M->Draw("HIST");
+		c914->cd();
+		histJetB2M->Draw("HIST");
+		c915->cd();
+		histMinJetM->Draw("HIST");
+		c916->cd();
+		histJet1M->Draw("HIST");
+		c917->cd();
+		histJet2M->Draw("HIST");
+		c918->cd();
+		histJet3M->Draw("HIST");
+		c919->cd();
+		histJet4M->Draw("HIST");
+    		//////inv. masses
+    		
+    		/////Event shape
+    		TCanvas *c920 = new TCanvas();
+		TCanvas *c921 = new TCanvas();
+		c920->cd();
+		histAplan->Draw("HIST");
+		c921->cd();
+		histSpher->Draw("HIST");
+    		/////Event shape*/
+    		
+    		/*/////Jet constituents
+    		TCanvas *c922 = new TCanvas();
+    		TCanvas *c923 = new TCanvas();
+    		TCanvas *c924 = new TCanvas();
+    		TCanvas *c925 = new TCanvas();
+    		TCanvas *c926 = new TCanvas();
+    		TCanvas *c927 = new TCanvas();
+    		TCanvas *c928 = new TCanvas();
+    		c922->cd();
+    		histNParticles->Draw("HIST");
+    		c923->cd();
+    		histTotalConstSize->Draw("HIST");
+    		c924->cd();
+    		histConstSizeB1->Draw("HIST");
+    		c925->cd();
+    		histConstSizeB2->Draw("HIST");
+    		c926->cd();
+    		histConstSizeB3->Draw("HIST");
+    		c927->cd();
+    		histConstSizeB4->Draw("HIST");
+    		c928->cd();
+    		histMinConstSize->Draw("HIST");
+    		/////*/
+    		
+    		/*/////PFOs
+    		TCanvas *c929 = new TCanvas();
+    		c929->cd();
+    		histNEFlowTracks->Draw("HIST");
+    		TCanvas *c930 = new TCanvas();
+    		c930->cd();
+    		histNEFlowPhotons->Draw("HIST");
+    		TCanvas *c931 = new TCanvas();
+    		c931->cd();
+    		histNEFlowNeutralHadrons->Draw("HIST");
+    		TCanvas *c932 = new TCanvas();
+    		c932->cd();
+    		histNEFlowObjects->Draw("HIST");
+    		TCanvas *c933 = new TCanvas();
+    		c933->cd();
+    		histJetB1NCharged->Draw("HIST");
+    		TCanvas *c934 = new TCanvas();
+    		c934->cd();
+    		histJetB2NCharged->Draw("HIST");
+    		TCanvas *c935 = new TCanvas();
+    		c935->cd();
+    		histJetB3NCharged->Draw("HIST");
+    		TCanvas *c936 = new TCanvas();
+    		c936->cd();
+    		histJetB4NCharged->Draw("HIST");
+    		TCanvas *c937 = new TCanvas();
+    		c937->cd();
+    		histJetB1NNeutrals->Draw("HIST");
+    		TCanvas *c938 = new TCanvas();
+    		c938->cd();
+    		histJetB2NNeutrals->Draw("HIST");
+    		TCanvas *c939 = new TCanvas();
+    		c939->cd();
+    		histJetB3NNeutrals->Draw("HIST");
+    		TCanvas *c940 = new TCanvas();
+    		c940->cd();
+    		histJetB4NNeutrals->Draw("HIST");
+    		TCanvas *c941 = new TCanvas();
+    		c941->cd();
+    		histJetNObjects->Draw("HIST");
+    		TCanvas *c942 = new TCanvas();
+    		c942->cd();
+    		histMinJetNObjects->Draw("HIST");
+    		/////PFOs*/
+    		
+    		/*///////nJetsCompareAlgos
+    		TCanvas *c943 = new TCanvas();
+    		c943->cd();
+    		histNJetsCompareAlgos->Draw("TEXT");
+    		///////nJetsCompareAlgos*/
+    		
+    		/*///////invMass for antiKt pairs when 4 Durham jets
+    		TCanvas *c944 = new TCanvas();
+    		c944->cd();
+    		histJetB1MAntiKt2Jets->Draw("HIST");
+    		TCanvas *c945 = new TCanvas();
+    		c945->cd();
+    		histJetB2MAntiKt2Jets->Draw("HIST");
+    		TCanvas *c946 = new TCanvas();
+    		c946->cd();
+    		histJetB1MAntiKt3Jets->Draw("HIST");
+    		TCanvas *c947 = new TCanvas();
+    		c947->cd();
+    		histJetB2MAntiKt3Jets->Draw("HIST");
+    		TCanvas *c948 = new TCanvas();
+    		c948->cd();
+    		histJetB1MAntiKt4Jets->Draw("HIST");
+    		TCanvas *c949 = new TCanvas();
+    		c949->cd();
+    		histJetB2MAntiKt4Jets->Draw("HIST");
+    		TCanvas *c950 = new TCanvas();
+    		c950->cd();
+    		histJetB1MAntiKt5Jets->Draw("HIST");
+    		TCanvas *c951 = new TCanvas();
+    		c951->cd();
+    		histJetB2MAntiKt5Jets->Draw("HIST");
+    		TCanvas *c952 = new TCanvas();
+    		c952->cd();
+    		histJetB1MAntiKt6Jets->Draw("HIST");
+    		TCanvas *c953 = new TCanvas();
+    		c953->cd();
+    		histJetB2MAntiKt6Jets->Draw("HIST");
+    		///////invMass for antiKt pairs when 4 Durham jets*/
+    		
+    		/*////nJetsDurham
+    		TCanvas *c954 = new TCanvas();
+    		c954->cd();
+    		histNJetsDurham0->Draw("HIST");
+    		TCanvas *c955 = new TCanvas();
+    		c955->cd();
+    		histNJetsDurham5->Draw("HIST");
+    		TCanvas *c956 = new TCanvas();
+    		c956->cd();
+    		histNJetsDurham10->Draw("HIST");
+    		TCanvas *c957 = new TCanvas();
+    		c957->cd();
+    		histNJetsDurham15->Draw("HIST");
+    		TCanvas *c958 = new TCanvas();
+    		c958->cd();
+    		histNJetsDurham20->Draw("HIST");
+    		TCanvas *c959 = new TCanvas();
+    		c959->cd();
+    		histNJetsDurham25->Draw("HIST");
+    		TCanvas *c960 = new TCanvas();
+    		c960->cd();
+    		histNJetsDurham30->Draw("HIST");
+    		////nJetsDurham*/
+    		
+    		/*///////minChiSquaredZZMass
+    		TCanvas *c961 = new TCanvas();
+    		c961->cd();
+    		histMinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c962 = new TCanvas();
+    		c962->cd();
+    		histInvMassZZ1->Draw("HIST");
+    		TLine* distanceZMassLeft = new TLine(90-distanceZMass, histInvMassZZ1->GetMinimum(), 90-distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassLeft->SetLineColor(kRed);
+	        distanceZMassLeft->SetLineWidth(1);
+	        TLine* distanceZMassRight = new TLine(90+distanceZMass, histInvMassZZ1->GetMinimum(), 90+distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassRight->SetLineColor(kRed);
+	        distanceZMassRight->SetLineWidth(1);
+	        distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+    		TCanvas *c963 = new TCanvas();
+    		c963->cd();
+    		histInvMassZZ2->Draw("HIST");
+    		distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+	        TCanvas *c964 = new TCanvas();
+    		c964->cd();
+    		histDistanceZ1MinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c965 = new TCanvas();
+    		c965->cd();
+    		histDistanceZ2MinChiSquaredZZMass->Draw("HIST");
+    		/////minChiSquaredZZMass*/
+
+    		/*////////y_nm
+    		TCanvas *c966 = new TCanvas();
+    		c966->cd();
+    		histExclYmerge12->Draw("HIST");
+    		TCanvas *c967 = new TCanvas();
+    		c967->cd();
+    		histExclYmerge23->Draw("HIST");
+    		TCanvas *c968 = new TCanvas();
+    		c968->cd();
+    		histExclYmerge34->Draw("HIST");
+    		TCanvas *c969 = new TCanvas();
+    		c969->cd();
+    		histExclYmerge45->Draw("HIST");
+    		TCanvas *c970 = new TCanvas();
+    		c970->cd();
+    		histExclYmerge56->Draw("HIST");
+    		///////y_nm*/
+
+			/*/////////inv. mass for best comb
+			TCanvas *c971 = new TCanvas();
+			TCanvas *c972 = new TCanvas();
+			c971->cd();
+			histJetB1M1Best->Draw("HIST");
+			c972->cd();
+			histJetB2M1Best->Draw("HIST");
+			/////////inv. mass for best comb*/
+
+			///////minChiSquaredZHMass
+    		/*TCanvas *c973 = new TCanvas();
+    		c973->cd();
+    		histMinChiSquaredZHMass->Draw("HIST");
+    		TCanvas *c974 = new TCanvas();
+    		c974->cd();
+    		histInvMassZH1->Draw("HIST");
+    		TLine* distanceZMassLeft = new TLine(90-distanceZMass, histInvMassZZ1->GetMinimum(), 90-distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassLeft->SetLineColor(kRed);
+	        distanceZMassLeft->SetLineWidth(1);
+	        TLine* distanceZMassRight = new TLine(90+distanceZMass, histInvMassZZ1->GetMinimum(), 90+distanceZMass, histInvMassZZ1->GetMaximum());
+	        distanceZMassRight->SetLineColor(kRed);
+	        distanceZMassRight->SetLineWidth(1);
+	        distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+    		TCanvas *c975 = new TCanvas();
+    		c975->cd();
+    		histInvMassZH2->Draw("HIST");
+    		distanceZMassLeft->Draw("same");
+	        distanceZMassRight->Draw("same");
+	        TCanvas *c976 = new TCanvas();
+    		c976->cd();
+    		histDistanceZ1MinChiSquaredZZMass->Draw("HIST");
+    		TCanvas *c977 = new TCanvas();
+    		c977->cd();
+    		histDistanceZ2MinChiSquaredZZMass->Draw("HIST");*/
+    		/////minChiSquaredZHMass
 	}
 	if(topology == -999) 
 	{
@@ -3611,6 +4347,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	if(topology == 6) cout<<"For qqX: "<<endl;
 	if(topology == 7) cout<<"For qqqqX: "<<endl;
 	if(topology == 8) cout<<"For qqHX: "<<endl;
+	if(topology == 9) cout<<"For ZH: "<<endl;
 	cout<<"Events that have 4b: "<<contEvents<<"    Weighted: "<<contEvents*weight<<endl;
 	cout<<"Events that pass: "<<contEventsPostFilter<<"    Weighted: "<<contEventsPostFilter*weight<<endl<<endl;
 
@@ -3824,6 +4561,16 @@ void generateSetsMerge(int topology, set<int>& setTrain, set<int>& setTest, stri
 		fileTrain->GetObject("TreeBqqHXTrain", treeTrain);
 		fileTest->GetObject("TreeBqqHXTest", treeTest);
 	}
+	if(topology == 9)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBZHTrain", treeTrain);
+		fileTest->GetObject("TreeBZHTest", treeTest);
+	}
+	
 	
 	cout<<"train file: "<<fileTrain->GetName()<<endl;
 	cout<<"test file: "<<fileTest->GetName()<<endl;
@@ -3926,6 +4673,15 @@ void mergeTrees(int topology, set<int> setTrain, set<int> setTest, TTree& TreeTr
 		fileTest = TFile::Open(fileTestText.c_str());
 		fileTrain->GetObject("TreeBqqHXTrain", TreeTrain);
 		fileTest->GetObject("TreeBqqHXTest", TreeTest);
+	}
+	if(topology == 9)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBZHTrain", TreeTrain);
+		fileTest->GetObject("TreeBZHTest", TreeTest);
 	}
 	
 	float aplanarity, invMassB1, invMassB2, minJetM, sphericity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, sumPt, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, jetB1M, jetB2M, jetB3M, jetB4M, etaB1, etaB2, etaB3, etaB4, nParticles, totalConstSize, constSizeB1, constSizeB2, constSizeB3, constSizeB4, minConstSize, jetB1NCharged, jetB2NCharged, jetB3NCharged, jetB4NCharged, jetB1NNeutrals, jetB2NNeutrals, jetB3NNeutrals, jetB4NNeutrals, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, invMassB1AntiKt2Jets, invMassB2AntiKt2Jets, invMassB1AntiKt3Jets, invMassB2AntiKt3Jets, invMassB1AntiKt4Jets, invMassB2AntiKt4Jets, invMassB1AntiKt5Jets, invMassB2AntiKt5Jets, invMassB1AntiKt6Jets, invMassB2AntiKt6Jets, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best, entryIndex;
@@ -4219,7 +4975,7 @@ bool fileExists(const string& filename)
 
 void FSRGammaGammaHHbbbbAnalysis()
 {
-	string fileFunction = "plot";
+	string fileFunction = "generate";
 	string rtdCut = "10";
 	string preselection = "34BSplit";
 	int sampleIndex = 0;
@@ -4228,7 +4984,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	
 	cout<<"New macro working"<<endl;
 	
-	double weightHH=0.001225, weightqq=0.0349, weightttbar=0.503, weightZZ=0.8167, weightWW=0.5149, weightqqX=0.04347826, weightqqqqX=0.04, weightqqHX=0.001;
+	double weightHH=0.001225, weightqq=0.0349, weightttbar=0.503, weightZZ=0.8167, weightWW=0.5149, weightqqX=0.04347826, weightqqqqX=0.04, weightqqHX=0.001, weightZH=0.00207445;
 	
 	string jetAlgoText = "(durham rtd_cut="+rtdCut+") ";
 	string jetAlgo = "Jet"+rtdCut;
@@ -4250,6 +5006,8 @@ void FSRGammaGammaHHbbbbAnalysis()
   	string jetAlgoOutputTreeBqqqqXTest = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
 	string jetAlgoOutputTreeBqqHXTrain = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
   	string jetAlgoOutputTreeBqqHXTest = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBZHTrain = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBZHTest = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
 
 	string jetAlgoOutputTreeS = "analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
 	string jetAlgoOutputTreeBqq = "analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
@@ -4259,7 +5017,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	string jetAlgoOutputTreeBqqX = "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
 	string jetAlgoOutputTreeBqqqqX = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
 	string jetAlgoOutputTreeBqqHX = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	
+	string jetAlgoOutputTreeBZH = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
   	
   	/*string jetAlgoText = "(antiKt R=0.5) ";
   	string jetAlgo = "JetAntiKt";
@@ -4280,6 +5038,8 @@ void FSRGammaGammaHHbbbbAnalysis()
   	string jetAlgoOutputTreeBqqqqXTest = "outputTreeBqqqqXHHbbbbESpreadAntiKtTest.root";
 	string jetAlgoOutputTreeBqqHXTrain = "outputTreeBqqHXHHbbbbESpreadAntiKtTrain.root"
   	string jetAlgoOutputTreeBqqHXTest = "outputTreeBqqHXHHbbbbESpreadAntiKtTest.root";
+	string jetAlgoOutputTreeBZHTrain = "outputTreeBZHHHbbbbESpreadAntiKtTrain.root"
+  	string jetAlgoOutputTreeBZHTest = "outputTreeBZHHHbbbbESpreadAntiKtTest.root";
 	*/
   	
   	cout<<"jetAlgo: "<<jetAlgoText<<endl;
@@ -4287,8 +5047,8 @@ void FSRGammaGammaHHbbbbAnalysis()
   	{
 	  	////////creation of File for TMVA for signal HH
 	  	//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAll.root";
-		//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAllILDDSiDi.root";
-	  	const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380All.root";
+		const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAllILDDSiDi.root";
+	  	//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380All.root";
 	  	// Check if file exists and increment sampleIndex if necessary
 	  	sampleIndex=0;
 	  	TFile *outputTreeSTrain = new TFile(jetAlgoOutputTreeSTrain.c_str(), "recreate");
@@ -4544,6 +5304,38 @@ void FSRGammaGammaHHbbbbAnalysis()
 		outputTreeBqqHX->Close();
 	  	////////creation of File for TMVA for back qqHX
 
+		////////creation of File for TMVA for back ZH 	
+		//const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZHESpreadAll.root";
+		const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZHESpreadAllILDDSiDi.root";
+		//const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZH380AllILDDSiDi.root";
+		sampleIndex=0;
+	  	TFile *outputTreeBZHTrain = new TFile(jetAlgoOutputTreeBZHTrain.c_str(), "recreate");
+	  	TTree TreeBZHTrain("TreeBZHTrain","a bZHimple Tree with bZHimple variables (Train)");
+	  	TFile *outputTreeBZHTest = new TFile(jetAlgoOutputTreeBZHTest.c_str(), "recreate");
+	  	TTree TreeBZHTest("TreeBZHTest","a bZHimple Tree with bZHimple variables (Test)");
+	  	TTree TreeBZHMerge("TreeBZHMerge","a bZHimple Tree with bZHimple variables (merge)");
+	  	set<int> setTrainZH, setTestZH;
+		TFile *outputTreeBZH = new TFile(jetAlgoOutputTreeBZH.c_str(), "recreate");
+	  	TTree TreeBZH("TreeBZH","a bZHimple Tree with simple variables (full)");
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(9, setTrainZH, setTestZH, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFileZH, 9, weightZH, jetAlgoText, jetAlgo, genJetAlgo, TreeBZHTrain, TreeBZHTest, TreeBZHMerge, TreeBZH, fileFunction, preselection);
+	  	if(fileFunction=="merge") mergeTrees(9, setTrainZH, setTestZH, TreeBZHTrain, TreeBZHTest, TreeBZHMerge, rtdCut);
+	  	
+	  	outputTreeBZHTrain->cd();
+	   	TreeBZHTrain.Write();
+	   	
+	   	outputTreeBZHTest->cd();
+	   	TreeBZHTest.Write();
+
+		outputTreeBZH->cd();
+	   	TreeBZH.Write();
+	  	
+	  	outputTreeBZHTrain->Close();
+		outputTreeBZHTest->Close();
+		outputTreeBZH->Close();
+	  	////////creation of File for TMVA for back ZH
+
   	}
 
   	
@@ -4583,6 +5375,9 @@ void FSRGammaGammaHHbbbbAnalysis()
 		//const char *inputFileqqqqX = "analysis/FilesPostDelphes/eGammaqqqqXAllILDDSiDi.root";
 		const char *inputFileqqHX = "analysis/FilesPostDelphes/eGammaqqHXAll.root";
 		//const char *inputFileqqHX = "analysis/FilesPostDelphes/eGammaqqHXAllILDDSiDi.root";
+		//const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZHESpreadAll.root";
+		//const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZHESpreadAllILDDSiDi.root";
+		const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZH380AllILDDSiDi.root";
 		analysis(inputFileHH, 1, weightHH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		/*analysis(inputFileqq, 2, weightqq, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFilett, 3, weighttt, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
@@ -4591,6 +5386,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 		analysis(inputFileqqX, 6, weightqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFileqqqqX, 7, weightqqqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFileqqHX, 8, weightqqHX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);*/
+		analysis(inputFileZH, 9, weightZH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		/*TTree TreeDummy("dummy","dummy");
 		analysis("hh", -999, 0.001225, jetAlgoText, jetAlgo, genJetAlgo, TreeDummy, TreeDummy, TreeDummy, fileFunction, preselection); /////Just to give time for the hists. to load; delete if not plotting.*/
 	}
@@ -4601,23 +5397,3 @@ void FSRGammaGammaHHbbbbAnalysis()
 	trueBPairMass(inputFilett, 3, 0.503);*/
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
