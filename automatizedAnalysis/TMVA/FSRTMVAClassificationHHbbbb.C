@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+ 
 #include "TChain.h"
 #include "TFile.h"
 #include "TTree.h"
@@ -9,16 +10,14 @@
 #include "TObjString.h"
 #include "TSystem.h"
 #include "TROOT.h"
+ 
 #include "TMVA/Factory.h"
 #include "TMVA/DataLoader.h"
 #include "TMVA/Tools.h"
 #include "TMVA/TMVAGui.h"
-#include <stdexcept>
  
-int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "invalid", string rtdCut = "", string preselection = "", string varVersion = "invalid", string sampleName = "")
+int FSRTMVAClassificationHHbbbb( TString myMethodList = "" )
 {
-   if(back == "invalid") throw std::runtime_error("ERROR: invalid back!");
-   if(varVersion == "invalid") throw std::runtime_error("ERROR: invalid varVersion!");
    // The explicit loading of the shared libTMVA is done in TMVAlogon.C, defined in .rootrc
    // if you use your private .rootrc, or run from a different directory, please copy the
    // corresponding lines from .rootrc
@@ -135,18 +134,29 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    //string back = "qqX";
    //string back = "qqqqX";
    //string back = "qqHX";
-   if(back == "invalid") throw std::runtime_error("ERROR: invalid back!");
+   //string back = "NN";
+   string back = "ZH";
  
    // Read training and test data
-   //string rtdCut = "10";
-   string inputSText = "analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-   string inputBqqText = "analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-   string inputBttText = "analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-   string inputBZZText = "analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-   string inputBWWText = "analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-   string inputBqqXText = "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-   string inputBqqqqXText = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-   string inputBqqHXText = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+   string rtdCut = "10";
+   string inputSText = "../outputTreeSHHbbbbESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBqqText = "../outputTreeBqqHHbbbbESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBttText = "../outputTreeBttHHbbbbESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBZZText = "../outputTreeBZZHHbbbbESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBWWText = "../outputTreeBWWHHbbbbESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBqqXText = "../outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBqqqqXText = "../outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBqqHXText = "../outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBZHText = "../outputTreeBZHHHbbbbESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputSNNText = "../outputTreeSNNESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBqqNNText = "../outputTreeBqqNNESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBttNNText = "../outputTreeBttbarNNESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBZZNNText = "../outputTreeBZZNNESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBWWNNText = "../outputTreeBWWNNESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBqqXNNText = "../outputTreeBqqXNNESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBqqqqXNNText = "../outputTreeBqqqqXNNESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   string inputBqqHXNNText = "../outputTreeBqqHXNNESpreadDurham"+rtdCut+"34BSplit"+"Train"+"SampleN"+".root";
+   
    
    TFile* inputS = new TFile(inputSText.c_str());
    TFile* inputBqq = new TFile(inputBqqText.c_str());
@@ -156,21 +166,42 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    TFile* inputBqqX = new TFile(inputBqqXText.c_str());
    TFile* inputBqqqqX = new TFile(inputBqqqqXText.c_str());
    TFile* inputBqqHX = new TFile(inputBqqHXText.c_str());
+   TFile* inputBZH = new TFile(inputBZHText.c_str());
+   TFile* inputSNN = new TFile(inputSNNText.c_str()); 
+   TFile* inputBqqNN = new TFile(inputBqqNNText.c_str());
+   TFile* inputBttNN = new TFile(inputBttNNText.c_str());
+   TFile* inputBZZNN = new TFile(inputBZZNNText.c_str());
+   TFile* inputBWWNN = new TFile(inputBWWNNText.c_str());
+   TFile* inputBqqXNN = new TFile(inputBqqXNNText.c_str());
+   TFile* inputBqqqqXNN = new TFile(inputBqqqqXNNText.c_str());
+   TFile* inputBqqHXNN = new TFile(inputBqqHXNNText.c_str());
+
    
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for signal: " << inputS->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qq: " << inputBqq->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background ttbar: " << inputBtt->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background ZZ: " << inputBZZ->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background ZH: " << inputBZH->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background WW: " << inputBWW->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qqX: " << inputBqqX->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qqqqX: " << inputBqqqqX->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qqHX: " << inputBqqHX->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for signalNN: " << inputSNN->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qqNN: " << inputBqqNN->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background ttbarNN: " << inputBttNN->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background ZZNN: " << inputBZZNN->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background WWNN: " << inputBWWNN->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qqXNN: " << inputBqqXNN->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qqqqXNN: " << inputBqqqqXNN->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qqHXNN: " << inputBqqHXNN->GetName() << std::endl;
  
    // Register the training and test trees
  
-   TTree *signalTree = (TTree*)inputS->Get("TreeSTrain");
-   TTree *background, *backgroundqq, *backgroundttbar;
-   int signalTreeSize=0, backgroundSize=0, backgroundqqSize=0, backgroundttbarSize=0; 
+   TTree *signalTree;
+   if(back == "NN") signalTree = (TTree*)inputSNN->Get("TreeSNNTrain");
+   else signalTree = (TTree*)inputS->Get("TreeSTrain");
+   TTree *background, *backgroundqq, *backgroundttbar, *backgroundZZ, *backgroundWW, *backgroundqqX, *backgroundqqqqX, *backgroundqqHX, *backgroundZH;
+   int signalTreeSize=0, backgroundSize=0, backgroundqqSize=0, backgroundttbarSize=0, backgroundZZSize=0, backgroundWWSize=0, backgroundqqXSize=0, backgroundqqqqXSize=0, backgroundqqHXSize=0, backgroundZHSize=0; 
    signalTreeSize = signalTree->GetEntries();
    if(back == "qq")
    {
@@ -207,15 +238,33 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    	background = (TTree*)inputBqqHX->Get("TreeBqqHXTrain");
    	backgroundSize = background->GetEntries();
    }
-   else
+   else if(back == "ZH")
    {
-   	throw std::runtime_error("ERROR: invalid back!");
+   	background = (TTree*)inputBZH->Get("TreeBZHTrain");
+   	backgroundSize = background->GetEntries();
+   }
+   else if(back == "NN")
+   {
+      backgroundqq = (TTree*)inputBqqNN->Get("TreeBqqNNTrain");
+      backgroundttbar = (TTree*)inputBttNN->Get("TreeBttbarNNTrain");
+      backgroundZZ = (TTree*)inputBZZNN->Get("TreeBZZNNTrain");
+      backgroundWW = (TTree*)inputBWWNN->Get("TreeBWWNNTrain");
+      backgroundqqX = (TTree*)inputBqqXNN->Get("TreeBqqXNNTrain");
+      backgroundqqqqX = (TTree*)inputBqqqqXNN->Get("TreeBqqqqXNNTrain");
+      backgroundqqHX = (TTree*)inputBqqHXNN->Get("TreeBqqHXNNTrain");
+      backgroundqqSize = backgroundqq->GetEntries();
+      backgroundttbarSize = backgroundttbar->GetEntries();
+      backgroundZZSize = backgroundZZ->GetEntries();
+      backgroundWWSize = backgroundWW->GetEntries();
+      backgroundqqXSize = backgroundqqX->GetEntries();
+      backgroundqqqqXSize = backgroundqqqqX->GetEntries();
+      backgroundqqHXSize = backgroundqqHX->GetEntries();
    }
    
  
    
    // Create a ROOT output file where TMVA will store ntuples, histograms, etc.
-   TString outfileName( "analysis/TMVA.root" );
+   TString outfileName( "TMVA.root" );
    TFile* outputFile = TFile::Open( outfileName, "RECREATE" );
  
    // Create the factory object. Later you can choose the methods
@@ -232,10 +281,11 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    //TMVA::Factory *factory = new TMVA::Factory( "TMVAClassification", outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;G,D:AnalysisType=Classification" );
  
    TMVA::DataLoader *dataloader;
-   string dataloaderText;
-   //varVersion = "All4V";
-   //preselection = "34BSplit";
-   dataloaderText = "analysis/dataset"+back+rtdCut+varVersion+preselection+sampleName;
+   string dataloaderText, varVersion, preselection;
+   //varVersion = "All1VNN";
+   varVersion = "All9V";
+   preselection = "34BSplit";
+   dataloaderText = "dataset"+back+rtdCut+varVersion+preselection;
    dataloader=new TMVA::DataLoader(dataloaderText.c_str());
    
    // If you wish to modify default settings
@@ -323,15 +373,15 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    }
    else if(varVersion == "All4V")
    {
-      dataloader->AddVariable( "aplanarity", 'F' );
-      dataloader->AddVariable( "cosThetaB1", 'F' );
-      dataloader->AddVariable( "cosThetaB2", 'F' );
-      dataloader->AddVariable( "cosThetaB3", 'F' );
+	dataloader->AddVariable( "aplanarity", 'F' );
+	dataloader->AddVariable( "cosThetaB1", 'F' );
+	dataloader->AddVariable( "cosThetaB2", 'F' );
+	dataloader->AddVariable( "cosThetaB3", 'F' );
    	dataloader->AddVariable( "cosThetaB4", 'F' );
-	   dataloader->AddVariable( "invMassB1", 'F' );
+	dataloader->AddVariable( "invMassB1", 'F' );
    	dataloader->AddVariable( "invMassB2", 'F' );
    	dataloader->AddVariable( "jetB1M", 'F' );
-   	if(back != "WW") dataloader->AddVariable( "jetB2M", 'F' );
+   	//dataloader->AddVariable( "jetB2M", 'F' );
    	dataloader->AddVariable( "jetB3M", 'F' );
    	dataloader->AddVariable( "jetB4M", 'F' );
    	dataloader->AddVariable( "jetB1Pt", 'F' );
@@ -342,144 +392,24 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    	dataloader->AddVariable( "sphericity", 'F' );
    	dataloader->AddVariable( "sumPt", 'F' );
    	dataloader->AddVariable("invMassB1AntiKt", 'F');
-      dataloader->AddVariable("invMassB2AntiKt", 'F');
-      dataloader->AddVariable("nJetsAntiKt", 'F');
-      dataloader->AddVariable("invMassB11Best", 'F');
-      dataloader->AddVariable("invMassB21Best", 'F');
-      dataloader->AddVariable("invMassB12Best", 'F');
-      dataloader->AddVariable("invMassB22Best", 'F');
-      dataloader->AddVariable("invMassB13Best", 'F');
-      dataloader->AddVariable("invMassB23Best", 'F');
-      dataloader->AddVariable("invMassB14Best", 'F');
-      dataloader->AddVariable("invMassB24Best", 'F');
-      dataloader->AddVariable("invMassB15Best", 'F');
-      dataloader->AddVariable("invMassB25Best", 'F');
-      dataloader->AddVariable("invMassB16Best", 'F');
-      dataloader->AddVariable("invMassB26Best", 'F');
-      dataloader->AddVariable("invMassB17Best", 'F');
-      dataloader->AddVariable("invMassB27Best", 'F');
-      dataloader->AddVariable("invMassB18Best", 'F');
-      dataloader->AddVariable("invMassB28Best", 'F');
-   }
-   else if(varVersion == "All5V")
-   {
-   	if(back != "qq" && back != "WW") dataloader->AddVariable( "aplanarity", 'F' );
-      dataloader->AddVariable( "cosThetaB1", 'F' );
-      dataloader->AddVariable( "cosThetaB2", 'F' );
-      dataloader->AddVariable( "cosThetaB3", 'F' );
-   	dataloader->AddVariable( "cosThetaB4", 'F' );
-	   dataloader->AddVariable( "invMassB1", 'F' );
-   	dataloader->AddVariable( "invMassB2", 'F' );
-   	dataloader->AddVariable( "jetB1M", 'F' );
-   	if(back != "WW") dataloader->AddVariable( "jetB2M", 'F' );
-   	dataloader->AddVariable( "jetB3M", 'F' );
-   	dataloader->AddVariable( "jetB4M", 'F' );
-   	dataloader->AddVariable( "jetB1Pt", 'F' );
-   	dataloader->AddVariable( "jetB2Pt", 'F' );
-   	dataloader->AddVariable( "jetB3Pt", 'F' );
-   	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable( "jetB4Pt", 'F' );
-   	dataloader->AddVariable( "minJetM", 'F' );
-   	dataloader->AddVariable( "sphericity", 'F' );
-   	dataloader->AddVariable( "sumPt", 'F' );
-   	dataloader->AddVariable("invMassB1AntiKt", 'F');
-      dataloader->AddVariable("invMassB2AntiKt", 'F');
-      dataloader->AddVariable("nJetsAntiKt", 'F');
-      dataloader->AddVariable("invMassB11Best", 'F');
-      dataloader->AddVariable("invMassB21Best", 'F');
-      dataloader->AddVariable("invMassB12Best", 'F');
-      dataloader->AddVariable("invMassB22Best", 'F');
-      dataloader->AddVariable("invMassB13Best", 'F');
-      dataloader->AddVariable("invMassB23Best", 'F');
-      dataloader->AddVariable("invMassB14Best", 'F');
-      dataloader->AddVariable("invMassB24Best", 'F');
-      dataloader->AddVariable("invMassB15Best", 'F');
-      if(back != "qq" && back != "ZZ") dataloader->AddVariable("invMassB25Best", 'F');
-      dataloader->AddVariable("invMassB16Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB26Best", 'F');
-      dataloader->AddVariable("invMassB17Best", 'F');
-      dataloader->AddVariable("invMassB27Best", 'F');
-      dataloader->AddVariable("invMassB18Best", 'F');
-      if(back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB28Best", 'F');
-   }
-   else if(varVersion == "All6V")
-   {
-   	if(back != "qq" && back != "ZZ" && back != "WW") dataloader->AddVariable( "aplanarity", 'F' );
-      dataloader->AddVariable( "cosThetaB1", 'F' );
-      if(back != "qq") dataloader->AddVariable( "cosThetaB2", 'F' );
-      dataloader->AddVariable( "cosThetaB3", 'F' );
-   	dataloader->AddVariable( "cosThetaB4", 'F' );
-	   dataloader->AddVariable( "invMassB1", 'F' );
-   	dataloader->AddVariable( "invMassB2", 'F' );
-   	dataloader->AddVariable( "jetB1M", 'F' );
-   	if(back != "WW") dataloader->AddVariable( "jetB2M", 'F' );
-   	dataloader->AddVariable( "jetB3M", 'F' );
-   	dataloader->AddVariable( "jetB4M", 'F' );
-   	dataloader->AddVariable( "jetB1Pt", 'F' );
-   	dataloader->AddVariable( "jetB2Pt", 'F' );
-   	dataloader->AddVariable( "jetB3Pt", 'F' );
-   	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable( "jetB4Pt", 'F' );
-   	dataloader->AddVariable( "minJetM", 'F' );
-   	dataloader->AddVariable( "sphericity", 'F' );
-   	if(back != "qq" && back != "WW") dataloader->AddVariable( "sumPt", 'F' );
-   	dataloader->AddVariable("invMassB1AntiKt", 'F');
-      dataloader->AddVariable("invMassB2AntiKt", 'F');
-      if(back != "ZZ") dataloader->AddVariable("nJetsAntiKt", 'F');
-      dataloader->AddVariable("invMassB11Best", 'F');
-      dataloader->AddVariable("invMassB21Best", 'F');
-      dataloader->AddVariable("invMassB12Best", 'F');
-      if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB22Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB13Best", 'F');
-      if(back != "qq" && back != "WW") dataloader->AddVariable("invMassB23Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB14Best", 'F');
-      if(back != "ZZ") dataloader->AddVariable("invMassB24Best", 'F');
-      dataloader->AddVariable("invMassB15Best", 'F');
-      if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB25Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB16Best", 'F');
-      if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB26Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB17Best", 'F');
-      if(back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB27Best", 'F');
-      dataloader->AddVariable("invMassB18Best", 'F');
-      if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB28Best", 'F');
-   }
-   else if(varVersion == "All7V")
-   {
-   	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable( "aplanarity", 'F' );
-      if(back != "WW") dataloader->AddVariable( "cosThetaB1", 'F' );
-      if(back != "qq") dataloader->AddVariable( "cosThetaB2", 'F' );
-      if(back != "qq") dataloader->AddVariable( "cosThetaB3", 'F' );
-   	if(back != "qq") dataloader->AddVariable( "cosThetaB4", 'F' );
-	   dataloader->AddVariable( "invMassB1", 'F' );
-   	dataloader->AddVariable( "invMassB2", 'F' );
-   	dataloader->AddVariable( "jetB1M", 'F' );
-   	if(back != "WW") dataloader->AddVariable( "jetB2M", 'F' );
-   	dataloader->AddVariable( "jetB3M", 'F' );
-   	dataloader->AddVariable( "jetB4M", 'F' );
-   	dataloader->AddVariable( "jetB1Pt", 'F' );
-   	dataloader->AddVariable( "jetB2Pt", 'F' );
-   	dataloader->AddVariable( "jetB3Pt", 'F' );
-   	if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable( "jetB4Pt", 'F' );
-   	dataloader->AddVariable( "minJetM", 'F' );
-   	dataloader->AddVariable( "sphericity", 'F' );
-   	if(back != "qq" && back!= "ZZ" && back != "WW") dataloader->AddVariable( "sumPt", 'F' );
-   	dataloader->AddVariable("invMassB1AntiKt", 'F');
-	   dataloader->AddVariable("invMassB2AntiKt", 'F');
-      if(back != "ZZ" && back != "WW") dataloader->AddVariable("nJetsAntiKt", 'F');
-      dataloader->AddVariable("invMassB11Best", 'F');
-      dataloader->AddVariable("invMassB21Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB12Best", 'F');
-      if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB22Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB13Best", 'F');
-      if(back != "qq" && back!= "ZZ" && back != "WW") dataloader->AddVariable("invMassB23Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB14Best", 'F');
-      if(back != "ZZ") dataloader->AddVariable("invMassB24Best", 'F');
-      dataloader->AddVariable("invMassB15Best", 'F');
-      if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB25Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB16Best", 'F');
-      if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB26Best", 'F');
-      if(back != "ttbar") dataloader->AddVariable("invMassB17Best", 'F');
-      if(back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB27Best", 'F');
-      dataloader->AddVariable("invMassB18Best", 'F');
-      if(back != "qq" && back != "ttbar" && back != "ZZ" && back != "WW") dataloader->AddVariable("invMassB28Best", 'F');
+	dataloader->AddVariable("invMassB2AntiKt", 'F');
+	dataloader->AddVariable("nJetsAntiKt", 'F');
+	dataloader->AddVariable("invMassB11Best", 'F');
+	dataloader->AddVariable("invMassB21Best", 'F');
+	dataloader->AddVariable("invMassB12Best", 'F');
+	dataloader->AddVariable("invMassB22Best", 'F');
+	dataloader->AddVariable("invMassB13Best", 'F');
+	dataloader->AddVariable("invMassB23Best", 'F');
+	dataloader->AddVariable("invMassB14Best", 'F');
+	dataloader->AddVariable("invMassB24Best", 'F');
+	dataloader->AddVariable("invMassB15Best", 'F');
+	dataloader->AddVariable("invMassB25Best", 'F');
+	dataloader->AddVariable("invMassB16Best", 'F');
+	dataloader->AddVariable("invMassB26Best", 'F');
+	dataloader->AddVariable("invMassB17Best", 'F');
+	dataloader->AddVariable("invMassB27Best", 'F');
+	dataloader->AddVariable("invMassB18Best", 'F');
+	dataloader->AddVariable("invMassB28Best", 'F');
    }
    else if(varVersion == "All8V")
    {
@@ -500,7 +430,7 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    	dataloader->AddVariable( "sphericity", 'F' );
    	if(back != "qq" && back!= "ZZ" && back != "WW") dataloader->AddVariable( "sumPt", 'F' );
    	dataloader->AddVariable("invMassB1AntiKt", 'F');
-      dataloader->AddVariable("invMassB2AntiKt", 'F');
+	   dataloader->AddVariable("invMassB2AntiKt", 'F');
       if(back != "ZZ" && back != "WW") dataloader->AddVariable("nJetsAntiKt", 'F');
       dataloader->AddVariable("invMassB11Best", 'F');
       dataloader->AddVariable("invMassB21Best", 'F');
@@ -571,6 +501,16 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
       dataloader->AddVariable("boostSystem", 'F');
       dataloader->AddVariable("missingET", 'F');
    }
+   else if(varVersion == "All1VNN")
+   {
+      dataloader->AddVariable("NN1Output", 'F');
+      dataloader->AddVariable("NN2Output", 'F');
+      dataloader->AddVariable("NN3Output", 'F');
+      dataloader->AddVariable("NN4Output", 'F');
+      dataloader->AddVariable("NN5Output", 'F');
+      dataloader->AddVariable("NN6Output", 'F');
+      dataloader->AddVariable("NN7Output", 'F');
+   }
    
    // global event weights per tree (see below for setting event-wise weights)
    Double_t signalWeight, backgroundWeight;
@@ -579,21 +519,28 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    if(back == "ttbar") backgroundWeight = 0.503;*/
    signalWeight = 1.0;
    if(back == "qq") backgroundWeight = 1.0;
-   if(back == "ttbar") backgroundWeight = 1.0;
-   if(back == "ZZ") backgroundWeight = 1.0;
-   if(back == "WW") backgroundWeight = 1.0;
-   if(back == "qqX") backgroundWeight = 1.0;
-   if(back == "qqqqX") backgroundWeight = 1.0;
-   if(back == "qqHX") backgroundWeight = 1.0;
-   if(back == "qqttbar") backgroundWeight = 1.0;
- 
+   else if(back == "ttbar") backgroundWeight = 1.0;
+   else if(back == "ZZ") backgroundWeight = 1.0;
+   else if(back == "WW") backgroundWeight = 1.0;
+   else if(back == "qqX") backgroundWeight = 1.0;
+   else if(back == "qqqqX") backgroundWeight = 1.0;
+   else if(back == "qqHX") backgroundWeight = 1.0;
+   else if(back == "NN") backgroundWeight = 1.0;
+   else if(back == "ZH") backgroundWeight = 1.0;
+
    // You can add an arbitrary number of signal or background trees
    dataloader->AddSignalTree    ( signalTree, signalWeight );
-   if(back == "qq" || back == "ttbar" || back == "ZZ" || back == "WW" || back == "qqX" || back == "qqqqX" || back == "qqHX") dataloader->AddBackgroundTree( background, backgroundWeight );
-   else if(back ==  "qqttbar")
-   { 
-   	dataloader->AddBackgroundTree( backgroundqq, backgroundWeight );
-   	dataloader->AddBackgroundTree( backgroundttbar, backgroundWeight );
+   if(back == "qq" || back == "ttbar" || back == "ZZ" || back == "WW" || back == "qqX"  || back == "qqqqX"  || back == "qqHX" || back == "ZH") dataloader->AddBackgroundTree( background, backgroundWeight );
+   else if(back == "NN")
+   {
+      dataloader->AddBackgroundTree( backgroundqq, backgroundWeight );
+      dataloader->AddBackgroundTree( backgroundttbar, backgroundWeight );
+      dataloader->AddBackgroundTree( backgroundZZ, backgroundWeight );
+      dataloader->AddBackgroundTree( backgroundWW, backgroundWeight );
+      dataloader->AddBackgroundTree( backgroundqqX, backgroundWeight );
+      dataloader->AddBackgroundTree( backgroundqqqqX, backgroundWeight );
+      dataloader->AddBackgroundTree( backgroundqqHX, backgroundWeight );
+      dataloader->AddBackgroundTree( backgroundZH, backgroundWeight );
    }
    
    // To give different trees for training and testing, do as follows:
@@ -909,7 +856,7 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    return 0;
 }
  
-/*int main( int argc, char** argv )
+int main( int argc, char** argv )
 {
    // Select methods (don't look at this code - not of interest)
    TString methodList;
@@ -919,5 +866,5 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
       if (!methodList.IsNull()) methodList += TString(",");
       methodList += regMethod;
    }
-   return FSRTMVAClassificationHHbbbb(methodList, "ZZ");
-}*/
+   return FSRTMVAClassificationHHbbbb(methodList);
+}
