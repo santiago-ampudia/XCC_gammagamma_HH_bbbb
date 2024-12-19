@@ -52,18 +52,18 @@ using std::vector;
 using namespace TMVA;
 
 // Function declarations for calculating yields
-Double_t CalculateSignalYield(TTree* signalTree, const vector<Double_t>& cuts, double weightHH);
-Double_t CalculateBackgroundYield(const vector<TTree*>& backgroundTrees, const vector<Double_t>& cuts, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX);
+Double_t CalculateSignalYield(TTree* signalTree, const vector<Double_t>& cuts, double weightHH, int& cont0);
+Double_t CalculateBackgroundYield(const vector<TTree*>& backgroundTrees, const vector<Double_t>& cuts, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH);
  
 class MyFitness : public IFitterTarget {
     public:
-       MyFitness(TTree* sigTree, const vector<TTree*>& bgTrees, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX) 
-        : signalTree(sigTree), backgroundTrees(bgTrees), weightHH(weightHH), weightqq(weightqq), weightttbar(weightttbar), weightZZ(weightZZ), weightWW(weightWW), weightqqX(weightqqX), weightqqqqX(weightqqqqX), weightqqHX(weightqqHX) {}
+       MyFitness(TTree* sigTree, const vector<TTree*>& bgTrees, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH) 
+        : signalTree(sigTree), backgroundTrees(bgTrees), weightHH(weightHH), weightqq(weightqq), weightttbar(weightttbar), weightZZ(weightZZ), weightWW(weightWW), weightqqX(weightqqX), weightqqqqX(weightqqqqX), weightqqHX(weightqqHX), weightZH(weightZH) {}
        // Estimator Function to maximize signal significance
       Double_t EstimatorFunction(std::vector<Double_t> & factors) override {
          // Calculate signal and background yields
-         Double_t signalYield = CalculateSignalYield(signalTree, factors, weightHH);
-         Double_t backgroundYield = CalculateBackgroundYield(backgroundTrees, factors, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX);
+         Double_t signalYield = CalculateSignalYield(signalTree, factors, weightHH, cont0);
+         Double_t backgroundYield = CalculateBackgroundYield(backgroundTrees, factors, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH);
 
          // Avoid division by zero
          if (signalYield + backgroundYield == 0) return std::numeric_limits<Double_t>::max();
@@ -83,6 +83,8 @@ class MyFitness : public IFitterTarget {
    double weightqqX;
    double weightqqqqX;
    double weightqqHX;
+   double weightZH;
+   int cont0 = 0; 
 };
  
  
@@ -94,10 +96,12 @@ class MyGA2nd : public GeneticAlgorithm {
 };
 
 
+
 // Function to calculate signal yield
-Double_t CalculateSignalYield(TTree* signalTree, const vector<Double_t>& cuts, double weightHH) {
+Double_t CalculateSignalYield(TTree* signalTree, const vector<Double_t>& cuts, double weightHH, int& cont0) {
     Double_t signalYield=0;
-    Float_t NNOutputs[7];
+    Float_t NNOutputs[8] = {0}; // Initialize to zero to avoid uninitialized values
+
     signalTree->SetBranchAddress("NN1Output", &NNOutputs[0]);
     signalTree->SetBranchAddress("NN2Output", &NNOutputs[1]);
     signalTree->SetBranchAddress("NN3Output", &NNOutputs[2]);
@@ -105,19 +109,49 @@ Double_t CalculateSignalYield(TTree* signalTree, const vector<Double_t>& cuts, d
     signalTree->SetBranchAddress("NN5Output", &NNOutputs[4]);
     signalTree->SetBranchAddress("NN6Output", &NNOutputs[5]);
     signalTree->SetBranchAddress("NN7Output", &NNOutputs[6]);
+    signalTree->SetBranchAddress("NN8Output", &NNOutputs[7]);
 
     Long64_t nEntries = signalTree->GetEntries();
     int nBacks = sizeof(NNOutputs) / sizeof(NNOutputs[0]);
 
+    bool goodCuts=true;
+    /*for(int i=0; i<nBacks; i++)
+    {
+        if(abs(cuts[i]) == 1)
+        {
+            goodCuts = false;
+            break;
+        }
+    }*/
 
+    //cout<<"Initial --    weightHH: "<<weightHH<<"    signalYield: "<<signalYield<<"    nEntries: "<<nEntries<<"    nBacks: "<<nBacks<<"    goodCuts: "<<goodCuts;
     // Loop over all entries in the tree
     for (Long64_t i = 0; i < nEntries; ++i) {
         signalTree->GetEntry(i);
-
+        
+        //if(i<1000 && cont0 == 1) cout<<"Entry: "<<i;
         // Apply all cuts
         bool passesCuts = true;
         for (int j = 0; j < nBacks; ++j) {
+
+            //if(i<1000 && cont0 == 1) cout<<"    NNOutputs"<<j<<": "<<NNOutputs[j]<<"    cuts"<<j<<": "<<cuts[j]<<endl;
+
+            /*if (NNOutputs[j] == -999 || isnan(NNOutputs[j]) || isinf(NNOutputs[j])) {
+                if (i < 10) cout << "Invalid NNOutputs[" << j << "] detected: " << NNOutputs[j] << endl;
+                //passesCuts = false;
+                //break; // Skip this entry entirely
+            }*/
+
+            /*if(NNOutputs[j] == -999) 
+            {
+                //if(i<10) cout<<"-999"<<endl;
+                continue;
+            }*/
+
+           
+
             if (NNOutputs[j] < cuts[j]) {
+                //if(i<1000 && cont0 == 1) cout<<"DOESNT PASS"<<endl<<endl;
                 passesCuts = false;
                 break;
             }
@@ -125,19 +159,24 @@ Double_t CalculateSignalYield(TTree* signalTree, const vector<Double_t>& cuts, d
 
         if (passesCuts) signalYield++;
     }
-    //cout<<endl<<"For cuts: ";
-    //for(int i=0; i<nBacks; i++) cout<<cuts[i]<<", ";
-    //cout<<endl<<"Surviving HH: "<<signalYield*weightHH<<" (uw: "<<signalYield<<")"<<endl;
+    /*cout<<endl<<"For cuts: ";
+    for(int i=0; i<nBacks; i++) cout<<cuts[i]<<", ";
+    cout<<endl<<"Surviving HH: "<<signalYield*weightHH<<" (uw: "<<signalYield<<")"<<endl;*/
+    /*if(signalYield == 0 && goodCuts)
+    {
+        cont0++;
+        if(cont0 == 1) CalculateSignalYield(signalTree, cuts, weightHH, cont0);
+    }*/
     return signalYield*weightHH;
 }
 
 // Function to calculate background yield
-Double_t CalculateBackgroundYield(const vector<TTree*>& backgroundTrees, const vector<Double_t>& cuts, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX) {
+Double_t CalculateBackgroundYield(const vector<TTree*>& backgroundTrees, const vector<Double_t>& cuts, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH) {
     Double_t totalBackgroundYield = 0;
     int contBacks=0;
     // Loop over all background trees
     for (TTree* bgTree : backgroundTrees) {
-        Float_t NNOutputs[7];
+        Float_t NNOutputs[8];
         bgTree->SetBranchAddress("NN1Output", &NNOutputs[0]);
         bgTree->SetBranchAddress("NN2Output", &NNOutputs[1]);
         bgTree->SetBranchAddress("NN3Output", &NNOutputs[2]);
@@ -145,6 +184,7 @@ Double_t CalculateBackgroundYield(const vector<TTree*>& backgroundTrees, const v
         bgTree->SetBranchAddress("NN5Output", &NNOutputs[4]);
         bgTree->SetBranchAddress("NN6Output", &NNOutputs[5]);
         bgTree->SetBranchAddress("NN7Output", &NNOutputs[6]);
+        bgTree->SetBranchAddress("NN8Output", &NNOutputs[7]);
 
         Long64_t nEntries = bgTree->GetEntries();
         Double_t backgroundYield = 0;
@@ -203,17 +243,22 @@ Double_t CalculateBackgroundYield(const vector<TTree*>& backgroundTrees, const v
             weightBack = weightqqHX;
             nBack = "qqHX";
         }
+        else if(contBacks==7)
+        {
+            weightBack = weightZH;
+            nBack = "ZH";
+        }
         totalBackgroundYield += backgroundYield*weightBack;
         contBacks++;
         //cout<<"Surviving "<<nBack<<": "<<backgroundYield*weightBack<<" (uw: "<<backgroundYield<<")"<<endl;
     }
 
-    //cout<<"total surviving back: "<<totalBackgroundYield<<endl<<endl;
+   //cout<<"total surviving back: "<<totalBackgroundYield<<endl<<endl;
     return totalBackgroundYield;
 }
 
 ////Function that calculates the appropiate weights for each topology
-void getWeights(double& weightHH, double& weightqq, double& weightttbar, double& weightZZ, double& weightWW, double& weightqqX, double& weightqqqqX, double& weightqqHX, string rtdCut, string preselection, string varVersion, string sampleName)
+void getWeights(double& weightHH, double& weightqq, double& weightttbar, double& weightZZ, double& weightWW, double& weightqqX, double& weightqqqqX, double& weightqqHX, double& weightZH, string rtdCut, string preselection, string varVersion, string sampleName)
 {
     string inputTrainHHText="analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
  	string inputTestHHText="analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
@@ -279,6 +324,14 @@ void getWeights(double& weightHH, double& weightqq, double& weightttbar, double&
 	TTree* theTreeTestqqHX = (TTree*)inputTestqqHX->Get("TreeBqqHXTest");
 	double weightFactorqqHX = (theTreeTestqqHX->GetEntries()+theTreeTrainqqHX->GetEntries());
 	weightFactorqqHX = weightFactorqqHX/(theTreeTestqqHX->GetEntries());
+    string inputTrainZHText="analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string inputTestZHText="analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	TFile* inputTrainZH = new TFile(inputTrainZHText.c_str());
+	TTree* theTreeTrainZH = (TTree*)inputTrainZH->Get("TreeBZHTrain");
+	TFile* inputTestZH = new TFile(inputTestZHText.c_str());
+	TTree* theTreeTestZH = (TTree*)inputTestZH->Get("TreeBZHTest");
+	double weightFactorZH = (theTreeTestZH->GetEntries()+theTreeTrainZH->GetEntries());
+	weightFactorZH = weightFactorZH/(theTreeTestZH->GetEntries());
 
     cout<<"WeightFactorHH: "<<weightFactorHH<<endl;
     cout<<"WeightFactorqq: "<<weightFactorqq<<endl;
@@ -288,6 +341,7 @@ void getWeights(double& weightHH, double& weightqq, double& weightttbar, double&
     cout<<"WeightFactorqqX: "<<weightFactorqqX<<endl;
     cout<<"WeightFactorqqqqX: "<<weightFactorqqqqX<<endl;
     cout<<"WeightFactorqqHX: "<<weightFactorqqHX<<endl;
+    cout<<"WeightFactorZH: "<<weightFactorZH<<endl;
 
     weightHH = 0.001225 * weightFactorHH;
     weightqq = 0.0349 * weightFactorqq;
@@ -297,6 +351,7 @@ void getWeights(double& weightHH, double& weightqq, double& weightttbar, double&
     weightqqX = 0.04347826 * weightFactorqqX;
     weightqqqqX = 0.04 * weightFactorqqqqX;
     weightqqHX = 0.001 * weightFactorqqHX;
+    weightZH = 0.00207445 * weightFactorZH;
 
     cout<<"weightHH: "<<weightHH<<endl;
     cout<<"weightqq: "<<weightqq<<endl;
@@ -306,6 +361,7 @@ void getWeights(double& weightHH, double& weightqq, double& weightttbar, double&
     cout<<"weightqqX: "<<weightqqX<<endl;
     cout<<"weightqqqqX: "<<weightqqqqX<<endl;
     cout<<"weightqqHX: "<<weightqqHX<<endl;
+    cout<<"weightZH: "<<weightZH<<endl;
 } 
 
 //////function that calculates cross section and error
@@ -413,8 +469,9 @@ void TMVACutsGA(string rtdCut = "invalid", string preselection = "", string varV
    cout<< "========================" << std::endl;
 
 
-   double weightHH=0, weightqq=0, weightttbar=0, weightZZ=0, weightWW=0, weightqqX=0, weightqqqqX=0, weightqqHX=0;
-   getWeights(weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, rtdCut, preselection, varVersion, sampleName);
+   double weightHH=0, weightqq=0, weightttbar=0, weightZZ=0, weightWW=0, weightqqX=0, weightqqqqX=0, weightqqHX=0, weightZH=0;
+   getWeights(weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, rtdCut, preselection, varVersion, sampleName);
+   int cont0=0;
 
 
    // Open signal file
@@ -430,7 +487,8 @@ void TMVACutsGA(string rtdCut = "invalid", string preselection = "", string varV
        "analysis/outputTreeBWWGAESpreadDurham"+rtdCut+preselection+sampleName+".root",
        "analysis/outputTreeBqqXGAESpreadDurham"+rtdCut+preselection+sampleName+".root",
        "analysis/outputTreeBqqqqXGAESpreadDurham"+rtdCut+preselection+sampleName+".root",
-       "analysis/outputTreeBqqHXGAESpreadDurham"+rtdCut+preselection+sampleName+".root"
+       "analysis/outputTreeBqqHXGAESpreadDurham"+rtdCut+preselection+sampleName+".root",
+       "analysis/outputTreeBZHGAESpreadDurham"+rtdCut+preselection+sampleName+".root" 
    };
 
    std::vector<TFile*> backgroundFiles;
@@ -445,7 +503,8 @@ void TMVACutsGA(string rtdCut = "invalid", string preselection = "", string varV
         (TTree*)backgroundFiles[3]->Get("TreeBWWGA"),
         (TTree*)backgroundFiles[4]->Get("TreeBqqXGA"),
         (TTree*)backgroundFiles[5]->Get("TreeBqqqqXGA"),
-        (TTree*)backgroundFiles[6]->Get("TreeBqqHXGA")
+        (TTree*)backgroundFiles[6]->Get("TreeBqqHXGA"), 
+        (TTree*)backgroundFiles[7]->Get("TreeBZHGA")
     };
 
 
@@ -491,19 +550,25 @@ void TMVACutsGA(string rtdCut = "invalid", string preselection = "", string varV
             nBack = "qqHX";
             weightBack = weightqqHX;
         }
+        else if(nBacks==7)
+        {
+            nBack = "ZH";
+            weightBack = weightZH;
+        }
         nBacks++;
         cout<<"uw "<<nBack<<" events: "<<bgTree->GetEntries()<<endl;
         cout<<"w "<<nBack<<" events: "<<(bgTree->GetEntries())*weightBack<<endl;
    }
 
-   // Define ranges for the 7 variables (NN1Output, ..., NN7Output) with min, max, bins
+   // Define ranges for the 8 variables (NN1Output, ..., NN8Output) with min, max, bins
    vector<Interval*> ranges;
-   for (int i = 0; i < backgroundTrees.size(); ++i) {
+   //for (int i = 0; i < backgroundTrees.size(); ++i) {
+   for (int i = 0; i < 8; ++i) {
       ranges.push_back(new Interval(-1, 1, 100)); // Using -1 to 1 as range, with 100 bins
    }
  
    // Initialize the fitness function and genetic algorithm
-   IFitterTarget* myFitness = new MyFitness(signalTree, backgroundTrees, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX);
+   IFitterTarget* myFitness = new MyFitness(signalTree, backgroundTrees, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH);
    //MyGA2nd mg(*myFitness, 100, ranges); // Population size of 100
    MyGA2nd mg(*myFitness, 300, ranges); // Population size of 300
  
@@ -550,8 +615,8 @@ void TMVACutsGA(string rtdCut = "invalid", string preselection = "", string varV
    std::vector<Double_t> optimalCuts = genes->GetFactors();
 
    // Calculate signal and background yields using the optimal cuts
-   Double_t optimalSignalYield = CalculateSignalYield(signalTree, optimalCuts, weightHH);
-   Double_t optimalBackgroundYield = CalculateBackgroundYield(backgroundTrees, optimalCuts, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX);
+   Double_t optimalSignalYield = CalculateSignalYield(signalTree, optimalCuts, weightHH, cont0);
+   Double_t optimalBackgroundYield = CalculateBackgroundYield(backgroundTrees, optimalCuts, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH);
     
    // Calculate the maximum significance
    Double_t maxSignificance = optimalSignalYield / sqrt(optimalSignalYield + optimalBackgroundYield);
