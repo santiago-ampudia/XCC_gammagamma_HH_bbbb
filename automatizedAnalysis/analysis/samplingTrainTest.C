@@ -292,7 +292,8 @@ void samplingTrainTest(string rtdCut = "invalid", string preselection = "", stri
         "analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root",
         "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root",
         "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root",
-        "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root"
+        "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root",
+        "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root"
     };
 
     std::vector<TFile*> files;
@@ -310,7 +311,8 @@ void samplingTrainTest(string rtdCut = "invalid", string preselection = "", stri
         "TreeBWW",
         "TreeBqqX",
         "TreeBqqqqX",
-        "TreeBqqHX"
+        "TreeBqqHX",
+        "TreeBZH"
     };
 
     //cout<<"Trees names retrieved"<<endl;
@@ -331,6 +333,8 @@ void samplingTrainTest(string rtdCut = "invalid", string preselection = "", stri
   	string jetAlgoOutputTreeBqqqqXTest = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
 	string jetAlgoOutputTreeBqqHXTrain = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
   	string jetAlgoOutputTreeBqqHXTest = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    string jetAlgoOutputTreeBZHTrain = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBZHTest = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
     
     TFile *outputTreeSTrain = new TFile(jetAlgoOutputTreeSTrain.c_str(), "recreate");
 	TTree TreeSTrain("TreeSTrain","a simple Tree with simple variables (Train)");
@@ -364,6 +368,10 @@ void samplingTrainTest(string rtdCut = "invalid", string preselection = "", stri
     TTree TreeBqqHXTrain("TreeBqqHXTrain","a bqqHXimple Tree with bqqHXimple variables (Train)");
     TFile *outputTreeBqqHXTest = new TFile(jetAlgoOutputTreeBqqHXTest.c_str(), "recreate");
     TTree TreeBqqHXTest("TreeBqqHXTest","a bqqHXimple Tree with bqqHXimple variables (Test)");
+     TFile *outputTreeBZHTrain = new TFile(jetAlgoOutputTreeBZHTrain.c_str(), "recreate");
+    TTree TreeBZHTrain("TreeBZHTrain","a bZHimple Tree with bZHimple variables (Train)");
+    TFile *outputTreeBZHTest = new TFile(jetAlgoOutputTreeBZHTest.c_str(), "recreate");
+    TTree TreeBZHTest("TreeBZHTest","a bZHimple Tree with bZHimple variables (Test)");
 
     TTree TreeSenTrain("TreeSenTrain","a simple Tree with simple variables (Train sen)");
     TTree TreeSenTest("TreeSenTest","a simple Tree with simple variables (Test sen)");
@@ -379,6 +387,7 @@ void samplingTrainTest(string rtdCut = "invalid", string preselection = "", stri
     fillOutTrees(TreeBqqXTrain, TreeBqqXTest, fileNames[5], trees[5]);
     fillOutTrees(TreeBqqqqXTrain, TreeBqqqqXTest, fileNames[6], trees[6]);
     fillOutTrees(TreeBqqHXTrain, TreeBqqHXTest, fileNames[7], trees[7]);
+    fillOutTrees(TreeBZHTrain, TreeBZHTest, fileNames[8], trees[8]);
     //cout<<"functions done"<<endl;
 
     outputTreeSTrain->cd();
@@ -413,6 +422,10 @@ void samplingTrainTest(string rtdCut = "invalid", string preselection = "", stri
     TreeBqqHXTrain.Write();
     outputTreeBqqHXTest->cd();
     TreeBqqHXTest.Write();
+    outputTreeBZHTrain->cd();
+    TreeBZHTrain.Write();
+    outputTreeBZHTest->cd();
+    TreeBZHTest.Write();
 
     outputTreeSTrain->Close();
     outputTreeSTest->Close();
@@ -430,6 +443,8 @@ void samplingTrainTest(string rtdCut = "invalid", string preselection = "", stri
     outputTreeBqqqqXTest->Close();
     outputTreeBqqHXTrain->Close();
     outputTreeBqqHXTest->Close();
+    outputTreeBZHTrain->Close();
+    outputTreeBZHTest->Close();
 
     //cout<<"done"<<endl;
 
