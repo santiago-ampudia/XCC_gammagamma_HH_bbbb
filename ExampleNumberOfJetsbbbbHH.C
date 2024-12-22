@@ -1,6 +1,6 @@
 /*
 
-root -l examples/ExampleNumberOfJetsHH.C'("delphes_output.root")'
+root -l ExampleNumberOfJetsHH.C'("delphes_output.root")'
 */
 
 #ifdef __CLING__
