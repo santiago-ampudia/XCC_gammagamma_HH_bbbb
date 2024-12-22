@@ -148,17 +148,17 @@ void ExampleNumberOfJetsbbbbBack(const char *inputFile)
       }
      }
      
-    TCanvas *c1 = new TCanvas();
-    /*TCanvas *c2 = new TCanvas();
+    /*TCanvas *c1 = new TCanvas();
+    TCanvas *c2 = new TCanvas();
     TCanvas *c3 = new TCanvas();*/
     TCanvas *c4 = new TCanvas();
     TCanvas *c5 = new TCanvas();
     TCanvas *c6 = new TCanvas();
     
-    c1->cd();
+    /*c1->cd();
     histNJets->Draw();
     
-    /*c2->cd();
+    c2->cd();
     histBJets->Draw();
     
     c3->cd();
