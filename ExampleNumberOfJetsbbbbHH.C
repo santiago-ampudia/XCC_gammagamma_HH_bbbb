@@ -50,7 +50,7 @@ void ExampleNumberOfJetsbbbbHH(const char *inputFile)
   Long64_t numberOfEntries = treeReader->GetEntries();
 
   // Get pointers to branches used in this analysis
-  TClonesArray *branchJet = treeReader->UseBranch("Jet0");
+  TClonesArray *branchJet = treeReader->UseBranch("Jet10");
   TClonesArray *branchJetAntiKt = treeReader->UseBranch("JetAntiKt");
   TClonesArray *branchParticle = treeReader->UseBranch("Particle");
   TClonesArray *branchEvent = treeReader->UseBranch("Event");
@@ -58,9 +58,9 @@ void ExampleNumberOfJetsbbbbHH(const char *inputFile)
   TH1 *histBJets = new TH1F("bjets", "Number of b-tagged jets in events where HH to bb and bb", 72.0, 0.0, 6.0);
   TH1 *histNonBJets = new TH1F("nonbjets", "Number of non-b-tagged jets in events where HH to bb and bb", 72.0, 0.0, 6.0);
   TH1 *histNJets = new TH1F("njets", "Number of Jets in events where HH to bb and bb", 72.0, 0.0, 6.0);
-  TH2F *histNJets2D = new TH2F("histnjetsd2", "(rtd_min=15) b-tagged vs. non-b-taged jets (bbbb)", 100, -1.0, 7.0, 100, -1.0, 7.0);
+  TH2F *histNJets2D = new TH2F("histnjetsd2", "(rtd_min=10) b-tagged vs. non-b-taged jets (bbbb)", 100, -1.0, 7.0, 100, -1.0, 7.0);
   TH2F *histNJets2DAntiKt = new TH2F("histnjetsd2antikt", "(antiKt R=0.5) b-tagged vs. non-b-taged jets (bbbb)", 100, -1.0, 7.0, 100, -1.0, 7.0);
-  TH2F *histNJetsCompareAlgos = new TH2F("histnjjetscomparealgos", "(rtd_min=15, R=0.5) nJets in durham vs. antiKt (bbbb)", 100, -1.0, 7.0, 100, -1.0, 7.0);
+  TH2F *histNJetsCompareAlgos = new TH2F("histnjjetscomparealgos", "(rtd_min=10, R=0.5) nJets in durham vs. antiKt (bbbb)", 100, -1.0, 7.0, 100, -1.0, 7.0);
   histNJetsCompareAlgos->GetXaxis()->SetTitle("Number of reco. jets with durham");
   histNJetsCompareAlgos->GetYaxis()->SetTitle("Number of reco. jets with antiKt");
   histBJets->SetLineColor(857);
@@ -78,6 +78,8 @@ void ExampleNumberOfJetsbbbbHH(const char *inputFile)
   int contBJets=0, contBJetsAntiKt=0;
   int contNonBJets=0, contNonBJetsAntiKt=0;
   int contNon4Jets=0;
+  int contEvents4Jets=0;
+  int eventsPostPreselection=0;
   cout<<"Number of entries: "<<numberOfEntries<<endl<<endl;
   for(Int_t entry = 0; entry < numberOfEntries; ++entry)
   {
@@ -101,16 +103,16 @@ void ExampleNumberOfJetsbbbbHH(const char *inputFile)
    
     for(int i=0;i<nparticles;i++)
     {
-  	GenParticle *particle = (GenParticle*) branchParticle->At(i); 
-  	int d1Index=particle->D1;
-  	int d2Index=particle->D2;
-  	if (d1Index >= 0 && d2Index >= 0)
-  	{
-	  int d1=abs(static_cast<GenParticle*>(branchParticle->At(d1Index))->PID);
-	  int d2=abs(static_cast<GenParticle*>(branchParticle->At(d2Index))->PID);
-	  if ((particle->PID == 25 || particle->PID == 36) && (d1==5 && d2==5)) contB++; 
-  	}
-     }
+      GenParticle *particle = (GenParticle*) branchParticle->At(i); 
+      int d1Index=particle->D1;
+      int d2Index=particle->D2;
+      if (d1Index >= 0 && d2Index >= 0)
+      {
+      int d1=abs(static_cast<GenParticle*>(branchParticle->At(d1Index))->PID);
+      int d2=abs(static_cast<GenParticle*>(branchParticle->At(d2Index))->PID);
+      if ((particle->PID == 25 || particle->PID == 36) && (d1==5 && d2==5)) contB++; 
+      }
+    }
     
      //contB=2;
      if(contB>=2) 
@@ -122,6 +124,7 @@ void ExampleNumberOfJetsbbbbHH(const char *inputFile)
      	contNonBJetsAntiKt=0;
      	if(branchJet->GetEntries() > 0)  njets =  branchJet->GetEntries();
      	else njets=0;
+      if(njets==4) contEvents4Jets++;
      	histNJets->Fill(njets);
      	for(int i=0;i<njets;i++)
      	{
@@ -130,6 +133,7 @@ void ExampleNumberOfJetsbbbbHH(const char *inputFile)
         	else contNonBJets++;
       	}
       	histNJets2D->Fill(contBJets,contNonBJets);
+        if(contBJets == 4 || (contBJets == 3 && contNonBJets == 1)) eventsPostPreselection++;
       	
       	if(branchJetAntiKt->GetEntries() > 0)  njetsAntiKt =  branchJetAntiKt->GetEntries();
      	else njetsAntiKt=0;
@@ -177,6 +181,8 @@ void ExampleNumberOfJetsbbbbHH(const char *inputFile)
     cout<<"Events with HH to bb and bb: "<<contEventsHH<<endl<<"Events with 2 b-jets and 2 non-b-jets: "<<cont2B2NB<<endl<<"%: "<<frac<<endl;
     cout<<endl<<"Number of entries: "<<numberOfEntries<<endl<<"HH->bbbb: "<<contEventsHH<<endl<<contEventsHH/numberOfEntries<<endl;
     
-    cout<<"contNon4Jets: "<<contNon4Jets<<endl;
+    cout<<"contNon4Jets: "<<contNon4Jets<<endl<<endl<<endl;
+    cout<<"contEvents4Jets: "<<contEvents4Jets<<endl<<endl;
+    cout<<"eventsPostPreselection: "<<eventsPostPreselection*0.001225<<" (uw: "<<eventsPostPreselection<<")"<<endl;
   }
 
