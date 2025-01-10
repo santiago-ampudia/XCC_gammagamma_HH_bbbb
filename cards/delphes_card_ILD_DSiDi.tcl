@@ -126,13 +126,16 @@ module ParticlePropagator ParticlePropagator {
 
   # radius of the magnetic field coverage, in m
   #set Radius 1.8 ###Original
-  set Radius 2.493  #DSiDi 
+  set Radius 2.493  
+  #DSiDi 
   # half-length of the magnetic field coverage, in m
   #set HalfLength 2.4 ###Original
-  set HalfLength 3.018 #DSiDi
+  set HalfLength 3.018 
+  #DSiDi
   # magnetic field
   #set Bz 3.5  ###Original
-  set Bz 5.0 #DSiDi
+  set Bz 5.0 
+  
 }
 
 ####################################
@@ -159,8 +162,8 @@ module Efficiency ChargedHadronTrackingEfficiency {
                           (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>0.6&&pt<=2.0)*0.99+
                           (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>2.0&&pt<=4.0)*0.98+
                           (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>4.0&&pt<=10000.)*(0.99-0.00021*(pt-4.))+
-                          (abs(eta)>2.44)*0.0 } #DSiDi
-  
+                          (abs(eta)>2.44)*0.0 } 
+                          #DSiDi 
 }
 
 ##############################
@@ -187,7 +190,8 @@ module Efficiency ElectronTrackingEfficiency {
                           (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>0.6&&pt<=2.0)*0.99+
                           (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>2.0&&pt<=4.0)*0.98+
                           (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>4.0&&pt<=10000.)*(0.99-0.00021*(pt-4.))+
-                          (abs(eta)>2.44)*0.0 } #DSiDi
+                          (abs(eta)>2.44)*0.0 } 
+                          #DSiDi
                           
 }
 
@@ -215,7 +219,8 @@ module Efficiency MuonTrackingEfficiency {
                           (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>0.6&&pt<=2.0)*0.99+
                           (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>2.0&&pt<=4.0)*0.98+
                           (abs(eta)<=2.44&&abs(eta)>1.32)*(pt>4.0&&pt<=10000.)*(0.99-0.00021*(pt-4.))+
-                          (abs(eta)>2.44)*0.0 } #DSiDi
+                          (abs(eta)>2.44)*0.0 } 
+                          #DSiDi
                           
 }
 
@@ -233,7 +238,8 @@ module MomentumSmearing ChargedHadronMomentumSmearing {
   #set ResolutionFormula {    (abs(eta) <= 1.0)                   * sqrt(0.001^2 + pt^2*1.e-5^2) +
    #                          (abs(eta) > 1.0 && abs(eta) <= 2.4) * sqrt(0.01^2 + pt^2*1.e-4^2)}
   set ResolutionFormula {(abs(eta)<=1.32)*sqrt(0.0000146^2*pt^2+0.00217^2)+
-                         (abs(eta)>1.32)*sqrt(0.0000237^2*pt^2+0.00423^2) }  #DSiDi   
+                         (abs(eta)>1.32)*sqrt(0.0000237^2*pt^2+0.00423^2) }  
+                         #DSiDi   
 
 
 }
@@ -253,7 +259,8 @@ module MomentumSmearing ElectronMomentumSmearing {
    #                          (abs(eta) > 1.0 && abs(eta) <= 2.4) * sqrt(0.01^2 + pt^2*1.e-4^2)}
    
    set ResolutionFormula {(abs(eta)<=1.32)*sqrt(0.0000146^2*pt^2+0.00217^2)+
-                         (abs(eta)>1.32)*sqrt(0.0000237^2*pt^2+0.00423^2) } #DSiDi
+                         (abs(eta)>1.32)*sqrt(0.0000237^2*pt^2+0.00423^2) } 
+                         #DSiDi
 }
 
 ###############################
@@ -271,7 +278,8 @@ module MomentumSmearing MuonMomentumSmearing {
    #                          (abs(eta) > 1.0 && abs(eta) <= 2.4) * sqrt(0.01^2 + pt^2*1.e-4^2)}
                              
    set ResolutionFormula {(abs(eta)<=1.32)*sqrt(0.0000146^2*pt^2+0.00217^2)+
-                       (abs(eta)>1.32)*sqrt(0.0000237^2*pt^2+0.00423^2) } #DSiDi                       
+                       (abs(eta)>1.32)*sqrt(0.0000237^2*pt^2+0.00423^2) } 
+                       #DSiDi                       
 
 }
 
@@ -328,7 +336,8 @@ module SimpleCalorimeter ECal {
   for {set i -500} {$i <= 500} {incr i} {
     set eta [expr {$i * 0.005}]
     add EtaPhiBins $eta $PhiBins
-  } #DSiDi
+  } 
+  #DSiDi
 
   # default energy fractions {abs(PDG code)} {fraction of energy deposited in ECAL}
 
@@ -355,7 +364,8 @@ module SimpleCalorimeter ECal {
 
   #set ResolutionFormula { (abs(eta) <= 3.0)                   * sqrt(energy^2*0.01^2 + energy*0.15^2) }
   
-  set ResolutionFormula {sqrt(energy^2*0.01^2 + energy*0.17^2)} #DSiDi
+  set ResolutionFormula {sqrt(energy^2*0.01^2 + energy*0.17^2)} 
+  #DSiDi
 
 }
 
@@ -422,7 +432,8 @@ module SimpleCalorimeter HCal {
 
   #set ResolutionFormula {                  (abs(eta) <= 3.0) * sqrt(energy^2*0.015^2 + energy*0.50^2)}
   
-  set ResolutionFormula {sqrt(energy^2*0.094^2 + energy*0.559^2)} #DSiDi
+  set ResolutionFormula {sqrt(energy^2*0.094^2 + energy*0.559^2)} 
+  #DSiDi
 
 }
 
@@ -997,12 +1008,14 @@ module Efficiency PhotonEfficiency {
   #                       (abs(eta) > 1.5 && abs(eta) <= 2.5) * (pt > 10.0)  * (0.95) +
   #                       (abs(eta) > 2.5)                                   * (0.00)}
                          
-  set EfficiencyFormula { (abs(eta)<=1.01)*0.99+
-      (abs(eta)>1.01&&abs(eta)<=1.32)*0.95+
-      (abs(eta)>1.32&&abs(eta)<=2.44)*0.99+
-      (abs(eta)>2.44)*0.0} #DSiDi
+  set EfficiencyFormula { (pt <= 10.0) * (0.00) +
+      (abs(eta)<=1.01)*(pt > 10.0)*0.99+
+      (abs(eta)>1.01&&abs(eta)<=1.32)*(pt > 10.0)*0.95+
+      (abs(eta)>1.32&&abs(eta)<=2.44)*(pt > 10.0)*0.99+
+      (abs(eta)>2.44)*0.0} 
+      #DSiDi
 }
-}
+
 
 ##################
 # Photon isolation
@@ -1037,10 +1050,12 @@ module Efficiency ElectronEfficiency {
   #                       (abs(eta) > 1.5 && abs(eta) <= 2.5) * (pt > 10.0)  * (0.95) +
   #                       (abs(eta) > 2.5)                                   * (0.00)}
                          
-  set EfficiencyFormula { (abs(eta)<=1.01)*0.98+
-      (abs(eta)>1.01&&abs(eta)<=1.32)*0.75+
-      (abs(eta)>1.32&&abs(eta)<=2.44)*0.95+
-      (abs(eta)>2.44)*0.0} #DSiDi
+  set EfficiencyFormula { (pt <= 10.0) * (0.00) +
+      (abs(eta)<=1.01)*(pt > 10.0)*0.98+
+      (abs(eta)>1.01&&abs(eta)<=1.32)*(pt > 10.0)*0.75+
+      (abs(eta)>1.32&&abs(eta)<=2.44)*(pt > 10.0)*0.95+
+      (abs(eta)>2.44)*0.0} 
+      #DSiDi
 }
 
 ####################
@@ -1078,7 +1093,9 @@ module Efficiency MuonEfficiency {
   #                       (abs(eta) > 1.5 && abs(eta) <= 2.4) * (pt > 1.0e3)               * (0.95 * exp(0.5 - pt*5.0e-4)) +
   #                       (abs(eta) > 2.4)                                                 * (0.00)}
                          
-  set EfficiencyFormula { (abs(eta)<=2.44)*0.98+0.0}
+  set EfficiencyFormula { (pt <= 10.0) * (0.00) +
+    (abs(eta)<=2.44)*(pt > 10.0)*0.98+0.0}
+     #DSiDi
 }
 
 ################
@@ -1125,7 +1142,8 @@ module BTagging BTaggingAntiKt {
   
   add EfficiencyFormula {0} {(abs(eta)<2.17)*0.003+0.0}
   add EfficiencyFormula {4} {(abs(eta)<2.17)*0.02+0.0}
-  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.70+0.0} #DSiDi
+  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.80+0.0} 
+  #DSiDi
 }
 
 module BTagging BTagging0 {
@@ -1150,7 +1168,8 @@ module BTagging BTagging0 {
   
   add EfficiencyFormula {0} {(abs(eta)<2.17)*0.003+0.0}
   add EfficiencyFormula {4} {(abs(eta)<2.17)*0.02+0.0}
-  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.70+0.0} #DSiDi
+  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.80+0.0} 
+  #DSiDi
 }
 
 module BTagging BTagging5 {
@@ -1175,7 +1194,8 @@ module BTagging BTagging5 {
   
   add EfficiencyFormula {0} {(abs(eta)<2.17)*0.003+0.0}
   add EfficiencyFormula {4} {(abs(eta)<2.17)*0.02+0.0}
-  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.70+0.0} #DSiDi
+  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.80+0.0} 
+  #DSiDi
 }
 
 module BTagging BTagging10 {
@@ -1189,7 +1209,7 @@ module BTagging BTagging10 {
 
   # based on arXiv:1211.4462
   
-    # default efficiency formula (misidentification rate)
+  # default efficiency formula (misidentification rate)
   #add EfficiencyFormula {0} {0.01+0.000038*pt}
 
   # efficiency formula for c-jets (misidentification rate)
@@ -1200,7 +1220,8 @@ module BTagging BTagging10 {
   
   add EfficiencyFormula {0} {(abs(eta)<2.17)*0.003+0.0}
   add EfficiencyFormula {4} {(abs(eta)<2.17)*0.02+0.0}
-  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.70+0.0} #DSiDi
+  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.80+0.0} 
+  #DSiDi
 }
 
 module BTagging BTagging15 {
@@ -1225,7 +1246,8 @@ module BTagging BTagging15 {
   
   add EfficiencyFormula {0} {(abs(eta)<2.17)*0.003+0.0}
   add EfficiencyFormula {4} {(abs(eta)<2.17)*0.02+0.0}
-  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.70+0.0} #DSiDi
+  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.80+0.0} 
+  #DSiDi
 }
 
 module BTagging BTagging20 {
@@ -1250,7 +1272,8 @@ module BTagging BTagging20 {
   
   add EfficiencyFormula {0} {(abs(eta)<2.17)*0.003+0.0}
   add EfficiencyFormula {4} {(abs(eta)<2.17)*0.02+0.0}
-  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.70+0.0} #DSiDi
+  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.80+0.0} 
+  #DSiDi
 }
 
 module BTagging BTagging25 {
@@ -1275,7 +1298,8 @@ module BTagging BTagging25 {
   
   add EfficiencyFormula {0} {(abs(eta)<2.17)*0.003+0.0}
   add EfficiencyFormula {4} {(abs(eta)<2.17)*0.02+0.0}
-  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.70+0.0} #DSiDi
+  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.80+0.0} 
+  #DSiDi
 }
 
 module BTagging BTagging30 {
@@ -1300,7 +1324,8 @@ module BTagging BTagging30 {
   
   add EfficiencyFormula {0} {(abs(eta)<2.17)*0.003+0.0}
   add EfficiencyFormula {4} {(abs(eta)<2.17)*0.02+0.0}
-  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.70+0.0} #DSiDi
+  add EfficiencyFormula {5} {(abs(eta)<2.17)*0.80+0.0} 
+  #DSiDi
 }
 
 #############
@@ -1576,4 +1601,3 @@ module TreeWriter TreeWriter {
   add Branch MissingET/momentum MissingET MissingET
   add Branch ScalarHT/energy ScalarHT ScalarHT
 }
-
