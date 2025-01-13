@@ -1039,7 +1039,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   	int contEntriesPostFilter=0;
   	cout<<"numberOfEntries: "<<numberOfEntries<<endl;
   	
-  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText, histNJetsDurham0Text, histNJetsDurham5Text, histNJetsDurham10Text, histNJetsDurham15Text, histNJetsDurham20Text, histNJetsDurham25Text, histNJetsDurham30Text, histMinChiSquaredZZMassText, histInvMassZZ1Text, histInvMassZZ2Text, histDistanceZ1MinChiSquaredZZMassText, histDistanceZ2MinChiSquaredZZMassText, histMinChiSquaredZHMassText, histInvMassZH1Text, histInvMassZH2Text, histDistanceZ1MinChiSquaredZHMassText, histDistanceZ2MinChiSquaredZHMassText, histExclYmerge12Text, histExclYmerge23Text, histExclYmerge34Text, histExclYmerge45Text, histExclYmerge56Text, histJetB1M1BestText, histJetB2M1BestText; 
+  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText, histNJetsDurham0Text, histNJetsDurham5Text, histNJetsDurham10Text, histNJetsDurham15Text, histNJetsDurham20Text, histNJetsDurham25Text, histNJetsDurham30Text, histMinChiSquaredZZMassText, histInvMassZZ1Text, histInvMassZZ2Text, histDistanceZ1MinChiSquaredZZMassText, histDistanceZ2MinChiSquaredZZMassText, histMinChiSquaredZHMassText, histInvMassZH1Text, histInvMassZH2Text, histDistanceZ1MinChiSquaredZHMassText, histDistanceZ2MinChiSquaredZHMassText, histExclYmerge12Text, histExclYmerge23Text, histExclYmerge34Text, histExclYmerge45Text, histExclYmerge56Text, histJetB1M1BestText, histJetB2M1BestText, histDiHMText; 
 	if(topology == 1) 
 	{
   		histJetEtaText = jetAlgoText + "Jet Eta for events with HH to bb and bb (4b)";
@@ -1134,6 +1134,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 
 		histJetB1M1BestText = jetAlgoText + "b-tagged jet-pair 1 mass for best comb. for HH mass (HH";
   		histJetB2M1BestText = jetAlgoText + "b-tagged jet-pair 2 mass for best comb. for HH mass (HH)";
+
+		histDiHMText = jetAlgoText + "Di-Higgs Inv. Mass";
   	}
   	if(topology == 2) 
 	{
@@ -1680,6 +1682,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	TH2F *histNJets2D = new TH2F("histnjetsd2", "(rtd_min=10) b-tagged vs. non-b-taged jets (bbbb)", 100, -1.0, 7.0, 100, -1.0, 7.0);
 	histNJets2D->GetXaxis()->SetTitle("b-tagged jets");
   	histNJets2D->GetYaxis()->SetTitle("non-b-tagged jets");
+
+	TH1 *histDiHM = new TH1F("histDiHM,", histDiHMText.c_str(), 142.0, -1.0, 500);
   	
   	
   	TClonesArray *branchParticle;
@@ -1973,6 +1977,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	{
 		treeReader->ReadEntry(entry);
 		entryIndex=entry;
+
+		if(entry % 250000 == 0) cout<<"Entry: "<<entry<<endl;
 		
 		nJetsAntiKt=0;
 		if(branchJetAntiKt->GetEntries() > 0)  nJetsAntiKt =  branchJetAntiKt->GetEntries();
@@ -2040,14 +2046,14 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 				//////Looking only for HH->bbbb for signal
 				if(topology == 1)
 				{
-					for(int i=0;i<nParticles;i++)
+					int loopCont=nParticles;
+    				if(nParticles>25) loopCont=25;
+					for(int i=0;i<loopCont;i++)
 		    		{
 			  			GenParticle *particle = (GenParticle*) branchParticle->At(i); 
 			  			int pid = abs(particle->PID);
-			  			if(pid == 25 || pid == 36)
-			  			{
-					  		if(findDaughter(branchParticle, particle, 1) == 5 && findDaughter(branchParticle, particle, 2) == 5) contB++;
-					  	}
+			  			int m1 = findMother(branchParticle, particle, 1);
+      					if(pid == 5 && (m1 == 25 || m1 == 36)) contB++;
 		     		}
 	     		}
 	     		///////Looking only for HH->bbbb for signal
@@ -2162,7 +2168,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 			  			GenParticle *particle = (GenParticle*) branchParticle->At(i); 
 			  			int pid = abs(particle->PID);
 				  		vector<int> finalDecays;
-				  		if(((pid == 23 || pid == 32 || pid == 33) || (pid == 25 || pid == 36)) && findMother(branchParticle, particle, 1) == -999 && findMother(branchParticle, particle, 2) == -999)
+				  		if(((pid == 23 || pid == 32 || pid == 33) || (pid == 25 || pid == 36)) && abs(findMother(branchParticle, particle, 1)) == 22 && abs(findMother(branchParticle, particle, 2)) == 22)
 				  		{
 					  		findFinalDecaysZH(branchParticle, particle, finalDecays, contNeutrinoEvent, contLeptonEvent, contHadronEvent, i);
 					  		contZHEvent++;
@@ -2185,10 +2191,10 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	     			
 	     			if(topology != 1)
 	     			{
-	     				contB=2;
+	     				contB=4;
 	     			}
 	     			
-	     			if(contB>=2)
+	     			if(contB>=4)
 		     		//if(1==1)
 		     		{
 		     			contEvents++;
@@ -2295,6 +2301,9 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 									histJetB2M1Best->Fill(invMassB21Best, weight);
 									/*histInvMassZH1->Fill(recoMassZ, weight);
 			     					histInvMassZH2->Fill(recoMassH, weight);*/
+									TLorentzVector diJets = jetPairB1Sen + jetPairB2Sen;
+									double invMassDiH = diJets.M();
+									histDiHM->Fill(invMassDiH, weight);
 									
 			     				}
 			     				if(i==1)
@@ -2977,6 +2986,12 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		c178->cd();
 		histDistanceZ2MinChiSquaredZZMass->Draw("HIST");*/
 		/////minChiSquaredZHMass
+
+		/*/////////di-Higgs mass
+		TCanvas *c179 = new TCanvas();
+		c179->cd();
+		histDiHM->Draw("HIST");
+		//////////di-Higgs Mass*/
     		
 	} 
 	else if(topology == 2)
@@ -4984,7 +4999,15 @@ void FSRGammaGammaHHbbbbAnalysis()
 	
 	cout<<"New macro working"<<endl;
 	
-	double weightHH=0.001225, weightqq=0.0349, weightttbar=0.503, weightZZ=0.8167, weightWW=0.5149, weightqqX=0.04347826, weightqqqqX=0.04, weightqqHX=0.001, weightZH=0.00207445;
+	//double weightHH=0.001225;
+	//double weightHH=0.0015552;
+	double weightHH=0.0015552*1.155;
+	double weightqq=0.0349, weightttbar=0.503;
+	//double weightZZ=0.8167; 
+	double weightZZ=0.17088*1.155; 
+	double weightWW=0.5149, weightqqX=0.04347826, weightqqqqX=0.04, weightqqHX=0.001;
+	//double weightZH=0.00207445;
+	double weightZH=0.00207445*1.155;
 	
 	string jetAlgoText = "(durham rtd_cut="+rtdCut+") ";
 	string jetAlgo = "Jet"+rtdCut;
@@ -5077,7 +5100,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	   	outputTreeSTrain->Close();
 		outputTreeSTest->Close();
 		outputTreeS->Close();
-	  	////////creation of File for TMVA for signal HH
+	  	////////creation of File for TMVA for signal HH 
 	  	
 		////////creation of File for TMVA for back qq  
 		//const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAll.root";
@@ -5354,8 +5377,8 @@ void FSRGammaGammaHHbbbbAnalysis()
 		TTree TreeSMerge("TreeSMerge","a simple Tree with simple variables (merge)");
 		TTree TreeS("TreeS","a simple Tree with simple variables (full)");
 		//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAll.root";
-		//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAllILDDSiDi.root";
-	  	const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380All.root";
+		const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAllILDDSiDi.root";
+	  	//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380All.root";
 		//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380AllPU.root";
 		//const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAll.root";
 		//const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAllILDDSiDi.root";
@@ -5385,8 +5408,8 @@ void FSRGammaGammaHHbbbbAnalysis()
 		analysis(inputFileWW, 5, weightWW, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFileqqX, 6, weightqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFileqqqqX, 7, weightqqqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
-		analysis(inputFileqqHX, 8, weightqqHX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);*/
-		analysis(inputFileZH, 9, weightZH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
+		analysis(inputFileqqHX, 8, weightqqHX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
+		analysis(inputFileZH, 9, weightZH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);*/
 		/*TTree TreeDummy("dummy","dummy");
 		analysis("hh", -999, 0.001225, jetAlgoText, jetAlgo, genJetAlgo, TreeDummy, TreeDummy, TreeDummy, fileFunction, preselection); /////Just to give time for the hists. to load; delete if not plotting.*/
 	}
