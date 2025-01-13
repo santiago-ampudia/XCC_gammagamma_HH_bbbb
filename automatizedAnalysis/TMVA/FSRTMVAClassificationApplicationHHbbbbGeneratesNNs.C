@@ -3190,7 +3190,7 @@ void draw2DHistsFromFile(string fileName, string canvasScale, bool point, double
 }
 
 
-void findCrossSectionHHbbbb(double totalRemaining, double HHRemaining, double backRemaining, double luminosity, double& crossSection, double& errorTop, double& errorBottom, int nbin)
+void findCrossSectionHHbbbb(double totalRemaining, double HHRemaining, double backRemaining, double luminosity, double& crossSection, double& errorTop, double& errorBottom, int nbin, double weightHH)
 { 
 	double xMin = -2000.0;   // Minimum x value
    	double xMax = 10000.0;  // Maximum x value
@@ -3198,6 +3198,8 @@ void findCrossSectionHHbbbb(double totalRemaining, double HHRemaining, double ba
 	double branchingRatioHbb=0.5824; ////////////at Higgs mass of 125.00 GeV
 	double totalBR = branchingRatioHbb * branchingRatioHbb; 
 	double totalEffi=HHRemaining/(1462612*0.001225*totalBR);
+	//double totalEffi=HHRemaining/(1000001*0.001552*totalBR);
+	//double totalEffi=HHRemaining/(1000001*0.001552*1.155*totalBR);
 	//cout<<"HHRemaining: "<<HHRemaining<<"    (1462612*0.001225): "<<1462612*0.001225<<"    totalEffi: "<<totalEffi<<endl;
 	
 	double s, b=backRemaining, n=totalRemaining; 
@@ -4841,7 +4843,15 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
  	findHistLimits(method, bottomHistLimit, topHistLimit, methodColor);
  	int sizeHH=0, sizeqq=0, sizettbar=0, sizeZZ=0, sizeWW=0, sizeqqX=0, sizeqqqqX=0, sizeqqHX=0, sizeZH=0;
  	int nbin=10000, nbinNN=100;
- 	double weightHH=0.001225*weightFactorHH, weightqq=0.0349*weightFactorqq, weightttbar=0.503*weightFactorttbar, weightZZ=0.8167*weightFactorZZ, weightWW=0.5149*weightFactorWW, weightqqX=0.04347826*weightFactorqqX, weightqqqqX=0.04*weightFactorqqqqX, weightqqHX=0.001*weightFactorqqHX, weightZH=0.00207445*weightFactorZH;
+	//double weightHH=0.001225*weightFactorHH;
+	//double weightHH=0.001552*weightFactorHH; 
+	double weightHH=0.001552*weightFactorHH*1.155; 
+ 	double weightqq=0.0349*weightFactorqq, weightttbar=0.503*weightFactorttbar;
+	//double weightZZ=0.8167*weightFactorZZ;
+	double weightZZ=0.17088*weightFactorZZ*1.155;
+	double weightWW=0.5149*weightFactorWW, weightqqX=0.04347826*weightFactorqqX, weightqqqqX=0.04*weightFactorqqqqX, weightqqHX=0.001*weightFactorqqHX;
+	//double weightZH=0.00207445*weightFactorZH;
+	double weightZH=0.00207445*weightFactorZH*1.155;
  	vector<double> BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput;
  	
  	
@@ -5256,7 +5266,7 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	cout<<"Cross-section and error for the output of "<<method<<"ZH applied only to HH and ZH: "<<endl;
  	findCrossSectionHHbbbb(HHRemainingZH+backRemainingZH, HHRemainingZH, backRemainingZH, luminosity, crossSectionttbar, errorTopZH, errorBottomZH, nbin);*/
  	cout<<"Cross-section and error for the output of "<<method<<" combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX, ZH: "<<endl;
- 	findCrossSectionHHbbbb(HHRemainingCombined+backRemainingCombined, HHRemainingCombined, backRemainingCombined, luminosity, crossSectionCombined, errorTopCombined, errorBottomCombined, nbin);
+ 	findCrossSectionHHbbbb(HHRemainingCombined+backRemainingCombined, HHRemainingCombined, backRemainingCombined, luminosity, crossSectionCombined, errorTopCombined, errorBottomCombined, nbin, weightHH);
  	double preliminaryErrorLeft = errorBottomCombined;
 	double preliminaryErrorRight = errorTopCombined;
  	
