@@ -343,15 +343,19 @@ void getWeights(double& weightHH, double& weightqq, double& weightttbar, double&
     cout<<"WeightFactorqqHX: "<<weightFactorqqHX<<endl;
     cout<<"WeightFactorZH: "<<weightFactorZH<<endl;
 
-    weightHH = 0.001225 * weightFactorHH;
+    //weightHH = 0.001225 * weightFactorHH;
+    //weightHH = 0.001552 * weightFactorHH;
+    weightHH = 0.001552 * weightFactorHH * 1.155;
     weightqq = 0.0349 * weightFactorqq;
     weightttbar = 0.503 * weightFactorttbar;
-    weightZZ = 0.8167 * weightFactorZZ;
+    //weightZZ = 0.8167 * weightFactorZZ;
+    weightZZ = 0.17088 * weightFactorZZ * 1.155;
     weightWW = 0.5149 * weightFactorWW;
     weightqqX = 0.04347826 * weightFactorqqX;
     weightqqqqX = 0.04 * weightFactorqqqqX;
     weightqqHX = 0.001 * weightFactorqqHX;
-    weightZH = 0.00207445 * weightFactorZH;
+    //weightZH = 0.00207445 * weightFactorZH;
+    weightZH = 0.00207445 * weightFactorZH * 1.155;
 
     cout<<"weightHH: "<<weightHH<<endl;
     cout<<"weightqq: "<<weightqq<<endl;
@@ -373,6 +377,8 @@ void findCrossSectionHHbbbb(double totalRemaining, double HHRemaining, double ba
 	double branchingRatioHbb=0.5824; ////////////at Higgs mass of 125.00 GeV
 	double totalBR = branchingRatioHbb * branchingRatioHbb; 
 	double totalEffi=HHRemaining/(1462612*0.001225*totalBR);
+    //double totalEffi=HHRemaining/(1000001*0.001552*totalBR);
+    //double totalEffi=HHRemaining/(1000001*0.001552*1.155*totalBR);
 	//cout<<"HHRemaining: "<<HHRemaining<<"    (1462612*0.001225): "<<1462612*0.001225<<"    totalEffi: "<<totalEffi<<endl;
 	
 	double s, b=backRemaining, n=totalRemaining; 
