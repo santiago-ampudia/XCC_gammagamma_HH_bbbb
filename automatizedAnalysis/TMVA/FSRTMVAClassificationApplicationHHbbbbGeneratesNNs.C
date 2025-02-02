@@ -4494,7 +4494,7 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	TH1F *histNNZH = new TH1F("NNZH", completeTitle.c_str(), nbinNN, bottomHistLimit-.05, topHistLimit+.05);
 	histNNZH->SetLineColor(kGreen+1);
 	histNNZH->SetFillColor(kGreen+1);
-	for(int i=sizeHH+sizeqq+sizettbar; i<sizeHH+sizeqq+sizettbar+sizeZH; i++)
+	for(int i=sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX; i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH; i++)
 	{
 		histNNZH->Fill(BDTOutput[i]);
 	}
@@ -5217,11 +5217,11 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	preliminarySignificance = maxSignificanceCombined;
  	/////////////find significance by finding cuts for each NNs significance against all backs
 
-	////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts
+	/*////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts
 	findDefEGammaCuts(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH);
 	cout<<endl<<"defCutqqX: "<<defCutqqX<<endl<<"defCutqqqqX: "<<defCutqqqqX<<endl<<"defCutqqHX: "<<defCutqqHX<<endl;
 	cutEGamma(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, defCutqqX, defCutqqqqX, defCutqqHX);
-	///////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts 	
+	///////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts*/ 	
  	
  	//add2DHistToFile(*histROCRej, "ROCHists.root", "ROCRej"+method);
  	
