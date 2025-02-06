@@ -48,6 +48,14 @@ R__LOAD_LIBRARY(libDelphes)
 #include <stdexcept>
 #include <sys/stat.h>
 #include <sstream>
+
+///kinematic fit
+#include "epConstrainHH.h"
+#include "LorentzVectorWithErrors.h"
+#include "pxyConstrainHH.h"
+#include "eqmConstrainHH.h"
+///////kinematic fit
+
 #endif
 
 using namespace std;
@@ -57,6 +65,28 @@ void functionLinking()
 	cout<<5+9-7<<endl;
 	cout<<"functionLinking working"<<endl;
 }
+
+/////kinematic fit
+Double_t funPoly4(Double_t* x, Double_t* par) {
+
+  Double_t xx=x[0];
+  Double_t yy=x[1];
+  
+  Double_t result = par[0]*exp(par[1]+par[2]*xx+par[3]*yy+par[4]*pow(xx,2)+par[5]*pow(yy,2)+par[6]*xx*yy+par[7]*pow(xx,3)+par[8]*pow(yy,3)+par[9]*pow(xx,2)*yy+par[10]*xx*pow(yy,2)+par[11]*pow(xx,4)+par[12]*pow(yy,4)+par[13]*pow(xx,3)*yy+par[14]*xx*pow(yy,3)+par[15]*pow(xx*yy,2));
+  cout << " funPoly4 " << " x= " << xx << " " << yy 
+       << " result= " << result << endl;
+  return result;
+}
+
+Double_t funPoly2(Double_t* x, Double_t* par) {
+  
+  Double_t result = par[0]+par[1]*x[0]+par[2]*x[1]+par[3]*pow(x[0],2)+par[4]*pow(x[1],2)+par[5]*x[0]*x[1];
+  cout << " funPoly2 " << " x= " << x[0] << " " << x[1] 
+       << " par= "  << par[0] << " " << par[1] << " " << par[2] << " " << par[3] << " " << par[4] << " " << par[5]
+       << " result= " << result << endl;
+  return result;
+}
+///////kinematic fit
 
 //Function that receives the true particles branch, a particle, and a number 1 or 2 saying if it should return the PID of the mother 1 or the mother 2. If it has no mother for the number requested, it reutrns -999.
 int findMother(TClonesArray *branchParticle, GenParticle *particle, int m) 
@@ -585,7 +615,7 @@ float findEventShape(TLorentzVector j1, TLorentzVector j2, TLorentzVector j3, TL
 }
 
 //////Function that finds the jet pair combinations that minimizes chiSquared for H mass. 
-void findJetPairs(TLorentzVector& jetPairB1, TLorentzVector& jetPairB2, TLorentzVector jetB1, TLorentzVector jetB2, TLorentzVector jetB3, TLorentzVector jetB4, double& jetPairB1Index1, double& jetPairB1Index2, double& jetPairB2Index1, double& jetPairB2Index2)
+void findJetPairs(TLorentzVector& jetPairB1, TLorentzVector& jetPairB2, TLorentzVector jetB1, TLorentzVector jetB2, TLorentzVector jetB3, TLorentzVector jetB4, double& jetPairB1Index1, double& jetPairB1Index2, double& jetPairB2Index1, double& jetPairB2Index2, double& minJetChiS)
 {
 	double errorJetPairMass=1; ///////Should eventually measure this (? -- CHECK)
 	jetPairB1=jetB1+jetB2;
@@ -599,7 +629,7 @@ void findJetPairs(TLorentzVector& jetPairB1, TLorentzVector& jetPairB2, TLorentz
 	jetPairB1=jetB1+jetB4;
 	jetPairB2=jetB2+jetB3;
 	double jetChiS14=pow((jetPairB1.M()-125), 2)/errorJetPairMass + pow((jetPairB2.M()-125), 2)/errorJetPairMass;
-	double minJetChiS=TMath::Min(TMath::Min(jetChiS12, jetChiS13), jetChiS14);
+	minJetChiS=TMath::Min(TMath::Min(jetChiS12, jetChiS13), jetChiS14);
 	if(minJetChiS==jetChiS12)
 	{
 		jetPairB1=jetB1+jetB2;
@@ -1001,6 +1031,114 @@ float findThrust(vector<TLorentzVector>& momenta, TLorentzVector& thrustAxis)
 }
 //////////
 
+////////function that uses eqmConstrainHH to do the jet pairing given four jets
+void eqmConstrainHHPairing(TLorentzVector jet1, TLorentzVector jet2, TLorentzVector jet3, TLorentzVector jet4, TLorentzVector& jetPair1, TLorentzVector& jetPair2, double& chi2ndf, vector<double> BfractionalEnergyErrors, double BbetaError, double Ecm, bool enableExtraTries, double nSigVar, TLorentzVector& jetB1Fiteqm, TLorentzVector& jetB2Fiteqm, TLorentzVector& jetB3Fiteqm, TLorentzVector& jetB4Fiteqm)
+{
+	TLorentzVector jet1Copy12, jet2Copy12, jet3Copy12, jet4Copy12;
+	TLorentzVector jet1Copy13, jet2Copy13, jet3Copy13, jet4Copy13;
+	TLorentzVector jet1Copy14, jet2Copy14, jet3Copy14, jet4Copy14;
+
+	jet1Copy12 = jet1;
+	jet2Copy12 = jet2;
+	jet3Copy12 = jet3;
+	jet4Copy12 = jet4;
+	jet1Copy13 = jet1;
+	jet2Copy13 = jet2;
+	jet3Copy13 = jet3;
+	jet4Copy13 = jet4;
+	jet1Copy14 = jet1;
+	jet2Copy14 = jet2;
+	jet3Copy14 = jet3;
+	jet4Copy14 = jet4;
+
+	vector<LorentzVectorWithErrors>* inputLVWE12 = new vector<LorentzVectorWithErrors>(4);
+	vector<LorentzVectorWithErrors>* inputLVWE13 = new vector<LorentzVectorWithErrors>(4);
+	vector<LorentzVectorWithErrors>* inputLVWE14 = new vector<LorentzVectorWithErrors>(4);
+	inputLVWE12->at(0)=LorentzVectorWithErrors(jet1Copy12,BfractionalEnergyErrors[0]*jet1Copy12.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE12->at(1)=LorentzVectorWithErrors(jet2Copy12,BfractionalEnergyErrors[1]*jet2Copy12.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE12->at(2)=LorentzVectorWithErrors(jet3Copy12,BfractionalEnergyErrors[2]*jet3Copy12.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE12->at(3)=LorentzVectorWithErrors(jet4Copy12,BfractionalEnergyErrors[3]*jet4Copy12.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE13->at(0)=LorentzVectorWithErrors(jet1Copy13,BfractionalEnergyErrors[0]*jet1Copy13.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE13->at(1)=LorentzVectorWithErrors(jet3Copy13,BfractionalEnergyErrors[2]*jet3Copy13.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE13->at(2)=LorentzVectorWithErrors(jet2Copy13,BfractionalEnergyErrors[1]*jet2Copy13.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE13->at(3)=LorentzVectorWithErrors(jet4Copy13,BfractionalEnergyErrors[3]*jet4Copy13.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE14->at(0)=LorentzVectorWithErrors(jet1Copy14,BfractionalEnergyErrors[0]*jet1Copy14.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE14->at(1)=LorentzVectorWithErrors(jet4Copy14,BfractionalEnergyErrors[3]*jet4Copy14.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE14->at(2)=LorentzVectorWithErrors(jet2Copy14,BfractionalEnergyErrors[1]*jet2Copy14.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE14->at(3)=LorentzVectorWithErrors(jet3Copy14,BfractionalEnergyErrors[2]*jet3Copy14.Energy(),BbetaError,BbetaError,BbetaError);
+
+	cout << " signal eqmConstrainHH12 " << endl;
+	eqmConstrainHH eqmCHH12(inputLVWE12,Ecm,enableExtraTries,nSigVar);
+	vector<LorentzVectorWithErrors>* outputLVeqm12=eqmCHH12.NumericalMinimization(); 
+	cout << " signal eqmConstrainHH13 " << endl;
+	eqmConstrainHH eqmCHH13(inputLVWE13,Ecm,enableExtraTries,nSigVar);
+	vector<LorentzVectorWithErrors>* outputLVeqm13=eqmCHH13.NumericalMinimization(); 
+	cout << " signal eqmConstrainHH14 " << endl;
+	eqmConstrainHH eqmCHH14(inputLVWE14,Ecm,enableExtraTries,nSigVar);
+	vector<LorentzVectorWithErrors>* outputLVeqm14=eqmCHH14.NumericalMinimization(); 
+
+
+	double chi2ndfeqm12, chi2ndfeqm13, chi2ndfeqm14;
+	TLorentzVector jetB1Fiteqm12, jetB2Fiteqm12, jetPairB1Fiteqm12, jetB3Fiteqm12, jetB4Fiteqm12, jetPairB2Fiteqm12;
+	TLorentzVector jetB1Fiteqm13, jetB2Fiteqm13, jetPairB1Fiteqm13, jetB3Fiteqm13, jetB4Fiteqm13, jetPairB2Fiteqm13;
+	TLorentzVector jetB1Fiteqm14, jetB2Fiteqm14, jetPairB1Fiteqm14, jetB3Fiteqm14, jetB4Fiteqm14, jetPairB2Fiteqm14;
+
+	jetB1Fiteqm12=outputLVeqm12->at(0).getLV();
+	jetB2Fiteqm12=outputLVeqm12->at(1).getLV();
+	jetB3Fiteqm12=outputLVeqm12->at(2).getLV();
+	jetB4Fiteqm12=outputLVeqm12->at(3).getLV();
+	chi2ndfeqm12=outputLVeqm12->at(0).getChi2perNDF();
+	jetB1Fiteqm13=outputLVeqm13->at(0).getLV();
+	jetB2Fiteqm13=outputLVeqm13->at(1).getLV();
+	jetB3Fiteqm13=outputLVeqm13->at(2).getLV();
+	jetB4Fiteqm13=outputLVeqm13->at(3).getLV();
+	chi2ndfeqm13=outputLVeqm13->at(0).getChi2perNDF();
+	jetB1Fiteqm14=outputLVeqm14->at(0).getLV();
+	jetB2Fiteqm14=outputLVeqm14->at(1).getLV();
+	jetB3Fiteqm14=outputLVeqm14->at(2).getLV();
+	jetB4Fiteqm14=outputLVeqm14->at(3).getLV();
+	chi2ndfeqm14=outputLVeqm14->at(0).getChi2perNDF();
+
+	if(chi2ndfeqm12 < chi2ndfeqm13 && chi2ndfeqm12 < chi2ndfeqm14)
+	{
+		jetPair1 = jetB1Fiteqm12 + jetB2Fiteqm12;
+		jetPair2 = jetB3Fiteqm12 + jetB4Fiteqm12;
+		jetB1Fiteqm = jetB1Fiteqm12;
+		jetB2Fiteqm = jetB2Fiteqm12;
+		jetB3Fiteqm = jetB3Fiteqm12;
+		jetB4Fiteqm = jetB4Fiteqm12;
+		chi2ndf = chi2ndfeqm12;
+	}
+	if(chi2ndfeqm13 < chi2ndfeqm12 && chi2ndfeqm13 < chi2ndfeqm14)
+	{
+		jetPair1 = jetB1Fiteqm13 + jetB2Fiteqm13;
+		jetPair2 = jetB3Fiteqm13 + jetB4Fiteqm13;
+		jetB1Fiteqm = jetB1Fiteqm13;
+		jetB2Fiteqm = jetB2Fiteqm13;
+		jetB3Fiteqm = jetB3Fiteqm13;
+		jetB4Fiteqm = jetB4Fiteqm13;
+		chi2ndf = chi2ndfeqm13;
+	}
+	if(chi2ndfeqm14 < chi2ndfeqm12 && chi2ndfeqm14 < chi2ndfeqm13)
+	{
+		jetPair1 = jetB1Fiteqm14 + jetB2Fiteqm14;
+		jetPair2 = jetB3Fiteqm14 + jetB4Fiteqm14;
+		jetB1Fiteqm = jetB1Fiteqm14;
+		jetB2Fiteqm = jetB2Fiteqm14;
+		jetB3Fiteqm = jetB3Fiteqm14;
+		jetB4Fiteqm = jetB4Fiteqm14;
+		chi2ndf = chi2ndfeqm14;
+	}
+
+	delete inputLVWE12;
+	delete inputLVWE13;
+	delete inputLVWE14;
+	delete outputLVeqm12;
+	delete outputLVeqm13;
+	delete outputLVeqm14;
+}
+///////kinematic fit
+
 /*gamma gamma -> xx analysis. For topology: 
 1) HH
 2) qqbar
@@ -1038,8 +1176,26 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   	//int pos=7;
   	int contEntriesPostFilter=0;
   	cout<<"numberOfEntries: "<<numberOfEntries<<endl;
+
+	///////kinematic fit
+	/* int nBins2dMass=380;
+	double min2dMass=0.;
+	double max2dMass=380.; */
+	
+	int nBins2dMass=180;
+	double min2dMass=-5.0;
+	double max2dMass=250.;
+	
+	/*int nBins2dMass=36;
+	double min2dMass=114.;
+	double max2dMass=150.; */
+	
+	/*  int nBins2dMass=80;
+	double min2dMass=110.;
+	double max2dMass=150.; */
+	///////kinematic fit
   	
-  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText, histNJetsDurham0Text, histNJetsDurham5Text, histNJetsDurham10Text, histNJetsDurham15Text, histNJetsDurham20Text, histNJetsDurham25Text, histNJetsDurham30Text, histMinChiSquaredZZMassText, histInvMassZZ1Text, histInvMassZZ2Text, histDistanceZ1MinChiSquaredZZMassText, histDistanceZ2MinChiSquaredZZMassText, histMinChiSquaredZHMassText, histInvMassZH1Text, histInvMassZH2Text, histDistanceZ1MinChiSquaredZHMassText, histDistanceZ2MinChiSquaredZHMassText, histExclYmerge12Text, histExclYmerge23Text, histExclYmerge34Text, histExclYmerge45Text, histExclYmerge56Text, histJetB1M1BestText, histJetB2M1BestText, histDiHMText; 
+  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText, histNJetsDurham0Text, histNJetsDurham5Text, histNJetsDurham10Text, histNJetsDurham15Text, histNJetsDurham20Text, histNJetsDurham25Text, histNJetsDurham30Text, histMinChiSquaredZZMassText, histInvMassZZ1Text, histInvMassZZ2Text, histDistanceZ1MinChiSquaredZZMassText, histDistanceZ2MinChiSquaredZZMassText, histMinChiSquaredZHMassText, histInvMassZH1Text, histInvMassZH2Text, histDistanceZ1MinChiSquaredZHMassText, histDistanceZ2MinChiSquaredZHMassText, histExclYmerge12Text, histExclYmerge23Text, histExclYmerge34Text, histExclYmerge45Text, histExclYmerge56Text, histJetB1M1BestText, histJetB2M1BestText, histDiHMText, histInvMassB1FitepText, histInvMassB2FitepText, histChi2ndfepText, histInvMassB1FitpxyText, histInvMassB2FitpxyText, histChi2ndfpxyText, histInvMassB1FiteqmText, histInvMassB2FiteqmText, histChi2ndfeqmText, histInvMassB1FitBestText, histInvMassB2FitBestText, histChi2ndfBestText; 
 	if(topology == 1) 
 	{
   		histJetEtaText = jetAlgoText + "Jet Eta for events with HH to bb and bb (4b)";
@@ -1136,6 +1292,20 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   		histJetB2M1BestText = jetAlgoText + "b-tagged jet-pair 2 mass for best comb. for HH mass (HH)";
 
 		histDiHMText = jetAlgoText + "Di-Higgs Inv. Mass";
+
+		histInvMassB1FitepText = jetAlgoText + "fitted (ep) b-tagged jet-pair 1 mass (HH)";
+  		histInvMassB2FitepText = jetAlgoText + "fitted (ep) b-tagged jet-pair 2 mass (HH)";
+		histChi2ndfepText = jetAlgoText + "chi2ndfep (ep) (HH)";
+		histInvMassB1FitpxyText = jetAlgoText + "fitted (pxy) b-tagged jet-pair 1 mass (HH)";
+  		histInvMassB2FitpxyText = jetAlgoText + "fitted (pxy) b-tagged jet-pair 2 mass (HH)";
+		histChi2ndfpxyText = jetAlgoText + "chi2ndfpxy (pxy) (HH)";
+		histInvMassB1FiteqmText = jetAlgoText + "fitted (eqm, paired with eqm) b-tagged jet-pair 1 mass (HH)";
+  		histInvMassB2FiteqmText = jetAlgoText + "fitted (eqm, paired with eqm) b-tagged jet-pair 2 mass (HH)";
+		histChi2ndfeqmText = jetAlgoText + "chi2ndfeqm (eqm, paired with eqm) (HH)";
+		histInvMassB1FitBestText = jetAlgoText + "fitted (least chi2nf) b-tagged jet-pair 1 mass (HH)";
+  		histInvMassB2FitBestText = jetAlgoText + "fitted (least chi2nf) b-tagged jet-pair 2 mass (HH)";
+		histChi2ndfBestText = jetAlgoText + "chi2ndfeqm (least chi2nf) (HH)";
+		
   	}
   	if(topology == 2) 
 	{
@@ -1684,7 +1854,19 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   	histNJets2D->GetYaxis()->SetTitle("non-b-tagged jets");
 
 	TH1 *histDiHM = new TH1F("histDiHM,", histDiHMText.c_str(), 142.0, -1.0, 500);
-  	
+
+	TH1 *histInvMassB1Fitep = new TH1F("jetb1pairfitep,", histInvMassB1FitepText.c_str(), 142.0, -10.0, 350);
+  	TH1 *histInvMassB2Fitep = new TH1F("jetb2pairfitep,", histInvMassB2FitepText.c_str(), 142.0, -10.0, 350);
+	TH1 *histChi2ndfep = new TH1F("histChi2ndfep,", histChi2ndfepText.c_str(), 142.0, -5.0, 50);
+	TH1 *histInvMassB1Fitpxy = new TH1F("jetb1pairfitpxy,", histInvMassB1FitpxyText.c_str(), 142.0, -10.0, 350);
+  	TH1 *histInvMassB2Fitpxy = new TH1F("jetb2pairfitpxy,", histInvMassB2FitpxyText.c_str(), 142.0, -10.0, 350);
+	TH1 *histChi2ndfpxy = new TH1F("histChi2ndfpxy,", histChi2ndfpxyText.c_str(), 142.0, -5.0, 50);
+	TH1 *histInvMassB1Fiteqm = new TH1F("jetb1pairfiteqm,", histInvMassB1FiteqmText.c_str(), 142.0, -10.0, 350);
+  	TH1 *histInvMassB2Fiteqm = new TH1F("jetb2pairfiteqm,", histInvMassB2FiteqmText.c_str(), 142.0, -10.0, 350);
+  	TH1 *histChi2ndfeqm = new TH1F("histChi2ndfeqm,", histChi2ndfeqmText.c_str(), 142.0, -5.0, 50);
+  	TH1 *histInvMassB1FitBest = new TH1F("InvMassB1FitBest,", histInvMassB1FitBestText.c_str(), 142.0, -10.0, 350);
+	TH1 *histInvMassB2FitBest = new TH1F("InvMassB2FitBest,", histInvMassB2FitBestText.c_str(), 142.0, -10.0, 350);
+	TH1 *histChi2ndfBest = new TH1F("Chi2ndfBest,", histChi2ndfBestText.c_str(), 142.0, -5.0, 50);
   	
   	TClonesArray *branchParticle;
   	TClonesArray *branchEvent;
@@ -1742,6 +1924,17 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	float aplanarity, invMassB1, invMassB2, minJetM, sphericity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, sumPt, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, jetB1M, jetB2M, jetB3M, jetB4M, etaB1, etaB2, etaB3, etaB4, nParticles, totalConstSize, constSizeB1, constSizeB2, constSizeB3, constSizeB4, minConstSize, jetB1NCharged, jetB2NCharged, jetB3NCharged, jetB4NCharged, jetB1NNeutrals, jetB2NNeutrals, jetB3NNeutrals, jetB4NNeutrals, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, invMassB1AntiKt2Jets, invMassB2AntiKt2Jets, invMassB1AntiKt3Jets, invMassB2AntiKt3Jets, invMassB1AntiKt4Jets, invMassB2AntiKt4Jets, invMassB1AntiKt5Jets, invMassB2AntiKt5Jets, invMassB1AntiKt6Jets, invMassB2AntiKt6Jets, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best, entryIndex, nJetsDurham0, nJetsDurham5, nJetsDurham10, nJetsDurham15, nJetsDurham20, nJetsDurham25, nJetsDurham30, minChiSquaredZZMass, distanceZ1MinChiSquaredZZMass, distanceZ2MinChiSquaredZZMass, exclYmerge12, exclYmerge23, exclYmerge34, exclYmerge45, exclYmerge56, invMassZZ1, invMassZZ2, thrust, boostB1, boostB2, boostB3, boostB4, boostSystem, missingET;
 	float minChiSquaredZHMass, distanceZ1MinChiSquaredZHMass, distanceZ2MinChiSquaredZHMass, invMassZHZ, invMassZHH;
 	int contLargeBMass=0, contSmallBMass=0;
+	double minJetChiS=999, minJetChiSep=999, minJetChiSpxy=999, minJetChiSeqm=999, minJetChiSBest=999;
+	////kinematic fit
+	double chi2ndfep, chi2ndfpxy, chi2ndfeqm, chi2ndfeqmback, chi2ndfBest;
+	TLorentzVector jetB1Fitep, jetB2Fitep, jetPairB1Fitep, jetB3Fitep, jetB4Fitep, jetPairB2Fitep;
+	TLorentzVector jetB1Fiteqm, jetB2Fiteqm, jetPairB1Fiteqm, jetB3Fiteqm, jetB4Fiteqm, jetPairB2Fiteqm;
+	TLorentzVector jetB1Fiteqmback, jetB2Fiteqmback, jetPairB1Fiteqmback, jetB3Fiteqmback, jetB4Fiteqmback, jetPairB2Fiteqmback;
+	TLorentzVector jetB1Fitpxy, jetB2Fitpxy, jetPairB1Fitpxy, jetB3Fitpxy, jetB4Fitpxy, jetPairB2Fitpxy;
+	TLorentzVector jetB1Fitini, jetB2Fitini, jetPairB1Fitini, jetB3Fitini, jetB4Fitini, jetPairB2Fitini;
+	float invMassB1Fitep, invMassB2Fitep, invMassB1Fitpxy, invMassB2Fitpxy, invMassB1Fiteqm, invMassB2Fiteqm, invMassB1FitBest, invMassB2FitBest;
+	float leadingJetPairChiSquaredReco, leadingJetPairChiSquaredTrue, nonLeadingJetPairChiSquaredReco, nonLeadingJetPairChiSquaredTrue, jetPairsChiSquaredReco, jetPairsChiSquaredTrue;
+	//////kinematic fit
 	
 	if(fileFunction == "generate")
 	{
@@ -1972,6 +2165,32 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	TreeMerge.Branch("exclYmerge34",&exclYmerge34,"exclYmerge34/F");
 	TreeMerge.Branch("exclYmerge45",&exclYmerge45,"exclYmerge45/F");
 	TreeMerge.Branch("exclYmerge56",&exclYmerge56,"exclYmerge56/F");
+
+	//////kinematic fit
+	double Ecm=380.;
+	bool enableExtraTries=false;  //   if true then fit is performed several times with different intial betaX, betaY, betaZ valeus
+	double nSigVar=3.;   // if enableExtraTries=true, controls spread in initial beta values w.r.t. values given by jetB1,jetB2,jetNB1,jetNB2
+
+	double BfractionalEnergyError1=0.05;
+	double BfractionalEnergyError2=0.10;
+	double BfractionalEnergyError3=0.15;
+	double BfractionalEnergyError4=0.20;
+	vector<double> BfractionalEnergyErrors = {BfractionalEnergyError1, BfractionalEnergyError2, BfractionalEnergyError3, BfractionalEnergyError4};
+	double BbetaError=0.001;
+
+	//cout << " BfractionalEnergyError= " << BfractionalEnergyError << " BbetaError= " << BbetaError << endl;
+	
+	bool testFittedMass=false;
+	double massMaxB=134e10;
+	double massMinB=-120;
+	
+	cout << " testFittedMass= " <<  testFittedMass << " massMaxB= " << massMaxB << " massMinB= " << massMinB << endl;
+				
+	//  double scaleMaxEntries=0.1;
+	//  cout << " scaleMaxEntries= " << scaleMaxEntries << endl;
+
+	//  maxEntries *= scaleMaxEntries;
+	/////kinematic fit
 	
 	for(int entry=0; entry<numberOfEntries; entry++) 
 	{
@@ -2211,12 +2430,109 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 			     			histNJetsDurham20->Fill(nJetsDurham20, weight);
 			     			histNJetsDurham25->Fill(nJetsDurham25, weight);
 			     			histNJetsDurham30->Fill(nJetsDurham30, weight);
+
+							///////kinematic fit Eqm
+							eqmConstrainHHPairing(jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1Fiteqm, jetPairB2Fiteqm, chi2ndfeqm, BfractionalEnergyErrors, BbetaError, Ecm, enableExtraTries, nSigVar, jetB1Fiteqm, jetB2Fiteqm, jetB3Fiteqm, jetB4Fiteqm);
+							invMassB1Fiteqm = jetPairB1Fiteqm.M();
+				     		invMassB2Fiteqm = jetPairB2Fiteqm.M();
+							histInvMassB1Fiteqm->Fill(invMassB1Fiteqm, weight);
+							histInvMassB2Fiteqm->Fill(invMassB2Fiteqm, weight);
+							histChi2ndfeqm->Fill(chi2ndfeqm, weight);
+							//histInvMass2DFiteqm->Fill(invMassB1Fiteqm, invMassB2Fiteqm, weight);
+							minJetChiSeqm = pow((jetPairB1Fiteqm.M()-125), 2)/1 + pow((jetPairB2Fiteqm.M()-125), 2)/1;
+							///////////kinematic fit Eqm
 			     			
+							////////kinematic fit
+							TLorentzVector jetB1DurhamCopy, jetB2DurhamCopy, jetB3DurhamCopy, jetB4DurhamCopy;
+							jetB1DurhamCopy = jetB1Durham;
+							jetB2DurhamCopy = jetB2Durham;
+							jetB3DurhamCopy = jetB3Durham;
+							jetB4DurhamCopy = jetB4Durham;
+							vector<LorentzVectorWithErrors>* inputLVWE=new vector<LorentzVectorWithErrors>(4);
+							inputLVWE->at(0)=LorentzVectorWithErrors(jetB1DurhamCopy,BfractionalEnergyErrors[0]*jetB1DurhamCopy.Energy(),BbetaError,BbetaError,BbetaError);
+		      				inputLVWE->at(1)=LorentzVectorWithErrors(jetB2DurhamCopy,BfractionalEnergyErrors[1]*jetB2DurhamCopy.Energy(),BbetaError,BbetaError,BbetaError);
+							inputLVWE->at(2)=LorentzVectorWithErrors(jetB3DurhamCopy,BfractionalEnergyErrors[2]*jetB3DurhamCopy.Energy(),BbetaError,BbetaError,BbetaError);
+							inputLVWE->at(3)=LorentzVectorWithErrors(jetB4DurhamCopy,BfractionalEnergyErrors[3]*jetB4DurhamCopy.Energy(),BbetaError,BbetaError,BbetaError);
+
+							cout << " signal epConstrainHH " << endl;
+							epConstrainHH epCHH(inputLVWE,Ecm,enableExtraTries,nSigVar, false);
+							vector<LorentzVectorWithErrors>* outputLVep=epCHH.NumericalMinimization();
+
+							cout << " signal pxyConstrainHH " << endl;
+							pxyConstrainHH pxyCHH(inputLVWE,Ecm,enableExtraTries,nSigVar);
+							vector<LorentzVectorWithErrors>* outputLVpxy=pxyCHH.NumericalMinimization();
+
+							jetB1Fitep=outputLVep->at(0).getLV();
+							jetB2Fitep=outputLVep->at(1).getLV();
+							jetB3Fitep=outputLVep->at(2).getLV();
+							jetB4Fitep=outputLVep->at(3).getLV();
+							chi2ndfep=outputLVep->at(0).getChi2perNDF();
+
+							jetB1Fitpxy=outputLVpxy->at(0).getLV();
+							jetB2Fitpxy=outputLVpxy->at(1).getLV();
+							jetB3Fitpxy=outputLVpxy->at(2).getLV();
+							jetB4Fitpxy=outputLVpxy->at(3).getLV();
+							chi2ndfpxy=outputLVpxy->at(0).getChi2perNDF();
+
+							delete inputLVWE;
+							delete outputLVep;
+							delete outputLVpxy;
+							//////////kinematic fit
+
+							/////kinematic fitted inv. mass
+							double jetPairB1Index1Fitep, jetPairB1Index2Fitep, jetPairB2Index1Fitep, jetPairB2Index2Fitep;
+			     			TLorentzVector jetPairB1Fitep, jetPairB2Fitep, jetPairB1SenFitep, jetPairB2SenFitep, jetPairB1AntiKtFitep, jetPairB2AntiKtFitep;
+			     			TLorentzVector jetPairB1CheckFitep, jetPairB2CheckFitep;
+			     			findJetPairs(jetPairB1Fitep, jetPairB2Fitep, jetB1Fitep, jetB2Fitep, jetB3Fitep, jetB4Fitep, jetPairB1Index1Fitep, jetPairB1Index2Fitep, jetPairB2Index1Fitep, jetPairB2Index2Fitep, minJetChiSep);
+			     			invMassB1Fitep = jetPairB1Fitep.M();
+				     		invMassB2Fitep = jetPairB2Fitep.M();
+							histInvMassB1Fitep->Fill(invMassB1Fitep, weight);
+							histInvMassB2Fitep->Fill(invMassB2Fitep, weight);
+							//histChi2ndfep->Fill(chi2ndfep, weight);
+							histChi2ndfep->Fill(minJetChiSep, weight);
+							//histInvMass2DFitep->Fill(invMassB1Fitep, invMassB2Fitep, weight);
+
+							double jetPairB1Index1Fitpxy, jetPairB1Index2Fitpxy, jetPairB2Index1Fitpxy, jetPairB2Index2Fitpxy;
+			     			TLorentzVector jetPairB1Fitpxy, jetPairB2Fitpxy, jetPairB1SenFitpxy, jetPairB2SenFitpxy, jetPairB1AntiKtFitpxy, jetPairB2AntiKtFitpxy;
+			     			TLorentzVector jetPairB1CheckFitpxy, jetPairB2CheckFitpxy;
+			     			findJetPairs(jetPairB1Fitpxy, jetPairB2Fitpxy, jetB1Fitpxy, jetB2Fitpxy, jetB3Fitpxy, jetB4Fitpxy, jetPairB1Index1Fitpxy, jetPairB1Index2Fitpxy, jetPairB2Index1Fitpxy, jetPairB2Index2Fitpxy, minJetChiSpxy);
+			     			invMassB1Fitpxy = jetPairB1Fitpxy.M();
+				     		invMassB2Fitpxy = jetPairB2Fitpxy.M();
+							histInvMassB1Fitpxy->Fill(invMassB1Fitpxy, weight);
+							histInvMassB2Fitpxy->Fill(invMassB2Fitpxy, weight);
+							histChi2ndfpxy->Fill(chi2ndfpxy, weight);
+							//histChi2ndfpxy->Fill(minJetChiSpxy, weight);
+							//histInvMass2DFitpxy->Fill(invMassB1Fitpxy, invMassB2Fitpxy, weight);
+
+							/*if(chi2ndfep < chi2ndfpxy && chi2ndfep < chi2ndfeqm)
+							{
+								invMassB1FitBest = invMassB1Fitep;
+								invMassB2FitBest = invMassB2Fitep;
+								chi2ndfBest = chi2ndfep;
+							}
+							else if(chi2ndfpxy < chi2ndfep && chi2ndfpxy < chi2ndfeqm)
+							{
+								invMassB1FitBest = invMassB1Fitpxy;
+								invMassB2FitBest = invMassB2Fitpxy;
+								chi2ndfBest = chi2ndfpxy;
+							}
+							else if(chi2ndfeqm < chi2ndfep && chi2ndfeqm < chi2ndfpxy)
+							{
+								invMassB1FitBest = invMassB1Fiteqm;
+								invMassB2FitBest = invMassB2Fiteqm;
+								chi2ndfBest = chi2ndfeqm;
+							}
+							histInvMassB1FitBest->Fill(invMassB1FitBest, weight);
+							histInvMassB2FitBest->Fill(invMassB2FitBest, weight);
+							histChi2ndfBest->Fill(chi2ndfBest, weight);
+							histInvMass2DFitBest->Fill(invMassB1FitBest, invMassB2FitBest, weight);*/
+							//////kinematic fitted inv. mass
+
 			     			//////inv. mass
 			     			double jetPairB1Index1, jetPairB1Index2, jetPairB2Index1, jetPairB2Index2;
 			     			TLorentzVector jetPairB1, jetPairB2, jetPairB1Sen, jetPairB2Sen, jetPairB1AntiKt, jetPairB2AntiKt;
 			     			TLorentzVector jetPairB1Check, jetPairB2Check;
-			     			findJetPairs(jetPairB1, jetPairB2, jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1Index1, jetPairB1Index2, jetPairB2Index1, jetPairB2Index2);
+			     			findJetPairs(jetPairB1, jetPairB2, jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1Index1, jetPairB1Index2, jetPairB2Index1, jetPairB2Index2, minJetChiS);
 			     			invMassB1 = jetPairB1.M();
 				     		invMassB2 = jetPairB2.M();
 				     		
@@ -2232,6 +2548,33 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 			     			histInvMassZZ2->Fill(invMassZZ2, weight);
 			     			histDistanceZ1MinChiSquaredZZMass->Fill(distanceZ1MinChiSquaredZZMass, weight);
 			     			histDistanceZ2MinChiSquaredZZMass->Fill(distanceZ2MinChiSquaredZZMass, weight);
+
+								//////kinematic fit
+							if(minJetChiSep < minJetChiSpxy && minJetChiSep < minJetChiSeqm)
+							{
+								invMassB1FitBest = invMassB1Fitep;
+								invMassB2FitBest = invMassB2Fitep;
+								minJetChiSBest = minJetChiSep;
+							}
+							else if(minJetChiSpxy < minJetChiSep && minJetChiSpxy < minJetChiSeqm)
+							{
+								invMassB1FitBest = invMassB1Fitpxy;
+								invMassB2FitBest = invMassB2Fitpxy;
+								minJetChiSBest = minJetChiSpxy;
+							}
+							else if(minJetChiSeqm < minJetChiSep && minJetChiSeqm < minJetChiSpxy)
+							{
+								invMassB1FitBest = invMassB1Fiteqm;
+								invMassB2FitBest = invMassB2Fiteqm;
+								minJetChiSBest = minJetChiSeqm;
+							}
+							histInvMassB1FitBest->Fill(invMassB1FitBest, weight);
+							histInvMassB2FitBest->Fill(invMassB2FitBest, weight);
+							histChi2ndfBest->Fill(minJetChiSBest, weight);
+							invMassB1 = invMassB1FitBest;
+							invMassB2 = invMassB2FitBest;
+							//histInvMass2DFitBest->Fill(invMassB1FitBest, invMassB2FitBest, weight);
+								///////kinematic fit
 			     			//if(flagZZMass==true) break;
 				     		
 							/*bool flagZHMass=false;
@@ -2734,18 +3077,18 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
     		/////Pt*/
     		
     	///////inv. masses
-    	/*TCanvas *c113 = new TCanvas();
+    	TCanvas *c113 = new TCanvas();
 		TCanvas *c114 = new TCanvas();
-		TCanvas *c115 = new TCanvas();
+		/*TCanvas *c115 = new TCanvas();
 		TCanvas *c116 = new TCanvas();
 		TCanvas *c117 = new TCanvas();
 		TCanvas *c118 = new TCanvas();
-		TCanvas *c119 = new TCanvas();
+		TCanvas *c119 = new TCanvas();*/
 		c113->cd();
 		histJetB1M->Draw("HIST");
 		c114->cd();
 		histJetB2M->Draw("HIST");
-		c115->cd();
+		/*c115->cd();
 		histMinJetM->Draw("HIST");
 		c116->cd();
 		histJet1M->Draw("HIST");
@@ -2992,6 +3335,47 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		c179->cd();
 		histDiHM->Draw("HIST");
 		//////////di-Higgs Mass*/
+
+		/*////kinematic fitted inv. mass
+		TCanvas *c180 = new TCanvas();
+		c180->cd();
+		histInvMassB1Fitep->Draw("HIST");
+		TCanvas *c181 = new TCanvas();
+		c181->cd();
+		histInvMassB2Fitep->Draw("HIST");
+		TCanvas *c182 = new TCanvas();
+		c182->cd();
+		histChi2ndfep->Draw("HIST");
+		TCanvas *c183 = new TCanvas();
+		c183->cd();
+		histInvMassB1Fitpxy->Draw("HIST");
+		TCanvas *c184 = new TCanvas();
+		c184->cd();
+		histInvMassB2Fitpxy->Draw("HIST");\
+		TCanvas *c185 = new TCanvas();
+		c185->cd();
+		histChi2ndfpxy->Draw("HIST");
+		TCanvas *c186 = new TCanvas();
+		c186->cd();
+		histInvMassB1Fiteqm->Draw("HIST");
+		TCanvas *c187 = new TCanvas();
+		c187->cd();
+		histInvMassB2Fiteqm->Draw("HIST");
+		TCanvas *c188 = new TCanvas();
+		c188->cd();
+		histChi2ndfeqm->Draw("HIST");
+		TCanvas *c189 = new TCanvas();
+		c189->cd();
+		histInvMassB1FitBest->Draw("HIST");
+		TCanvas *c190 = new TCanvas();
+		c190->cd();
+		histInvMassB2FitBest->Draw("HIST");
+		TCanvas *c191 = new TCanvas();
+		c191->cd();
+		histChi2ndfBest->Draw("HIST");
+		//////////kinematic fitted inv. mass*/
+
+
     		
 	} 
 	else if(topology == 2)
@@ -5068,7 +5452,7 @@ void FSRGammaGammaHHbbbbAnalysis()
   	cout<<"jetAlgo: "<<jetAlgoText<<endl;
   	if(fileFunction == "generate" || fileFunction == "merge")
   	{
-	  	////////creation of File for TMVA for signal HH
+	  	/*////////creation of File for TMVA for signal HH
 	  	//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAll.root";
 		const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAllILDDSiDi.root";
 	  	//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380All.root";
@@ -5293,7 +5677,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 		outputTreeBqqqqXTrain->Close();
 		outputTreeBqqqqXTest->Close();
 		outputTreeBqqqqX->Close();
-		////////creation of File for TMVA for back qqqqX
+		////////creation of File for TMVA for back qqqqX*/
 		
 		///////creation of File for TMVA for back qqHX
 		//const char *inputFileqqHX = "analysis/FilesPostDelphes/eGammaqqHXAll.root";
@@ -5357,7 +5741,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	outputTreeBZHTrain->Close();
 		outputTreeBZHTest->Close();
 		outputTreeBZH->Close();
-	  	////////creation of File for TMVA for back ZH
+	  	////////creation of File for TMVA for back ZH  
 
   	}
 
