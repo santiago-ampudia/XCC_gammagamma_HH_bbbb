@@ -5452,7 +5452,7 @@ void FSRGammaGammaHHbbbbAnalysis()
   	cout<<"jetAlgo: "<<jetAlgoText<<endl;
   	if(fileFunction == "generate" || fileFunction == "merge")
   	{
-	  	/*////////creation of File for TMVA for signal HH
+	  	////////creation of File for TMVA for signal HH
 	  	//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAll.root";
 		const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHHESpreadAllILDDSiDi.root";
 	  	//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380All.root";
@@ -5677,7 +5677,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 		outputTreeBqqqqXTrain->Close();
 		outputTreeBqqqqXTest->Close();
 		outputTreeBqqqqX->Close();
-		////////creation of File for TMVA for back qqqqX*/
+		////////creation of File for TMVA for back qqqqX
 		
 		///////creation of File for TMVA for back qqHX
 		//const char *inputFileqqHX = "analysis/FilesPostDelphes/eGammaqqHXAll.root";
