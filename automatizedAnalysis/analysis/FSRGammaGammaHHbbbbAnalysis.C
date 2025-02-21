@@ -2638,6 +2638,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 							invMassB1 = invMassB1FitBest;
 							invMassB2 = invMassB2FitBest;
 							/////CHECK CHANGE FOR FITTED ANALYSIS KINEMATIC FIT
+								////////kinematic fit
 			     			TLorentzVector jetPairB1ZH, jetPairB2ZH;
 			     			double jetPairB1ZHIndex1, jetPairB1ZHIndex2, jetPairB2ZHIndex1, jetPairB2ZHIndex2;
 			     			distanceZMass=0.05;
