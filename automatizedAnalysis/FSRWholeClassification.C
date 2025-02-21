@@ -532,7 +532,7 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
     {
     	TString sampleName = "Sample" + TString::Format("%d", nthSample);
     	sampleName = "SampleN";
-    	if(nthSample==0) gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
+    	//if(nthSample==0) gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
 		gSystem->Exec(Form("root -l -b -q 'analysis/samplingTrainTest.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     	trainAllBacks(rtdCut, preselection, vars, sampleName);
     	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C+(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", fileFunction.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
