@@ -1032,7 +1032,7 @@ float findThrust(vector<TLorentzVector>& momenta, TLorentzVector& thrustAxis)
 //////////
 
 ////////function that uses eqmConstrainHH to do the jet pairing given four jets
-void eqmConstrainHHPairing(TLorentzVector jet1, TLorentzVector jet2, TLorentzVector jet3, TLorentzVector jet4, TLorentzVector& jetPair1, TLorentzVector& jetPair2, double& chi2ndf, vector<double> BfractionalEnergyErrors, double BbetaError, double Ecm, bool enableExtraTries, double nSigVar, TLorentzVector& jetB1Fiteqm, TLorentzVector& jetB2Fiteqm, TLorentzVector& jetB3Fiteqm, TLorentzVector& jetB4Fiteqm)
+void eqmConstrainHHPairing(TLorentzVector jet1, TLorentzVector jet2, TLorentzVector jet3, TLorentzVector jet4, TLorentzVector& jetPair1, TLorentzVector& jetPair2, double& chi2ndf, vector<double> BfractionalEnergyErrors, vector<double> BbetaXErrors, vector<double> BbetaYErrors, vector<double> BbetaZErrors, double Ecm, bool enableExtraTries, double nSigVar, TLorentzVector& jetB1Fiteqm, TLorentzVector& jetB2Fiteqm, TLorentzVector& jetB3Fiteqm, TLorentzVector& jetB4Fiteqm)
 {
 	TLorentzVector jet1Copy12, jet2Copy12, jet3Copy12, jet4Copy12;
 	TLorentzVector jet1Copy13, jet2Copy13, jet3Copy13, jet4Copy13;
@@ -1054,18 +1054,18 @@ void eqmConstrainHHPairing(TLorentzVector jet1, TLorentzVector jet2, TLorentzVec
 	vector<LorentzVectorWithErrors>* inputLVWE12 = new vector<LorentzVectorWithErrors>(4);
 	vector<LorentzVectorWithErrors>* inputLVWE13 = new vector<LorentzVectorWithErrors>(4);
 	vector<LorentzVectorWithErrors>* inputLVWE14 = new vector<LorentzVectorWithErrors>(4);
-	inputLVWE12->at(0)=LorentzVectorWithErrors(jet1Copy12,BfractionalEnergyErrors[0]*jet1Copy12.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE12->at(1)=LorentzVectorWithErrors(jet2Copy12,BfractionalEnergyErrors[1]*jet2Copy12.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE12->at(2)=LorentzVectorWithErrors(jet3Copy12,BfractionalEnergyErrors[2]*jet3Copy12.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE12->at(3)=LorentzVectorWithErrors(jet4Copy12,BfractionalEnergyErrors[3]*jet4Copy12.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE13->at(0)=LorentzVectorWithErrors(jet1Copy13,BfractionalEnergyErrors[0]*jet1Copy13.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE13->at(1)=LorentzVectorWithErrors(jet3Copy13,BfractionalEnergyErrors[2]*jet3Copy13.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE13->at(2)=LorentzVectorWithErrors(jet2Copy13,BfractionalEnergyErrors[1]*jet2Copy13.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE13->at(3)=LorentzVectorWithErrors(jet4Copy13,BfractionalEnergyErrors[3]*jet4Copy13.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE14->at(0)=LorentzVectorWithErrors(jet1Copy14,BfractionalEnergyErrors[0]*jet1Copy14.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE14->at(1)=LorentzVectorWithErrors(jet4Copy14,BfractionalEnergyErrors[3]*jet4Copy14.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE14->at(2)=LorentzVectorWithErrors(jet2Copy14,BfractionalEnergyErrors[1]*jet2Copy14.Energy(),BbetaError,BbetaError,BbetaError);
-	inputLVWE14->at(3)=LorentzVectorWithErrors(jet3Copy14,BfractionalEnergyErrors[2]*jet3Copy14.Energy(),BbetaError,BbetaError,BbetaError);
+	inputLVWE12->at(0)=LorentzVectorWithErrors(jet1Copy12,BfractionalEnergyErrors[0]*jet1Copy12.Energy(),BbetaXErrors[0],BbetaYErrors[0],BbetaZErrors[0]);
+	inputLVWE12->at(1)=LorentzVectorWithErrors(jet2Copy12,BfractionalEnergyErrors[1]*jet2Copy12.Energy(),BbetaXErrors[1],BbetaYErrors[1],BbetaZErrors[1]);
+	inputLVWE12->at(2)=LorentzVectorWithErrors(jet3Copy12,BfractionalEnergyErrors[2]*jet3Copy12.Energy(),BbetaXErrors[2],BbetaYErrors[2],BbetaZErrors[2]);
+	inputLVWE12->at(3)=LorentzVectorWithErrors(jet4Copy12,BfractionalEnergyErrors[3]*jet4Copy12.Energy(),BbetaXErrors[3],BbetaYErrors[3],BbetaZErrors[3]);
+	inputLVWE13->at(0)=LorentzVectorWithErrors(jet1Copy13,BfractionalEnergyErrors[0]*jet1Copy13.Energy(),BbetaXErrors[0],BbetaYErrors[0],BbetaZErrors[0]);
+	inputLVWE13->at(1)=LorentzVectorWithErrors(jet3Copy13,BfractionalEnergyErrors[2]*jet3Copy13.Energy(),BbetaXErrors[2],BbetaYErrors[2],BbetaZErrors[2]);
+	inputLVWE13->at(2)=LorentzVectorWithErrors(jet2Copy13,BfractionalEnergyErrors[1]*jet2Copy13.Energy(),BbetaXErrors[1],BbetaYErrors[1],BbetaZErrors[1]);
+	inputLVWE13->at(3)=LorentzVectorWithErrors(jet4Copy13,BfractionalEnergyErrors[3]*jet4Copy13.Energy(),BbetaXErrors[3],BbetaYErrors[3],BbetaZErrors[3]);
+	inputLVWE14->at(0)=LorentzVectorWithErrors(jet1Copy14,BfractionalEnergyErrors[0]*jet1Copy14.Energy(),BbetaXErrors[0],BbetaYErrors[0],BbetaZErrors[0]);
+	inputLVWE14->at(1)=LorentzVectorWithErrors(jet4Copy14,BfractionalEnergyErrors[3]*jet4Copy14.Energy(),BbetaXErrors[3],BbetaYErrors[3],BbetaZErrors[3]);
+	inputLVWE14->at(2)=LorentzVectorWithErrors(jet2Copy14,BfractionalEnergyErrors[1]*jet2Copy14.Energy(),BbetaXErrors[1],BbetaYErrors[1],BbetaZErrors[1]);
+	inputLVWE14->at(3)=LorentzVectorWithErrors(jet3Copy14,BfractionalEnergyErrors[2]*jet3Copy14.Energy(),BbetaXErrors[2],BbetaYErrors[2],BbetaZErrors[2]);
 
 	cout << " signal eqmConstrainHH12 " << endl;
 	eqmConstrainHH eqmCHH12(inputLVWE12,Ecm,enableExtraTries,nSigVar);
@@ -1172,7 +1172,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   	
   	ExRootTreeReader *treeReader = new ExRootTreeReader(&chain);
   	Long64_t numberOfEntries = treeReader->GetEntries();
-  	//numberOfEntries=10000;
+  	//numberOfEntries=100000;
   	//int pos=7;
   	int contEntriesPostFilter=0;
   	cout<<"numberOfEntries: "<<numberOfEntries<<endl;
@@ -1195,7 +1195,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	double max2dMass=150.; */
 	///////kinematic fit
   	
-  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText, histNJetsDurham0Text, histNJetsDurham5Text, histNJetsDurham10Text, histNJetsDurham15Text, histNJetsDurham20Text, histNJetsDurham25Text, histNJetsDurham30Text, histMinChiSquaredZZMassText, histInvMassZZ1Text, histInvMassZZ2Text, histDistanceZ1MinChiSquaredZZMassText, histDistanceZ2MinChiSquaredZZMassText, histMinChiSquaredZHMassText, histInvMassZH1Text, histInvMassZH2Text, histDistanceZ1MinChiSquaredZHMassText, histDistanceZ2MinChiSquaredZHMassText, histExclYmerge12Text, histExclYmerge23Text, histExclYmerge34Text, histExclYmerge45Text, histExclYmerge56Text, histJetB1M1BestText, histJetB2M1BestText, histDiHMText, histInvMassB1FitepText, histInvMassB2FitepText, histChi2ndfepText, histInvMassB1FitpxyText, histInvMassB2FitpxyText, histChi2ndfpxyText, histInvMassB1FiteqmText, histInvMassB2FiteqmText, histChi2ndfeqmText, histInvMassB1FitBestText, histInvMassB2FitBestText, histChi2ndfBestText; 
+  	string histJetEtaText, histJet1EtaText, histJet2EtaText, histJet3EtaText, histJet4EtaText, histJetCosThetaText, histJet1CosThetaText, histJet2CosThetaText, histJet3CosThetaText, histJet4CosThetaText, histSumJetPtText, histJetPtText, histJet1PtText, histJet2PtText, histJet3PtText, histJet4PtText, histJetB1MText, histJetB2MText, histMinJetMText, histJet1MText, histJet2MText, histJet3MText, histJet4MText, histSpherText, histAplanText, histNParticlesText, histTotalConstSizeText, histConstSizeB1Text, histConstSizeB2Text, histConstSizeB3Text, histConstSizeB4Text, histMinConstSizeText, histNEFlowTracksText, histNEFlowPhotonsText, histNEFlowNeutralHadronsText, histNEFlowObjectsText, histJetB1NChargedText, histJetB2NChargedText, histJetB3NChargedText, histJetB4NChargedText, histJetB1NNeutralsText, histJetB2NNeutralsText, histJetB3NNeutralsText, histJetB4NNeutralsText, histJetNObjectsText, histMinJetNObjectsText, histNJetsCompareAlgosText, histJetB1MAntiKt2JetsText, histJetB2MAntiKt2JetsText, histJetB1MAntiKt3JetsText, histJetB2MAntiKt3JetsText, histJetB1MAntiKt4JetsText, histJetB2MAntiKt4JetsText, histJetB1MAntiKt5JetsText, histJetB2MAntiKt5JetsText, histJetB1MAntiKt6JetsText, histJetB2MAntiKt6JetsText, histNJetsDurham0Text, histNJetsDurham5Text, histNJetsDurham10Text, histNJetsDurham15Text, histNJetsDurham20Text, histNJetsDurham25Text, histNJetsDurham30Text, histMinChiSquaredZZMassText, histInvMassZZ1Text, histInvMassZZ2Text, histDistanceZ1MinChiSquaredZZMassText, histDistanceZ2MinChiSquaredZZMassText, histMinChiSquaredZHMassText, histInvMassZH1Text, histInvMassZH2Text, histDistanceZ1MinChiSquaredZHMassText, histDistanceZ2MinChiSquaredZHMassText, histExclYmerge12Text, histExclYmerge23Text, histExclYmerge34Text, histExclYmerge45Text, histExclYmerge56Text, histJetB1M1BestText, histJetB2M1BestText, histDiHMText, histInvMassB1FitepText, histInvMassB2FitepText, histChi2ndfepText, histInvMassB1FitpxyText, histInvMassB2FitpxyText, histChi2ndfpxyText, histInvMassB1FiteqmText, histInvMassB2FiteqmText, histChi2ndfeqmText, histInvMassB1FitBestText, histInvMassB2FitBestText, histChi2ndfBestText, histMinJetChiSText; 
 	if(topology == 1) 
 	{
   		histJetEtaText = jetAlgoText + "Jet Eta for events with HH to bb and bb (4b)";
@@ -1305,6 +1305,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		histInvMassB1FitBestText = jetAlgoText + "fitted (least chi2nf) b-tagged jet-pair 1 mass (HH)";
   		histInvMassB2FitBestText = jetAlgoText + "fitted (least chi2nf) b-tagged jet-pair 2 mass (HH)";
 		histChi2ndfBestText = jetAlgoText + "chi2ndfeqm (least chi2nf) (HH)";
+
+		histMinJetChiSText = jetAlgoText + "min. jet chi2nd (HH)";
 		
   	}
   	if(topology == 2) 
@@ -1867,6 +1869,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   	TH1 *histInvMassB1FitBest = new TH1F("InvMassB1FitBest,", histInvMassB1FitBestText.c_str(), 142.0, -10.0, 350);
 	TH1 *histInvMassB2FitBest = new TH1F("InvMassB2FitBest,", histInvMassB2FitBestText.c_str(), 142.0, -10.0, 350);
 	TH1 *histChi2ndfBest = new TH1F("Chi2ndfBest,", histChi2ndfBestText.c_str(), 142.0, -5.0, 50);
+
+	TH1 *histMinJetChiS = new TH1F("histMinJetChiS,", histMinJetChiSText.c_str(), 142.0, -5.0, 50);
   	
   	TClonesArray *branchParticle;
   	TClonesArray *branchEvent;
@@ -2171,12 +2175,71 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	bool enableExtraTries=false;  //   if true then fit is performed several times with different intial betaX, betaY, betaZ valeus
 	double nSigVar=3.;   // if enableExtraTries=true, controls spread in initial beta values w.r.t. values given by jetB1,jetB2,jetNB1,jetNB2
 
+	/*double BfractionalEnergyError1=0.0990;
+	double BfractionalEnergyError2=0.1329;
+	double BfractionalEnergyError3=0.1617;
+	double BfractionalEnergyError4=0.1662;*/
+	/*double BfractionalEnergyError1=0.08244;
+	double BfractionalEnergyError2=0.1015;
+	double BfractionalEnergyError3=0.114;
+	double BfractionalEnergyError4=0.1208;*/
 	double BfractionalEnergyError1=0.05;
-	double BfractionalEnergyError2=0.10;
+	double BfractionalEnergyError2=0.1;
 	double BfractionalEnergyError3=0.15;
 	double BfractionalEnergyError4=0.20;
 	vector<double> BfractionalEnergyErrors = {BfractionalEnergyError1, BfractionalEnergyError2, BfractionalEnergyError3, BfractionalEnergyError4};
-	double BbetaError=0.001;
+	//double BbetaError=0.001;
+	/*double BbetaXError1=0.1293;
+	double BbetaXError2=0.1721;
+	double BbetaXError3=0.1972;
+	double BbetaXError4=0.2072;*/
+	/*double BbetaXError1=0.04055;
+	double BbetaXError2=0.04525;
+	double BbetaXError3=0.0532;
+	double BbetaXError4=0.06258;*/
+	/*double BbetaXError1=0.015;
+	double BbetaXError2=0.015;
+	double BbetaXError3=0.015;
+	double BbetaXError4=0.015;*/
+	double BbetaXError1=0.001;
+	double BbetaXError2=0.001;
+	double BbetaXError3=0.001;
+	double BbetaXError4=0.001;
+	vector<double> BbetaXErrors = {BbetaXError1, BbetaXError2, BbetaXError3, BbetaXError4};
+	/*double BbetaYError1=0.1286;
+	double BbetaYError2=0.1725;
+	double BbetaYError3=0.1974;
+	double BbetaYError4=0.2063;*/
+	/*double BbetaYError1=0.04048;
+	double BbetaYError2=0.04518;
+	double BbetaYError3=0.05313;
+	double BbetaYError4=0.06216;*/
+	/*double BbetaYError1=0.015;
+	double BbetaYError2=0.015;
+	double BbetaYError3=0.015;
+	double BbetaYError4=0.015;*/
+	double BbetaYError1=0.001;
+	double BbetaYError2=0.001;
+	double BbetaYError3=0.001;
+	double BbetaYError4=0.001;
+	vector<double> BbetaYErrors = {BbetaYError1, BbetaYError2, BbetaYError3, BbetaYError4};
+	/*double BbetaZError1=0.1663;
+	double BbetaZError2=0.1925;
+	double BbetaZError3=0.1958;
+	double BbetaZError4=0.1715;*/
+	/*double BbetaZError1=0.04656;
+	double BbetaZError2=0.04733;
+	double BbetaZError3=0.05042;
+	double BbetaZError4=0.04766;*/
+	/*double BbetaZError1=0.015;
+	double BbetaZError2=0.015;
+	double BbetaZError3=0.015;
+	double BbetaZError4=0.015;*/
+	double BbetaZError1=0.001;
+	double BbetaZError2=0.001;
+	double BbetaZError3=0.001;
+	double BbetaZError4=0.001;
+	vector<double> BbetaZErrors = {BbetaZError1, BbetaZError2, BbetaZError3, BbetaZError4};
 
 	//cout << " BfractionalEnergyError= " << BfractionalEnergyError << " BbetaError= " << BbetaError << endl;
 	
@@ -2432,14 +2495,15 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 			     			histNJetsDurham30->Fill(nJetsDurham30, weight);
 
 							///////kinematic fit Eqm
-							eqmConstrainHHPairing(jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1Fiteqm, jetPairB2Fiteqm, chi2ndfeqm, BfractionalEnergyErrors, BbetaError, Ecm, enableExtraTries, nSigVar, jetB1Fiteqm, jetB2Fiteqm, jetB3Fiteqm, jetB4Fiteqm);
+							eqmConstrainHHPairing(jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1Fiteqm, jetPairB2Fiteqm, chi2ndfeqm, BfractionalEnergyErrors, BbetaXErrors, BbetaYErrors, BbetaZErrors, Ecm, enableExtraTries, nSigVar, jetB1Fiteqm, jetB2Fiteqm, jetB3Fiteqm, jetB4Fiteqm);
 							invMassB1Fiteqm = jetPairB1Fiteqm.M();
 				     		invMassB2Fiteqm = jetPairB2Fiteqm.M();
 							histInvMassB1Fiteqm->Fill(invMassB1Fiteqm, weight);
 							histInvMassB2Fiteqm->Fill(invMassB2Fiteqm, weight);
-							histChi2ndfeqm->Fill(chi2ndfeqm, weight);
+							//histChi2ndfeqm->Fill(chi2ndfeqm, weight);
 							//histInvMass2DFiteqm->Fill(invMassB1Fiteqm, invMassB2Fiteqm, weight);
 							minJetChiSeqm = pow((jetPairB1Fiteqm.M()-125), 2)/1 + pow((jetPairB2Fiteqm.M()-125), 2)/1;
+							histChi2ndfeqm->Fill(minJetChiSeqm, weight);
 							///////////kinematic fit Eqm
 			     			
 							////////kinematic fit
@@ -2449,10 +2513,10 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 							jetB3DurhamCopy = jetB3Durham;
 							jetB4DurhamCopy = jetB4Durham;
 							vector<LorentzVectorWithErrors>* inputLVWE=new vector<LorentzVectorWithErrors>(4);
-							inputLVWE->at(0)=LorentzVectorWithErrors(jetB1DurhamCopy,BfractionalEnergyErrors[0]*jetB1DurhamCopy.Energy(),BbetaError,BbetaError,BbetaError);
-		      				inputLVWE->at(1)=LorentzVectorWithErrors(jetB2DurhamCopy,BfractionalEnergyErrors[1]*jetB2DurhamCopy.Energy(),BbetaError,BbetaError,BbetaError);
-							inputLVWE->at(2)=LorentzVectorWithErrors(jetB3DurhamCopy,BfractionalEnergyErrors[2]*jetB3DurhamCopy.Energy(),BbetaError,BbetaError,BbetaError);
-							inputLVWE->at(3)=LorentzVectorWithErrors(jetB4DurhamCopy,BfractionalEnergyErrors[3]*jetB4DurhamCopy.Energy(),BbetaError,BbetaError,BbetaError);
+							inputLVWE->at(0)=LorentzVectorWithErrors(jetB1DurhamCopy,BfractionalEnergyErrors[0]*jetB1DurhamCopy.Energy(),BbetaXErrors[0],BbetaYErrors[0],BbetaZErrors[0]);
+		      				inputLVWE->at(1)=LorentzVectorWithErrors(jetB2DurhamCopy,BfractionalEnergyErrors[1]*jetB2DurhamCopy.Energy(),BbetaXErrors[1],BbetaYErrors[1],BbetaZErrors[1]);
+							inputLVWE->at(2)=LorentzVectorWithErrors(jetB3DurhamCopy,BfractionalEnergyErrors[2]*jetB3DurhamCopy.Energy(),BbetaXErrors[2],BbetaYErrors[2],BbetaZErrors[2]);
+							inputLVWE->at(3)=LorentzVectorWithErrors(jetB4DurhamCopy,BfractionalEnergyErrors[3]*jetB4DurhamCopy.Energy(),BbetaXErrors[3],BbetaYErrors[3],BbetaZErrors[3]);
 
 							cout << " signal epConstrainHH " << endl;
 							epConstrainHH epCHH(inputLVWE,Ecm,enableExtraTries,nSigVar, false);
@@ -2500,8 +2564,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 				     		invMassB2Fitpxy = jetPairB2Fitpxy.M();
 							histInvMassB1Fitpxy->Fill(invMassB1Fitpxy, weight);
 							histInvMassB2Fitpxy->Fill(invMassB2Fitpxy, weight);
-							histChi2ndfpxy->Fill(chi2ndfpxy, weight);
-							//histChi2ndfpxy->Fill(minJetChiSpxy, weight);
+							//histChi2ndfpxy->Fill(chi2ndfpxy, weight);
+							histChi2ndfpxy->Fill(minJetChiSpxy, weight);
 							//histInvMass2DFitpxy->Fill(invMassB1Fitpxy, invMassB2Fitpxy, weight);
 
 							/*if(chi2ndfep < chi2ndfpxy && chi2ndfep < chi2ndfeqm)
@@ -2573,11 +2637,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 							histChi2ndfBest->Fill(minJetChiSBest, weight);
 							invMassB1 = invMassB1FitBest;
 							invMassB2 = invMassB2FitBest;
-							//histInvMass2DFitBest->Fill(invMassB1FitBest, invMassB2FitBest, weight);
-								///////kinematic fit
-			     			//if(flagZZMass==true) break;
-				     		
-							/*bool flagZHMass=false;
+							/////CHECK CHANGE FOR FITTED ANALYSIS KINEMATIC FIT
 			     			TLorentzVector jetPairB1ZH, jetPairB2ZH;
 			     			double jetPairB1ZHIndex1, jetPairB1ZHIndex2, jetPairB2ZHIndex1, jetPairB2ZHIndex2;
 			     			distanceZMass=0.05;
@@ -2731,6 +2791,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 			     			invMassB1AntiKt = jetPairB1AntiKt.M();
 			     			invMassB2AntiKt = jetPairB2AntiKt.M();
 			     			histJetB1M->Fill(invMassB1, weight);
+			     			histMinJetChiS->Fill(minJetChiS, weight);
 						histJetB2M->Fill(invMassB2, weight);
 						if(nJetsAntiKt == 2)
 						{
@@ -3077,17 +3138,17 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
     		/////Pt*/
     		
     	///////inv. masses
-    	TCanvas *c113 = new TCanvas();
-		TCanvas *c114 = new TCanvas();
+    	/*TCanvas *c113 = new TCanvas();
+		TCanvas *c114 = new TCanvas();*/
 		/*TCanvas *c115 = new TCanvas();
 		TCanvas *c116 = new TCanvas();
 		TCanvas *c117 = new TCanvas();
 		TCanvas *c118 = new TCanvas();
 		TCanvas *c119 = new TCanvas();*/
-		c113->cd();
+		/*c113->cd();
 		histJetB1M->Draw("HIST");
 		c114->cd();
-		histJetB2M->Draw("HIST");
+		histJetB2M->Draw("HIST");*/
 		/*c115->cd();
 		histMinJetM->Draw("HIST");
 		c116->cd();
@@ -3337,41 +3398,43 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		//////////di-Higgs Mass*/
 
 		/*////kinematic fitted inv. mass
-		TCanvas *c180 = new TCanvas();
-		c180->cd();
+		TCanvas *canvasB1Masses = new TCanvas("canvasB1Masses", "B1 Masses", 800, 800);
+		canvasB1Masses->Divide(3, 2); // Dividing into 3 columns and 2 rows for 5 histograms
+		canvasB1Masses->cd(1);
+		histJetB1M->Draw("HIST");
+		canvasB1Masses->cd(2);
 		histInvMassB1Fitep->Draw("HIST");
-		TCanvas *c181 = new TCanvas();
-		c181->cd();
-		histInvMassB2Fitep->Draw("HIST");
-		TCanvas *c182 = new TCanvas();
-		c182->cd();
-		histChi2ndfep->Draw("HIST");
-		TCanvas *c183 = new TCanvas();
-		c183->cd();
+		canvasB1Masses->cd(3);
 		histInvMassB1Fitpxy->Draw("HIST");
-		TCanvas *c184 = new TCanvas();
-		c184->cd();
-		histInvMassB2Fitpxy->Draw("HIST");\
-		TCanvas *c185 = new TCanvas();
-		c185->cd();
-		histChi2ndfpxy->Draw("HIST");
-		TCanvas *c186 = new TCanvas();
-		c186->cd();
+		canvasB1Masses->cd(4);
 		histInvMassB1Fiteqm->Draw("HIST");
-		TCanvas *c187 = new TCanvas();
-		c187->cd();
-		histInvMassB2Fiteqm->Draw("HIST");
-		TCanvas *c188 = new TCanvas();
-		c188->cd();
-		histChi2ndfeqm->Draw("HIST");
-		TCanvas *c189 = new TCanvas();
-		c189->cd();
+		canvasB1Masses->cd(5);
 		histInvMassB1FitBest->Draw("HIST");
-		TCanvas *c190 = new TCanvas();
-		c190->cd();
+
+		TCanvas *canvasB2Masses = new TCanvas("canvasB2Masses", "B2 Masses", 800, 800);
+		canvasB2Masses->Divide(3, 2); // Dividing into 3 columns and 2 rows for 5 histograms
+		canvasB2Masses->cd(1);
+		histJetB2M->Draw("HIST");
+		canvasB2Masses->cd(2);
+		histInvMassB2Fitep->Draw("HIST");
+		canvasB2Masses->cd(3);
+		histInvMassB2Fitpxy->Draw("HIST");
+		canvasB2Masses->cd(4);
+		histInvMassB2Fiteqm->Draw("HIST");
+		canvasB2Masses->cd(5);
 		histInvMassB2FitBest->Draw("HIST");
-		TCanvas *c191 = new TCanvas();
-		c191->cd();
+
+		TCanvas *canvasChi2ndf = new TCanvas("canvasChi2ndf", "Chi2ndf", 800, 800);
+		canvasChi2ndf->Divide(3, 2);
+		canvasChi2ndf->cd(1);
+		histMinJetChiS->Draw("HIST");
+		canvasChi2ndf->cd(2);
+		histChi2ndfep->Draw("HIST");
+		canvasChi2ndf->cd(3);
+		histChi2ndfpxy->Draw("HIST");
+		canvasChi2ndf->cd(4);
+		histChi2ndfeqm->Draw("HIST");
+		canvasChi2ndf->cd(5);
 		histChi2ndfBest->Draw("HIST");
 		//////////kinematic fitted inv. mass*/
 
@@ -5397,34 +5460,34 @@ void FSRGammaGammaHHbbbbAnalysis()
 	string jetAlgo = "Jet"+rtdCut;
   	string genJetAlgo = "GenJet"+rtdCut;
   	//string rtdCut = "10";
-  	string jetAlgoOutputTreeSTrain = "analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeSTest = "analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqTrain = "analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqTest = "analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-  	string jetAlgoOutputTreeBttTrain = "analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBttTest = "analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-  	string jetAlgoOutputTreeBZZTrain = "analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBZZTest = "analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-  	string jetAlgoOutputTreeBWWTrain = "analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBWWTest = "analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-	string jetAlgoOutputTreeBqqXTrain = "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqXTest = "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-	string jetAlgoOutputTreeBqqqqXTrain = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqqqXTest = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-	string jetAlgoOutputTreeBqqHXTrain = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqHXTest = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-	string jetAlgoOutputTreeBZHTrain = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBZHTest = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeSTrain = "analysis/holderFit/noFit/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeSTest = "analysis/holderFit/noFit/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqTrain = "analysis/holderFit/noFit/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqTest = "analysis/holderFit/noFit/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeBttTrain = "analysis/holderFit/noFit/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBttTest = "analysis/holderFit/noFit/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeBZZTrain = "analysis/holderFit/noFit/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBZZTest = "analysis/holderFit/noFit/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeBWWTrain = "analysis/holderFit/noFit/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBWWTest = "analysis/holderFit/noFit/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBqqXTrain = "analysis/holderFit/noFit/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqXTest = "analysis/holderFit/noFit/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBqqqqXTrain = "analysis/holderFit/noFit/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqqqXTest = "analysis/holderFit/noFit/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBqqHXTrain = "analysis/holderFit/noFit/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqHXTest = "analysis/holderFit/noFit/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBZHTrain = "analysis/holderFit/noFit/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBZHTest = "analysis/holderFit/noFit/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
 
-	string jetAlgoOutputTreeS = "analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBqq = "analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBtt = "analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBZZ = "analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBWW = "analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBqqX = "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBqqqqX = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBqqHX = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBZH = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeS = "analysis/holderFit/noFit/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqq = "analysis/holderFit/noFit/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBtt = "analysis/holderFit/noFit/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBZZ = "analysis/holderFit/noFit/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBWW = "analysis/holderFit/noFit/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqqX = "analysis/holderFit/noFit/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqqqqX = "analysis/holderFit/noFit/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqqHX = "analysis/holderFit/noFit/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBZH = "analysis/holderFit/noFit/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
   	
   	/*string jetAlgoText = "(antiKt R=0.5) ";
   	string jetAlgo = "JetAntiKt";
@@ -5741,7 +5804,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	outputTreeBZHTrain->Close();
 		outputTreeBZHTest->Close();
 		outputTreeBZH->Close();
-	  	////////creation of File for TMVA for back ZH  
+	  	////////creation of File for TMVA for back ZH 
 
   	}
 
