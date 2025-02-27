@@ -5,6 +5,26 @@
 #include <stdexcept>
 #include <fstream>
 #include <algorithm>
+#include <TFile.h>
+#include <TTree.h>
+#include <TString.h>
+#include <TObjString.h>
+#include <TSystem.h>
+#include <TROOT.h>
+#include "TMVA/Factory.h"
+#include "TMVA/DataLoader.h"
+#include "TMVA/Tools.h"
+#include "TMVA/TMVAGui.h"
+#include <TCanvas.h>
+#include <TH2F.h>
+#include <TEllipse.h>
+#include <TLine.h>
+#include <TPaveText.h>
+#include <TKey.h>
+#include <TMath.h>
+#include <TStyle.h>
+#include "TMVA/Reader.h"
+#include "TMVA/MethodCuts.h"
 
 using namespace std;
 
@@ -42,6 +62,26 @@ void createEntryIndexFiles(int nthSample)
 	TFile *inputFileBqqHXTest = TFile::Open("analysis/outputTreeBqqHXHHbbbbESpreadDurham1034BSplitTestSampleN.root");
 	TFile *inputFileBqqHXNNTrain = TFile::Open("analysis/outputTreeBqqHXNNESpreadDurham1034BSplitTrainSampleN.root");
 	TFile *inputFileBqqHXNNTest = TFile::Open("analysis/outputTreeBqqHXNNESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBZHTrain = TFile::Open("analysis/outputTreeBZHHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBZHTest = TFile::Open("analysis/outputTreeBZHHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBZHNNTrain = TFile::Open("analysis/outputTreeBZHNNESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBZHNNTest = TFile::Open("analysis/outputTreeBZHNNESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBpebbTrain = TFile::Open("analysis/outputTreeBpebbHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBpebbTest = TFile::Open("analysis/outputTreeBpebbHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBpebbNNTrain = TFile::Open("analysis/outputTreeBpebbNNESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBpebbNNTest = TFile::Open("analysis/outputTreeBpebbNNESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBpebbqqTrain = TFile::Open("analysis/outputTreeBpebbqqHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBpebbqqTest = TFile::Open("analysis/outputTreeBpebbqqHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBpebbqqNNTrain = TFile::Open("analysis/outputTreeBpebbqqNNESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBpebbqqNNTest = TFile::Open("analysis/outputTreeBpebbqqNNESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBpeqqHTrain = TFile::Open("analysis/outputTreeBpeqqHHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBpeqqHTest = TFile::Open("analysis/outputTreeBpeqqHHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBpeqqHNNTrain = TFile::Open("analysis/outputTreeBpeqqHNNESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBpeqqHNNTest = TFile::Open("analysis/outputTreeBpeqqHNNESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBpettTrain = TFile::Open("analysis/outputTreeBpettHHbbbbESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBpettTest = TFile::Open("analysis/outputTreeBpettHHbbbbESpreadDurham1034BSplitTestSampleN.root");
+	TFile *inputFileBpettNNTrain = TFile::Open("analysis/outputTreeBpettNNESpreadDurham1034BSplitTrainSampleN.root");
+	TFile *inputFileBpettNNTest = TFile::Open("analysis/outputTreeBpettNNESpreadDurham1034BSplitTestSampleN.root");
 	 
 	TTree *originalTreeSTrain = nullptr;
     inputFileSTrain->GetObject("TreeSTrain", originalTreeSTrain);
@@ -107,6 +147,46 @@ void createEntryIndexFiles(int nthSample)
     inputFileBqqHXNNTrain->GetObject("TreeBqqHXNNTrain", originalTreeBqqHXNNTrain);
     TTree *originalTreeBqqHXNNTest = nullptr;
     inputFileBqqHXNNTest->GetObject("TreeBqqHXNNTest", originalTreeBqqHXNNTest);
+	TTree *originalTreeBZHTrain = nullptr;
+    inputFileBZHTrain->GetObject("TreeBZHTrain", originalTreeBZHTrain);
+    TTree *originalTreeBZHTest = nullptr;
+    inputFileBZHTest->GetObject("TreeBZHTest", originalTreeBZHTest);
+    TTree *originalTreeBZHNNTrain = nullptr;
+    inputFileBZHNNTrain->GetObject("TreeBZHNNTrain", originalTreeBZHNNTrain);
+    TTree *originalTreeBZHNNTest = nullptr;
+    inputFileBZHNNTest->GetObject("TreeBZHNNTest", originalTreeBZHNNTest);
+	TTree *originalTreeBpebbTrain = nullptr;
+    inputFileBpebbTrain->GetObject("TreeBpebbTrain", originalTreeBpebbTrain);
+    TTree *originalTreeBpebbTest = nullptr;
+    inputFileBpebbTest->GetObject("TreeBpebbTest", originalTreeBpebbTest);
+    TTree *originalTreeBpebbNNTrain = nullptr;
+    inputFileBpebbNNTrain->GetObject("TreeBpebbNNTrain", originalTreeBpebbNNTrain);
+    TTree *originalTreeBpebbNNTest = nullptr;
+    inputFileBpebbNNTest->GetObject("TreeBpebbNNTest", originalTreeBpebbNNTest);
+	TTree *originalTreeBpebbqqTrain = nullptr;
+    inputFileBpebbqqTrain->GetObject("TreeBpebbqqTrain", originalTreeBpebbqqTrain);
+    TTree *originalTreeBpebbqqTest = nullptr;
+    inputFileBpebbqqTest->GetObject("TreeBpebbqqTest", originalTreeBpebbqqTest);
+    TTree *originalTreeBpebbqqNNTrain = nullptr;
+    inputFileBpebbqqNNTrain->GetObject("TreeBpebbqqNNTrain", originalTreeBpebbqqNNTrain);
+    TTree *originalTreeBpebbqqNNTest = nullptr;
+    inputFileBpebbqqNNTest->GetObject("TreeBpebbqqNNTest", originalTreeBpebbqqNNTest);
+	TTree *originalTreeBpeqqHTrain = nullptr;
+    inputFileBpeqqHTrain->GetObject("TreeBpeqqHTrain", originalTreeBpeqqHTrain);
+    TTree *originalTreeBpeqqHTest = nullptr;
+    inputFileBpeqqHTest->GetObject("TreeBpeqqHTest", originalTreeBpeqqHTest);
+    TTree *originalTreeBpeqqHNNTrain = nullptr;
+    inputFileBpeqqHNNTrain->GetObject("TreeBpeqqHNNTrain", originalTreeBpeqqHNNTrain);
+    TTree *originalTreeBpeqqHNNTest = nullptr;
+    inputFileBpeqqHNNTest->GetObject("TreeBpeqqHNNTest", originalTreeBpeqqHNNTest);
+	TTree *originalTreeBpettTrain = nullptr;
+    inputFileBpettTrain->GetObject("TreeBpettTrain", originalTreeBpettTrain);
+    TTree *originalTreeBpettTest = nullptr;
+    inputFileBpettTest->GetObject("TreeBpettTest", originalTreeBpettTest);
+    TTree *originalTreeBpettNNTrain = nullptr;
+    inputFileBpettNNTrain->GetObject("TreeBpettNNTrain", originalTreeBpettNNTrain);
+    TTree *originalTreeBpettNNTest = nullptr;
+    inputFileBpettNNTest->GetObject("TreeBpettNNTest", originalTreeBpettNNTest);
 
 
     TString sampleNameEntryIndexFile = "Sample" + TString::Format("%d", nthSample);
@@ -145,8 +225,30 @@ void createEntryIndexFiles(int nthSample)
 	TTree *TreeBqqHXTestEntryIndex = new TTree("TreeBqqHXTestEntryIndex", "TreeBqqHXTest with only entryIndex branch");
 	TTree *TreeBqqHXNNTrainEntryIndex = new TTree("TreeBqqHXNNTrainEntryIndex", "TreeBqqHXNNTrain with only entryIndex branch");
 	TTree *TreeBqqHXNNTestEntryIndex = new TTree("TreeBqqHXNNTestEntryIndex", "TreeBqqHXNNTest with only entryIndex branch");
+	TTree *TreeBZHTrainEntryIndex = new TTree("TreeBZHTrainEntryIndex", "TreeBZHTrain with only entryIndex branch");
+	TTree *TreeBZHTestEntryIndex = new TTree("TreeBZHTestEntryIndex", "TreeBZHTest with only entryIndex branch");
+	TTree *TreeBZHNNTrainEntryIndex = new TTree("TreeBZHNNTrainEntryIndex", "TreeBZHNNTrain with only entryIndex branch");
+	TTree *TreeBZHNNTestEntryIndex = new TTree("TreeBZHNNTestEntryIndex", "TreeBZHNNTest with only entryIndex branch");
+	TTree *TreeBpebbTrainEntryIndex = new TTree("TreeBpebbTrainEntryIndex", "TreeBpebbTrain with only entryIndex branch");
+	TTree *TreeBpebbTestEntryIndex = new TTree("TreeBpebbTestEntryIndex", "TreeBpebbTest with only entryIndex branch");
+	TTree *TreeBpebbNNTrainEntryIndex = new TTree("TreeBpebbNNTrainEntryIndex", "TreeBpebbNNTrain with only entryIndex branch");
+	TTree *TreeBpebbNNTestEntryIndex = new TTree("TreeBpebbNNTestEntryIndex", "TreeBpebbNNTest with only entryIndex branch");
+	TTree *TreeBpebbqqTrainEntryIndex = new TTree("TreeBpebbqqTrainEntryIndex", "TreeBpebbqqTrain with only entryIndex branch");
+	TTree *TreeBpebbqqTestEntryIndex = new TTree("TreeBpebbqqTestEntryIndex", "TreeBpebbqqTest with only entryIndex branch");
+	TTree *TreeBpebbqqNNTrainEntryIndex = new TTree("TreeBpebbqqNNTrainEntryIndex", "TreeBpebbqqNNTrain with only entryIndex branch");
+	TTree *TreeBpebbqqNNTestEntryIndex = new TTree("TreeBpebbqqNNTestEntryIndex", "TreeBpebbqqNNTest with only entryIndex branch");
+	TTree *TreeBpeqqHTrainEntryIndex = new TTree("TreeBpeqqHTrainEntryIndex", "TreeBpeqqHTrain with only entryIndex branch");
+	TTree *TreeBpeqqHTestEntryIndex = new TTree("TreeBpeqqHTestEntryIndex", "TreeBpeqqHTest with only entryIndex branch");
+	TTree *TreeBpeqqHNNTrainEntryIndex = new TTree("TreeBpeqqHNNTrainEntryIndex", "TreeBpeqqHNNTrain with only entryIndex branch");
+	TTree *TreeBpeqqHNNTestEntryIndex = new TTree("TreeBpeqqHNNTestEntryIndex", "TreeBpeqqHNNTest with only entryIndex branch");
+	TTree *TreeBpettTrainEntryIndex = new TTree("TreeBpettTrainEntryIndex", "TreeBpettTrain with only entryIndex branch");
+	TTree *TreeBpettTestEntryIndex = new TTree("TreeBpettTestEntryIndex", "TreeBpettTest with only entryIndex branch");
+	TTree *TreeBpettNNTrainEntryIndex = new TTree("TreeBpettNNTrainEntryIndex", "TreeBpettNNTrain with only entryIndex branch");
+	TTree *TreeBpettNNTestEntryIndex = new TTree("TreeBpettNNTestEntryIndex", "TreeBpettNNTest with only entryIndex branch");
 
-    float entryIndex, entryIndexSTrain, entryIndexSTest, entryIndexSNNTrain, entryIndexSNNTest, entryIndexqqTrain, entryIndexqqTest, entryIndexqqNNTrain, entryIndexqqNNTest, entryIndexttTrain, entryIndexttTest, entryIndexttNNTrain, entryIndexttNNTest, entryIndexZZTrain, entryIndexZZTest, entryIndexZZNNTrain, entryIndexZZNNTest, entryIndexWWTrain, entryIndexWWTest, entryIndexWWNNTrain, entryIndexWWNNTest, entryIndexqqXTrain, entryIndexqqXTest, entryIndexqqXNNTrain, entryIndexqqXNNTest, entryIndexqqqqXTrain, entryIndexqqqqXTest, entryIndexqqqqXNNTrain, entryIndexqqqqXNNTest, entryIndexqqHXTrain, entryIndexqqHXTest, entryIndexqqHXNNTrain, entryIndexqqHXNNTest;
+	
+
+    float entryIndex, entryIndexSTrain, entryIndexSTest, entryIndexSNNTrain, entryIndexSNNTest, entryIndexqqTrain, entryIndexqqTest, entryIndexqqNNTrain, entryIndexqqNNTest, entryIndexttTrain, entryIndexttTest, entryIndexttNNTrain, entryIndexttNNTest, entryIndexZZTrain, entryIndexZZTest, entryIndexZZNNTrain, entryIndexZZNNTest, entryIndexWWTrain, entryIndexWWTest, entryIndexWWNNTrain, entryIndexWWNNTest, entryIndexqqXTrain, entryIndexqqXTest, entryIndexqqXNNTrain, entryIndexqqXNNTest, entryIndexqqqqXTrain, entryIndexqqqqXTest, entryIndexqqqqXNNTrain, entryIndexqqqqXNNTest, entryIndexqqHXTrain, entryIndexqqHXTest, entryIndexqqHXNNTrain, entryIndexqqHXNNTest, entryIndexZHTrain, entryIndexZHTest, entryIndexZHNNTrain, entryIndexZHNNTest, entryIndexpebbTrain, entryIndexpebbTest, entryIndexpebbNNTrain, entryIndexpebbNNTest, entryIndexpebbqqTrain, entryIndexpebbqqTest, entryIndexpebbqqNNTrain, entryIndexpebbqqNNTest, entryIndexpeqqHTrain, entryIndexpeqqHTest, entryIndexpeqqHNNTrain, entryIndexpeqqHNNTest, entryIndexpettTrain, entryIndexpettTest, entryIndexpettNNTrain, entryIndexpettNNTest;
     	 
     originalTreeSTrain->SetBranchAddress("entryIndex", &entryIndexSTrain);
     originalTreeSTest->SetBranchAddress("entryIndex", &entryIndexSTest);
@@ -180,7 +282,27 @@ void createEntryIndexFiles(int nthSample)
 	originalTreeBqqHXTest->SetBranchAddress("entryIndex", &entryIndexqqHXTest);
 	originalTreeBqqHXNNTrain->SetBranchAddress("entryIndex", &entryIndexqqHXNNTrain);
 	originalTreeBqqHXNNTest->SetBranchAddress("entryIndex", &entryIndexqqHXNNTest);
-    	 
+	originalTreeBZHTrain->SetBranchAddress("entryIndex", &entryIndexZHTrain);
+    originalTreeBZHTest->SetBranchAddress("entryIndex", &entryIndexZHTest);
+    originalTreeBZHNNTrain->SetBranchAddress("entryIndex", &entryIndexZHNNTrain);
+    originalTreeBZHNNTest->SetBranchAddress("entryIndex", &entryIndexZHNNTest);
+	originalTreeBpebbTrain->SetBranchAddress("entryIndex", &entryIndexpebbTrain);
+    originalTreeBpebbTest->SetBranchAddress("entryIndex", &entryIndexpebbTest);
+    originalTreeBpebbNNTrain->SetBranchAddress("entryIndex", &entryIndexpebbNNTrain);
+    originalTreeBpebbNNTest->SetBranchAddress("entryIndex", &entryIndexpebbNNTest);
+	originalTreeBpebbqqTrain->SetBranchAddress("entryIndex", &entryIndexpebbqqTrain);
+    originalTreeBpebbqqTest->SetBranchAddress("entryIndex", &entryIndexpebbqqTest);
+    originalTreeBpebbqqNNTrain->SetBranchAddress("entryIndex", &entryIndexpebbqqNNTrain);
+    originalTreeBpebbqqNNTest->SetBranchAddress("entryIndex", &entryIndexpebbqqNNTest);
+	originalTreeBpeqqHTrain->SetBranchAddress("entryIndex", &entryIndexpeqqHTrain);
+    originalTreeBpeqqHTest->SetBranchAddress("entryIndex", &entryIndexpeqqHTest);
+    originalTreeBpeqqHNNTrain->SetBranchAddress("entryIndex", &entryIndexpeqqHNNTrain);
+    originalTreeBpeqqHNNTest->SetBranchAddress("entryIndex", &entryIndexpeqqHNNTest);
+	originalTreeBpettTrain->SetBranchAddress("entryIndex", &entryIndexpettTrain);
+    originalTreeBpettTest->SetBranchAddress("entryIndex", &entryIndexpettTest);
+    originalTreeBpettNNTrain->SetBranchAddress("entryIndex", &entryIndexpettNNTrain);
+    originalTreeBpettNNTest->SetBranchAddress("entryIndex", &entryIndexpettNNTest);
+
     TreeSTrainEntryIndex->Branch("entryIndex", &entryIndexSTrain);
     TreeSTestEntryIndex->Branch("entryIndex", &entryIndexSTest);
     TreeSTrainEntryIndex->Branch("entryIndex", &entryIndexSTrain);
@@ -215,7 +337,27 @@ void createEntryIndexFiles(int nthSample)
 	TreeBqqHXTestEntryIndex->Branch("entryIndex", &entryIndexqqHXTest);
 	TreeBqqHXNNTrainEntryIndex->Branch("entryIndex", &entryIndexqqHXNNTrain);
 	TreeBqqHXNNTestEntryIndex->Branch("entryIndex", &entryIndexqqHXNNTest);
-	 
+	TreeBZHTrainEntryIndex->Branch("entryIndex", &entryIndexZHTrain);
+	TreeBZHTestEntryIndex->Branch("entryIndex", &entryIndexZHTest);
+	TreeBZHNNTrainEntryIndex->Branch("entryIndex", &entryIndexZHNNTrain);
+	TreeBZHNNTestEntryIndex->Branch("entryIndex", &entryIndexZHNNTest);
+	TreeBpebbTrainEntryIndex->Branch("entryIndex", &entryIndexpebbTrain);
+	TreeBpebbTestEntryIndex->Branch("entryIndex", &entryIndexpebbTest);
+	TreeBpebbNNTrainEntryIndex->Branch("entryIndex", &entryIndexpebbNNTrain);
+	TreeBpebbNNTestEntryIndex->Branch("entryIndex", &entryIndexpebbNNTest);
+	TreeBpebbqqTrainEntryIndex->Branch("entryIndex", &entryIndexpebbqqTrain);
+	TreeBpebbqqTestEntryIndex->Branch("entryIndex", &entryIndexpebbqqTest);
+	TreeBpebbqqNNTrainEntryIndex->Branch("entryIndex", &entryIndexpebbqqNNTrain);
+	TreeBpebbqqNNTestEntryIndex->Branch("entryIndex", &entryIndexpebbqqNNTest);
+	TreeBpeqqHTrainEntryIndex->Branch("entryIndex", &entryIndexpeqqHTrain);
+	TreeBpeqqHTestEntryIndex->Branch("entryIndex", &entryIndexpeqqHTest);
+	TreeBpeqqHNNTrainEntryIndex->Branch("entryIndex", &entryIndexpeqqHNNTrain);
+	TreeBpeqqHNNTestEntryIndex->Branch("entryIndex", &entryIndexpeqqHNNTest);
+	TreeBpettTrainEntryIndex->Branch("entryIndex", &entryIndexpettTrain);
+	TreeBpettTestEntryIndex->Branch("entryIndex", &entryIndexpettTest);
+	TreeBpettNNTrainEntryIndex->Branch("entryIndex", &entryIndexpettNNTrain);
+	TreeBpettNNTestEntryIndex->Branch("entryIndex", &entryIndexpettNNTest);
+	
 	Long64_t nEntriesSTrain = originalTreeSTrain->GetEntries();
     Long64_t nEntriesSTest = originalTreeSTest->GetEntries();
 	Long64_t nEntriesSNNTrain = originalTreeSNNTrain->GetEntries();
@@ -248,6 +390,26 @@ void createEntryIndexFiles(int nthSample)
 	Long64_t nEntriesBqqHXTest = originalTreeBqqHXTest->GetEntries();
 	Long64_t nEntriesBqqHXNNTrain = originalTreeBqqHXNNTrain->GetEntries();
 	Long64_t nEntriesBqqHXNNTest = originalTreeBqqHXNNTest->GetEntries();
+	Long64_t nEntriesBZHTrain = originalTreeBZHTrain->GetEntries();
+	Long64_t nEntriesBZHTest = originalTreeBZHTest->GetEntries();
+	Long64_t nEntriesBZHNNTrain = originalTreeBZHNNTrain->GetEntries();
+	Long64_t nEntriesBZHNNTest = originalTreeBZHNNTest->GetEntries();
+	Long64_t nEntriesBpebbTrain = originalTreeBpebbTrain->GetEntries();
+	Long64_t nEntriesBpebbTest = originalTreeBpebbTest->GetEntries();
+	Long64_t nEntriesBpebbNNTrain = originalTreeBpebbNNTrain->GetEntries();
+	Long64_t nEntriesBpebbNNTest = originalTreeBpebbNNTest->GetEntries();
+	Long64_t nEntriesBpebbqqTrain = originalTreeBpebbqqTrain->GetEntries();
+	Long64_t nEntriesBpebbqqTest = originalTreeBpebbqqTest->GetEntries();
+	Long64_t nEntriesBpebbqqNNTrain = originalTreeBpebbqqNNTrain->GetEntries();
+	Long64_t nEntriesBpebbqqNNTest = originalTreeBpebbqqNNTest->GetEntries();
+	Long64_t nEntriesBpeqqHTrain = originalTreeBpeqqHTrain->GetEntries();
+	Long64_t nEntriesBpeqqHTest = originalTreeBpeqqHTest->GetEntries();
+	Long64_t nEntriesBpeqqHNNTrain = originalTreeBpeqqHNNTrain->GetEntries();
+	Long64_t nEntriesBpeqqHNNTest = originalTreeBpeqqHNNTest->GetEntries();
+	Long64_t nEntriesBpettTrain = originalTreeBpettTrain->GetEntries();
+	Long64_t nEntriesBpettTest = originalTreeBpettTest->GetEntries();
+	Long64_t nEntriesBpettNNTrain = originalTreeBpettNNTrain->GetEntries();
+	Long64_t nEntriesBpettNNTest = originalTreeBpettNNTest->GetEntries();
 
 	for (Long64_t i = 0; i < max({nEntriesSTrain, nEntriesSTest, nEntriesSNNTrain, nEntriesSNNTest,
 		                          nEntriesBqqTrain, nEntriesBqqTest, nEntriesBqqNNTrain, nEntriesBqqNNTest,
@@ -256,7 +418,12 @@ void createEntryIndexFiles(int nthSample)
 		                          nEntriesBWWTrain, nEntriesBWWTest, nEntriesBWWNNTrain, nEntriesBWWNNTest,
 		                          nEntriesBqqXTrain, nEntriesBqqXTest, nEntriesBqqXNNTrain, nEntriesBqqXNNTest,
 		                          nEntriesBqqqqXTrain, nEntriesBqqqqXTest, nEntriesBqqqqXNNTrain, nEntriesBqqqqXNNTest,
-		                          nEntriesBqqHXTrain, nEntriesBqqHXTest, nEntriesBqqHXNNTrain, nEntriesBqqHXNNTest}); ++i) {
+		                          nEntriesBqqHXTrain, nEntriesBqqHXTest, nEntriesBqqHXNNTrain, nEntriesBqqHXNNTest,
+		                          nEntriesBZHTrain, nEntriesBZHTest, nEntriesBZHNNTrain, nEntriesBZHNNTest,
+								  nEntriesBpebbTrain, nEntriesBpebbTest, nEntriesBpebbNNTrain, nEntriesBpebbNNTest,
+								  nEntriesBpebbqqTrain, nEntriesBpebbqqTest, nEntriesBpebbqqNNTrain, nEntriesBpebbqqNNTest,
+								  nEntriesBpeqqHTrain, nEntriesBpeqqHTest, nEntriesBpeqqHNNTrain, nEntriesBpeqqHNNTest,
+								  nEntriesBpettTrain, nEntriesBpettTest, nEntriesBpettNNTrain, nEntriesBpettNNTest}); ++i) {						
 		if (i < nEntriesSTrain) {
 			originalTreeSTrain->GetEntry(i);
 			TreeSTrainEntryIndex->Fill();
@@ -385,6 +552,86 @@ void createEntryIndexFiles(int nthSample)
 		    originalTreeBqqHXNNTest->GetEntry(i);
 		    TreeBqqHXNNTestEntryIndex->Fill();
 		}
+		if (i < nEntriesBZHTrain) {
+		    originalTreeBZHTrain->GetEntry(i);
+		    TreeBZHTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBZHTest) {
+		    originalTreeBZHTest->GetEntry(i);
+		    TreeBZHTestEntryIndex->Fill();
+		}
+		if (i < nEntriesBZHNNTrain) {
+		    originalTreeBZHNNTrain->GetEntry(i);
+		    TreeBZHNNTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBZHNNTest) {
+		    originalTreeBZHNNTest->GetEntry(i);
+		    TreeBZHNNTestEntryIndex->Fill();
+		}
+		if (i < nEntriesBpebbTrain) {
+		    originalTreeBpebbTrain->GetEntry(i);
+		    TreeBpebbTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBpebbTest) {
+		    originalTreeBpebbTest->GetEntry(i);
+		    TreeBpebbTestEntryIndex->Fill();
+		}
+		if (i < nEntriesBpebbNNTrain) {
+		    originalTreeBpebbNNTrain->GetEntry(i);
+		    TreeBpebbNNTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBpebbNNTest) {
+		    originalTreeBpebbNNTest->GetEntry(i);
+		    TreeBpebbNNTestEntryIndex->Fill();
+		}
+		if (i < nEntriesBpebbqqTrain) {
+		    originalTreeBpebbqqTrain->GetEntry(i);
+		    TreeBpebbqqTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBpebbqqTest) {
+		    originalTreeBpebbqqTest->GetEntry(i);
+		    TreeBpebbqqTestEntryIndex->Fill();
+		}
+		if (i < nEntriesBpebbqqNNTrain) {
+		    originalTreeBpebbqqNNTrain->GetEntry(i);
+		    TreeBpebbqqNNTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBpebbqqNNTest) {
+		    originalTreeBpebbqqNNTest->GetEntry(i);
+		    TreeBpebbqqNNTestEntryIndex->Fill();
+		}
+		if (i < nEntriesBpeqqHTrain) {
+		    originalTreeBpeqqHTrain->GetEntry(i);
+		    TreeBpeqqHTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBpeqqHTest) {
+		    originalTreeBpeqqHTest->GetEntry(i);
+		    TreeBpeqqHTestEntryIndex->Fill();
+		}
+		if (i < nEntriesBpeqqHNNTrain) {
+		    originalTreeBpeqqHNNTrain->GetEntry(i);
+		    TreeBpeqqHNNTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBpeqqHNNTest) {
+		    originalTreeBpeqqHNNTest->GetEntry(i);
+		    TreeBpeqqHNNTestEntryIndex->Fill();
+		}
+		if (i < nEntriesBpettTrain) {
+		    originalTreeBpettTrain->GetEntry(i);
+		    TreeBpettTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBpettTest) {
+		    originalTreeBpettTest->GetEntry(i);
+		    TreeBpettTestEntryIndex->Fill();
+		}
+		if (i < nEntriesBpettNNTrain) {
+		    originalTreeBpettNNTrain->GetEntry(i);
+		    TreeBpettNNTrainEntryIndex->Fill();
+		}
+		if (i < nEntriesBpettNNTest) {
+		    originalTreeBpettNNTest->GetEntry(i);
+		    TreeBpettNNTestEntryIndex->Fill();
+		}
     }
 
     outputFile->cd();
@@ -420,6 +667,26 @@ void createEntryIndexFiles(int nthSample)
 	TreeBqqHXTestEntryIndex->Write();
 	TreeBqqHXNNTrainEntryIndex->Write();
 	TreeBqqHXNNTestEntryIndex->Write();
+	TreeBZHTrainEntryIndex->Write();
+    TreeBZHTestEntryIndex->Write();
+    TreeBZHNNTrainEntryIndex->Write();
+    TreeBZHNNTestEntryIndex->Write();
+	TreeBpebbTrainEntryIndex->Write();
+	TreeBpebbTestEntryIndex->Write();
+	TreeBpebbNNTrainEntryIndex->Write();
+	TreeBpebbNNTestEntryIndex->Write();
+	TreeBpebbqqTrainEntryIndex->Write();
+	TreeBpebbqqTestEntryIndex->Write();
+	TreeBpebbqqNNTrainEntryIndex->Write();
+	TreeBpebbqqNNTestEntryIndex->Write();
+	TreeBpeqqHTrainEntryIndex->Write();
+	TreeBpeqqHTestEntryIndex->Write();
+	TreeBpeqqHNNTrainEntryIndex->Write();
+	TreeBpeqqHNNTestEntryIndex->Write();
+	TreeBpettTrainEntryIndex->Write();
+	TreeBpettTestEntryIndex->Write();
+	TreeBpettNNTrainEntryIndex->Write();
+	TreeBpettNNTestEntryIndex->Write();
     outputFile->Close();	 
 }
 
@@ -521,6 +788,14 @@ void trainAllBacks(TString rtdCut, TString preselection, TString vars, TString s
 	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationHHbbbb.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", back.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
 	back = "ZH";
 	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationHHbbbb.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", back.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+	back = "pebb";
+	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationHHbbbb.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", back.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+	back = "pebbqq";
+	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationHHbbbb.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", back.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+	back = "peqqH";
+	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationHHbbbb.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", back.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
+	back = "pett";
+	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationHHbbbb.C+(\"\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", back.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
 }
 
 
@@ -532,7 +807,7 @@ void runAll(int samples, TString fileFunction, TString preselection, TString var
     {
     	TString sampleName = "Sample" + TString::Format("%d", nthSample);
     	sampleName = "SampleN";
-    	//if(nthSample==0) gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
+    	if(nthSample==0) gSystem->Exec("root -l -b -q 'analysis/FSRGammaGammaHHbbbbAnalysis.C'");
 		gSystem->Exec(Form("root -l -b -q 'analysis/samplingTrainTest.C+(\"%s\", \"%s\", \"%s\", \"%s\")'", rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
     	trainAllBacks(rtdCut, preselection, vars, sampleName);
     	gSystem->Exec(Form("root -l -b -q 'analysis/FSRTMVAClassificationApplicationHHbbbbGeneratesNNs.C+(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\")'", fileFunction.Data(), rtdCut.Data(), preselection.Data(), vars.Data(), sampleName.Data()));
