@@ -49,12 +49,12 @@ R__LOAD_LIBRARY(libDelphes)
 #include <sys/stat.h>
 #include <sstream>
 
-///kinematic fit
+/*///kinematic fit
 #include "epConstrainHH.h"
 #include "LorentzVectorWithErrors.h"
 #include "pxyConstrainHH.h"
 #include "eqmConstrainHH.h"
-///////kinematic fit
+///////kinematic fit*/
 
 #endif
 
@@ -66,7 +66,7 @@ void functionLinking()
 	cout<<"functionLinking working"<<endl;
 }
 
-/////kinematic fit
+/*/////kinematic fit
 Double_t funPoly4(Double_t* x, Double_t* par) {
 
   Double_t xx=x[0];
@@ -86,7 +86,7 @@ Double_t funPoly2(Double_t* x, Double_t* par) {
        << " result= " << result << endl;
   return result;
 }
-///////kinematic fit
+///////kinematic fit*/
 
 //Function that receives the true particles branch, a particle, and a number 1 or 2 saying if it should return the PID of the mother 1 or the mother 2. If it has no mother for the number requested, it reutrns -999.
 int findMother(TClonesArray *branchParticle, GenParticle *particle, int m) 
@@ -1148,7 +1148,11 @@ void eqmConstrainHHPairing(TLorentzVector jet1, TLorentzVector jet2, TLorentzVec
 6) eGamma->qqX
 7) eGamma->qqqqX
 8) eGamma->qqHX
-9) ZH*/ 
+9) ZH
+10) pebb
+11) pebbqq
+12) peqqH
+13) pett*/ 
 void analysis(const char *inputFile, int topology, float weight, string jetAlgoText, string jetAlgo, string genJetAlgo, TTree& TreeTrain, TTree& TreeTest, TTree& TreeMerge, TTree& TreeFull, string fileFunction, string preselection)
 {
 	if(topology == 1) cout<<"HHAnalysis working!"<<endl;
@@ -1160,6 +1164,10 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	else if(topology == 7) cout<<"qqqqXAnalysis working!"<<endl;
 	else if(topology == 8) cout<<"qqHXAnalysis working!"<<endl;
 	else if(topology == 9) cout<<"ZHAnalysis working!"<<endl;
+	else if(topology == 10) cout<<"pebbAnalysis working!"<<endl;
+	else if(topology == 11) cout<<"pebbqqAnalysis working!"<<endl;
+	else if(topology == 12) cout<<"peqqHAnalysis working!"<<endl;
+	else if(topology == 13) cout<<"pettAnalysis working!"<<endl;
 	//else if(topology == -999) return;
 	
 	
@@ -1172,7 +1180,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   	
   	ExRootTreeReader *treeReader = new ExRootTreeReader(&chain);
   	Long64_t numberOfEntries = treeReader->GetEntries();
-  	//numberOfEntries=100000;
+	//numberOfEntries=10000;
   	//int pos=7;
   	int contEntriesPostFilter=0;
   	cout<<"numberOfEntries: "<<numberOfEntries<<endl;
@@ -1876,8 +1884,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
   	TClonesArray *branchEvent;
   	TClonesArray *branchJetAntiKt;
   	TClonesArray *branchGenJetAntiKt;
-  	TClonesArray *branchElectronAntiKt;
-  	TClonesArray *branchMuonAntiKt;
+  	TClonesArray *branchElectron;
+  	TClonesArray *branchMuon;
   	TClonesArray *branchJetDurham;
   	TClonesArray *branchGenJetDurham;
   	TClonesArray *branchElectronDurham;
@@ -1899,8 +1907,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	branchEvent = treeReader->UseBranch("Event");
 	branchJetAntiKt = treeReader->UseBranch("JetAntiKt");
 	//branchGenJetAntiKt = treeReader->UseBranch("GenJet");
-	branchElectronAntiKt = treeReader->UseBranch("Electron");
-	branchMuonAntiKt = treeReader->UseBranch("Muon");
+	branchElectron = treeReader->UseBranch("Electron");
+	branchMuon = treeReader->UseBranch("Muon");
 	branchJetDurham = treeReader->UseBranch(jetAlgo.c_str());
 	branchGenJetDurham = treeReader->UseBranch(genJetAlgo.c_str());
 	//branchElectronDurham = treeReader->UseBranch("ElectronDurham");
@@ -1929,7 +1937,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	float minChiSquaredZHMass, distanceZ1MinChiSquaredZHMass, distanceZ2MinChiSquaredZHMass, invMassZHZ, invMassZHH;
 	int contLargeBMass=0, contSmallBMass=0;
 	double minJetChiS=999, minJetChiSep=999, minJetChiSpxy=999, minJetChiSeqm=999, minJetChiSBest=999;
-	////kinematic fit
+	/*////kinematic fit
 	double chi2ndfep, chi2ndfpxy, chi2ndfeqm, chi2ndfeqmback, chi2ndfBest;
 	TLorentzVector jetB1Fitep, jetB2Fitep, jetPairB1Fitep, jetB3Fitep, jetB4Fitep, jetPairB2Fitep;
 	TLorentzVector jetB1Fiteqm, jetB2Fiteqm, jetPairB1Fiteqm, jetB3Fiteqm, jetB4Fiteqm, jetPairB2Fiteqm;
@@ -1938,7 +1946,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	TLorentzVector jetB1Fitini, jetB2Fitini, jetPairB1Fitini, jetB3Fitini, jetB4Fitini, jetPairB2Fitini;
 	float invMassB1Fitep, invMassB2Fitep, invMassB1Fitpxy, invMassB2Fitpxy, invMassB1Fiteqm, invMassB2Fiteqm, invMassB1FitBest, invMassB2FitBest;
 	float leadingJetPairChiSquaredReco, leadingJetPairChiSquaredTrue, nonLeadingJetPairChiSquaredReco, nonLeadingJetPairChiSquaredTrue, jetPairsChiSquaredReco, jetPairsChiSquaredTrue;
-	//////kinematic fit
+	//////kinematic fit*/
 	
 	if(fileFunction == "generate")
 	{
@@ -2175,6 +2183,38 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	bool enableExtraTries=false;  //   if true then fit is performed several times with different intial betaX, betaY, betaZ valeus
 	double nSigVar=3.;   // if enableExtraTries=true, controls spread in initial beta values w.r.t. values given by jetB1,jetB2,jetNB1,jetNB2
 
+	//////pythia errors
+	vector<double> BfractionalEnergyOffset;
+	BfractionalEnergyOffset.push_back(-0.043);
+	BfractionalEnergyOffset.push_back(-0.141);
+	BfractionalEnergyOffset.push_back(-0.158);
+	BfractionalEnergyOffset.push_back(-0.255);
+	
+	vector<double> BfractionalEnergyErrors;
+	BfractionalEnergyErrors.push_back(0.117);
+	BfractionalEnergyErrors.push_back(0.244);
+	BfractionalEnergyErrors.push_back(0.280);
+	BfractionalEnergyErrors.push_back(0.359);
+
+	vector<double> BbetaXErrors;
+	BbetaXErrors.push_back(0.00658);
+	BbetaXErrors.push_back(0.00811);
+	BbetaXErrors.push_back(0.01320);
+	BbetaXErrors.push_back(0.02061);
+
+	vector<double> BbetaYErrors;
+	BbetaYErrors.push_back(0.00658);
+	BbetaYErrors.push_back(0.00838);
+	BbetaYErrors.push_back(0.01297);
+	BbetaYErrors.push_back(0.02037);
+
+	vector<double> BbetaZErrors;
+	BbetaZErrors.push_back(0.00532);
+	BbetaZErrors.push_back(0.00740);
+	BbetaZErrors.push_back(0.01124);
+	BbetaZErrors.push_back(0.01812);
+	//////pythia errors
+
 	/*double BfractionalEnergyError1=0.0990;
 	double BfractionalEnergyError2=0.1329;
 	double BfractionalEnergyError3=0.1617;
@@ -2183,11 +2223,10 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	double BfractionalEnergyError2=0.1015;
 	double BfractionalEnergyError3=0.114;
 	double BfractionalEnergyError4=0.1208;*/
-	double BfractionalEnergyError1=0.05;
-	double BfractionalEnergyError2=0.1;
+	/*double BfractionalEnergyError2=0.1;
 	double BfractionalEnergyError3=0.15;
 	double BfractionalEnergyError4=0.20;
-	vector<double> BfractionalEnergyErrors = {BfractionalEnergyError1, BfractionalEnergyError2, BfractionalEnergyError3, BfractionalEnergyError4};
+	vector<double> BfractionalEnergyErrors = {BfractionalEnergyError1, BfractionalEnergyError2, BfractionalEnergyError3, BfractionalEnergyError4};*/
 	//double BbetaError=0.001;
 	/*double BbetaXError1=0.1293;
 	double BbetaXError2=0.1721;
@@ -2201,11 +2240,11 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	double BbetaXError2=0.015;
 	double BbetaXError3=0.015;
 	double BbetaXError4=0.015;*/
-	double BbetaXError1=0.001;
+	/*double BbetaXError1=0.001;
 	double BbetaXError2=0.001;
 	double BbetaXError3=0.001;
 	double BbetaXError4=0.001;
-	vector<double> BbetaXErrors = {BbetaXError1, BbetaXError2, BbetaXError3, BbetaXError4};
+	vector<double> BbetaXErrors = {BbetaXError1, BbetaXError2, BbetaXError3, BbetaXError4};*/
 	/*double BbetaYError1=0.1286;
 	double BbetaYError2=0.1725;
 	double BbetaYError3=0.1974;
@@ -2218,11 +2257,11 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	double BbetaYError2=0.015;
 	double BbetaYError3=0.015;
 	double BbetaYError4=0.015;*/
-	double BbetaYError1=0.001;
+	/*double BbetaYError1=0.001;
 	double BbetaYError2=0.001;
 	double BbetaYError3=0.001;
 	double BbetaYError4=0.001;
-	vector<double> BbetaYErrors = {BbetaYError1, BbetaYError2, BbetaYError3, BbetaYError4};
+	vector<double> BbetaYErrors = {BbetaYError1, BbetaYError2, BbetaYError3, BbetaYError4};*/
 	/*double BbetaZError1=0.1663;
 	double BbetaZError2=0.1925;
 	double BbetaZError3=0.1958;
@@ -2235,11 +2274,11 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	double BbetaZError2=0.015;
 	double BbetaZError3=0.015;
 	double BbetaZError4=0.015;*/
-	double BbetaZError1=0.001;
+	/*double BbetaZError1=0.001;
 	double BbetaZError2=0.001;
 	double BbetaZError3=0.001;
 	double BbetaZError4=0.001;
-	vector<double> BbetaZErrors = {BbetaZError1, BbetaZError2, BbetaZError3, BbetaZError4};
+	vector<double> BbetaZErrors = {BbetaZError1, BbetaZError2, BbetaZError3, BbetaZError4};*/
 
 	//cout << " BfractionalEnergyError= " << BfractionalEnergyError << " BbetaError= " << BbetaError << endl;
 	
@@ -2286,6 +2325,10 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 		//if(1==1)
 		{
 			contEvents4Jets++;
+			/*random_device rd;  // Will be used to obtain a seed for the random number engine
+			mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+			uniform_int_distribution<> distrib(1, 10); // Uniform distribution between 1 and 10
+			if(distrib(gen) != 1) continue;*/
 			int contBJetsAntiKt=0, contBJetsDurham=0;
 			int contB2JetsAntiKt=0, contNBJetsDurham=0;
 			TLorentzVector jetB1AntiKt, jetB2AntiKt, jetB3AntiKt, jetB4AntiKt;
@@ -2313,8 +2356,8 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	      		else throw std::runtime_error("ERROR: unknown preselection!");
 	      		
 	      		//if(contBJetsAntiKt == 4)
-	      		if(flagPreselection==true)
-	      		//if(1==1)
+	      		//if(flagPreselection==true)
+	      		if(1==1)
 	      		{ 
 		      		
 		      		nParticles=0;
@@ -2340,7 +2383,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	     		}
 	     		///////Looking only for HH->bbbb for signal
 				
-				///////Lepton veto for ttbar
+				/*///////Lepton veto for ttbar
 				if(topology == 3)
 				{
 					for(int i=0;i<nParticles;i++)
@@ -2362,7 +2405,29 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 					if(contLeptonEvent == 4) trueFullLeptonEvents++;
 					if(contHadronEvent == 2) trueSemiHadronEvents++;
 					if(contHadronEvent == 4) trueFullHadronEvents++;
+
+					//contLeptonEvent=0;
+
+					//for(int i=0; i<nParticles; i++)
+					//{
+					//	GenParticle *particle = (GenParticle*) branchParticle->At(i);
+					//	int pid = abs(particle->PID);
+					//	int m1Pid = findMother(branchParticle, particle, 1);
+					//	//int m2Pid = findMother(branchParticle, particle, 2);
+					//	if((pid == 11 || pid == 13 || pid == 15) && (m1Pid == 6))
+					//	{
+					//		double electronCosTheta = abs(findCosTheta(particle->Eta));
+					//		if(electronCosTheta < 0.95) contLeptonEvent++;
+					//	} 
+					//}
+
+					//int nElectrons = branchElectron->GetEntries();
+					//int nMuons = branchMuon->GetEntries();
+					//contLeptonEvent += nElectrons + nMuons;
+
+					//contLeptonEvent=0;
 	     		}
+
 	     		///////Lepton veto for ttbar
 	     			
 	     		///////Lepton veto for ZZ
@@ -2470,6 +2535,82 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 					if(contNeutrinoEvent == 4) trueFullNeutrinoEvents++;
 	     		}
 	     		///////Lepton veto for ZH
+
+				///////Lepton veto for pebb
+				if(topology == 10)
+				{
+					int contpebb=0;
+					float electronCosTheta=0;
+					for(int i=6; i<25; i++)
+					{
+						GenParticle *particle = (GenParticle*) branchParticle->At(i);
+						int pid = abs(particle->PID);
+						int m1Pid = findMother(branchParticle, particle, 1);
+						//int m2Pid = findMother(branchParticle, particle, 2);
+						if((pid == 11 || pid == 13 || pid == 15) && (m1Pid == 5))
+						{
+							electronCosTheta = abs(findCosTheta(particle->Eta));
+							if(electronCosTheta < 0.95) contLeptonEvent++;
+						} 
+					}
+				}
+				//////////Lepton veto for pebb
+
+				///////Lepton veto for pebbqq
+				if(topology == 11)
+				{
+					int contpebbqq=0;
+					float electronCosTheta=0;
+					for(int i=4; i<25; i++)
+					{
+						GenParticle *particle = (GenParticle*) branchParticle->At(i);
+						int pid = abs(particle->PID);
+						int m1Pid = findMother(branchParticle, particle, 1);
+						//int m2Pid = findMother(branchParticle, particle, 2);
+						if((pid == 11 || pid == 13 || pid == 15) && (m1Pid >= 1 && m1Pid <= 8))
+						{
+							electronCosTheta = abs(findCosTheta(particle->Eta));
+							if(electronCosTheta < 0.95) contLeptonEvent++;
+						} 
+					}
+				}
+				//////////Lepton veto for pebbqq
+
+				///////Lepton veto for peqqH
+				if(topology == 12)
+				{
+					int contpeqqH=0;
+					float electronCosTheta=0;
+					for(int i=4; i<35; i++)
+					{
+						GenParticle *particle = (GenParticle*) branchParticle->At(i);
+						int pid = abs(particle->PID);
+						int m1Pid = findMother(branchParticle, particle, 1);
+						//int m2Pid = findMother(branchParticle, particle, 2);
+						if((pid == 11 || pid == 13 || pid == 15) && ((m1Pid >= 1 && m1Pid <= 8) || (m1Pid == 25)))
+						{
+							electronCosTheta = abs(findCosTheta(particle->Eta));
+							if(electronCosTheta < 0.95) contLeptonEvent++;
+						} 
+					}
+				}
+				//////////Lepton veto for peqqH
+
+
+				/////Lepton veto for pett
+				////////CHECK TERMINAR
+				/////Lepton veto for pett*/
+				
+
+				/////General lepton veto
+				contLeptonEvent=0;
+				int nElectrons = branchElectron->GetEntries();
+				int nMuons = branchMuon->GetEntries();
+				contLeptonEvent += nElectrons + nMuons;
+				//////
+
+			
+					
 	     			
 	     			if(topology != 1)
 	     			{
@@ -2494,7 +2635,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 			     			histNJetsDurham25->Fill(nJetsDurham25, weight);
 			     			histNJetsDurham30->Fill(nJetsDurham30, weight);
 
-							///////kinematic fit Eqm
+							/*///////kinematic fit Eqm
 							eqmConstrainHHPairing(jetB1Durham, jetB2Durham, jetB3Durham, jetB4Durham, jetPairB1Fiteqm, jetPairB2Fiteqm, chi2ndfeqm, BfractionalEnergyErrors, BbetaXErrors, BbetaYErrors, BbetaZErrors, Ecm, enableExtraTries, nSigVar, jetB1Fiteqm, jetB2Fiteqm, jetB3Fiteqm, jetB4Fiteqm);
 							invMassB1Fiteqm = jetPairB1Fiteqm.M();
 				     		invMassB2Fiteqm = jetPairB2Fiteqm.M();
@@ -2504,9 +2645,9 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 							//histInvMass2DFiteqm->Fill(invMassB1Fiteqm, invMassB2Fiteqm, weight);
 							minJetChiSeqm = pow((jetPairB1Fiteqm.M()-125), 2)/1 + pow((jetPairB2Fiteqm.M()-125), 2)/1;
 							histChi2ndfeqm->Fill(minJetChiSeqm, weight);
-							///////////kinematic fit Eqm
+							///////////kinematic fit Eqm*/
 			     			
-							////////kinematic fit
+							/*////////kinematic fit
 							TLorentzVector jetB1DurhamCopy, jetB2DurhamCopy, jetB3DurhamCopy, jetB4DurhamCopy;
 							jetB1DurhamCopy = jetB1Durham;
 							jetB2DurhamCopy = jetB2Durham;
@@ -2541,9 +2682,9 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 							delete inputLVWE;
 							delete outputLVep;
 							delete outputLVpxy;
-							//////////kinematic fit
+							//////////kinematic fit*/
 
-							/////kinematic fitted inv. mass
+							/*/////kinematic fitted inv. mass
 							double jetPairB1Index1Fitep, jetPairB1Index2Fitep, jetPairB2Index1Fitep, jetPairB2Index2Fitep;
 			     			TLorentzVector jetPairB1Fitep, jetPairB2Fitep, jetPairB1SenFitep, jetPairB2SenFitep, jetPairB1AntiKtFitep, jetPairB2AntiKtFitep;
 			     			TLorentzVector jetPairB1CheckFitep, jetPairB2CheckFitep;
@@ -2568,29 +2709,29 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 							histChi2ndfpxy->Fill(minJetChiSpxy, weight);
 							//histInvMass2DFitpxy->Fill(invMassB1Fitpxy, invMassB2Fitpxy, weight);
 
-							/*if(chi2ndfep < chi2ndfpxy && chi2ndfep < chi2ndfeqm)
-							{
-								invMassB1FitBest = invMassB1Fitep;
-								invMassB2FitBest = invMassB2Fitep;
-								chi2ndfBest = chi2ndfep;
-							}
-							else if(chi2ndfpxy < chi2ndfep && chi2ndfpxy < chi2ndfeqm)
-							{
-								invMassB1FitBest = invMassB1Fitpxy;
-								invMassB2FitBest = invMassB2Fitpxy;
-								chi2ndfBest = chi2ndfpxy;
-							}
-							else if(chi2ndfeqm < chi2ndfep && chi2ndfeqm < chi2ndfpxy)
-							{
-								invMassB1FitBest = invMassB1Fiteqm;
-								invMassB2FitBest = invMassB2Fiteqm;
-								chi2ndfBest = chi2ndfeqm;
-							}
-							histInvMassB1FitBest->Fill(invMassB1FitBest, weight);
-							histInvMassB2FitBest->Fill(invMassB2FitBest, weight);
-							histChi2ndfBest->Fill(chi2ndfBest, weight);
-							histInvMass2DFitBest->Fill(invMassB1FitBest, invMassB2FitBest, weight);*/
-							//////kinematic fitted inv. mass
+							// if(chi2ndfep < chi2ndfpxy && chi2ndfep < chi2ndfeqm)
+							// {
+							//     invMassB1FitBest = invMassB1Fitep;
+							//     invMassB2FitBest = invMassB2Fitep;
+							//     chi2ndfBest = chi2ndfep;
+							// }
+							// else if(chi2ndfpxy < chi2ndfep && chi2ndfpxy < chi2ndfeqm)
+							// {
+							//     invMassB1FitBest = invMassB1Fitpxy;
+							//     invMassB2FitBest = invMassB2Fitpxy;
+							//     chi2ndfBest = chi2ndfpxy;
+							// }
+							// else if(chi2ndfeqm < chi2ndfep && chi2ndfeqm < chi2ndfpxy)
+							// {
+							//     invMassB1FitBest = invMassB1Fiteqm;
+							//     invMassB2FitBest = invMassB2Fiteqm;
+							//     chi2ndfBest = chi2ndfeqm;
+							// }
+							// histInvMassB1FitBest->Fill(invMassB1FitBest, weight);
+							// histInvMassB2FitBest->Fill(invMassB2FitBest, weight);
+							// histChi2ndfBest->Fill(chi2ndfBest, weight);
+							// histInvMass2DFitBest->Fill(invMassB1FitBest, invMassB2FitBest, weight);
+							//////kinematic fitted inv. mass*/
 
 			     			//////inv. mass
 			     			double jetPairB1Index1, jetPairB1Index2, jetPairB2Index1, jetPairB2Index2;
@@ -2613,7 +2754,7 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 			     			histDistanceZ1MinChiSquaredZZMass->Fill(distanceZ1MinChiSquaredZZMass, weight);
 			     			histDistanceZ2MinChiSquaredZZMass->Fill(distanceZ2MinChiSquaredZZMass, weight);
 
-								//////kinematic fit
+							/*//////kinematic fit
 							if(minJetChiSep < minJetChiSpxy && minJetChiSep < minJetChiSeqm)
 							{
 								invMassB1FitBest = invMassB1Fitep;
@@ -2635,10 +2776,12 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 							histInvMassB1FitBest->Fill(invMassB1FitBest, weight);
 							histInvMassB2FitBest->Fill(invMassB2FitBest, weight);
 							histChi2ndfBest->Fill(minJetChiSBest, weight);
-							invMassB1 = invMassB1FitBest;
-							invMassB2 = invMassB2FitBest;
+							//invMassB1 = invMassB1FitBest;
+							//invMassB2 = invMassB2FitBest;
 							/////CHECK CHANGE FOR FITTED ANALYSIS KINEMATIC FIT
-								////////kinematic fit
+							//////kinematic fit*/
+
+							/*bool flagZHMass=false;
 			     			TLorentzVector jetPairB1ZH, jetPairB2ZH;
 			     			double jetPairB1ZHIndex1, jetPairB1ZHIndex2, jetPairB2ZHIndex1, jetPairB2ZHIndex2;
 			     			distanceZMass=0.05;
@@ -4811,6 +4954,10 @@ void analysis(const char *inputFile, int topology, float weight, string jetAlgoT
 	if(topology == 7) cout<<"For qqqqX: "<<endl;
 	if(topology == 8) cout<<"For qqHX: "<<endl;
 	if(topology == 9) cout<<"For ZH: "<<endl;
+	if(topology == 10) cout<<"For pebb: "<<endl;
+	if(topology == 11) cout<<"For pebbqq: "<<endl;
+	if(topology == 12) cout<<"For peqqH: "<<endl;
+	if(topology == 13) cout<<"For pett: "<<endl;
 	cout<<"Events that have 4b: "<<contEvents<<"    Weighted: "<<contEvents*weight<<endl;
 	cout<<"Events that pass: "<<contEventsPostFilter<<"    Weighted: "<<contEventsPostFilter*weight<<endl<<endl;
 
@@ -5033,6 +5180,42 @@ void generateSetsMerge(int topology, set<int>& setTrain, set<int>& setTest, stri
 		fileTrain->GetObject("TreeBZHTrain", treeTrain);
 		fileTest->GetObject("TreeBZHTest", treeTest);
 	}
+	if(topology == 10)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBpebbTrain", treeTrain);
+		fileTest->GetObject("TreeBpebbTest", treeTest);
+	}
+	if(topology == 11)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBpebbqqTrain", treeTrain);
+		fileTest->GetObject("TreeBpebbqqTest", treeTest);
+	}
+	if(topology == 12)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBpeqqHTrain", treeTrain);
+		fileTest->GetObject("TreeBpeqqHTest", treeTest);
+	}
+	if(topology == 13)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBpettTrain", treeTrain);
+		fileTest->GetObject("TreeBpettTest", treeTest);
+	}
 	
 	
 	cout<<"train file: "<<fileTrain->GetName()<<endl;
@@ -5145,6 +5328,46 @@ void mergeTrees(int topology, set<int> setTrain, set<int> setTest, TTree& TreeTr
 		fileTest = TFile::Open(fileTestText.c_str());
 		fileTrain->GetObject("TreeBZHTrain", TreeTrain);
 		fileTest->GetObject("TreeBZHTest", TreeTest);
+	}
+
+	if(topology == 10)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBpebbTrain", TreeTrain);
+		fileTest->GetObject("TreeBpebbTest", TreeTest);
+	}
+
+	if(topology == 11)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBpebbqqTrain", TreeTrain);
+		fileTest->GetObject("TreeBpebbqqTest", TreeTest);
+	}
+
+	if(topology == 12)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBpeqqHTrain", TreeTrain);
+		fileTest->GetObject("TreeBpeqqHTest", TreeTest);
+	}
+
+	if(topology == 13)
+	{
+		string fileTrainText = "analysis/SampleOG/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+"Train.root";
+		string fileTestText = "analysis/SampleOG/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+"Test.root";
+		fileTrain = TFile::Open(fileTrainText.c_str());
+		fileTest = TFile::Open(fileTestText.c_str());
+		fileTrain->GetObject("TreeBpettTrain", TreeTrain);
+		fileTest->GetObject("TreeBpettTest", TreeTest);
 	}
 	
 	float aplanarity, invMassB1, invMassB2, minJetM, sphericity, cosThetaB1, cosThetaB2, cosThetaB3, cosThetaB4, sumPt, jetB1Pt, jetB2Pt, jetB3Pt, jetB4Pt, jetB1M, jetB2M, jetB3M, jetB4M, etaB1, etaB2, etaB3, etaB4, nParticles, totalConstSize, constSizeB1, constSizeB2, constSizeB3, constSizeB4, minConstSize, jetB1NCharged, jetB2NCharged, jetB3NCharged, jetB4NCharged, jetB1NNeutrals, jetB2NNeutrals, jetB3NNeutrals, jetB4NNeutrals, jetNObjects, minJetNObjects, invMassB1AntiKt, invMassB2AntiKt, invMassB1AntiKt2Jets, invMassB2AntiKt2Jets, invMassB1AntiKt3Jets, invMassB2AntiKt3Jets, invMassB1AntiKt4Jets, invMassB2AntiKt4Jets, invMassB1AntiKt5Jets, invMassB2AntiKt5Jets, invMassB1AntiKt6Jets, invMassB2AntiKt6Jets, nJetsAntiKt, invMassB11Best, invMassB21Best, invMassB12Best, invMassB22Best, invMassB13Best, invMassB23Best, invMassB14Best, invMassB24Best, invMassB15Best, invMassB25Best, invMassB16Best, invMassB26Best, invMassB17Best, invMassB27Best, invMassB18Best, invMassB28Best, entryIndex;
@@ -5456,39 +5679,56 @@ void FSRGammaGammaHHbbbbAnalysis()
 	double weightWW=0.5149, weightqqX=0.04347826, weightqqqqX=0.04, weightqqHX=0.001;
 	//double weightZH=0.00207445;
 	double weightZH=0.00207445*1.155;
+	double weightpebb=0.7536;
+	double weightpebbqq=0.1522;
+	double weightpeqqH=0.1237;
+	double weightpett=0.0570;
 	
 	string jetAlgoText = "(durham rtd_cut="+rtdCut+") ";
 	string jetAlgo = "Jet"+rtdCut;
   	string genJetAlgo = "GenJet"+rtdCut;
   	//string rtdCut = "10";
-  	string jetAlgoOutputTreeSTrain = "analysis/holderFit/noFit/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeSTest = "analysis/holderFit/noFit/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqTrain = "analysis/holderFit/noFit/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqTest = "analysis/holderFit/noFit/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-  	string jetAlgoOutputTreeBttTrain = "analysis/holderFit/noFit/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBttTest = "analysis/holderFit/noFit/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-  	string jetAlgoOutputTreeBZZTrain = "analysis/holderFit/noFit/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBZZTest = "analysis/holderFit/noFit/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-  	string jetAlgoOutputTreeBWWTrain = "analysis/holderFit/noFit/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBWWTest = "analysis/holderFit/noFit/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-	string jetAlgoOutputTreeBqqXTrain = "analysis/holderFit/noFit/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqXTest = "analysis/holderFit/noFit/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-	string jetAlgoOutputTreeBqqqqXTrain = "analysis/holderFit/noFit/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqqqXTest = "analysis/holderFit/noFit/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-	string jetAlgoOutputTreeBqqHXTrain = "analysis/holderFit/noFit/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBqqHXTest = "analysis/holderFit/noFit/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
-	string jetAlgoOutputTreeBZHTrain = "analysis/holderFit/noFit/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
-  	string jetAlgoOutputTreeBZHTest = "analysis/holderFit/noFit/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeSTrain = "analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeSTest = "analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqTrain = "analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqTest = "analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeBttTrain = "analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBttTest = "analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeBZZTrain = "analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBZZTest = "analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	string jetAlgoOutputTreeBWWTrain = "analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBWWTest = "analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBqqXTrain = "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqXTest = "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBqqqqXTrain = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqqqXTest = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBqqHXTrain = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBqqHXTest = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBZHTrain = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBZHTest = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBpebbTrain = "analysis/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	string jetAlgoOutputTreeBpebbTest = "analysis/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBpebbqqTrain = "analysis/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string jetAlgoOutputTreeBpebbqqTest = "analysis/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBpeqqHTrain = "analysis/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string jetAlgoOutputTreeBpeqqHTest = "analysis/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+	string jetAlgoOutputTreeBpettTrain = "analysis/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+	string jetAlgoOutputTreeBpettTest = "analysis/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
 
-	string jetAlgoOutputTreeS = "analysis/holderFit/noFit/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBqq = "analysis/holderFit/noFit/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBtt = "analysis/holderFit/noFit/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBZZ = "analysis/holderFit/noFit/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBWW = "analysis/holderFit/noFit/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBqqX = "analysis/holderFit/noFit/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBqqqqX = "analysis/holderFit/noFit/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBqqHX = "analysis/holderFit/noFit/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
-	string jetAlgoOutputTreeBZH = "analysis/holderFit/noFit/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeS = "analysis/outputTreeSHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqq = "analysis/outputTreeBqqHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBtt = "analysis/outputTreeBttHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBZZ = "analysis/outputTreeBZZHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBWW = "analysis/outputTreeBWWHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqqX = "analysis/outputTreeBqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqqqqX = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBqqHX = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBZH = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBpebb = "analysis/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBpebbqq = "analysis/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBpeqqH = "analysis/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	string jetAlgoOutputTreeBpett = "analysis/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+preselection+sampleName+".root";
+
   	
   	/*string jetAlgoText = "(antiKt R=0.5) ";
   	string jetAlgo = "JetAntiKt";
@@ -5511,6 +5751,14 @@ void FSRGammaGammaHHbbbbAnalysis()
   	string jetAlgoOutputTreeBqqHXTest = "outputTreeBqqHXHHbbbbESpreadAntiKtTest.root";
 	string jetAlgoOutputTreeBZHTrain = "outputTreeBZHHHbbbbESpreadAntiKtTrain.root"
   	string jetAlgoOutputTreeBZHTest = "outputTreeBZHHHbbbbESpreadAntiKtTest.root";
+	string jetAlgoOutputTreeBpebbTrain = "outputTreeBpebbHHbbbbESpreadAntiKtTrain.root"
+  	string jetAlgoOutputTreeBpebbTest = "outputTreeBpebbHHbbbbESpreadAntiKtTest.root";
+	string jetAlgoOutputTreeBpebbqqTrain = "outputTreeBpebbqqHHbbbbESpreadAntiKtTrain.root"
+  	string jetAlgoOutputTreeBpebbqqTest = "outputTreeBpebbqqHHbbbbESpreadAntiKtTest.root";
+	string jetAlgoOutputTreeBpeqqHTrain = "outputTreeBpeqqHHHbbbbESpreadAntiKtTrain.root"
+  	string jetAlgoOutputTreeBpeqqHTest = "outputTreeBpeqqHHHbbbbESpreadAntiKtTest.root";
+	string jetAlgoOutputTreeBpettTrain = "outputTreeBpettHHbbbbESpreadAntiKtTrain.root"
+  	string jetAlgoOutputTreeBpettTest = "outputTreeBpettHHbbbbESpreadAntiKtTest.root";
 	*/
   	
   	cout<<"jetAlgo: "<<jetAlgoText<<endl;
@@ -5581,7 +5829,7 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	outputTreeBqqTrain->Close();
 		outputTreeBqqTest->Close();
 		outputTreeBqq->Close();
-	  	////////creation of File for TMVA for back qq	
+	  	////////creation of File for TMVA for back qq
 	  	
 	  	////////creation of File for TMVA for back ttbar  
 	  	//const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattAll.root";
@@ -5805,7 +6053,136 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	outputTreeBZHTrain->Close();
 		outputTreeBZHTest->Close();
 		outputTreeBZH->Close();
-	  	////////creation of File for TMVA for back ZH 
+	  	////////creation of File for TMVA for back ZH
+
+		////////creation of File for TMVA for back pebb 	
+		const char *inputFilepebb = "analysis/FilesPostDelphes/pebbESpreadAllILDDSiDi.root";
+		//const char *inputFilepebb = "analysis/FilesPostDelphes/pebb380AllILDDSiDi.root";
+		sampleIndex=0;
+	  	TFile *outputTreeBpebbTrain = new TFile(jetAlgoOutputTreeBpebbTrain.c_str(), "recreate");
+	  	TTree TreeBpebbTrain("TreeBpebbTrain","a bpebbimple Tree with bpebbimple variables (Train)");
+	  	TFile *outputTreeBpebbTest = new TFile(jetAlgoOutputTreeBpebbTest.c_str(), "recreate");
+	  	TTree TreeBpebbTest("TreeBpebbTest","a bpebbimple Tree with bpebbimple variables (Test)");
+	  	TTree TreeBpebbMerge("TreeBpebbMerge","a bpebbimple Tree with bpebbimple variables (merge)");
+	  	set<int> setTrainpebb, setTestpebb;
+		TFile *outputTreeBpebb = new TFile(jetAlgoOutputTreeBpebb.c_str(), "recreate");
+	  	TTree TreeBpebb("TreeBpebb","a bpebbimple Tree with simple variables (full)");
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(10, setTrainpebb, setTestpebb, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFilepebb, 10, weightpebb, jetAlgoText, jetAlgo, genJetAlgo, TreeBpebbTrain, TreeBpebbTest, TreeBpebbMerge, TreeBpebb, fileFunction, preselection);
+	  	if(fileFunction=="merge") mergeTrees(10, setTrainpebb, setTestpebb, TreeBpebbTrain, TreeBpebbTest, TreeBpebbMerge, rtdCut);
+	  	
+	  	outputTreeBpebbTrain->cd();
+	   	TreeBpebbTrain.Write();
+	   	
+	   	outputTreeBpebbTest->cd();
+	   	TreeBpebbTest.Write();
+
+		outputTreeBpebb->cd();
+	   	TreeBpebb.Write();
+	  	
+	  	outputTreeBpebbTrain->Close();
+		outputTreeBpebbTest->Close();
+		outputTreeBpebb->Close();
+	  	////////creation of File for TMVA for back pebb
+
+		////////creation of File for TMVA for back pebbqq 	
+		//const char *inputFilepebbqq = "analysis/FilesPostDelphes/pebbqqESpreadAll.root";
+		const char *inputFilepebbqq = "analysis/FilesPostDelphes/pebbqqESpreadAllILDDSiDi.root";
+		//const char *inputFilepebbqq = "analysis/FilesPostDelphes/pebbqq380AllILDDSiDi.root";
+		sampleIndex=0;
+	  	TFile *outputTreeBpebbqqTrain = new TFile(jetAlgoOutputTreeBpebbqqTrain.c_str(), "recreate");
+	  	TTree TreeBpebbqqTrain("TreeBpebbqqTrain","a bpebbqqimple Tree with bpebbqqimple variables (Train)");
+	  	TFile *outputTreeBpebbqqTest = new TFile(jetAlgoOutputTreeBpebbqqTest.c_str(), "recreate");
+	  	TTree TreeBpebbqqTest("TreeBpebbqqTest","a bpebbqqimple Tree with bpebbqqimple variables (Test)");
+	  	TTree TreeBpebbqqMerge("TreeBpebbqqMerge","a bpebbqqimple Tree with bpebbqqimple variables (merge)");
+	  	set<int> setTrainpebbqq, setTestpebbqq;
+		TFile *outputTreeBpebbqq = new TFile(jetAlgoOutputTreeBpebbqq.c_str(), "recreate");
+	  	TTree TreeBpebbqq("TreeBpebbqq","a bpebbqqimple Tree with simple variables (full)");
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(11, setTrainpebbqq, setTestpebbqq, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFilepebbqq, 11, weightpebbqq, jetAlgoText, jetAlgo, genJetAlgo, TreeBpebbqqTrain, TreeBpebbqqTest, TreeBpebbqqMerge, TreeBpebbqq, fileFunction, preselection);
+	  	if(fileFunction=="merge") mergeTrees(11, setTrainpebbqq, setTestpebbqq, TreeBpebbqqTrain, TreeBpebbqqTest, TreeBpebbqqMerge, rtdCut);
+	  	
+	  	outputTreeBpebbqqTrain->cd();
+	   	TreeBpebbqqTrain.Write();
+	   	
+	   	outputTreeBpebbqqTest->cd();
+	   	TreeBpebbqqTest.Write();
+
+		outputTreeBpebbqq->cd();
+	   	TreeBpebbqq.Write();
+	  	
+	  	outputTreeBpebbqqTrain->Close();
+		outputTreeBpebbqqTest->Close();
+		outputTreeBpebbqq->Close();
+	  	////////creation of File for TMVA for back pebbqq
+
+		////////creation of File for TMVA for back peqqH 	
+		//const char *inputFilepeqqH = "analysis/FilesPostDelphes/peqqHESpreadAll.root";
+		const char *inputFilepeqqH = "analysis/FilesPostDelphes/peqqHESpreadAllILDDSiDi.root";
+		//const char *inputFilepeqqH = "analysis/FilesPostDelphes/peqqH380AllILDDSiDi.root";
+		sampleIndex=0;
+	  	TFile *outputTreeBpeqqHTrain = new TFile(jetAlgoOutputTreeBpeqqHTrain.c_str(), "recreate");
+	  	TTree TreeBpeqqHTrain("TreeBpeqqHTrain","a bpeqqHimple Tree with bpeqqHimple variables (Train)");
+	  	TFile *outputTreeBpeqqHTest = new TFile(jetAlgoOutputTreeBpeqqHTest.c_str(), "recreate");
+	  	TTree TreeBpeqqHTest("TreeBpeqqHTest","a bpeqqHimple Tree with bpeqqHimple variables (Test)");
+	  	TTree TreeBpeqqHMerge("TreeBpeqqHMerge","a bpeqqHimple Tree with bpeqqHimple variables (merge)");
+	  	set<int> setTrainpeqqH, setTestpeqqH;
+		TFile *outputTreeBpeqqH = new TFile(jetAlgoOutputTreeBpeqqH.c_str(), "recreate");
+	  	TTree TreeBpeqqH("TreeBpeqqH","a bpeqqHimple Tree with simple variables (full)");
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(12, setTrainpeqqH, setTestpeqqH, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFilepeqqH, 12, weightpeqqH, jetAlgoText, jetAlgo, genJetAlgo, TreeBpeqqHTrain, TreeBpeqqHTest, TreeBpeqqHMerge, TreeBpeqqH, fileFunction, preselection);
+	  	if(fileFunction=="merge") mergeTrees(12, setTrainpeqqH, setTestpeqqH, TreeBpeqqHTrain, TreeBpeqqHTest, TreeBpeqqHMerge, rtdCut);
+	  	
+	  	outputTreeBpeqqHTrain->cd();
+	   	TreeBpeqqHTrain.Write();
+	   	
+	   	outputTreeBpeqqHTest->cd();
+	   	TreeBpeqqHTest.Write();
+
+		outputTreeBpeqqH->cd();
+	   	TreeBpeqqH.Write();
+	  	
+	  	outputTreeBpeqqHTrain->Close();
+		outputTreeBpeqqHTest->Close();
+		outputTreeBpeqqH->Close();
+	  	////////creation of File for TMVA for back peqqH 
+
+		////////creation of File for TMVA for back pett 	
+		//const char *inputFilepett = "analysis/FilesPostDelphes/pettESpreadAll.root";
+		const char *inputFilepett = "analysis/FilesPostDelphes/pettESpreadAllILDDSiDi.root";
+		//const char *inputFilepett = "analysis/FilesPostDelphes/pett380AllILDDSiDi.root";
+		sampleIndex=0;
+	  	TFile *outputTreeBpettTrain = new TFile(jetAlgoOutputTreeBpettTrain.c_str(), "recreate");
+	  	TTree TreeBpettTrain("TreeBpettTrain","a bpettimple Tree with bpettimple variables (Train)");
+	  	TFile *outputTreeBpettTest = new TFile(jetAlgoOutputTreeBpettTest.c_str(), "recreate");
+	  	TTree TreeBpettTest("TreeBpettTest","a bpettimple Tree with bpettimple variables (Test)");
+	  	TTree TreeBpettMerge("TreeBpettMerge","a bpettimple Tree with bpettimple variables (merge)");
+	  	set<int> setTrainpett, setTestpett;
+		TFile *outputTreeBpett = new TFile(jetAlgoOutputTreeBpett.c_str(), "recreate");
+	  	TTree TreeBpett("TreeBpett","a bpettimple Tree with simple variables (full)");
+	  	
+	  	if(fileFunction=="merge") generateSetsMerge(13, setTrainpett, setTestpett, rtdCut); ///arguments: topology, set for training events, set for testing events
+	  	analysis(inputFilepett, 13, weightpett, jetAlgoText, jetAlgo, genJetAlgo, TreeBpettTrain, TreeBpettTest, TreeBpettMerge, TreeBpett, fileFunction, preselection);
+	  	if(fileFunction=="merge") mergeTrees(13, setTrainpett, setTestpett, TreeBpettTrain, TreeBpettTest, TreeBpettMerge, rtdCut);
+	  	
+	  	outputTreeBpettTrain->cd();
+	   	TreeBpettTrain.Write();
+	   	
+	   	outputTreeBpettTest->cd();
+	   	TreeBpettTest.Write();
+
+		outputTreeBpett->cd();
+	   	TreeBpett.Write();
+	  	
+	  	outputTreeBpettTrain->Close();
+		outputTreeBpettTest->Close();
+		outputTreeBpett->Close();
+	  	////////creation of File for TMVA for back pett
+
+
 
   	}
 
@@ -5829,35 +6206,47 @@ void FSRGammaGammaHHbbbbAnalysis()
 	  	//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380All.root";
 		//const char *inputFileHH = "analysis/FilesPostDelphes/GammaGammaHH380AllPU.root";
 		//const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAll.root";
-		//const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAllILDDSiDi.root";
-		const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqq380All.root";
+		const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqqESpreadAllILDDSiDi.root";
+		//const char *inputFileqq = "analysis/FilesPostDelphes/GammaGammabbbbqq380All.root";
 		//const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattAll.root";
-		//const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattAllILDDSiDi.root";
-	  	const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattSmall.root";
+		const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattAllILDDSiDi.root";
+	  	//const char *inputFilett = "analysis/FilesPostDelphes/GammaGammattSmall.root";
 		//const char *inputFileZZ = "analysis/FilesPostDelphes/GammaGammaZZESpreadAll.root";
-		//const char *inputFileZZ = "analysis/FilesPostDelphes/GammaGammaZZESpreadAllILDDSiDi.root";
-		const char *inputFileZZ = "analysis/FilesPostDelphes/GammaGammaZZ380All.root";
+		const char *inputFileZZ = "analysis/FilesPostDelphes/GammaGammaZZESpreadAllILDDSiDi.root";
+		//const char *inputFileZZ = "analysis/FilesPostDelphes/GammaGammaZZ380All.root";
 		//const char *inputFileWW = "analysis/FilesPostDelphes/GammaGammaWWESpreadAll.root";
-		//const char *inputFileWW = "analysis/FilesPostDelphes/GammaGammaWWESpreadAllILDDSiDi.root";
-	  	const char *inputFileWW = "analysis/FilesPostDelphes/GammaGammaWW380All.root";
-		const char *inputFileqqX = "analysis/FilesPostDelphes/eGammaqqXAll.root";
-		//const char *inputFileqqX = "analysis/FilesPostDelphes/eGammaqqXAllILDDSiDi.root";
-		const char *inputFileqqqqX = "analysis/FilesPostDelphes/eGammaqqqqXAll.root";
-		//const char *inputFileqqqqX = "analysis/FilesPostDelphes/eGammaqqqqXAllILDDSiDi.root";
-		const char *inputFileqqHX = "analysis/FilesPostDelphes/eGammaqqHXAll.root";
-		//const char *inputFileqqHX = "analysis/FilesPostDelphes/eGammaqqHXAllILDDSiDi.root";
+		const char *inputFileWW = "analysis/FilesPostDelphes/GammaGammaWWESpreadAllILDDSiDi.root";
+	  	//const char *inputFileWW = "analysis/FilesPostDelphes/GammaGammaWW380All.root";
+		//const char *inputFileqqX = "analysis/FilesPostDelphes/eGammaqqXAll.root";
+		const char *inputFileqqX = "analysis/FilesPostDelphes/eGammaqqXAllILDDSiDi.root";
+		//const char *inputFileqqqqX = "analysis/FilesPostDelphes/eGammaqqqqXAll.root";
+		const char *inputFileqqqqX = "analysis/FilesPostDelphes/eGammaqqqqXAllILDDSiDi.root";
+		//const char *inputFileqqHX = "analysis/FilesPostDelphes/eGammaqqHXAll.root";
+		const char *inputFileqqHX = "analysis/FilesPostDelphes/eGammaqqHXAllILDDSiDi.root";
 		//const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZHESpreadAll.root";
-		//const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZHESpreadAllILDDSiDi.root";
-		const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZH380AllILDDSiDi.root";
+		const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZHESpreadAllILDDSiDi.root";
+		//const char *inputFileZH = "analysis/FilesPostDelphes/GammaGammaZH380AllILDDSiDi.root";
+		//const char *inputFilepebb = "analysis/FilesPostDelphes/pebbESpreadAllILDDSiDi.root";
+		const char *inputFilepebb = "analysis/FilesPostDelphes/pebb380AllILDDSiDi.root";
+		//const char *inputFilepebbqq = "analysis/FilesPostDelphes/pebbqqESpreadAllILDDSiDi.root";
+		const char *inputFilepebbqq = "analysis/FilesPostDelphes/pebbqq380AllILDDSiDi.root";
+		//const char *inputFilepeqqH = "analysis/FilesPostDelphes/peqqHESpreadAllILDDSiDi.root";
+		const char *inputFilepeqqH = "analysis/FilesPostDelphes/peqqH380AllILDDSiDi.root";
+		//const char *inputFilepett = "analysis/FilesPostDelphes/pettESpreadAllILDDSiDi.root";
+		const char *inputFilepett = "analysis/FilesPostDelphes/pett380AllILDDSiDi.root";
 		analysis(inputFileHH, 1, weightHH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		/*analysis(inputFileqq, 2, weightqq, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
-		analysis(inputFilett, 3, weighttt, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
+		analysis(inputFilett, 3, weightttbar, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFileZZ, 4, weightZZ, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFileWW, 5, weightWW, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFileqqX, 6, weightqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFileqqqqX, 7, weightqqqqX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
 		analysis(inputFileqqHX, 8, weightqqHX, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
-		analysis(inputFileZH, 9, weightZH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);*/
+		analysis(inputFileZH, 9, weightZH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
+		analysis(inputFilepebb, 10, weightpebb, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
+		analysis(inputFilepebbqq, 11, weightpebbqq, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
+		analysis(inputFilepeqqH, 12, weightpeqqH, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);
+		analysis(inputFilepett, 13, weightpett, jetAlgoText, jetAlgo, genJetAlgo, TreeSTrain, TreeSTest, TreeSMerge, TreeS, fileFunction, preselection);*/
 		/*TTree TreeDummy("dummy","dummy");
 		analysis("hh", -999, 0.001225, jetAlgoText, jetAlgo, genJetAlgo, TreeDummy, TreeDummy, TreeDummy, fileFunction, preselection); /////Just to give time for the hists. to load; delete if not plotting.*/
 	}
