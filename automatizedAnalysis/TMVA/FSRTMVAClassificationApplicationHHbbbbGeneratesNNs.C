@@ -30,7 +30,7 @@
  
  using namespace TMVA;
  
-void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int topology, int nBack, vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, int& sizeTree, int nbin, TH1F& histOutput, TH1F& histOutputW, double weight, string inputMethod, TString NNVars, string rtdCut, string sampleName, string varVersion, string preselection)
+void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int topology, int nBack, vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, vector<double>& BDTpebbOutput, vector<double>& BDTpebbqqOutput, vector<double>& BDTpeqqHOutput, vector<double>& BDTpettOutput, int& sizeTree, int nbin, TH1F& histOutput, TH1F& histOutputW, double weight, string inputMethod, TString NNVars, string rtdCut, string sampleName, string varVersion, string preselection)
 {
 	if(topology == 1)
 	{
@@ -43,6 +43,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		if(nBack == 5) cout<<"NNqqqqX"<<endl;
 		if(nBack == 6) cout<<"NNqqHX"<<endl;
 		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
  	}
  	if(topology == 2)
 	{
@@ -55,6 +59,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		if(nBack == 5) cout<<"NNqqqqX"<<endl;
 		if(nBack == 6) cout<<"NNqqHX"<<endl;
 		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
  	}
  	if(topology == 3)
 	{
@@ -67,6 +75,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		if(nBack == 5) cout<<"NNqqqqX"<<endl;
 		if(nBack == 6) cout<<"NNqqHX"<<endl;
 		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
  	}
  	if(topology == 4)
 	{
@@ -79,6 +91,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		if(nBack == 5) cout<<"NNqqqqX"<<endl;
 		if(nBack == 6) cout<<"NNqqHX"<<endl;
 		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
  	}
  	if(topology == 5)
 	{
@@ -91,6 +107,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		if(nBack == 5) cout<<"NNqqqqX"<<endl;
 		if(nBack == 6) cout<<"NNqqHX"<<endl;
 		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
  	}
 	if(topology == 6)
 	{
@@ -103,6 +123,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		if(nBack == 5) cout<<"NNqqqqX"<<endl;
 		if(nBack == 6) cout<<"NNqqHX"<<endl;
 		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
  	}
 	if(topology == 7)
 	{
@@ -115,6 +139,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		if(nBack == 5) cout<<"NNqqqqX"<<endl;
 		if(nBack == 6) cout<<"NNqqHX"<<endl;
 		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
  	}
 	if(topology == 8)
 	{
@@ -127,6 +155,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		if(nBack == 5) cout<<"NNqqqqX"<<endl;
 		if(nBack == 6) cout<<"NNqqHX"<<endl;
 		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
  	}
 	if(topology == 9)
 	{
@@ -139,6 +171,74 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		if(nBack == 5) cout<<"NNqqqqX"<<endl;
 		if(nBack == 6) cout<<"NNqqHX"<<endl;
 		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
+ 	}
+	if(topology == 10)
+	{
+		cout<<"Evaluating pebb on ";
+		if(nBack == 0) cout<<"NNqq"<<endl;
+	 	if(nBack == 1) cout<<"NNttbar"<<endl;
+	 	if(nBack == 2) cout<<"NNZH"<<endl;
+	 	if(nBack == 3) cout<<"NNWW"<<endl;
+		if(nBack == 4) cout<<"NNqqX"<<endl;
+		if(nBack == 5) cout<<"NNqqqqX"<<endl;
+		if(nBack == 6) cout<<"NNqqHX"<<endl;
+		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
+ 	}
+	if(topology == 11)
+	{
+		cout<<"Evaluating pebbqq on ";
+		if(nBack == 0) cout<<"NNqq"<<endl;
+	 	if(nBack == 1) cout<<"NNttbar"<<endl;
+	 	if(nBack == 2) cout<<"NNZH"<<endl;
+	 	if(nBack == 3) cout<<"NNWW"<<endl;
+		if(nBack == 4) cout<<"NNqqX"<<endl;
+		if(nBack == 5) cout<<"NNqqqqX"<<endl;
+		if(nBack == 6) cout<<"NNqqHX"<<endl;
+		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
+ 	}
+	if(topology == 12)
+	{
+		cout<<"Evaluating peqqH on ";
+		if(nBack == 0) cout<<"NNqq"<<endl;
+	 	if(nBack == 1) cout<<"NNttbar"<<endl;
+	 	if(nBack == 2) cout<<"NNZH"<<endl;
+	 	if(nBack == 3) cout<<"NNWW"<<endl;
+		if(nBack == 4) cout<<"NNqqX"<<endl;
+		if(nBack == 5) cout<<"NNqqqqX"<<endl;
+		if(nBack == 6) cout<<"NNqqHX"<<endl;
+		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
+ 	}
+	if(topology == 13)
+	{
+		cout<<"Evaluating pett on ";
+		if(nBack == 0) cout<<"NNqq"<<endl;
+	 	if(nBack == 1) cout<<"NNttbar"<<endl;
+	 	if(nBack == 2) cout<<"NNZH"<<endl;
+	 	if(nBack == 3) cout<<"NNWW"<<endl;
+		if(nBack == 4) cout<<"NNqqX"<<endl;
+		if(nBack == 5) cout<<"NNqqqqX"<<endl;
+		if(nBack == 6) cout<<"NNqqHX"<<endl;
+		if(nBack == 7) cout<<"NNZH"<<endl;
+		if(nBack == 8) cout<<"NNpebb"<<endl;
+		if(nBack == 9) cout<<"NNpebbqq"<<endl;
+		if(nBack == 10) cout<<"NNpeqqH"<<endl;
+		if(nBack == 11) cout<<"NNpett"<<endl;
  	}
 	
  	
@@ -600,6 +700,14 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
     TFile* inputBqqHX = new TFile(inputBqqHXText.c_str());
 	string inputBZHText = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
     TFile* inputBZH = new TFile(inputBZHText.c_str());
+	string inputBpebbText = "analysis/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputBpebb = new TFile(inputBpebbText.c_str());
+	string inputBpebbqqText = "analysis/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputBpebbqq = new TFile(inputBpebbqqText.c_str());
+	string inputBpeqqHText = "analysis/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputBpeqqH = new TFile(inputBpeqqHText.c_str());
+	string inputBpettText = "analysis/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputBpett = new TFile(inputBpettText.c_str());
     
     std::cout << "--- TMVAClassificationApplication   : Using input file for signal: " << inputS->GetName() << std::endl;
  
@@ -622,6 +730,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 	else if(topology == 7) theTree = (TTree*)inputBqqqqX->Get("TreeBqqqqXTest");
 	else if(topology == 8) theTree = (TTree*)inputBqqHX->Get("TreeBqqHXTest");
 	else if(topology == 9) theTree = (TTree*)inputBZH->Get("TreeBZHTest");
+	else if(topology == 10) theTree = (TTree*)inputBpebb->Get("TreeBpebbTest");
+	else if(topology == 11) theTree = (TTree*)inputBpebbqq->Get("TreeBpebbqqTest");
+	else if(topology == 12) theTree = (TTree*)inputBpeqqH->Get("TreeBpeqqHTest");
+	else if(topology == 13) theTree = (TTree*)inputBpett->Get("TreeBpettTest");
     
 	theTree->SetBranchAddress( "aplanarity", &aplanarity );
 	theTree->SetBranchAddress( "cosThetaB1", &cosThetaB1 );
@@ -696,6 +808,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 	if(topology == 7) std::cout << "--- Processing: " << theTree->GetEntries() << " qqqqX events" << std::endl;
 	if(topology == 8) std::cout << "--- Processing: " << theTree->GetEntries() << " qqHX events" << std::endl;
 	if(topology == 9) std::cout << "--- Processing: " << theTree->GetEntries() << " ZH events" << std::endl;
+	if(topology == 10) std::cout << "--- Processing: " << theTree->GetEntries() << " pebb events" << std::endl;
+	if(topology == 11) std::cout << "--- Processing: " << theTree->GetEntries() << " pebbqq events" << std::endl;
+	if(topology == 12) std::cout << "--- Processing: " << theTree->GetEntries() << " peqqH events" << std::endl;
+	if(topology == 13) std::cout << "--- Processing: " << theTree->GetEntries() << " pett events" << std::endl;
     
     TStopwatch sw;
     sw.Start();
@@ -715,6 +831,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		else if(nBack == 5) dir    = TString("analysis/datasetqqqqX") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
 		else if(nBack == 6) dir    = TString("analysis/datasetqqHX") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
 		else if(nBack == 7) dir    = TString("analysis/datasetZH") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
+		else if(nBack == 8) dir    = TString("analysis/datasetpebb") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
+		else if(nBack == 9) dir    = TString("analysis/datasetpebbqq") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
+		else if(nBack == 10) dir    = TString("analysis/datasetpeqqH") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
+		else if(nBack == 11) dir    = TString("analysis/datasetpett") + TString(rtdCut) + TString(NNVars) + TString(sampleName) + TString("/weights/");
 
 	    TString prefix = "TMVAClassification";
 	    // Book method(s)
@@ -748,7 +868,11 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
 		   if(nBack == 4) BDTqqXOutput.push_back(reader->EvaluateMVA(methodName));
 		   if(nBack == 5) BDTqqqqXOutput.push_back(reader->EvaluateMVA(methodName));
 		   if(nBack == 6) BDTqqHXOutput.push_back(reader->EvaluateMVA(methodName));
-		   if(nBack == 7) BDTZHOutput.push_back(reader->EvaluateMVA(methodName));				
+		   if(nBack == 7) BDTZHOutput.push_back(reader->EvaluateMVA(methodName));
+		   if(nBack == 8) BDTpebbOutput.push_back(reader->EvaluateMVA(methodName));
+		   if(nBack == 9) BDTpebbqqOutput.push_back(reader->EvaluateMVA(methodName));
+		   if(nBack == 10) BDTpeqqHOutput.push_back(reader->EvaluateMVA(methodName));
+		   if(nBack == 11) BDTpettOutput.push_back(reader->EvaluateMVA(methodName));				
 	       
 	       /////Filling out histograms 
 	       histOutput.Fill(reader->EvaluateMVA(methodName));
@@ -876,6 +1000,10 @@ void FSRTMVAClassificationApplicationHHbbbbHelper( TString myMethodList, int top
    inputBqqqqX->Close();
    inputBqqHX->Close();
    inputBZH->Close();
+   inputBpebb->Close();
+   inputBpebbqq->Close();
+   inputBpeqqH->Close();
+   inputBpett->Close();
 	
 	return;	
  	
@@ -1182,7 +1310,7 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
  }
  
  /////Function that generates ROC curve without using histograms and integrals, as well as calculates the max. significance
- void findSignificance(double bottomHistLimit, double topHistLimit, double nbin, vector<double> NNOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, int nBack, TH1F& histBDTHH, TH1F& histBDTBack, double& defCut, double& maxSignificance, double weightHH, double weightBack, double targetFractionHH, TH2F& histROC, TH2F& histROCRej, TH2F& histSignificance, double& totalRemaining, double& HHRemaining, double& backRemaining)
+ void findSignificance(double bottomHistLimit, double topHistLimit, double nbin, vector<double> NNOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, int sizepebb, int sizepebbqq, int sizepeqqH, int sizepett, int nBack, TH1F& histBDTHH, TH1F& histBDTBack, double& defCut, double& maxSignificance, double weightHH, double weightBack, double targetFractionHH, TH2F& histROC, TH2F& histROCRej, TH2F& histSignificance, double& totalRemaining, double& HHRemaining, double& backRemaining)
  {
  	defCut=bottomHistLimit;
 	double significance; 	
@@ -1190,6 +1318,7 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 	double size = NNOutput.size();
 	
 	//cout<<endl<<endl<<endl<<endl<<endl<<"NNOutputSize: "<<size<<endl<<endl<<endl<<endl;
+	cout<<"sizes: "<<sizeHH<<" "<<sizeqq<<" "<<sizettbar<<" "<<sizeZZ<<" "<<sizeWW<<" "<<sizeqqX<<" "<<sizeqqqqX<<" "<<sizeqqHX<<" "<<sizeZH<<" "<<sizepebb<<" "<<sizepebbqq<<" "<<sizepeqqH<<" "<<sizepett<<endl;
 	
 	vector<double> NNOutputHH(NNOutput.begin(), NNOutput.begin()+sizeHH);
 	double bottomLimitBack, topLimitBack;
@@ -1233,6 +1362,26 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 		bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX;
 		topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH;
 	}
+	else if(nBack == 8)
+	{
+		bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH;
+		topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb;
+	}
+	else if(nBack == 9)
+	{
+		bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb;
+		topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq;
+	}
+	else if(nBack == 10)
+	{
+		bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq;
+		topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH;
+	}
+	else if(nBack == 11)
+	{
+		bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH;
+		topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH+sizepett;
+	}
 
 	//cout<<"bottomLimitBack: "<<bottomLimitBack<<"      topLimitBack: "<<topLimitBack<<endl<<endl<<endl<<endl;
 	vector<double> NNOutputBack(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
@@ -1241,6 +1390,13 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 	sort(NNOutputBack.begin(), NNOutputBack.end());
 	
 	int sizeBack = NNOutputBack.size();
+
+	cout<<"bottomLimitBack: "<<bottomLimitBack<<"      topLimitBack: "<<topLimitBack<<endl;
+	cout<<"Initial HH: "<<NNOutputHH.size()<<endl;
+	cout<<"Initial HH weighted: "<<NNOutputHH.size()*weightHH<<endl;
+	cout<<"Initial Back: "<<NNOutputBack.size()<<endl;
+	cout<<"Initial Back weighted: "<<NNOutputBack.size()*weightBack<<endl;
+	
 	
 	//cout<<"sizeBack: "<<sizeBack<<endl<<endl<<endl;
 	
@@ -1332,10 +1488,10 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 	
  }
 ///Function that finds cut for NNs individually applied to all backs
- void findSignificanceAllBacks(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NNOutput, double& defCut, double& maxSignificance, double& nBack, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH, double cutStep)
+ void findSignificanceAllBacks(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NNOutput, double& defCut, double& maxSignificance, double& nBack, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, int sizepebb, int sizepebbqq, int sizepeqqH, int sizepett, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH, double weightpebb, double weightpebbqq, double weightpeqqH, double weightpett, double cutStep)
  {
  	
-	//cout<<"calling findSignificanceAllBacks";
+	cout<<"calling findSignificanceAllBacks";
 	
 	defCut=bottomHistLimit;
 	double significance, HHRemaining, backRemaining; 	
@@ -1368,6 +1524,22 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH;
 	vector<double> NNOutputBackZH(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
 
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb;
+	vector<double> NNOutputBackpebb(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
+
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq;
+	vector<double> NNOutputBackpebbqq(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
+
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH;
+	vector<double> NNOutputBackpeqqH(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
+
+	bottomLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH;
+	topLimitBack = sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH+sizepett;
+	vector<double> NNOutputBackpett(NNOutput.begin()+bottomLimitBack, NNOutput.end()-(size-topLimitBack));
+
 	sort(NNOutputHH.begin(), NNOutputHH.end());
 	sort(NNOutputBackqq.begin(), NNOutputBackqq.end());
 	sort(NNOutputBackttbar.begin(), NNOutputBackttbar.end());
@@ -1377,6 +1549,10 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 	sort(NNOutputBackqqqqX.begin(), NNOutputBackqqqqX.end());
 	sort(NNOutputBackqqHX.begin(), NNOutputBackqqHX.end());
 	sort(NNOutputBackZH.begin(), NNOutputBackZH.end());
+	sort(NNOutputBackpebb.begin(), NNOutputBackpebb.end());
+	sort(NNOutputBackpebbqq.begin(), NNOutputBackpebbqq.end());
+	sort(NNOutputBackpeqqH.begin(), NNOutputBackpeqqH.end());
+	sort(NNOutputBackpett.begin(), NNOutputBackpett.end());
 
 	int sizeBackqq = NNOutputBackqq.size();
 	int sizeBackttbar = NNOutputBackttbar.size();
@@ -1386,11 +1562,15 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 	int sizeBackqqqqX = NNOutputBackqqqqX.size();
 	int sizeBackqqHX = NNOutputBackqqHX.size();
 	int sizeBackZH = NNOutputBackZH.size();
+	int sizeBackpebb = NNOutputBackpebb.size();
+	int sizeBackpebbqq = NNOutputBackpebbqq.size();
+	int sizeBackpeqqH = NNOutputBackpeqqH.size();
+	int sizeBackpett = NNOutputBackpett.size();
 
-	int indexHH=0, indexBackqq=0, indexBackttbar=0, indexBackZZ=0, indexBackWW=0, indexBackqqX=0, indexBackqqqqX=0, indexBackqqHX=0, indexBackZH=0;
-	int indexHHMaxSignificance=0, indexBackqqMaxSignificance=0, indexBackttbarMaxSignificance=0, indexBackZZMaxSignificance=0, indexBackWWMaxSignificance=0, indexBackqqXMaxSignificance=0, indexBackqqqqXMaxSignificance=0, indexBackqqHXMaxSignificance=0, indexBackZHMaxSignificance=0;
-	double elementNHH=NNOutputHH[indexHH], elementN1HH, elementNBackqq=NNOutputBackqq[indexBackqq], elementN1Backqq, elementNBackttbar=NNOutputBackttbar[indexBackttbar], elementN1Backttbar, elementNBackZZ=NNOutputBackZZ[indexBackZZ], elementN1BackZZ, elementNBackWW=NNOutputBackWW[indexBackWW], elementN1BackWW, elementNBackqqX=NNOutputBackqqX[indexBackqqX], elementN1BackqqX, elementNBackqqqqX=NNOutputBackqqqqX[indexBackqqqqX], elementN1BackqqqqX, elementNBackqqHX=NNOutputBackqqHX[indexBackqqHX], elementN1BackqqHX, elementNBackZH=NNOutputBackZH[indexBackZH], elementN1BackZH;
-	double eventsRemainingHH=0, eventsCutHH=0, eventsRemainingBack=0, eventsCutBack=0, eventsRemainingBackW=0, eventsCutBackW=0, eventsRemainingBackqq=0, eventsCutBackqq=0, eventsRemainingBackttbar=0, eventsCutBackttbar=0, eventsRemainingBackZZ=0, eventsCutBackZZ=0, eventsRemainingBackWW=0, eventsCutBackWW=0, eventsRemainingBackqqX=0, eventsCutBackqqX=0, eventsRemainingBackqqqqX=0, eventsCutBackqqqqX=0, eventsRemainingBackqqHX=0, eventsCutBackqqHX=0, eventsRemainingBackZH=0, eventsCutBackZH=0;
+	int indexHH=0, indexBackqq=0, indexBackttbar=0, indexBackZZ=0, indexBackWW=0, indexBackqqX=0, indexBackqqqqX=0, indexBackqqHX=0, indexBackZH=0, indexBackpebb=0, indexBackpebbqq=0, indexBackpeqqH=0, indexBackpett=0;
+	int indexHHMaxSignificance=0, indexBackqqMaxSignificance=0, indexBackttbarMaxSignificance=0, indexBackZZMaxSignificance=0, indexBackWWMaxSignificance=0, indexBackqqXMaxSignificance=0, indexBackqqqqXMaxSignificance=0, indexBackqqHXMaxSignificance=0, indexBackZHMaxSignificance=0, indexBackpebbMaxSignificance=0, indexBackpebbqqMaxSignificance=0, indexBackpeqqHMaxSignificance=0, indexBackpettMaxSignificance=0;
+	double elementNHH=NNOutputHH[indexHH], elementN1HH, elementNBackqq=NNOutputBackqq[indexBackqq], elementN1Backqq, elementNBackttbar=NNOutputBackttbar[indexBackttbar], elementN1Backttbar, elementNBackZZ=NNOutputBackZZ[indexBackZZ], elementN1BackZZ, elementNBackWW=NNOutputBackWW[indexBackWW], elementN1BackWW, elementNBackqqX=NNOutputBackqqX[indexBackqqX], elementN1BackqqX, elementNBackqqqqX=NNOutputBackqqqqX[indexBackqqqqX], elementN1BackqqqqX, elementNBackqqHX=NNOutputBackqqHX[indexBackqqHX], elementN1BackqqHX, elementNBackZH=NNOutputBackZH[indexBackZH], elementN1BackZH, elementNBackpebb=NNOutputBackpebb[indexBackpebb], elementN1Backpebb, elementNBackpebbqq=NNOutputBackpebbqq[indexBackpebbqq], elementN1Backpebbqq, elementNBackpeqqH=NNOutputBackpeqqH[indexBackpeqqH], elementN1BackpeqqH, elementNBackpett=NNOutputBackpett[indexBackpett], elementN1Backpett;
+	double eventsRemainingHH=0, eventsCutHH=0, eventsRemainingBack=0, eventsCutBack=0, eventsRemainingBackW=0, eventsCutBackW=0, eventsRemainingBackqq=0, eventsCutBackqq=0, eventsRemainingBackttbar=0, eventsCutBackttbar=0, eventsRemainingBackZZ=0, eventsCutBackZZ=0, eventsRemainingBackWW=0, eventsCutBackWW=0, eventsRemainingBackqqX=0, eventsCutBackqqX=0, eventsRemainingBackqqqqX=0, eventsCutBackqqqqX=0, eventsRemainingBackqqHX=0, eventsCutBackqqHX=0, eventsRemainingBackZH=0, eventsCutBackZH=0, eventsRemainingBackpebb=0, eventsCutBackpebb=0, eventsRemainingBackpebbqq=0, eventsCutBackpebbqq=0, eventsRemainingBackpeqqH=0, eventsCutBackpeqqH=0, eventsRemainingBackpett=0, eventsCutBackpett=0;
 	//double cutStep=0.001;
 	//cout<<endl<<"cutStep: "<<cutStep<<endl;
 	for(double cut=bottomHistLimit; cut<topHistLimit; cut+=cutStep)
@@ -1440,6 +1620,26 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 			indexBackZH++;
 			if(indexBackZH<sizeBackZH) elementNBackZH = NNOutputBackZH[indexBackZH];
 		}
+		while(cut>elementNBackpebb && indexBackpebb<sizeBackpebb)
+		{
+			indexBackpebb++;
+			if(indexBackpebb<sizeBackpebb) elementNBackpebb = NNOutputBackpebb[indexBackpebb];
+		}
+		while(cut>elementNBackpebbqq && indexBackpebbqq<sizeBackpebbqq)
+		{
+			indexBackpebbqq++;
+			if(indexBackpebbqq<sizeBackpebbqq) elementNBackpebbqq = NNOutputBackpebbqq[indexBackpebbqq];
+		}
+		while(cut>elementNBackpeqqH && indexBackpeqqH<sizeBackpeqqH)
+		{
+			indexBackpeqqH++;
+			if(indexBackpeqqH<sizeBackpeqqH) elementNBackpeqqH = NNOutputBackpeqqH[indexBackpeqqH];
+		}
+		while(cut>elementNBackpett && indexBackpett<sizeBackpett)
+		{
+			indexBackpett++;
+			if(indexBackpett<sizeBackpett) elementNBackpett = NNOutputBackpett[indexBackpett];
+		}
 
 		eventsRemainingHH = sizeHH-indexHH;
 		eventsRemainingBackqq = sizeBackqq-indexBackqq;
@@ -1450,9 +1650,13 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 		eventsRemainingBackqqqqX = sizeBackqqqqX-indexBackqqqqX;
 		eventsRemainingBackqqHX = sizeBackqqHX-indexBackqqHX;
 		eventsRemainingBackZH = sizeBackZH-indexBackZH;
+		eventsRemainingBackpebb = sizeBackpebb-indexBackpebb;
+		eventsRemainingBackpebbqq = sizeBackpebbqq-indexBackpebbqq;
+		eventsRemainingBackpeqqH = sizeBackpeqqH-indexBackpeqqH;
+		eventsRemainingBackpett = sizeBackpett-indexBackpett;
 
-		eventsRemainingBack = eventsRemainingBackqq+eventsRemainingBackttbar+eventsRemainingBackZZ+eventsRemainingBackWW+eventsRemainingBackqqX+eventsRemainingBackqqqqX+eventsRemainingBackqqHX+eventsRemainingBackZH;
-		eventsRemainingBackW = eventsRemainingBackqq*weightqq+eventsRemainingBackttbar*weightttbar+eventsRemainingBackZZ*weightZZ+eventsRemainingBackWW*weightWW+eventsRemainingBackqqX*weightqqX+eventsRemainingBackqqqqX*weightqqqqX+eventsRemainingBackqqHX*weightqqHX+eventsRemainingBackZH*weightZH;
+		eventsRemainingBack = eventsRemainingBackqq+eventsRemainingBackttbar+eventsRemainingBackZZ+eventsRemainingBackWW+eventsRemainingBackqqX+eventsRemainingBackqqqqX+eventsRemainingBackqqHX+eventsRemainingBackZH+eventsRemainingBackpebb+eventsRemainingBackpebbqq+eventsRemainingBackpeqqH+eventsRemainingBackpett;
+		eventsRemainingBackW = eventsRemainingBackqq*weightqq+eventsRemainingBackttbar*weightttbar+eventsRemainingBackZZ*weightZZ+eventsRemainingBackWW*weightWW+eventsRemainingBackqqX*weightqqX+eventsRemainingBackqqqqX*weightqqqqX+eventsRemainingBackqqHX*weightqqHX+eventsRemainingBackZH*weightZH+eventsRemainingBackpebb*weightpebb+eventsRemainingBackpebbqq*weightpebbqq+eventsRemainingBackpeqqH*weightpeqqH+eventsRemainingBackpett*weightpett;
 
 		significance=(eventsRemainingHH*weightHH)/(sqrt((eventsRemainingHH*weightHH)+(eventsRemainingBackW)));
 		/*cout<<"CUT: "<<cut<<endl<<endl;
@@ -1480,6 +1684,10 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 			indexBackqqqqXMaxSignificance=indexBackqqqqX;
 			indexBackqqHXMaxSignificance=indexBackqqHX;
 			indexBackZHMaxSignificance=indexBackZH;
+			indexBackpebbMaxSignificance=indexBackpebb;
+			indexBackpebbqqMaxSignificance=indexBackpebbqq;
+			indexBackpeqqHMaxSignificance=indexBackpeqqH;
+			indexBackpettMaxSignificance=indexBackpett;
 	   	}
 
 		//cout<<"Significance: "<<significance<<"         maxSignificnace: "<<maxSignificance<<endl<<endl;
@@ -1494,12 +1702,18 @@ void sortVectorNinethuple(std::vector<double>& vector1, std::vector<double>& vec
 	NNOutputBackqqqqX.erase(NNOutputBackqqqqX.begin(), NNOutputBackqqqqX.begin()+indexBackqqqqXMaxSignificance);
 	NNOutputBackqqHX.erase(NNOutputBackqqHX.begin(), NNOutputBackqqHX.begin()+indexBackqqHXMaxSignificance);
 	NNOutputBackZH.erase(NNOutputBackZH.begin(), NNOutputBackZH.begin()+indexBackZHMaxSignificance);
+	NNOutputBackpebb.erase(NNOutputBackpebb.begin(), NNOutputBackpebb.begin()+indexBackpebbMaxSignificance);
+	NNOutputBackpebbqq.erase(NNOutputBackpebbqq.begin(), NNOutputBackpebbqq.begin()+indexBackpebbqqMaxSignificance);
+	NNOutputBackpeqqH.erase(NNOutputBackpeqqH.begin(), NNOutputBackpeqqH.begin()+indexBackpeqqHMaxSignificance);
+	NNOutputBackpett.erase(NNOutputBackpett.begin(), NNOutputBackpett.begin()+indexBackpettMaxSignificance);
 	
 }
  
 ////Function that finds the optimal cuts for all the indivivual NNs considering all backs
-void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, double& defCutqq, double& defCutttbar, double& defCutZZ, double& defCutWW, double& defCutqqX, double& defCutqqqqX, double& defCutqqHX, double& defCutZH, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH)
+void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, vector<double>& BDTpebbOutput, vector<double>& BDTpebbqqOutput, vector<double>& BDTpeqqHOutput, vector<double>& BDTpettOutput,double& defCutqq, double& defCutttbar, double& defCutZZ, double& defCutWW, double& defCutqqX, double& defCutqqqqX, double& defCutqqHX, double& defCutZH, double& defCutpebb, double& defCutpebbqq, double& defCutpeqqH, double& defCutpett, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, int sizepebb, int sizepebbqq, int sizepeqqH, int sizepett, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH, double weightpebb, double weightpebbqq, double weightpeqqH, double weightpett)
 {
+	cout<<"Starts findDefCuts"<<endl;
+	
 	vector<double> BDTqqOutputCopy(BDTqqOutput.begin(), BDTqqOutput.end());
 	vector<double> BDTttbarOutputCopy(BDTttbarOutput.begin(), BDTttbarOutput.end());
 	vector<double> BDTZZOutputCopy(BDTZZOutput.begin(), BDTZZOutput.end());
@@ -1508,12 +1722,16 @@ void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vecto
 	vector<double> BDTqqqqXOutputCopy(BDTqqqqXOutput.begin(), BDTqqqqXOutput.end());
 	vector<double> BDTqqHXOutputCopy(BDTqqHXOutput.begin(), BDTqqHXOutput.end());
 	vector<double> BDTZHOutputCopy(BDTZHOutput.begin(), BDTZHOutput.end());
+	vector<double> BDTpebbOutputCopy(BDTpebbOutput.begin(), BDTpebbOutput.end());
+	vector<double> BDTpebbqqOutputCopy(BDTpebbqqOutput.begin(), BDTpebbqqOutput.end());
+	vector<double> BDTpeqqHOutputCopy(BDTpeqqHOutput.begin(), BDTpeqqHOutput.end());
+	vector<double> BDTpettOutputCopy(BDTpettOutput.begin(), BDTpettOutput.end());
 
-	vector<vector<double>> NNOutputs = {BDTqqOutputCopy, BDTttbarOutputCopy, BDTZZOutputCopy, BDTWWOutputCopy, BDTqqXOutputCopy, BDTqqqqXOutputCopy, BDTqqHXOutputCopy, BDTZHOutputCopy};
-	double defCutqqSen=bottomHistLimit, defCutttbarSen=bottomHistLimit, defCutZZSen=bottomHistLimit, defCutWWSen=bottomHistLimit, defCutqqXSen=bottomHistLimit, defCutqqqqXSen=bottomHistLimit, defCutqqHXSen=bottomHistLimit, defCutZHSen=bottomHistLimit;
-	vector<double> NNCuts = {defCutqqSen, defCutttbarSen, defCutZZSen, defCutWWSen, defCutqqXSen, defCutqqqqXSen, defCutqqHXSen, defCutZHSen};
-	vector<double> maxSignificances = {-999, -999, -999, -999, -999, -999, -999, -999};
-	vector<double> nBacks = {0, 1, 2, 3, 4, 5, 6, 7};
+	vector<vector<double>> NNOutputs = {BDTqqOutputCopy, BDTttbarOutputCopy, BDTZZOutputCopy, BDTWWOutputCopy, BDTqqXOutputCopy, BDTqqqqXOutputCopy, BDTqqHXOutputCopy, BDTZHOutputCopy, BDTpebbOutputCopy, BDTpebbqqOutputCopy, BDTpeqqHOutputCopy, BDTpettOutputCopy};
+	double defCutqqSen=bottomHistLimit, defCutttbarSen=bottomHistLimit, defCutZZSen=bottomHistLimit, defCutWWSen=bottomHistLimit, defCutqqXSen=bottomHistLimit, defCutqqqqXSen=bottomHistLimit, defCutqqHXSen=bottomHistLimit, defCutZHSen=bottomHistLimit, defCutpebbSen=bottomHistLimit, defCutpebbqqSen=bottomHistLimit, defCutpeqqHSen=bottomHistLimit, defCutpettSen=bottomHistLimit;
+	vector<double> NNCuts = {defCutqqSen, defCutttbarSen, defCutZZSen, defCutWWSen, defCutqqXSen, defCutqqqqXSen, defCutqqHXSen, defCutZHSen, defCutpebbSen, defCutpebbqqSen, defCutpeqqHSen, defCutpettSen};
+	vector<double> maxSignificances = {-999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999};
+	vector<double> nBacks = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 	double numberOfBacks=nBacks.size();
 	double cutPrev=0, cutStep=0;
 	for(int i=0; i<numberOfBacks; i++)
@@ -1522,7 +1740,7 @@ void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vecto
 
 		for(int j=0; j<NNOutputs.size(); j++)
 		{
-			//cout<<"In position "<<j<<": "<<endl;
+			cout<<"In position "<<j<<": "<<endl;
 			//cout<<"Back: "<<nBacks[j]<<endl<<"number of events: ";
 			int contEventsRounds=0;
 			for(int k=0; k<NNOutputs[j].size(); k++) if(NNOutputs[j][k] != bottomHistLimit) contEventsRounds++;
@@ -1530,8 +1748,8 @@ void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vecto
 			contEventsRounds=0;
 			//cout<<"Before findSignificanceAllBacks: "<<endl<<"maxSignificance: "<<maxSignificances[j]<<endl<<"Cut in NN"<<NNCuts[j]<<endl<<endl;
 			cutStep = 1.0 / pow(10, i + 1);
-			findSignificanceAllBacks(bottomHistLimit, topHistLimit, nbin, NNOutputs[j], NNCuts[j], maxSignificances[j], nBacks[j], sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, cutStep);
-
+			findSignificanceAllBacks(bottomHistLimit, topHistLimit, nbin, NNOutputs[j], NNCuts[j], maxSignificances[j], nBacks[j], sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, weightpebb, weightpebbqq, weightpeqqH, weightpett, cutStep);
+			cout<<"Back from findSignificanceAllBacks"<<endl;
 			//cout<<"After findSignificanceAllBacks: "<<endl<<"maxSignificance: "<<maxSignificances[j]<<endl<<"Cut in NN: "<<NNCuts[j]<<endl<<endl;
 			//cout<<"maxSignificance: "<<maxSignificances[j]<<endl<<"Cut in NN: "<<NNCuts[j]<<endl<<endl;
 		}
@@ -1570,6 +1788,10 @@ void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vecto
 		else if(nBacks[nBacks.size()-1] == 5) defCutqqqqX = NNCuts[NNCuts.size()-1];
 		else if(nBacks[nBacks.size()-1] == 6) defCutqqHX = NNCuts[NNCuts.size()-1];
 		else if(nBacks[nBacks.size()-1] == 7) defCutZH = NNCuts[NNCuts.size()-1];
+		else if(nBacks[nBacks.size()-1] == 8) defCutpebb = NNCuts[NNCuts.size()-1];
+		else if(nBacks[nBacks.size()-1] == 9) defCutpebbqq = NNCuts[NNCuts.size()-1];
+		else if(nBacks[nBacks.size()-1] == 10) defCutpeqqH = NNCuts[NNCuts.size()-1];
+		else if(nBacks[nBacks.size()-1] == 11) defCutpett = NNCuts[NNCuts.size()-1];
 		maxSignificances.pop_back();
 		NNCuts.pop_back();
 		NNOutputs.pop_back();
@@ -1583,7 +1805,7 @@ void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vecto
 }
 
 ///Function that finds cut for NNs individually applied to eGamma backs
- void findSignificanceEGammaBacks(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NNOutput, double& defCut, double& maxSignificance, double& nBack, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH, double cutStep)
+ void findSignificanceEGammaBacks(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NNOutput, double& defCut, double& maxSignificance, double& nBack, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, int sizepebb, int sizepebbqq, int sizepeqqH, int sizepett, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH, double weightpebb, double weightpebbqq, double weightpeqqH, double weightpett, double cutStep)
  {
  	
 	//cout<<"calling findSignificanceEGammaBacks";
@@ -1688,7 +1910,7 @@ void findDefCuts(double bottomHistLimit, double topHistLimit, double nbin, vecto
 
 
 ////Function that finds the optimal cuts for the eGamma indivivual NNs considering eGamma backs
-void findDefEGammaCuts(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, double& defCutqq, double& defCutttbar, double& defCutZZ, double& defCutWW, double& defCutqqX, double& defCutqqqqX, double& defCutqqHX, double& defCutZH, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH)
+void findDefEGammaCuts(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, vector<double>& BDTpebbOutput, vector<double>& BDTpebbqqOutput, vector<double>& BDTpeqqHOutput, vector<double>& BDTpettOutput, double& defCutqq, double& defCutttbar, double& defCutZZ, double& defCutWW, double& defCutqqX, double& defCutqqqqX, double& defCutqqHX, double& defCutZH, double& defCutpebb, double& defCutpebbqq, double& defCutpeqqH, double& defCutpett, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, int sizepebb, int sizepebbqq, int sizepeqqH, int sizepett, double weightHH, double weightqq, double weightttbar, double weightZZ, double weightWW, double weightqqX, double weightqqqqX, double weightqqHX, double weightZH, double weightpebb, double weightpebbqq, double weightpeqqH, double weightpett)
 {
 	vector<double> BDTqqXOutputCopy(BDTqqXOutput.begin(), BDTqqXOutput.end());
 	vector<double> BDTqqqqXOutputCopy(BDTqqqqXOutput.begin(), BDTqqqqXOutput.end());
@@ -1715,7 +1937,7 @@ void findDefEGammaCuts(double bottomHistLimit, double topHistLimit, double nbin,
 			contEventsRounds=0;
 			//cout<<"Before findSignificanceEGammaBacks: "<<endl<<"maxSignificance: "<<maxSignificances[j]<<endl<<"Cut in NN"<<NNCuts[j]<<endl<<endl;
 			cutStep = 1.0 / pow(10, i + 1);
-			findSignificanceEGammaBacks(bottomHistLimit, topHistLimit, nbin, NNOutputs[j], NNCuts[j], maxSignificances[j], nBacks[j], sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, cutStep);
+			findSignificanceEGammaBacks(bottomHistLimit, topHistLimit, nbin, NNOutputs[j], NNCuts[j], maxSignificances[j], nBacks[j], sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, weightpebb, weightpebbqq, weightpeqqH, weightpett, cutStep);
 
 			//cout<<"After findSignificanceEGammaBacks: "<<endl<<"maxSignificance: "<<maxSignificances[j]<<endl<<"Cut in NN: "<<NNCuts[j]<<endl<<endl;
 			//cout<<"maxSignificance: "<<maxSignificances[j]<<endl<<"Cut in NN: "<<NNCuts[j]<<endl<<endl;
@@ -1758,7 +1980,7 @@ void findDefEGammaCuts(double bottomHistLimit, double topHistLimit, double nbin,
 	}
 }
 
-void cutEGamma(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, double& defCutqqX, double& defCutqqqqX, double& defCutqqHX)
+void cutEGamma(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, vector<double>& BDTpebbOutput, vector<double>& BDTpebbqqOutput, vector<double>& BDTpeqqHOutput, vector<double>& BDTpettOutput, double& defCutqqX, double& defCutqqqqX, double& defCutqqHX)
 {
 	for(int i=0; i<BDTqqOutput.size(); i++)
 	{
@@ -1771,6 +1993,11 @@ void cutEGamma(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vect
 			BDTqqXOutput[i] = -999;
 			BDTqqqqXOutput[i] = -999;
 			BDTqqHXOutput[i] = -999;
+			BDTZHOutput[i] = -999;
+			BDTpebbOutput[i] = -999;
+			BDTpebbqqOutput[i] = -999;
+			BDTpeqqHOutput[i] = -999;
+			BDTpettOutput[i] = -999;
 		}
 	}
 }
@@ -1937,6 +2164,7 @@ void findSignificanceCombined(double bottomHistLimit, double topHistLimit, doubl
 
 }
 
+///////NOT READY (DIDNT ADDAPT FOR pe)
 void findSignificanceCutsCombined(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NN1Output, vector<double>& NN2Output, vector<double>& NN3Output, vector<double>& NN4Output, vector<double>& NN5Output, vector<double>& NN6Output, vector<double>& NN7Output, vector<double>& NN8Output, int sizeHH, int sizeBack1, int sizeBack2, int sizeBack3, int sizeBack4, int sizeBack5, int sizeBack6, int sizeBack7, int sizeBack8, double defCutNN1, double defCutNN2, double defCutNN3, double defCutNN4, double defCutNN5, double defCutNN6, double defCutNN7, double defCutNN8, double& maxSignificanceCombined, double weightHH, double weightBack1, double weightBack2, double weightBack3, double weightBack4, double weightBack5, double weightBack6, double weightBack7, double weightBack8, TH2F& histROCCombined, TH2F& histROCRejCombined, TH2F& histSignificanceCombined, double& totalRemainingCombined, double& HHRemainingCombined, double& backRemainingCombined)
 {
 	vector<double> topologyTracker;
@@ -2519,7 +2747,900 @@ void findSignificanceCutsCombined(double bottomHistLimit, double topHistLimit, d
 	return;
 }
 
-void findSignificanceCutsCombinedCheck(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NN1Output, vector<double>& NN2Output, vector<double>& NN3Output, vector<double>& NN4Output, vector<double>& NN5Output, vector<double>& NN6Output, vector<double>& NN7Output, vector<double>& NN8Output, int sizeHH, int sizeBack1, int sizeBack2, int sizeBack3, int sizeBack4, int sizeBack5, int sizeBack6, int sizeBack7, int sizeBack8, double defCutNN1, double defCutNN2, double defCutNN3, double defCutNN4, double defCutNN5, double defCutNN6, double defCutNN7, double defCutNN8, double& maxSignificanceCombined, double weightHH, double weightBack1, double weightBack2, double weightBack3, double weightBack4, double weightBack5, double weightBack6, double weightBack7, double weightBack8, TH2F& histROCCombined, TH2F& histROCRejCombined, TH2F& histSignificanceCombined, double& totalRemainingCombined, double& HHRemainingCombined, double& backRemainingCombined)
+void findSignificanceCutsCombinedCheck(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NN1Output, vector<double>& NN2Output, vector<double>& NN3Output, vector<double>& NN4Output, vector<double>& NN5Output, vector<double>& NN6Output, vector<double>& NN7Output, vector<double>& NN8Output, vector<double>& NN9Output, vector<double>& NN10Output, vector<double>& NN11Output, vector<double>& NN12Output, int sizeHH, int sizeBack1, int sizeBack2, int sizeBack3, int sizeBack4, int sizeBack5, int sizeBack6, int sizeBack7, int sizeBack8, int sizeBack9, int sizeBack10, int sizeBack11, int sizeBack12, double defCutNN1, double defCutNN2, double defCutNN3, double defCutNN4, double defCutNN5, double defCutNN6, double defCutNN7, double defCutNN8, double defCutNN9, double defCutNN10, double defCutNN11, double defCutNN12, double& maxSignificanceCombined, double weightHH, double weightBack1, double weightBack2, double weightBack3, double weightBack4, double weightBack5, double weightBack6, double weightBack7, double weightBack8, double weightBack9, double weightBack10, double weightBack11, double weightBack12, TH2F& histROCCombined, TH2F& histROCRejCombined, TH2F& histSignificanceCombined, double& totalRemainingCombined, double& HHRemainingCombined, double& backRemainingCombined)
+{
+	vector<double> NN1OutputCopy(NN1Output.begin(), NN1Output.end());
+	vector<double> NN2OutputCopy(NN2Output.begin(), NN2Output.end());
+	vector<double> NN3OutputCopy(NN3Output.begin(), NN3Output.end());
+	vector<double> NN4OutputCopy(NN4Output.begin(), NN4Output.end());
+	vector<double> NN5OutputCopy(NN5Output.begin(), NN5Output.end());
+	vector<double> NN6OutputCopy(NN6Output.begin(), NN6Output.end());
+	vector<double> NN7OutputCopy(NN7Output.begin(), NN7Output.end());
+	vector<double> NN8OutputCopy(NN8Output.begin(), NN8Output.end());
+	vector<double> NN9OutputCopy(NN9Output.begin(), NN9Output.end());
+	vector<double> NN10OutputCopy(NN10Output.begin(), NN10Output.end());
+	vector<double> NN11OutputCopy(NN11Output.begin(), NN11Output.end());
+	vector<double> NN12OutputCopy(NN12Output.begin(), NN12Output.end());
+	
+	double contHHSurviving=0, contBack1Surviving=0, contBack2Surviving=0, contBack3Surviving=0, contBack4Surviving=0, contBack5Surviving=0, contBack6Surviving=0, contBack7Surviving=0, contBack8Surviving=0, contBack9Surviving=0, contBack10Surviving=0, contBack11Surviving=0, contBack12Surviving=0, contHHInitial=0, contBack1Initial=0, contBack2Initial=0, contBack3Initial=0, contBack4Initial=0, contBack5Initial=0, contBack6Initial=0, contBack7Initial=0, contBack8Initial=0, contBack9Initial=0, contBack10Initial=0, contBack11Initial=0, contBack12Initial=0;
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHInitial++;
+			else if(i<sizeHH+sizeBack1) contBack1Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Initial++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Initial++;
+		}
+	}
+	
+	cout<<"Initial HH events (before any NN): "<<contHHInitial*weightHH<<endl<<"Initial qq events (before any NN): "<<contBack1Initial*weightBack1<<endl<<"Initial ttbar events (before any NN): "<<contBack2Initial*weightBack2<<endl<<"Initial ZZ events (before any NN): "<<contBack3Initial*weightBack3<<endl<<"Initial WW events (before any NN): "<<contBack4Initial*weightBack4<<endl<<"Initial qqX events (before any NN): "<<contBack5Initial*weightBack5<<endl<<"Initial qqqqX events (before any NN): "<<contBack6Initial*weightBack6<<endl<<"Initial qqHX events (before any NN): "<<contBack7Initial*weightBack7<<endl<<"Initial ZH events (before any NN): "<<contBack8Initial*weightBack8<<endl<<"Initial pebb events (before any NN): "<<contBack9Initial*weightBack9<<endl<<"Initial pebbqq events (before any NN): "<<contBack10Initial*weightBack10<<endl<<"Initial peqqH events (before any NN): "<<contBack11Initial*weightBack11<<endl<<"Initial pett events (before any NN): "<<contBack12Initial*weightBack12<<endl<<endl;
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]<defCutNN1 && NN1OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+	
+	cout<<"Initial HH events (before NNqq): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNqq): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNqq): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNqq): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNqq): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNqq): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNqq): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNqq): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNqq): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNqq): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNqq): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNqq): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNqq): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNqq): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNqq): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNqq): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNqq): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNqq): "<<contBack8Surviving*weightBack8<<endl<<"Surviving pebb events (after NNqq): "<<contBack9Surviving*weightBack9<<endl<<"Surviving pebbqq events (after NNqq): "<<contBack10Surviving*weightBack10<<endl<<"Surviving peqqH events (after NNqq): "<<contBack11Surviving*weightBack11<<endl<<"Surviving pett events (after NNqq): "<<contBack12Surviving*weightBack12<<endl<<endl;
+	
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+	
+	for(int i=0; i<NN2OutputCopy.size(); i++)
+	{
+		if(NN2OutputCopy[i]<defCutNN2 && NN2OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+	
+	cout<<"Initial HH events (before NNttbar): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNttbar): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNttbar): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNttbar): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNttbar): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNttbar): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNttbar): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNttbar): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNttbar): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNttbar): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNttbar): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNttbar): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNttbar): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNttbar): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNttbar): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNttbar): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNttbar): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNttbar): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNttbar): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNttbar): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNttbar): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNttbar): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNttbar): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNttbar): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNttbar): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNttbar): "<<contBack12Surviving*weightBack12<<endl<<endl;
+	
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+	
+	for(int i=0; i<NN3OutputCopy.size(); i++)
+	{
+		if(NN3OutputCopy[i]<defCutNN3 && NN3OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+	
+	cout<<"Initial HH events (before NNZZ): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNZZ): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNZZ): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNZZ): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNZZ): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNZZ): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNZZ): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNZZ): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNZZ): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNZZ): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNZZ): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNZZ): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNZZ): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNZZ): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNZZ): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNZZ): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNZZ): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNZZ): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNZZ): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNZZ): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNZZ): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNZZ): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNZZ): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNZZ): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNZZ): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNZZ): "<<contBack12Surviving*weightBack12<<endl<<endl;
+	
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+	
+	for(int i=0; i<NN4OutputCopy.size(); i++)
+	{
+		if(NN4OutputCopy[i]<defCutNN4 && NN4OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+	
+	cout<<"Initial HH events (before NNWW): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNWW): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNWW): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNWW): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNWW): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNWW): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNWW): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNWW): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNWW): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNWW): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNWW): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNWW): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNWW): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNWW): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNWW): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNWW): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNWW): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNWW): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNWW): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNWW): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNWW): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNWW): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNWW): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNWW): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNWW): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNWW): "<<contBack12Surviving*weightBack12<<endl<<endl;
+	
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+
+	for(int i=0; i<NN5OutputCopy.size(); i++)
+	{
+		if(NN5OutputCopy[i]<defCutNN5 && NN5OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+
+	cout<<"Initial HH events (before NNqqX): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNqqX): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNqqX): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNqqX): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNqqX): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNqqX): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNqqX): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNqqX): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNqqX): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNqqX): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNqqX): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNqqX): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNqqX): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNqqX): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNqqX): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNqqX): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNqqX): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNqqX): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNqqX): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNqqX): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNqqX): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNqqX): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNqqX): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNqqX): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNqqX): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNqqX): "<<contBack12Surviving*weightBack12<<endl<<endl;
+	
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+
+	for(int i=0; i<NN6OutputCopy.size(); i++)
+	{
+		if(NN6OutputCopy[i]<defCutNN6 && NN6OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+
+	cout<<"Initial HH events (before NNqqqqX): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNqqqqX): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNqqqqX): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNqqqqX): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNqqqqX): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNqqqqX): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNqqqqX): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNqqqqX): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNqqqqX): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNqqqqX): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNqqqqX): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNqqqqX): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNqqqqX): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNqqqqX): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNqqqqX): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNqqqqX): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNqqqqX): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNqqqqX): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNqqqqX): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNqqqqX): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNqqqqX): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNqqqqX): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNqqqqX): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNqqqqX): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNqqqqX): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNqqqqX): "<<contBack12Surviving*weightBack12<<endl<<endl;
+
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+
+	for(int i=0; i<NN7OutputCopy.size(); i++)
+	{
+		if(NN7OutputCopy[i]<defCutNN7 && NN7OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+
+	cout<<"Initial HH events (before NNqqHX): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNqqHX): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNqqHX): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNqqHX): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNqqHX): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNqqHX): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNqqHX): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNqqHX): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNqqHX): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNqqHX): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNqqHX): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNqqHX): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNqqHX): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNqqHX): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNqqHX): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNqqHX): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNqqHX): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNqqHX): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNqqHX): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNqqHX): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNqqHX): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNqqHX): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNqqHX): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNqqHX): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNqqHX): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNqqHX): "<<contBack12Surviving*weightBack12<<endl<<endl;
+
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+
+	for(int i=0; i<NN8OutputCopy.size(); i++)
+	{
+		if(NN8OutputCopy[i]<defCutNN8 && NN8OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+
+	cout<<"Initial HH events (before NNZH): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNZH): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNZH): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNZH): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNZH): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNZH): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNZH): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNZH): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNZH): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNZH): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNZH): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNZH): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNZH): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNZH): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNZH): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNZH): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNZH): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNZH): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNZH): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNZH): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNZH): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNZH): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNZH): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNZH): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNZH): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNZH): "<<contBack12Surviving*weightBack12<<endl<<endl;
+
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+
+	for(int i=0; i<NN9OutputCopy.size(); i++)
+	{
+		if(NN9OutputCopy[i]<defCutNN9 && NN9OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+
+	cout<<"Initial HH events (before NNpebb): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNpebb): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNpebb): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNpebb): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNpebb): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNpebb): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNpebb): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNpebb): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNpebb): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNpebb): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNpebb): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNpebb): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNpebb): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNpebb): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNpebb): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNpebb): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNpebb): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNpebb): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNpebb): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNpebb): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNpebb): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNpebb): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNpebb): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNpebb): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNpebb): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNpebb): "<<contBack12Surviving*weightBack12<<endl<<endl;
+
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+
+	for(int i=0; i<NN10OutputCopy.size(); i++)
+	{
+		if(NN10OutputCopy[i]<defCutNN10 && NN10OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+
+	cout<<"Initial HH events (before NNpebbqq): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNpebbqq): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNpebbqq): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNpebbqq): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNpebbqq): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNpebbqq): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNpebbqq): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNpebbqq): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNpebbqq): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNpebbqq): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNpebbqq): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNpebbqq): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNpebbqq): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNpebbqq): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNpebbqq): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNpebbqq): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNpebbqq): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNpebbqq): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNpebbqq): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNpebbqq): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNpebbqq): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNpebbqq): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNpebbqq): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNpebbqq): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNpebbqq): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNpebbqq): "<<contBack12Surviving*weightBack12<<endl<<endl;
+
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+
+	for(int i=0; i<NN11OutputCopy.size(); i++)
+	{
+		if(NN11OutputCopy[i]<defCutNN11 && NN11OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+
+	cout<<"Initial HH events (before NNpeqqH): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNpeqqH): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNpeqqH): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNpeqqH): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNpeqqH): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNpeqqH): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNpeqqH): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNpeqqH): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNpeqqH): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNpeqqH): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNpeqqH): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNpeqqH): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNpeqqH): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNpeqqH): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNpeqqH): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNpeqqH): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNpeqqH): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNpeqqH): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNpeqqH): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNpeqqH): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNpeqqH): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNpeqqH): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNpeqqH): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNpeqqH): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNpeqqH): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNpeqqH): "<<contBack12Surviving*weightBack12<<endl<<endl;
+
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+
+	for(int i=0; i<NN12OutputCopy.size(); i++)
+	{
+		if(NN12OutputCopy[i]<defCutNN12 && NN12OutputCopy[i]!=-999)
+		{
+			NN1OutputCopy[i]=-999;
+			NN2OutputCopy[i]=-999;
+			NN3OutputCopy[i]=-999;
+			NN4OutputCopy[i]=-999;
+			NN5OutputCopy[i]=-999;
+			NN6OutputCopy[i]=-999;
+			NN7OutputCopy[i]=-999;
+			NN8OutputCopy[i]=-999;
+			NN9OutputCopy[i]=-999;
+			NN10OutputCopy[i]=-999;
+			NN11OutputCopy[i]=-999;
+			NN12OutputCopy[i]=-999;
+		}
+	}
+	
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999)
+		{
+			if(i<sizeHH) contHHSurviving++;
+			else if(i<sizeHH+sizeBack1) contBack1Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2) contBack2Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11Surviving++;
+			else if(i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12Surviving++;
+		}
+	}
+
+	cout<<"Initial HH events (before NNpett): "<<contHHInitial*weightHH<<endl<<"Surviving HH events (after NNpett): "<<contHHSurviving*weightHH<<endl<<"Initial qq events (before NNpett): "<<contBack1Initial*weightBack1<<endl<<"Surviving qq events (after NNpett): "<<contBack1Surviving*weightBack1<<endl<<"Initial ttbar events (before NNpett): "<<contBack2Initial*weightBack2<<endl<<"Surviving ttbar events (after NNpett): "<<contBack2Surviving*weightBack2<<endl<<"Initial ZZ events (before NNpett): "<<contBack3Initial*weightBack3<<endl<<"Surviving ZZ events (after NNpett): "<<contBack3Surviving*weightBack3<<endl<<"Initial WW events (before NNpett): "<<contBack4Initial*weightBack4<<endl<<"Surviving WW events (after NNpett): "<<contBack4Surviving*weightBack4<<endl<<"Initial qqX events (before NNpett): "<<contBack5Initial*weightBack5<<endl<<"Surviving qqX events (after NNpett): "<<contBack5Surviving*weightBack5<<endl<<"Initial qqqqX events (before NNpett): "<<contBack6Initial*weightBack6<<endl<<"Surviving qqqqX events (after NNpett): "<<contBack6Surviving*weightBack6<<endl<<"Initial qqHX events (before NNpett): "<<contBack7Initial*weightBack7<<endl<<"Surviving qqHX events (after NNpett): "<<contBack7Surviving*weightBack7<<endl<<"Initial ZH events (before NNpett): "<<contBack8Initial*weightBack8<<endl<<"Surviving ZH events (after NNpett): "<<contBack8Surviving*weightBack8<<endl<<"Initial pebb events (before NNpett): "<<contBack9Initial*weightBack9<<endl<<"Surviving pebb events (after NNpett): "<<contBack9Surviving*weightBack9<<endl<<"Initial pebbqq events (before NNpett): "<<contBack10Initial*weightBack10<<endl<<"Surviving pebbqq events (after NNpett): "<<contBack10Surviving*weightBack10<<endl<<"Initial peqqH events (before NNpett): "<<contBack11Initial*weightBack11<<endl<<"Surviving peqqH events (after NNpett): "<<contBack11Surviving*weightBack11<<endl<<"Initial pett events (before NNpett): "<<contBack12Initial*weightBack12<<endl<<"Surviving pett events (after NNpett): "<<contBack12Surviving*weightBack12<<endl<<endl;
+
+	contHHInitial=contHHSurviving;
+	contBack1Initial=contBack1Surviving;
+	contBack2Initial=contBack2Surviving;
+	contBack3Initial=contBack3Surviving;
+	contBack4Initial=contBack4Surviving;
+	contBack5Initial=contBack5Surviving;
+	contBack6Initial=contBack6Surviving;
+	contBack7Initial=contBack7Surviving;
+	contBack8Initial=contBack8Surviving;
+	contBack9Initial=contBack9Surviving;
+	contBack10Initial=contBack10Surviving;
+	contBack11Initial=contBack11Surviving;
+	contBack12Initial=contBack12Surviving;
+	
+	contHHSurviving=0;
+	contBack1Surviving=0;
+	contBack2Surviving=0;
+	contBack3Surviving=0;
+	contBack4Surviving=0;
+	contBack5Surviving=0;
+	contBack6Surviving=0;
+	contBack7Surviving=0;
+	contBack8Surviving=0;
+	contBack9Surviving=0;
+	contBack10Surviving=0;
+	contBack11Surviving=0;
+	contBack12Surviving=0;
+
+	int contHH=0, contBack1=0, contBack2=0, contBack3=0, contBack4=0, contBack5=0, contBack6=0, contBack7=0, contBack8=0, contBack9=0, contBack10=0, contBack11=0, contBack12=0;
+	for(int i=0; i<NN1OutputCopy.size(); i++)
+	{
+		if(NN1OutputCopy[i]!=-999 && i<sizeHH) contHH++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1) contBack1++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2) contBack2++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3) contBack3++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4) contBack4++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5) contBack5++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6) contBack6++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7) contBack7++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8) contBack8++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9) contBack9++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10) contBack10++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11) contBack11++;
+		else if(NN1OutputCopy[i]!=-999 && i<sizeHH+sizeBack1+sizeBack2+sizeBack3+sizeBack4+sizeBack5+sizeBack6+sizeBack7+sizeBack8+sizeBack9+sizeBack10+sizeBack11+sizeBack12) contBack12++;
+	}
+	
+	HHRemainingCombined = contHH*weightHH;
+	backRemainingCombined = contBack1*weightBack1+contBack2*weightBack2+contBack3*weightBack3+contBack4*weightBack4+contBack5*weightBack5+contBack6*weightBack6+contBack7*weightBack7+contBack8*weightBack8+contBack9*weightBack9+contBack10*weightBack10+contBack11*weightBack11+contBack12*weightBack12;
+	int HHRemainingCombinedUnweighted = contHH;
+	int backRemainingCombinedUnweighted = contBack1+contBack2+contBack3+contBack4+contBack5+contBack6+contBack7+contBack8+contBack9+contBack10+contBack11+contBack12;
+	
+	maxSignificanceCombined = HHRemainingCombined/sqrt(HHRemainingCombined+backRemainingCombined);
+	
+	cout<<endl<<endl<<"From check: "<<endl<<"remainingHH unweighted: "<<HHRemainingCombinedUnweighted<<endl<<"remainingBackUnweighted: "<<backRemainingCombinedUnweighted<<endl<<endl;
+	cout<<"remainingHH: "<<HHRemainingCombined<<endl<<"remainingBack: "<<backRemainingCombined<<endl<<endl<<endl;
+}
+
+/*void findSignificanceCutsCombinedCheck(double bottomHistLimit, double topHistLimit, double nbin, vector<double>& NN1Output, vector<double>& NN2Output, vector<double>& NN3Output, vector<double>& NN4Output, vector<double>& NN5Output, vector<double>& NN6Output, vector<double>& NN7Output, vector<double>& NN8Output, int sizeHH, int sizeBack1, int sizeBack2, int sizeBack3, int sizeBack4, int sizeBack5, int sizeBack6, int sizeBack7, int sizeBack8, double defCutNN1, double defCutNN2, double defCutNN3, double defCutNN4, double defCutNN5, double defCutNN6, double defCutNN7, double defCutNN8, double& maxSignificanceCombined, double weightHH, double weightBack1, double weightBack2, double weightBack3, double weightBack4, double weightBack5, double weightBack6, double weightBack7, double weightBack8, TH2F& histROCCombined, TH2F& histROCRejCombined, TH2F& histSignificanceCombined, double& totalRemainingCombined, double& HHRemainingCombined, double& backRemainingCombined)
 {
 	vector<double> NN1OutputCopy(NN1Output.begin(), NN1Output.end());
 	vector<double> NN2OutputCopy(NN2Output.begin(), NN2Output.end());
@@ -2997,7 +4118,8 @@ void findSignificanceCutsCombinedCheck(double bottomHistLimit, double topHistLim
 	
 	cout<<endl<<endl<<"From check: "<<endl<<"remainingHH unweighted: "<<HHRemainingCombinedUnweighted<<endl<<"remainingBackUnweighted: "<<backRemainingCombinedUnweighted<<endl<<endl;
 	cout<<"remainingHH: "<<HHRemainingCombined<<endl<<"remainingBack: "<<backRemainingCombined<<endl<<endl<<endl;
-}
+}*/
+
 
  
  void splitHistogram(TH1F& hist, double bottomHistLimit, double topHistLimit, double cut, string title)
@@ -3291,7 +4413,7 @@ void findCrossSectionHHbbbb(double totalRemaining, double HHRemaining, double ba
 }
 
 //////Function that generates the files to run genetic algorithm
-void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, string rtdCut, string preselection, string sampleName)
+void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, vector<double>& BDTpebbOutput, vector<double>& BDTpebbqqOutput, vector<double>& BDTpeqqHOutput, vector<double>& BDTpettOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, int sizepebb, int sizepebbqq, int sizepeqqH, int sizepett, string rtdCut, string preselection, string sampleName)
 {
 	string outputTreeSGAText = "analysis/outputTreeSGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
 	TFile *outputTreeSGA = new TFile(outputTreeSGAText.c_str(), "recreate");	
@@ -3320,8 +4442,20 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	string outputTreeBZHGAText = "analysis/outputTreeBZHGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
 	TFile *outputTreeBZHGA = new TFile(outputTreeBZHGAText.c_str(), "recreate");
 	TTree TreeBZHGA("TreeBZHGA","a bZHimple Tree with bZHimple variables (GA)");
+	string outputTreeBpebbGAText = "analysis/outputTreeBpebbGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBpebbGA = new TFile(outputTreeBpebbGAText.c_str(), "recreate");
+	TTree TreeBpebbGA("TreeBpebbGA","a bpebbimple Tree with bpebbimple variables (GA)");
+	string outputTreeBpebbqqGAText = "analysis/outputTreeBpebbqqGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBpebbqqGA = new TFile(outputTreeBpebbqqGAText.c_str(), "recreate");
+	TTree TreeBpebbqqGA("TreeBpebbqqGA","a bpebbqqimple Tree with bpebbqqimple variables (GA)");
+	string outputTreeBpeqqHGAText = "analysis/outputTreeBpeqqHGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBpeqqHGA = new TFile(outputTreeBpeqqHGAText.c_str(), "recreate");
+	TTree TreeBpeqqHGA("TreeBpeqqHGA","a bpeqqHimple Tree with bpeqqHimple variables (GA)");
+	string outputTreeBpettGAText = "analysis/outputTreeBpettGAESpreadDurham"+rtdCut+preselection+sampleName+".root";
+	TFile *outputTreeBpettGA = new TFile(outputTreeBpettGAText.c_str(), "recreate");
+	TTree TreeBpettGA("TreeBpettGA","a bpettimple Tree with bpettimple variables (GA)");
 
-	float entryIndex, NN1Output, NN2Output, NN3Output, NN4Output, NN5Output, NN6Output, NN7Output, NN8Output;
+	float entryIndex, NN1Output, NN2Output, NN3Output, NN4Output, NN5Output, NN6Output, NN7Output, NN8Output, NN9Output, NN10Output, NN11Output, NN12Output;
   	TreeSGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeSGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeSGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3330,7 +4464,11 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
   	TreeSGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
 	TreeSGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
  	TreeSGA.Branch("NN7Output",&NN7Output,"NN7Output/F");	
-	TreeSGA.Branch("NN8Output",&NN8Output,"NN8Output/F");	
+	TreeSGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeSGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeSGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeSGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeSGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
   	TreeBqqGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBqqGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBqqGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3340,6 +4478,10 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	TreeBqqGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
   	TreeBttbarGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBttbarGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBttbarGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3349,6 +4491,10 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	TreeBttbarGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBttbarGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBttbarGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBttbarGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBttbarGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBttbarGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBttbarGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
   	TreeBZZGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBZZGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBZZGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3358,6 +4504,10 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	TreeBZZGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBZZGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBZZGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBZZGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBZZGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBZZGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBZZGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
   	TreeBWWGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBWWGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBWWGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3367,6 +4517,10 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	TreeBWWGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBWWGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBWWGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBWWGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBWWGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBWWGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBWWGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqXGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqXGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqXGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3376,6 +4530,10 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	TreeBqqXGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqXGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqXGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqXGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqXGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqXGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqXGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqqqXGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqqqXGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqqqXGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3385,6 +4543,10 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	TreeBqqqqXGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqqqXGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqqqXGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqqqXGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqqqXGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqqqXGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqqqXGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqHXGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqHXGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqHXGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3394,6 +4556,10 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	TreeBqqHXGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqHXGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqHXGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqHXGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqHXGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqHXGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqHXGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBZHGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBZHGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBZHGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3403,6 +4569,62 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	TreeBZHGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBZHGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBZHGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBZHGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBZHGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBZHGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBZHGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpebbGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBpebbGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBpebbGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBpebbGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBpebbGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpebbGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpebbGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpebbGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpebbGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpebbGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpebbGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpebbGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpebbGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpebbqqGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBpebbqqGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBpebbqqGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBpebbqqGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBpebbqqGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpebbqqGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpebbqqGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpebbqqGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpebbqqGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpebbqqGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpebbqqGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpebbqqGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpebbqqGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpeqqHGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBpeqqHGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBpeqqHGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBpeqqHGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBpeqqHGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpeqqHGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpeqqHGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpeqqHGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpeqqHGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpeqqHGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpeqqHGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpeqqHGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpeqqHGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpettGA.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBpettGA.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBpettGA.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBpettGA.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBpettGA.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpettGA.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpettGA.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpettGA.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpettGA.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpettGA.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpettGA.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpettGA.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpettGA.Branch("NN12Output",&NN12Output,"NN12Output/F");
 
 	for(int i=0; i<BDTqqOutput.size(); i++)
   	{
@@ -3415,6 +4637,10 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 		NN6Output = BDTqqqqXOutput[i];
 		NN7Output = BDTqqHXOutput[i];
 		NN8Output = BDTZHOutput[i];
+		NN9Output = BDTpebbOutput[i];
+		NN10Output = BDTpebbqqOutput[i];
+		NN11Output = BDTpeqqHOutput[i];
+		NN12Output = BDTpettOutput[i];
 
 		if(i<sizeHH) TreeSGA.Fill();
 		else if(i<sizeHH+sizeqq) TreeBqqGA.Fill();
@@ -3425,6 +4651,10 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX) TreeBqqqqXGA.Fill();
 		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX) TreeBqqHXGA.Fill();
 		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH) TreeBZHGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb) TreeBpebbGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq) TreeBpebbqqGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH) TreeBpeqqHGA.Fill();
+		else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH+sizepett) TreeBpettGA.Fill();
 		else throw std::runtime_error("ERROR: event out of bounds in generate!");	
 	}	
 
@@ -3446,10 +4676,18 @@ void generateFilesGA(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput
 	TreeBqqHXGA.Write();
 	outputTreeBZHGA->cd();
    	TreeBZHGA.Write();
+	outputTreeBpebbGA->cd();
+	TreeBpebbGA.Write();
+	outputTreeBpebbqqGA->cd();
+	TreeBpebbqqGA.Write();
+	outputTreeBpeqqHGA->cd();
+	TreeBpeqqHGA.Write();
+	outputTreeBpettGA->cd();
+	TreeBpettGA.Write();
 }
 
 /////Function that generates the files to train NN to find optimal cut for NNs outputs
-void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, string rtdCut, string preselection, string sampleName)
+void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, vector<double>& BDTpebbOutput, vector<double>& BDTpebbqqOutput, vector<double>& BDTpeqqHOutput, vector<double>& BDTpettOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, int sizepebb, int sizepebbqq, int sizepeqqH, int sizepett, string rtdCut, string preselection, string sampleName)
 {
 	string outputTreeSNNTrainText = "analysis/outputTreeSNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
 	TFile *outputTreeSNNTrain = new TFile(outputTreeSNNTrainText.c_str(), "recreate");
@@ -3505,9 +4743,34 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
  	string outputTreeBZHNNTestText = "analysis/outputTreeBZHNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
   	TFile *outputTreeBZHNNTest = new TFile(outputTreeBZHNNTestText.c_str(), "recreate");
   	TTree TreeBZHNNTest("TreeBZHNNTest","a bZHimple Tree with simple variables (Test)");
+	string outputTreeBpebbNNTrainText = "analysis/outputTreeBpebbNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	TFile *outputTreeBpebbNNTrain = new TFile(outputTreeBpebbNNTrainText.c_str(), "recreate");
+ 	TTree TreeBpebbNNTrain("TreeBpebbNNTrain","a bpebbimple Tree with simple variables (Train)");
+ 	string outputTreeBpebbNNTestText = "analysis/outputTreeBpebbNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	TFile *outputTreeBpebbNNTest = new TFile(outputTreeBpebbNNTestText.c_str(), "recreate");
+  	TTree TreeBpebbNNTest("TreeBpebbNNTest","a bpebbimple Tree with simple variables (Test)");
+	string outputTreeBpebbqqNNTrainText = "analysis/outputTreeBpebbqqNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	TFile *outputTreeBpebbqqNNTrain = new TFile(outputTreeBpebbqqNNTrainText.c_str(), "recreate");
+ 	TTree TreeBpebbqqNNTrain("TreeBpebbqqNNTrain","a bpebbqqimple Tree with simple variables (Train)");
+ 	string outputTreeBpebbqqNNTestText = "analysis/outputTreeBpebbqqNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	TFile *outputTreeBpebbqqNNTest = new TFile(outputTreeBpebbqqNNTestText.c_str(), "recreate");
+  	TTree TreeBpebbqqNNTest("TreeBpebbqqNNTest","a bpebbqqimple Tree with simple variables (Test)");
+	string outputTreeBpeqqHNNTrainText = "analysis/outputTreeBpeqqHNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	TFile *outputTreeBpeqqHNNTrain = new TFile(outputTreeBpeqqHNNTrainText.c_str(), "recreate");
+ 	TTree TreeBpeqqHNNTrain("TreeBpeqqHNNTrain","a bpeqqHimple Tree with simple variables (Train)");
+ 	string outputTreeBpeqqHNNTestText = "analysis/outputTreeBpeqqHNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	TFile *outputTreeBpeqqHNNTest = new TFile(outputTreeBpeqqHNNTestText.c_str(), "recreate");
+  	TTree TreeBpeqqHNNTest("TreeBpeqqHNNTest","a bpeqqHimple Tree with simple variables (Test)");
+	string outputTreeBpettNNTrainText = "analysis/outputTreeBpettNNESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+  	TFile *outputTreeBpettNNTrain = new TFile(outputTreeBpettNNTrainText.c_str(), "recreate");
+ 	TTree TreeBpettNNTrain("TreeBpettNNTrain","a bpettimple Tree with simple variables (Train)");
+ 	string outputTreeBpettNNTestText = "analysis/outputTreeBpettNNESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+  	TFile *outputTreeBpettNNTest = new TFile(outputTreeBpettNNTestText.c_str(), "recreate");
+  	TTree TreeBpettNNTest("TreeBpettNNTest","a bpettimple Tree with simple variables (Test)");
 
 
-  	float entryIndex, NN1Output, NN2Output, NN3Output, NN4Output, NN5Output, NN6Output, NN7Output, NN8Output;
+
+  	float entryIndex, NN1Output, NN2Output, NN3Output, NN4Output, NN5Output, NN6Output, NN7Output, NN8Output, NN9Output, NN10Output, NN11Output, NN12Output;
   	TreeSNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeSNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeSNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3517,6 +4780,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeSNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
  	TreeSNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
  	TreeSNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");	
+ 	TreeSNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+ 	TreeSNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+ 	TreeSNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+ 	TreeSNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
   	TreeBqqNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBqqNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBqqNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3526,6 +4793,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
   	TreeBttbarNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBttbarNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBttbarNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3535,6 +4806,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBttbarNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBttbarNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBttbarNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBttbarNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBttbarNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBttbarNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBttbarNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
   	TreeBZZNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBZZNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBZZNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3544,6 +4819,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBZZNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBZZNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBZZNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBZZNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBZZNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBZZNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBZZNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
   	TreeBWWNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBWWNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBWWNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3553,6 +4832,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBWWNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBWWNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBWWNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBWWNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBWWNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBWWNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBWWNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqXNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqXNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqXNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3562,6 +4845,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqXNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqXNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqXNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqXNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqXNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqXNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqXNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqqqXNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqqqXNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqqqXNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3571,6 +4858,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqqqXNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqqqXNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqqqXNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqqqXNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqqqXNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqqqXNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqqqXNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqHXNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqHXNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqHXNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3580,6 +4871,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqHXNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqHXNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqHXNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqHXNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqHXNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqHXNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqHXNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBZHNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
   	TreeBZHNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
   	TreeBZHNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3588,9 +4883,65 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBZHNNTrain.Branch("NN5Output",&NN5Output,"NN5Output/F");
 	TreeBZHNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBZHNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
-	TreeBZHNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");	
+	TreeBZHNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBZHNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBZHNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBZHNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBZHNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpebbNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBpebbNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBpebbNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBpebbNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBpebbNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpebbNNTrain.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpebbNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpebbNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpebbNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpebbNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpebbNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpebbNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpebbNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpebbqqNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBpebbqqNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBpebbqqNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBpebbqqNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBpebbqqNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpebbqqNNTrain.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpebbqqNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpebbqqNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpebbqqNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpebbqqNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpebbqqNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpebbqqNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpebbqqNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpeqqHNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBpeqqHNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBpeqqHNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBpeqqHNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBpeqqHNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpeqqHNNTrain.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpeqqHNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpeqqHNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpeqqHNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpeqqHNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpeqqHNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpeqqHNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpeqqHNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpettNNTrain.Branch("entryIndex",&entryIndex,"entryIndex/F");
+  	TreeBpettNNTrain.Branch("NN1Output",&NN1Output,"NN1Output/F");
+  	TreeBpettNNTrain.Branch("NN2Output",&NN2Output,"NN2Output/F");
+  	TreeBpettNNTrain.Branch("NN3Output",&NN3Output,"NN3Output/F");
+  	TreeBpettNNTrain.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpettNNTrain.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpettNNTrain.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpettNNTrain.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpettNNTrain.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpettNNTrain.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpettNNTrain.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpettNNTrain.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpettNNTrain.Branch("NN12Output",&NN12Output,"NN12Output/F");
   	
-  	TreeSNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeSNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
    	TreeSNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeSNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
 	TreeSNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
@@ -3599,6 +4950,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeSNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeSNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeSNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F"); 
+	TreeSNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F"); 
+	TreeSNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeSNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeSNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3608,6 +4963,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBttbarNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBttbarNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBttbarNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3617,6 +4976,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBttbarNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBttbarNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBttbarNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBttbarNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBttbarNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBttbarNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBttbarNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBZZNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBZZNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBZZNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3626,6 +4989,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBZZNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBZZNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBZZNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBZZNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBZZNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBZZNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBZZNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBWWNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBWWNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBWWNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3635,6 +5002,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBWWNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBWWNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBWWNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBWWNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBWWNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBWWNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBWWNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqXNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqXNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqXNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3644,6 +5015,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqXNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqXNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqXNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqXNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqXNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqXNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqXNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqqqXNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqqqXNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqqqXNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3653,6 +5028,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqqqXNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqqqXNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqqqXNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqqqXNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqqqXNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqqqXNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqqqXNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBqqHXNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBqqHXNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBqqHXNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3662,6 +5041,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqHXNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBqqHXNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBqqHXNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBqqHXNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBqqHXNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBqqHXNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBqqHXNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
 	TreeBZHNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
 	TreeBZHNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
 	TreeBZHNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
@@ -3671,6 +5054,63 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBZHNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
 	TreeBZHNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
 	TreeBZHNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBZHNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBZHNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBZHNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBZHNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpebbNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBpebbNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBpebbNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBpebbNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBpebbNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpebbNNTest.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpebbNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpebbNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpebbNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpebbNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpebbNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpebbNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpebbNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpebbqqNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBpebbqqNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBpebbqqNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBpebbqqNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBpebbqqNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpebbqqNNTest.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpebbqqNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpebbqqNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpebbqqNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpebbqqNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpebbqqNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpebbqqNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpebbqqNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpeqqHNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBpeqqHNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBpeqqHNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBpeqqHNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBpeqqHNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpeqqHNNTest.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpeqqHNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpeqqHNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpeqqHNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpeqqHNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpeqqHNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpeqqHNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpeqqHNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
+	TreeBpettNNTest.Branch("entryIndex",&entryIndex,"entryIndex/F");
+	TreeBpettNNTest.Branch("NN1Output",&NN1Output,"NN1Output/F");
+	TreeBpettNNTest.Branch("NN2Output",&NN2Output,"NN2Output/F");
+	TreeBpettNNTest.Branch("NN3Output",&NN3Output,"NN3Output/F");
+	TreeBpettNNTest.Branch("NN4Output",&NN4Output,"NN4Output/F");
+	TreeBpettNNTest.Branch("NN5Output",&NN5Output,"NN5Output/F");
+	TreeBpettNNTest.Branch("NN6Output",&NN6Output,"NN6Output/F");
+	TreeBpettNNTest.Branch("NN7Output",&NN7Output,"NN7Output/F");
+	TreeBpettNNTest.Branch("NN8Output",&NN8Output,"NN8Output/F");
+	TreeBpettNNTest.Branch("NN9Output",&NN9Output,"NN9Output/F");
+	TreeBpettNNTest.Branch("NN10Output",&NN10Output,"NN10Output/F");
+	TreeBpettNNTest.Branch("NN11Output",&NN11Output,"NN11Output/F");
+	TreeBpettNNTest.Branch("NN12Output",&NN12Output,"NN12Output/F");
+
 
    int contEventsSurvived=0;
    int contEventsEliminated=0;
@@ -3687,6 +5127,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 		NN6Output = BDTqqqqXOutput[i];
 		NN7Output = BDTqqHXOutput[i];
 		NN8Output = BDTZHOutput[i];
+		NN9Output = BDTpebbOutput[i];
+		NN10Output = BDTpebbqqOutput[i];
+		NN11Output = BDTpeqqHOutput[i];
+		NN12Output = BDTpettOutput[i];
 
 		if(NN1Output != -999) contEventsSurvived++;
 		else contEventsEliminated++;
@@ -3707,6 +5151,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX) TreeBqqqqXNNTrain.Fill();
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX) TreeBqqHXNNTrain.Fill();
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH) TreeBZHNNTrain.Fill();
+			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb) TreeBpebbNNTrain.Fill();
+			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq) TreeBpebbqqNNTrain.Fill();
+			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH) TreeBpeqqHNNTrain.Fill();
+			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH+sizepett) TreeBpettNNTrain.Fill();
 			else throw std::runtime_error("ERROR: event out of bounds in generate!");	
 		}
 		else
@@ -3720,6 +5168,10 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX) TreeBqqqqXNNTest.Fill();
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX) TreeBqqHXNNTest.Fill();
 			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH) TreeBZHNNTest.Fill();
+			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb) TreeBpebbNNTest.Fill();
+			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq) TreeBpebbqqNNTest.Fill();
+			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH) TreeBpeqqHNNTest.Fill();
+			else if(i<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH+sizepett) TreeBpettNNTest.Fill();
 			else throw std::runtime_error("ERROR: event out of bounds in generate!");	
 		}
 						
@@ -3745,6 +5197,14 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqHXNNTrain.Write();	
 	outputTreeBZHNNTrain->cd();
    	TreeBZHNNTrain.Write();
+	outputTreeBpebbNNTrain->cd();
+   	TreeBpebbNNTrain.Write();
+	outputTreeBpebbqqNNTrain->cd();
+   	TreeBpebbqqNNTrain.Write();
+	outputTreeBpeqqHNNTrain->cd();
+   	TreeBpeqqHNNTrain.Write();
+	outputTreeBpettNNTrain->cd();
+   	TreeBpettNNTrain.Write();
    	
    	outputTreeSNNTest->cd();
    	TreeSNNTest.Write();
@@ -3764,11 +5224,21 @@ void generateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbar
 	TreeBqqHXNNTest.Write();   
 	outputTreeBZHNNTest->cd();
    	TreeBZHNNTest.Write();	
+	outputTreeBpebbNNTest->cd();
+   	TreeBpebbNNTest.Write();	
+	outputTreeBpebbqqNNTest->cd();
+   	TreeBpebbqqNNTest.Write();	
+	outputTreeBpeqqHNNTest->cd();
+   	TreeBpeqqHNNTest.Write();	
+	outputTreeBpettNNTest->cd();
+   	TreeBpettNNTest.Write();	
 }
 
-/////Function that REgenerates the files to train NN to find optimal cut for NNs outputs to have the same sampling as some previously given files.
-void reGenerateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, string rtdCut, string preselection, string sampleName)
+/////NOT READY NOT READY FOR pe   Function that REgenerates the files to train NN to find optimal cut for NNs outputs to have the same sampling as some previously given files.
+void reGenerateFilesOutputNN(vector<double>& BDTqqOutput, vector<double>& BDTttbarOutput, vector<double>& BDTZZOutput, vector<double>& BDTWWOutput, vector<double>& BDTqqXOutput, vector<double>& BDTqqqqXOutput, vector<double>& BDTqqHXOutput, vector<double>& BDTZHOutput, vector<double>& BDTpebbOutput, vector<double>& BDTpebbqqOutput, vector<double>& BDTpeqqHOutput, vector<double>& BDTpettOutput, int sizeHH, int sizeqq, int sizettbar, int sizeZZ, int sizeWW, int sizeqqX, int sizeqqqqX, int sizeqqHX, int sizeZH, int sizepebb, int sizepebbqq, int sizepeqqH, int sizepett, string rtdCut, string preselection, string sampleName)
 {
+	throw std::runtime_error("ERROR:  NOT READY FOR pe");		
+	
 	TFile *fileTrainHH, *fileTestHH, *fileTrainqq, *fileTestqq, *fileTrainttbar, *fileTestttbar, *fileTrainZZ, *fileTestZZ, *fileTrainWW, *fileTestWW, *fileTrainqqX, *fileTestqqX, *fileTrainqqqqX, *fileTestqqqqX, *fileTrainqqHX, *fileTestqqHX, *fileTrainZH, *fileTestZH;
 	TTree *TreeTrainHH, *TreeTestHH, *TreeTrainqq, *TreeTestqq, *TreeTrainttbar, *TreeTestttbar, *TreeTrainZZ, *TreeTestZZ, *TreeTrainWW, *TreeTestWW, *TreeTrainqqX, *TreeTestqqX, *TreeTrainqqqqX, *TreeTestqqqqX, *TreeTrainqqHX, *TreeTestqqHX, *TreeTrainZH, *TreeTestZH;
 	fileTrainHH = TFile::Open("analysis/SampleOGNNOfNNs/outputTreeSNNTrain.root");
@@ -4825,6 +6295,40 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
     TTree* theTreeTestZH = (TTree*)inputTestZH->Get("TreeBZHTest");
     double weightFactorZH = (theTreeTestZH->GetEntries()+theTreeTrainZH->GetEntries());
     weightFactorZH = weightFactorZH/(theTreeTestZH->GetEntries());
+	string inputTrainpebbText="analysis/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+ 	string inputTestpebbText="analysis/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputTrainpebb = new TFile(inputTrainpebbText.c_str());
+    TTree* theTreeTrainpebb = (TTree*)inputTrainpebb->Get("TreeBpebbTrain");
+ 	TFile* inputTestpebb = new TFile(inputTestpebbText.c_str());
+    TTree* theTreeTestpebb = (TTree*)inputTestpebb->Get("TreeBpebbTest");
+    double weightFactorpebb = (theTreeTestpebb->GetEntries()+theTreeTrainpebb->GetEntries());
+    weightFactorpebb = weightFactorpebb/(theTreeTestpebb->GetEntries());
+	string inputTrainpebbqqText="analysis/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+ 	string inputTestpebbqqText="analysis/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputTrainpebbqq = new TFile(inputTrainpebbqqText.c_str());
+    TTree* theTreeTrainpebbqq = (TTree*)inputTrainpebbqq->Get("TreeBpebbqqTrain");
+ 	TFile* inputTestpebbqq = new TFile(inputTestpebbqqText.c_str());
+    TTree* theTreeTestpebbqq = (TTree*)inputTestpebbqq->Get("TreeBpebbqqTest");
+    double weightFactorpebbqq = (theTreeTestpebbqq->GetEntries()+theTreeTrainpebbqq->GetEntries());
+    weightFactorpebbqq = weightFactorpebbqq/(theTreeTestpebbqq->GetEntries());
+	string inputTrainpeqqHText="analysis/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+ 	string inputTestpeqqHText="analysis/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputTrainpeqqH = new TFile(inputTrainpeqqHText.c_str());
+    TTree* theTreeTrainpeqqH = (TTree*)inputTrainpeqqH->Get("TreeBpeqqHTrain");
+ 	TFile* inputTestpeqqH = new TFile(inputTestpeqqHText.c_str());
+    TTree* theTreeTestpeqqH = (TTree*)inputTestpeqqH->Get("TreeBpeqqHTest");
+    double weightFactorpeqqH = (theTreeTestpeqqH->GetEntries()+theTreeTrainpeqqH->GetEntries());
+    weightFactorpeqqH = weightFactorpeqqH/(theTreeTestpeqqH->GetEntries());
+	string inputTrainpettText="analysis/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+ 	string inputTestpettText="analysis/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+preselection+"Test"+sampleName+".root";
+    TFile* inputTrainpett = new TFile(inputTrainpettText.c_str());
+    TTree* theTreeTrainpett = (TTree*)inputTrainpett->Get("TreeBpettTrain");
+ 	TFile* inputTestpett = new TFile(inputTestpettText.c_str());
+    TTree* theTreeTestpett = (TTree*)inputTestpett->Get("TreeBpettTest");
+    double weightFactorpett = (theTreeTestpett->GetEntries()+theTreeTrainpett->GetEntries());
+    weightFactorpett = weightFactorpett/(theTreeTestpett->GetEntries());
+	
+	
 
     cout<<"WeightFactorHH: "<<weightFactorHH<<endl;
     cout<<"WeightFactorqq: "<<weightFactorqq<<endl;
@@ -4835,13 +6339,18 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	cout<<"WeightFactorqqqqX: "<<weightFactorqqqqX<<endl;
 	cout<<"WeightFactorqqHX: "<<weightFactorqqHX<<endl;	
 	cout<<"WeightFactorZH: "<<weightFactorZH<<endl;
+	cout<<"WeightFactorpebb: "<<weightFactorpebb<<endl;
+	cout<<"WeightFactorpebbqq: "<<weightFactorpebbqq<<endl;
+	cout<<"WeightFactorpeqqH: "<<weightFactorpeqqH<<endl;
+	cout<<"WeightFactorpett: "<<weightFactorpett<<endl;
+	
     cout<<endl<<endl<<endl;
     	
  	
  	double bottomHistLimit=0.0, topHistLimit=0.0;
  	int methodColor;
  	findHistLimits(method, bottomHistLimit, topHistLimit, methodColor);
- 	int sizeHH=0, sizeqq=0, sizettbar=0, sizeZZ=0, sizeWW=0, sizeqqX=0, sizeqqqqX=0, sizeqqHX=0, sizeZH=0;
+ 	int sizeHH=0, sizeqq=0, sizettbar=0, sizeZZ=0, sizeWW=0, sizeqqX=0, sizeqqqqX=0, sizeqqHX=0, sizeZH=0, sizepebb=0, sizepebbqq=0, sizepeqqH=0, sizepett=0;
  	int nbin=10000, nbinNN=100;
 	//double weightHH=0.001225*weightFactorHH;
 	//double weightHH=0.001552*weightFactorHH; 
@@ -4852,7 +6361,11 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	double weightWW=0.5149*weightFactorWW, weightqqX=0.04347826*weightFactorqqX, weightqqqqX=0.04*weightFactorqqqqX, weightqqHX=0.001*weightFactorqqHX;
 	//double weightZH=0.00207445*weightFactorZH;
 	double weightZH=0.00207445*weightFactorZH*1.155;
- 	vector<double> BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput;
+	double weightpebb=0.7536*weightFactorpebb;
+	double weightpebbqq=0.1522*weightFactorpebbqq;
+	double weightpeqqH=0.1237*weightFactorpeqqH;
+	double weightpett=0.0570*weightFactorpett;
+ 	vector<double> BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput;
  	
  	
  	TH1F *histBdtqqHH     = new TH1F( "MVA_BDTqqHH",           "MVA_BDTqq on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
@@ -4871,6 +6384,14 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
   	TH1F *histBdtqqHXqqHX     = new TH1F( "MVA_BDTqqHXqqHX",           "MVA_BDTqqHX on qqHX",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
 	TH1F *histBdtZHHH     = new TH1F( "MVA_BDTZHHH",           "MVA_BDTZH on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
  	TH1F *histBdtZHZH     = new TH1F( "MVA_BDTZHZH",           "MVA_BDTZH on ZH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histBdtpebbHH     = new TH1F( "MVA_BDTpebbHH",           "MVA_BDTpebb on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+ 	TH1F *histBdtpebbpebb     = new TH1F( "MVA_BDTpebbpebb",           "MVA_BDTpebb on pebb",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histBdtpebbqqHH     = new TH1F( "MVA_BDTpebbqqHH",           "MVA_BDTpebbqq on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+ 	TH1F *histBdtpebbqqpebbqq     = new TH1F( "MVA_BDTpebbqqpebbqq",           "MVA_BDTpebbqq on pebbqq",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histBdtpeqqHHH     = new TH1F( "MVA_BDTpeqqHHH",           "MVA_BDTpeqqH on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+ 	TH1F *histBdtpeqqHpeqqH     = new TH1F( "MVA_BDTpeqqHpeqqH",           "MVA_BDTpeqqH on peqqH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histBdtpettHH     = new TH1F( "MVA_BDTpettHH",           "MVA_BDTpett on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+ 	TH1F *histBdtpettpett     = new TH1F( "MVA_BDTpettpett",           "MVA_BDTpett on pett",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
  	TH1F *histBdtqqHHW    = new TH1F( "MVA_BDTqqHHW",           "MVA_BDTqq on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
  	TH1F *histBdtqqqqW     = new TH1F( "MVA_BDTqqqqW",           "MVA_BDTqq on qq",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
  	TH1F *histBdtttbarHHW     = new TH1F( "MVA_BDTttbarHHW",           "MVA_BDTttbar on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
@@ -4887,6 +6408,14 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
    	TH1F *histBdtqqHXqqHXW     = new TH1F( "MVA_BDTqqHXqqHXW",           "MVA_BDTqqHX on qqHX",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
 	TH1F *histBdtZHHHW     = new TH1F( "MVA_BDTZHHHW",           "MVA_BDTZH on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
  	TH1F *histBdtZHZHW     = new TH1F( "MVA_BDTZHZHW",           "MVA_BDTZH on ZH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histBdtpebbHHW     = new TH1F( "MVA_BDTpebbHHW",           "MVA_BDTpebb on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+ 	TH1F *histBdtpebbpebbW     = new TH1F( "MVA_BDTpebbpebbW",           "MVA_BDTpebb on pebb",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histBdtpebbqqHHW     = new TH1F( "MVA_BDTpebbqqHHW",           "MVA_BDTpebbqq on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+ 	TH1F *histBdtpebbqqpebbqqW     = new TH1F( "MVA_BDTpebbqqpebbqqW",           "MVA_BDTpebbqq on pebbqq",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histBdtpeqqHHHW     = new TH1F( "MVA_BDTpeqqHHHW",           "MVA_BDTpeqqH on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+ 	TH1F *histBdtpeqqHpeqqHW     = new TH1F( "MVA_BDTpeqqHpeqqHW",           "MVA_BDTpeqqH on peqqH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
+	TH1F *histBdtpettHHW     = new TH1F( "MVA_BDTpettHHW",           "MVA_BDTpett on HH",           nbinNN, bottomHistLimit-.05, topHistLimit+.05);
+ 	TH1F *histBdtpettpettW     = new TH1F( "MVA_BDTpettpettW",           "MVA_BDTpett on pett",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
  	TH1F *histDummy     = new TH1F( "histDummy",           "histDummy",           nbinNN, bottomHistLimit-.05, topHistLimit+.05 );
  	
  	
@@ -4906,6 +6435,14 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	histBdtqqHXqqHX->SetLineColor(kOrange+7);	
 	histBdtZHHH->SetLineColor(kBlue);
  	histBdtZHZH->SetLineColor(kViolet-9);
+	histBdtpebbHH->SetLineColor(kBlue);
+ 	histBdtpebbpebb->SetLineColor(kViolet-4);
+	histBdtpebbqqHH->SetLineColor(kBlue);
+ 	histBdtpebbqqpebbqq->SetLineColor(kTeal-4);
+	histBdtpeqqHHH->SetLineColor(kBlue);
+ 	histBdtpeqqHpeqqH->SetLineColor(kSpring-4);
+	histBdtpettHH->SetLineColor(kBlue);
+ 	histBdtpettpett->SetLineColor(kGray);
  	histBdtqqHHW->SetLineColor(kBlue);
  	histBdtqqqqW->SetLineColor(kRed+2);
  	histBdtttbarHHW->SetLineColor(kBlue);
@@ -4922,6 +6459,14 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	histBdtqqHXqqHXW->SetLineColor(kOrange+7);
 	histBdtZHHHW->SetLineColor(kBlue);
  	histBdtZHZHW->SetLineColor(kViolet-9);
+	histBdtpebbHHW->SetLineColor(kBlue);
+ 	histBdtpebbpebbW->SetLineColor(kViolet-4);
+	histBdtpebbqqHHW->SetLineColor(kBlue);
+ 	histBdtpebbqqpebbqqW->SetLineColor(kTeal-4);
+	histBdtpeqqHHHW->SetLineColor(kBlue);
+ 	histBdtpeqqHpeqqHW->SetLineColor(kSpring-4);
+	histBdtpettHHW->SetLineColor(kBlue);
+ 	histBdtpettpettW->SetLineColor(kGray);
  
  	histBdtqqHH->SetFillColor(kBlue);
  	histBdtqqqq->SetFillColor(kRed+2);
@@ -4939,6 +6484,14 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	histBdtqqHXqqHX->SetFillColor(kOrange+7);
 	histBdtZHHH->SetFillColor(kBlue);
  	histBdtZHZH->SetFillColor(kViolet-9);
+	histBdtpebbHH->SetFillColor(kBlue);
+ 	histBdtpebbpebb->SetFillColor(kViolet-4);
+	histBdtpebbqqHH->SetFillColor(kBlue);
+ 	histBdtpebbqqpebbqq->SetFillColor(kTeal-4);
+	histBdtpeqqHHH->SetFillColor(kBlue);
+ 	histBdtpeqqHpeqqH->SetFillColor(kSpring-4);
+	histBdtpettHH->SetFillColor(kBlue);
+ 	histBdtpettpett->SetFillColor(kGray);
  	histBdtqqHHW->SetFillColor(kBlue);
  	histBdtqqqqW->SetFillColor(kRed+2);
  	histBdtttbarHHW->SetFillColor(kBlue);
@@ -4955,88 +6508,196 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	histBdtqqHXqqHXW->SetFillColor(kOrange+7);
 	histBdtZHHHW->SetFillColor(kBlue);
  	histBdtZHZHW->SetFillColor(kViolet-9);
+	histBdtpebbHHW->SetFillColor(kBlue);
+ 	histBdtpebbpebbW->SetFillColor(kViolet-4);
+	histBdtpebbqqHHW->SetFillColor(kBlue);
+ 	histBdtpebbqqpebbqqW->SetFillColor(kTeal-4);
+	histBdtpeqqHHHW->SetFillColor(kBlue);
+ 	histBdtpeqqHpeqqHW->SetFillColor(kSpring-4);
+	histBdtpettHHW->SetFillColor(kBlue);
+ 	histBdtpettpettW->SetFillColor(kGray);
  	
  	double targetFractionHH=0.8;
- 	double effiHH=0, effiqq=0, effittbar=0, effiZZ=0, effiWW=0, effiqqX=0, effiqqqqX=0, effiqqHX=0, effiZH=0;
+ 	double effiHH=0, effiqq=0, effittbar=0, effiZZ=0, effiWW=0, effiqqX=0, effiqqqqX=0, effiqqHX=0, effiZH=0, effipebb=0, effipebbqq=0, effipeqqH=0, effipett=0;
  	//pairMassCut(1, targetFractionHH, effiHH);
  	//pairMassCut(2, targetFractionHH, effiqq);
  	//pairMassCut(3, targetFractionHH, effittbar);
  	
- 	/////For arguments: empty string, topology (1: HH, 2: qq, 3:ttbar, 4: ZZ, 5: WW, 6: qqX, 7: qqqqX, 8: qqHX, 9: ZH), nBack (0: qq, 1: ttbar, 2: ZZ, 3: WW, 4: qqX, 5: qqqqX, 6: qqHX, 7: ZH), vector for BDTqq output, vector for BDTttbar output... etc, var for size of tree, nbin for hists, histogram for BDT output, weighted histogram for BDT output, weight, method, NNVars (e.g. All if using all variables, PairMasses if only using the pair masses, etc), self descriptive the rest up until preselection (from analysis)
+ 	/////For arguments: empty string, topology (1: HH, 2: qq, 3:ttbar, 4: ZZ, 5: WW, 6: qqX, 7: qqqqX, 8: qqHX, 9: ZH, 10: pebb, 11: pebbqq, 12: peqqH, 13: pett), nBack (0: qq, 1: ttbar, 2: ZZ, 3: WW, 4: qqX, 5: qqqqX, 6: qqHX, 7: ZH, 8: pebb, 9: pebbqq, 10: peqqH, 11: pett), vector for BDTqq output, vector for BDTttbar output... etc, var for size of tree, nbin for hists, histogram for BDT output, weighted histogram for BDT output, weight, method, NNVars (e.g. All if using all variables, PairMasses if only using the pair masses, etc), self descriptive the rest up until preselection (from analysis)
  	//////////
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, nbinNN, *histBdtqqHH, *histBdtqqHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, nbinNN, *histBdtttbarHH, *histBdtttbarHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, nbinNN, *histBdtZZHH, *histBdtZZHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, nbinNN, *histBdtWWHH, *histBdtWWHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, nbinNN, *histBdtqqXHH, *histBdtqqXHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, nbinNN, *histBdtqqqqXHH, *histBdtqqqqXHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, nbinNN, *histBdtqqHXHH, *histBdtqqHXHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, nbinNN, *histBdtZHHH, *histBdtZHHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqq, nbinNN, *histBdtqqqq, *histBdtqqqqW, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizettbar, nbinNN, *histBdtttbarttbar, *histBdtttbarttbarW, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZZ, nbinNN, *histBdtZZZZ, *histBdtZZZZW, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeWW, nbinNN, *histBdtWWWW, *histBdtWWWWW, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqX, nbinNN, *histBdtqqXqqX, *histBdtqqXqqXW, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqqqX, nbinNN, *histBdtqqqqXqqqqX, *histBdtqqqqXqqqqXW, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqHX, nbinNN, *histBdtqqHXqqHX, *histBdtqqHXqqHXW, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);	
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
-	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
- 	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeZH, nbinNN, *histBdtZHZH, *histBdtZHZHW, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtqqHH, *histBdtqqHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtttbarHH, *histBdtttbarHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtZZHH, *histBdtZZHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtWWHH, *histBdtWWHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtqqXHH, *histBdtqqXHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtqqqqXHH, *histBdtqqqqXHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtqqHXHH, *histBdtqqHXHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtZHHH, *histBdtZHHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtpebbHH, *histBdtpebbHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtpebbqqHH, *histBdtpebbqqHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtpeqqHHH, *histBdtpeqqHHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 1, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, nbinNN, *histBdtpettHH, *histBdtpettHHW, weightHH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histBdtqqqq, *histBdtqqqqW, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 2, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqq, nbinNN, *histDummy, *histDummy, weightqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histBdtttbarttbar, *histBdtttbarttbarW, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 3, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizettbar, nbinNN, *histDummy, *histDummy, weightttbar, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histBdtZZZZ, *histBdtZZZZW, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 4, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZZ, nbinNN, *histDummy, *histDummy, weightZZ, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histBdtWWWW, *histBdtWWWWW, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 5, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeWW, nbinNN, *histDummy, *histDummy, weightWW, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histBdtqqXqqX, *histBdtqqXqqXW, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 6, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqX, nbinNN, *histDummy, *histDummy, weightqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histBdtqqqqXqqqqX, *histBdtqqqqXqqqqXW, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 7, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqqqX, nbinNN, *histDummy, *histDummy, weightqqqqX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histBdtqqHXqqHX, *histBdtqqHXqqHXW, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);	
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 8, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeqqHX, nbinNN, *histDummy, *histDummy, weightqqHX, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histBdtZHZH, *histBdtZHZHW, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 9, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeZH, nbinNN, *histDummy, *histDummy, weightZH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histBdtpebbpebb, *histBdtpebbpebbW, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 10, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebb, nbinNN, *histDummy, *histDummy, weightpebb, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histBdtpebbqqpebbqq, *histBdtpebbqqpebbqqW, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 11, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepebbqq, nbinNN, *histDummy, *histDummy, weightpebbqq, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histBdtpeqqHpeqqH, *histBdtpeqqHpeqqHW, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 12, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepeqqH, nbinNN, *histDummy, *histDummy, weightpeqqH, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 0, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 1, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 2, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 3, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 4, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 5, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 6, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+ 	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 7, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 8, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 9, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 10, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histDummy, *histDummy, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
+	FSRTMVAClassificationApplicationHHbbbbHelper("", 13, 11, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizepett, nbinNN, *histBdtpettpett, *histBdtpettpettW, weightpett, method, variables, rtdCut, sampleName, varVersion, preselection);
 	//////////////
+
+	cout<<"sizeHH: "<<sizeHH<<endl;
+ 	cout<<"sizeqq: "<<sizeqq<<endl;
+ 	cout<<"sizettbar: "<<sizettbar<<endl;
+ 	cout<<"sizeZZ: "<<sizeZZ<<endl;
+ 	cout<<"sizeWW: "<<sizeWW<<endl;
+ 	cout<<"sizeqqX: "<<sizeqqX<<endl;
+ 	cout<<"sizeqqqqX: "<<sizeqqqqX<<endl;
+ 	cout<<"sizeqqHX: "<<sizeqqHX<<endl;
+ 	cout<<"sizeZH: "<<sizeZH<<endl;
+ 	cout<<"sizepebb: "<<sizepebb<<endl;
+ 	cout<<"sizepebbqq: "<<sizepebbqq<<endl;
+ 	cout<<"sizepeqqH: "<<sizepeqqH<<endl;
+ 	cout<<"sizepett: "<<sizepett<<endl<<endl;
+
+	cout<<"Added sizes: "<<sizeHH+sizeqq+sizettbar+sizeZZ+sizeWW+sizeqqX+sizeqqqqX+sizeqqHX+sizeZH+sizepebb+sizepebbqq+sizepeqqH+sizepett<<endl<<endl;
  	
  	cout<<"BDTqqOutput size: "<<BDTqqOutput.size()<<endl;
  	cout<<"BDTttbarOutput size: "<<BDTttbarOutput.size()<<endl;
@@ -5046,6 +6707,11 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
  	cout<<"BDTqqqqXOutput size: "<<BDTqqqqXOutput.size()<<endl;
  	cout<<"BDTqqHXOutput size: "<<BDTqqHXOutput.size()<<endl;
 	cout<<"BDTZHOutput size: "<<BDTZHOutput.size()<<endl;
+	cout<<"BDTpebbOutput size: "<<BDTpebbOutput.size()<<endl;
+	cout<<"BDTpebbqqOutput size: "<<BDTpebbqqOutput.size()<<endl;
+	cout<<"BDTpeqqHOutput size: "<<BDTpeqqHOutput.size()<<endl;
+	cout<<"BDTpettOutput size: "<<BDTpettOutput.size()<<endl;
+
  	
  	TH2F *histBDTsOutputHH = new TH2F("btsoutputHH", "NNqq vs NNttbar", 100, bottomHistLimit-0.1, topHistLimit+0.1, 100, bottomHistLimit-0.1, topHistLimit+0.1);
  	histBDTsOutputHH->GetXaxis()->SetTitle("NNqq output");
@@ -5068,18 +6734,30 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
  	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtqqHXHH, kBlue, *histBdtqqHXqqHX, kOrange+7, method + "qqHX on HH and qqHX (normalized)");
  	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtqqHXHHW, kBlue, *histBdtqqHXqqHXW, kOrange+7, method + "qqHX on HH and qqHX (weighted)");
 	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtZHHH, kBlue, *histBdtZHZH, kViolet-9, method + "ZH on HH and ZH (normalized)");
- 	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtZHHHW, kBlue, *histBdtZHZHW, kGreen+1, method + "ZH on HH and ZH (weighted)");
+ 	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtZHHHW, kBlue, *histBdtZHZHW, kViolet-9, method + "ZH on HH and ZH (weighted)");
+	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtpebbHH, kBlue, *histBdtpebbpebb, kViolet-9, method + "pebb on HH and pebb (normalized)");
+ 	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtpebbHHW, kBlue, *histBdtpebbpebbW, kViolet-4, method + "pebb on HH and pebb (weighted)");
+	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtpebbqqHH, kBlue, *histBdtpebbqqpebbqq, kTeal-4, method + "pebbqq on HH and pebbqq (normalized)");
+ 	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtpebbqqHHW, kBlue, *histBdtpebbqqpebbqqW, kTeal-4, method + "pebbqq on HH and pebbqq (weighted)");
+	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtpeqqHHH, kBlue, *histBdtpeqqHpeqqH, kSpring-4, method + "peqqH on HH and peqqH (normalized)");
+ 	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtpeqqHHHW, kBlue, *histBdtpeqqHpeqqHW, kSpring-4, method + "peqqH on HH and peqqH (weighted)");
+	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtpettHH, kBlue, *histBdtpettpett, kGray, method + "pett on HH and pett (normalized)");
+ 	//BDTOutputOverlap(bottomHistLimit, topHistLimit, nbinNN, *histBdtpettHHW, kBlue, *histBdtpettpettW, kGray, method + "pett on HH and pett (weighted)");
  	/////////////////////////
 
 	/*////////plotting outputs of NNs
-	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, "NNqq");
-	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTttbarOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, "NNttbar");
-	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTZZOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, "NNZZ");
-	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTWWOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, "NNWW");
-	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, "NNqqX");
-	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, "NNqqqqX");
-	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, "NNqqHX");
-	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTZHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, "NNZH");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNqq");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTttbarOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNttbar");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTZZOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNZZ");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTWWOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNWW");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNqqX");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNqqqqX");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNqqHX");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTZHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNZH");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTpebbOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNpebb");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTpebbqqOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNpebbqq");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTpeqqHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNpeqqH");
+	plotNNOutputs(bottomHistLimit, topHistLimit, nbinNN, BDTpettOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, "NNpett");
 	/////plotting outputs of NNs*/
 
 	
@@ -5097,6 +6775,10 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	double maxSignificanceqqqqX=0, defCutqqqqX, totalRemainingqqqqX=0, HHRemainingqqqqX=0, backRemainingqqqqX=0;
 	double maxSignificanceqqHX=0, defCutqqHX, totalRemainingqqHX=0, HHRemainingqqHX=0, backRemainingqqHX=0;
 	double maxSignificanceZH=0, defCutZH, totalRemainingZH=0, HHRemainingZH=0, backRemainingZH=0;
+	double maxSignificancepebb=0, defCutpebb, totalRemainingpebb=0, HHRemainingpebb=0, backRemainingpebb=0;
+	double maxSignificancepebbqq=0, defCutpebbqq, totalRemainingpebbqq=0, HHRemainingpebbqq=0, backRemainingpebbqq=0;
+	double maxSignificancepeqqH=0, defCutpeqqH, totalRemainingpeqqH=0, HHRemainingpeqqH=0, backRemainingpeqqH=0;
+	double maxSignificancepett=0, defCutpett, totalRemainingpett=0, HHRemainingpett=0, backRemainingpett=0;
  	double maxSignificanceCombined=0, defCutqqCombined, defCutttbarCombined=0, totalRemainingCombined=0, HHRemainingCombined=0, backRemainingCombined=0;
  	
  	TH2F *histROCqq = new TH2F("hROCqq", "Signal and Background Acceptance (NNqq)", nbin, 0.0, 1.0, nbin, 0, 1.0);
@@ -5107,6 +6789,10 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	TH2F *histROCqqqqX = new TH2F("hROCqqqqX", "Signal and Background Acceptance (NNqqqqX)", nbin, 0.0, 1.0, nbin, 0, 1.0);
 	TH2F *histROCqqHX = new TH2F("hROCqqHX", "Signal and Background Acceptance (NNqqHX)", nbin, 0.0, 1.0, nbin, 0, 1.0);
  	TH2F *histROCZH = new TH2F("hROCZH", "Signal and Background Acceptance (NNZH)", nbin, 0.0, 1.0, nbin, 0, 1.0);
+	TH2F *histROCpebb = new TH2F("hROCpebb", "Signal and Background Acceptance (NNpebb)", nbin, 0.0, 1.0, nbin, 0, 1.0);
+	TH2F *histROCpebbqq = new TH2F("hROCpebbqq", "Signal and Background Acceptance (NNpebbqq)", nbin, 0.0, 1.0, nbin, 0, 1.0);
+	TH2F *histROCpeqqH = new TH2F("hROCpeqqH", "Signal and Background Acceptance (NNpeqqH)", nbin, 0.0, 1.0, nbin, 0, 1.0);
+	TH2F *histROCpett = new TH2F("hROCpett", "Signal and Background Acceptance (NNpett)", nbin, 0.0, 1.0, nbin, 0, 1.0);
 	TH2F *histROCqqttbar = new TH2F("hROCqqttbar", "Signal and Background Acceptance (NNqq and NNttbar)", nbin, 0.0, 1.0, nbin, 0, 1.0);
   	TH2F *histROCRejqq = new TH2F("hROCRejqq", "Signal Acceptance and Background Rejection (NNqq)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
   	TH2F *histROCRejttbar = new TH2F("hROCRejttbar", "Signal Acceptance and Background Rejection (NNttbar)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
@@ -5116,6 +6802,10 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	TH2F *histROCRejqqqqX = new TH2F("hROCRejqqqqX", "Signal Acceptance and Background Rejection (NNqqqqX)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
 	TH2F *histROCRejqqHX = new TH2F("hROCRejqqHX", "Signal Acceptance and Background Rejection (NNqqHX)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
   	TH2F *histROCRejZH = new TH2F("hROCRejZH", "Signal Acceptance and Background Rejection (NNZH)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
+	TH2F *histROCRejpebb = new TH2F("hROCRejpebb", "Signal Acceptance and Background Rejection (NNpebb)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
+	TH2F *histROCRejpebbqq = new TH2F("hROCRejpebbqq", "Signal Acceptance and Background Rejection (NNpebbqq)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
+	TH2F *histROCRejpeqqH = new TH2F("hROCRejpeqqH", "Signal Acceptance and Background Rejection (NNpeqqH)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
+	TH2F *histROCRejpett = new TH2F("hROCRejpett", "Signal Acceptance and Background Rejection (NNpett)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
 	TH2F *histROCRejqqttbar = new TH2F("hROCRejqqttbar", "Signal Acceptance and Background Rejection (NNqq and NNttbar)", nbin, 0.5, 1.0, nbin, 0, 100000.0);
   	
   	TH2F *histSignificanceqq     = new TH2F( "hist_significanceqq", "Significance s/sqrt(s+b) (NNqq)", nbin, bottomHistLimit-.05, topHistLimit+.05, nbin, 0, 20.0);
@@ -5142,42 +6832,70 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	TH2F *histSignificanceZH     = new TH2F( "hist_significanceZH", "Significance s/sqrt(s+b) (NNZH)", nbin, bottomHistLimit-.05, topHistLimit+.05, nbin, 0, 20.0);
   	histSignificanceZH->GetXaxis()->SetTitle("Cut value for NNZH");
    	histSignificanceZH->GetYaxis()->SetTitle("Significance for NNZH");
+	TH2F *histSignificancepebb     = new TH2F( "hist_significancepebb", "Significance s/sqrt(s+b) (NNpebb)", nbin, bottomHistLimit-.05, topHistLimit+.05, nbin, 0, 20.0);
+  	histSignificancepebb->GetXaxis()->SetTitle("Cut value for NNpebb");
+   	histSignificancepebb->GetYaxis()->SetTitle("Significance for NNpebb");
+	TH2F *histSignificancepebbqq     = new TH2F( "hist_significancepebbqq", "Significance s/sqrt(s+b) (NNpebbqq)", nbin, bottomHistLimit-.05, topHistLimit+.05, nbin, 0, 20.0);
+  	histSignificancepebbqq->GetXaxis()->SetTitle("Cut value for NNpebbqq");
+   	histSignificancepebbqq->GetYaxis()->SetTitle("Significance for NNpebbqq");
+	TH2F *histSignificancepeqqH     = new TH2F( "hist_significancepeqqH", "Significance s/sqrt(s+b) (NNpeqqH)", nbin, bottomHistLimit-.05, topHistLimit+.05, nbin, 0, 20.0);
+  	histSignificancepeqqH->GetXaxis()->SetTitle("Cut value for NNpeqqH");
+   	histSignificancepeqqH->GetYaxis()->SetTitle("Significance for NNpeqqH");
+	TH2F *histSignificancepett     = new TH2F( "hist_significancepett", "Significance s/sqrt(s+b) (NNpett)", nbin, bottomHistLimit-.05, topHistLimit+.05, nbin, 0, 20.0);
+  	histSignificancepett->GetXaxis()->SetTitle("Cut value for NNpett");
+   	histSignificancepett->GetYaxis()->SetTitle("Significance for NNpett");
    	TH2F *histSignificanceqqttbar     = new TH2F( "hist_significanceqqttbar", "Significance s/sqrt(s+b) (NNqq and NNttbar)", nbin, bottomHistLimit-.05, topHistLimit+.05, nbin, 0, 20.0);
   	histSignificanceqqttbar->GetXaxis()->SetTitle("Cut value for NNqq");
    	histSignificanceqqttbar->GetYaxis()->SetTitle("Significance for NNqq"); //////////CHECAR COMO DIMENSIONALIZAR
-   	
+
    	///////////////////
    	cout<<endl<<"Significance for "<<method<<"qq applied only to HH and qq: "<<endl;
- 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, 0, *histBdtqqHH, *histBdtqqqq, defCutqq, maxSignificanceqq, weightHH, weightqq, targetFractionHH, *histROCqq, *histROCRejqq, *histSignificanceqq, totalRemainingqq, HHRemainingqq, backRemainingqq);
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 0, *histBdtqqHH, *histBdtqqqq, defCutqq, maxSignificanceqq, weightHH, weightqq, targetFractionHH, *histROCqq, *histROCRejqq, *histSignificanceqq, totalRemainingqq, HHRemainingqq, backRemainingqq);
  	cout<<"maxSignificance (qq): "<<maxSignificanceqq<<endl<<"Cut in NNqq for max significance (qq): "<<defCutqq<<endl;
  	
  	cout<<endl<<"Significance for "<<method<<"ttbar applied only to HH and ttbar: "<<endl;
- 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTttbarOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, 1, *histBdtttbarHH, *histBdtttbarttbar, defCutttbar, maxSignificancettbar, weightHH, weightttbar, targetFractionHH, *histROCttbar, *histROCRejttbar, *histSignificancettbar, totalRemainingttbar, HHRemainingttbar, backRemainingttbar);
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTttbarOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 1, *histBdtttbarHH, *histBdtttbarttbar, defCutttbar, maxSignificancettbar, weightHH, weightttbar, targetFractionHH, *histROCttbar, *histROCRejttbar, *histSignificancettbar, totalRemainingttbar, HHRemainingttbar, backRemainingttbar);
  	cout<<"maxSignificance (ttbar): "<<maxSignificancettbar<<endl<<"Cut in NNttbar for max significance (ttbar): "<<defCutttbar<<endl;
  	
  	cout<<endl<<"Significance for "<<method<<"ZZ applied only to HH and ZZ: "<<endl;
- 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTZZOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, 2, *histBdtZZHH, *histBdtZZZZ, defCutZZ, maxSignificanceZZ, weightHH, weightZZ, targetFractionHH, *histROCZZ, *histROCRejZZ, *histSignificanceZZ, totalRemainingZZ, HHRemainingZZ, backRemainingZZ);
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTZZOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 2, *histBdtZZHH, *histBdtZZZZ, defCutZZ, maxSignificanceZZ, weightHH, weightZZ, targetFractionHH, *histROCZZ, *histROCRejZZ, *histSignificanceZZ, totalRemainingZZ, HHRemainingZZ, backRemainingZZ);
  	cout<<"maxSignificance (ZZ): "<<maxSignificanceZZ<<endl<<"Cut in NNZZ for max significance (ZZ): "<<defCutZZ<<endl;
  	
  	cout<<endl<<"Significance for "<<method<<"WW applied only to HH and WW: "<<endl;
- 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTWWOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, 3, *histBdtWWHH, *histBdtWWWW, defCutWW, maxSignificanceWW, weightHH, weightWW, targetFractionHH, *histROCWW, *histROCRejWW, *histSignificanceWW, totalRemainingWW, HHRemainingWW, backRemainingWW);
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTWWOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 3, *histBdtWWHH, *histBdtWWWW, defCutWW, maxSignificanceWW, weightHH, weightWW, targetFractionHH, *histROCWW, *histROCRejWW, *histSignificanceWW, totalRemainingWW, HHRemainingWW, backRemainingWW);
  	cout<<"maxSignificance (WW): "<<maxSignificanceWW<<endl<<"Cut in NNWW for max significance (WW): "<<defCutWW<<endl;
 
 	cout<<endl<<"Significance for "<<method<<"qqX applied only to HH and qqX: "<<endl;
- 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, 4, *histBdtqqXHH, *histBdtqqXqqX, defCutqqX, maxSignificanceqqX, weightHH, weightqqX, targetFractionHH, *histROCqqX, *histROCRejqqX, *histSignificanceqqX, totalRemainingqqX, HHRemainingqqX, backRemainingqqX);
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 4, *histBdtqqXHH, *histBdtqqXqqX, defCutqqX, maxSignificanceqqX, weightHH, weightqqX, targetFractionHH, *histROCqqX, *histROCRejqqX, *histSignificanceqqX, totalRemainingqqX, HHRemainingqqX, backRemainingqqX);
  	cout<<"maxSignificance (qqX): "<<maxSignificanceqqX<<endl<<"Cut in NNqqX for max significance (qqX): "<<defCutqqX<<endl;
 
 	cout<<endl<<"Significance for "<<method<<"qqqqX applied only to HH and qqqqX: "<<endl;
- 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTqqqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, 5, *histBdtqqqqXHH, *histBdtqqqqXqqqqX, defCutqqqqX, maxSignificanceqqqqX, weightHH, weightqqqqX, targetFractionHH, *histROCqqqqX, *histROCRejqqqqX, *histSignificanceqqqqX, totalRemainingqqqqX, HHRemainingqqqqX, backRemainingqqqqX);
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTqqqqXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 5, *histBdtqqqqXHH, *histBdtqqqqXqqqqX, defCutqqqqX, maxSignificanceqqqqX, weightHH, weightqqqqX, targetFractionHH, *histROCqqqqX, *histROCRejqqqqX, *histSignificanceqqqqX, totalRemainingqqqqX, HHRemainingqqqqX, backRemainingqqqqX);
  	cout<<"maxSignificance (qqqqX): "<<maxSignificanceqqqqX<<endl<<"Cut in NNqqqqX for max significance (qqqqX): "<<defCutqqqqX<<endl;
 
 	cout<<endl<<"Significance for "<<method<<"qqHX applied only to HH and qqHX: "<<endl;
- 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, 6, *histBdtqqHXHH, *histBdtqqHXqqHX, defCutqqHX, maxSignificanceqqHX, weightHH, weightqqHX, targetFractionHH, *histROCqqHX, *histROCRejqqHX, *histSignificanceqqHX, totalRemainingqqHX, HHRemainingqqHX, backRemainingqqHX);
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTqqHXOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 6, *histBdtqqHXHH, *histBdtqqHXqqHX, defCutqqHX, maxSignificanceqqHX, weightHH, weightqqHX, targetFractionHH, *histROCqqHX, *histROCRejqqHX, *histSignificanceqqHX, totalRemainingqqHX, HHRemainingqqHX, backRemainingqqHX);
  	cout<<"maxSignificance (qqHX): "<<maxSignificanceqqHX<<endl<<"Cut in NNqqHX for max significance (qqHX): "<<defCutqqHX<<endl;
 
 	cout<<endl<<"Significance for "<<method<<"ZH applied only to HH and ZH: "<<endl;
- 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTZHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, 7, *histBdtZHHH, *histBdtZHZH, defCutZH, maxSignificanceZH, weightHH, weightZH, targetFractionHH, *histROCZH, *histROCRejZH, *histSignificanceZH, totalRemainingZH, HHRemainingZH, backRemainingZH);
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTZHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 7, *histBdtZHHH, *histBdtZHZH, defCutZH, maxSignificanceZH, weightHH, weightZH, targetFractionHH, *histROCZH, *histROCRejZH, *histSignificanceZH, totalRemainingZH, HHRemainingZH, backRemainingZH);
  	cout<<"maxSignificance (ZH): "<<maxSignificanceZH<<endl<<"Cut in NNZH for max significance (ZH): "<<defCutZH<<endl;
+
+	cout<<endl<<"Significance for "<<method<<"pebb applied only to HH and pebb: "<<endl;
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTpebbOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 8, *histBdtpebbHH, *histBdtpebbpebb, defCutpebb, maxSignificancepebb, weightHH, weightpebb, targetFractionHH, *histROCpebb, *histROCRejpebb, *histSignificancepebb, totalRemainingpebb, HHRemainingpebb, backRemainingpebb);
+ 	cout<<"maxSignificance (pebb): "<<maxSignificancepebb<<endl<<"Cut in NNpebb for max significance (pebb): "<<defCutpebb<<endl;
+
+	cout<<endl<<"Significance for "<<method<<"pebbqq applied only to HH and pebbqq: "<<endl;
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTpebbqqOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 9, *histBdtpebbqqHH, *histBdtpebbqqpebbqq, defCutpebbqq, maxSignificancepebbqq, weightHH, weightpebbqq, targetFractionHH, *histROCpebbqq, *histROCRejpebbqq, *histSignificancepebbqq, totalRemainingpebbqq, HHRemainingpebbqq, backRemainingpebbqq);
+ 	cout<<"maxSignificance (pebbqq): "<<maxSignificancepebbqq<<endl<<"Cut in NNpebbqq for max significance (pebbqq): "<<defCutpebbqq<<endl;
+
+	cout<<endl<<"Significance for "<<method<<"peqqH applied only to HH and peqqH: "<<endl;
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTpeqqHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 10, *histBdtpeqqHHH, *histBdtpeqqHpeqqH, defCutpeqqH, maxSignificancepeqqH, weightHH, weightpeqqH, targetFractionHH, *histROCpeqqH, *histROCRejpeqqH, *histSignificancepeqqH, totalRemainingpeqqH, HHRemainingpeqqH, backRemainingpeqqH);
+ 	cout<<"maxSignificance (peqqH): "<<maxSignificancepeqqH<<endl<<"Cut in NNpeqqH for max significance (peqqH): "<<defCutpeqqH<<endl;
+
+	cout<<endl<<"Significance for "<<method<<"pett applied only to HH and pett: "<<endl;
+ 	findSignificance(bottomHistLimit, topHistLimit, nbin, BDTpettOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, 11, *histBdtpettHH, *histBdtpettpett, defCutpett, maxSignificancepett, weightHH, weightpett, targetFractionHH, *histROCpett, *histROCRejpett, *histSignificancepett, totalRemainingpett, HHRemainingpett, backRemainingpett);
+ 	cout<<"maxSignificance (pett): "<<maxSignificancepett<<endl<<"Cut in NNpett for max significance (pett): "<<defCutpett<<endl;
  	///////////////////////
  	
  	//cout<<endl<<"(using crazy for loops) Significance for "<<method<<"qq and "<<method<<"ttbar combined applied to HH, qq and, ttbar: "<<endl;
@@ -5187,17 +6905,19 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
  	/*//////////////
  	//defCutqq=0.636;
  	//defCutttbar=0.802;
- 	cout<<endl<<"Significance for "<<method<<"qq, "<<method<<"ttbar, "<<method<<"ZZ, and "<<method<<"WW, "<<method<<"qqX, "<<method<<"qqqqX,"<<method<<"qqHX, and "<<method<<"ZH combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX, and ZH (trained and applied independently): "<<endl;
- 	findSignificanceCutsCombined(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOuptut, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
+ 	cout<<endl<<"Significance for "<<method<<"qq, "<<method<<"ttbar, "<<method<<"ZZ, and "<<method<<"WW, "<<method<<"qqX, "<<method<<"qqqqX,"<<method<<"qqHX, "<<method<<"ZH, "<<method<<"pebb, "<<method<<"pebbqq, "<<method<<"peqqH, "<<method<<"pett combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX, ZH, pebb, pebbqq, peqqH, pett (trained and applied independently): "<<endl;
+ 	findSignificanceCutsCombined(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOuptut, BDTpebbOuptut, BDTpebbqqOuptut, BDTpeqqHOuptut, BDTpettOuptut, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, weightpebb, weightpebbqq, weightpeqqH, weightpett, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
  	cout<<"maxSignificance (combined): "<<maxSignificanceCombined<<endl<<endl<<endl;
  	//////////////*/
- 	
- 	///////Find significance by max. each NNs significance against its own back -- check / brute force
-	cout<<endl<<"CHECK Significance for "<<method<<"qq, "<<method<<"ttbar, "<<method<<"ZZ, "<<method<<"WW, "<<method<<"qqX, "<<method<<"qqqqX, "<<method<<"qqHX, and "<<method<<"ZH combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX, and ZH (trained and applied independently): "<<endl;
-	findSignificanceCutsCombinedCheck (bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
+
+
+ 	double preliminarySignificance;
+ 	/*///////Find significance by max. each NNs significance against its own back -- check / brute force
+	cout<<endl<<"CHECK Significance for "<<method<<"qq, "<<method<<"ttbar, "<<method<<"ZZ, "<<method<<"WW, "<<method<<"qqX, "<<method<<"qqqqX, "<<method<<"qqHX, "<<method<<"ZH, "<<method<<"pebb, "<<method<<"pebbqq, "<<method<<"peqqH, "<<method<<"pett combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX, ZH, pebb, pebbqq, peqqH, pett (trained and applied independently): "<<endl;
+	findSignificanceCutsCombinedCheck (bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, defCutpebb, defCutpebbqq, defCutpeqqH, defCutpett ,maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, weightpebb, weightpebbqq, weightpeqqH, weightpett, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
 	cout<<"CHECK maxSignificance (combined): "<<maxSignificanceCombined<<endl<<endl<<endl;	
-	double preliminarySignificance = maxSignificanceCombined;
-	//////////////
+	preliminarySignificance = maxSignificanceCombined;
+	//////////////*/
  	
  	/*//////////DEBUGGING PURPOSES
  	vector<double> testNN1Output = {0.01, 0.61, 0.11, 0.81, 0.91, 0.98, 0.03, 0.933, 0.13, 0.23, 0.98, 0.85, 0.95, 0.92, 0.92};
@@ -5209,18 +6929,36 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 
 
 
-	//////////////find significance by finding cuts for each NNs significance against all backs
+	/*//////////////find significance by finding cuts for each NNs significance against all backs
+	cout<<"BDTqqOutput size: "<<BDTqqOutput.size()<<endl;
+	cout<<"BDTpebbOutput size: "<<BDTpebbOutput.size()<<endl;
+	cout<<"BDTpebbqqOutput size: "<<BDTpebbqqOutput.size()<<endl;
+	cout<<"BDTpeqqHOutput size: "<<BDTpeqqHOutput.size()<<endl;
+	cout<<"BDTpettOutput size: "<<BDTpettOutput.size()<<endl;
+	cout<<"sizeqq: "<<sizeqq<<endl;
+	cout<<"sizepebb: "<<sizepebb<<endl;
+	cout<<"sizepebbqq: "<<sizepebbqq<<endl;
+	cout<<"sizepeqqH: "<<sizepeqqH<<endl;
+	cout<<"sizepett: "<<sizepett<<endl;
+	findDefCuts(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, defCutpebb, defCutpebbqq, defCutpeqqH, defCutpett, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, weightpebb, weightpebbqq, weightpeqqH, weightpett);
+	cout<<endl<<"(optimizing NNs for all backs.) CHECK Significance for "<<method<<"qq, "<<method<<"ttbar, "<<method<<"ZZ, and "<<method<<"WW, "<<method<<"qqX, "<<method<<"qqqqX, "<<method<<"qqHX, "<<method<<"ZH,  "<<method<<"pebb, "<<method<<"pebbqq, "<<method<<"peqqH, "<<method<<"pett combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX, and ZH (trained and applied independently): "<<endl;
+	findSignificanceCutsCombinedCheck(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, defCutpebb, defCutpebbqq, defCutpeqqH, defCutpett, maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, weightpebb, weightpebbqq, weightpeqqH, weightpett, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
+	cout<<"(optimizing NNs for all backs.) CHECK maxSignificance (combined): "<<maxSignificanceCombined<<endl<<endl<<endl;	
+	preliminarySignificance = maxSignificanceCombined;
+ 	/////////////find significance by finding cuts for each NNs significance against all backs*/
+
+	/*//////////////find significance by finding cuts for each NNs significance against all backs
 	findDefCuts(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH);
 	cout<<endl<<"(optimizing NNs for all backs.) CHECK Significance for "<<method<<"qq, "<<method<<"ttbar, "<<method<<"ZZ, and "<<method<<"WW, "<<method<<"qqX, "<<method<<"qqqqX, "<<method<<"qqHX, and "<<method<<"ZH combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX, and ZH (trained and applied independently): "<<endl;
 	findSignificanceCutsCombinedCheck(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, maxSignificanceCombined, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, *histROCqqttbar, *histROCRejqqttbar, *histSignificanceqqttbar, totalRemainingCombined, HHRemainingCombined, backRemainingCombined);
 	cout<<"(optimizing NNs for all backs.) CHECK maxSignificance (combined): "<<maxSignificanceCombined<<endl<<endl<<endl;	
 	preliminarySignificance = maxSignificanceCombined;
- 	/////////////find significance by finding cuts for each NNs significance against all backs
+ 	/////////////find significance by finding cuts for each NNs significance against all backs*/
 
 	/*////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts
-	findDefEGammaCuts(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH);
+	findDefEGammaCuts(bottomHistLimit, topHistLimit, nbin, BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, defCutqq, defCutttbar, defCutZZ, defCutWW, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, defCutpebb, defCutpebbqq, defCutpeqqH, defCutpett, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, weightHH, weightqq, weightttbar, weightZZ, weightWW, weightqqX, weightqqqqX, weightqqHX, weightZH, weightpebb, weightpebbqq, weightpeqqH, weightpett);
 	cout<<endl<<"defCutqqX: "<<defCutqqX<<endl<<"defCutqqqqX: "<<defCutqqqqX<<endl<<"defCutqqHX: "<<defCutqqHX<<endl;
-	cutEGamma(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, defCutqqX, defCutqqqqX, defCutqqHX);
+	cutEGamma(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, defCutqqX, defCutqqqqX, defCutqqHX, defCutZH, defCutpebb, defCutpebbqq, defCutpeqqH, defCutpett);
 	///////////////find def cuts for each eGamma NNs against eGamma backs and eliminate events with eGamma cuts*/ 	
  	
  	//add2DHistToFile(*histROCRej, "ROCHists.root", "ROCRej"+method);
@@ -5245,6 +6983,10 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	double crossSectionqqqqX, errorTopqqqqX, errorBottomqqqqX;
 	double crossSectionqqHX, errorTopqqHX, errorBottomqqHX;
 	double crossSectionZH, errorTopZH, errorBottomZH;
+	double crossSectionpebb, errorToppebb, errorBottompebb;
+	double crossSectionpebbqq, errorToppebbqq, errorBottompebbqq;
+	double crossSectionpeqqH, errorToppeqqH, errorBottompeqqH;
+	double crossSectionpett, errorToppett, errorBottompett;
  	double crossSectionCombined, errorTopCombined, errorBottomCombined;
  	
  	cout<<endl<<endl;
@@ -5264,14 +7006,22 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
  	cout<<"Cross-section and error for the output of "<<method<<"qqHX applied only to HH and qqHX: "<<endl;
  	findCrossSectionHHbbbb(HHRemainingqqHX+backRemainingqqHX, HHRemainingqqHX, backRemainingqqHX, luminosity, crossSectionqqHX, errorTopqqHX, errorBottomqqHX, nbin);
 	cout<<"Cross-section and error for the output of "<<method<<"ZH applied only to HH and ZH: "<<endl;
- 	findCrossSectionHHbbbb(HHRemainingZH+backRemainingZH, HHRemainingZH, backRemainingZH, luminosity, crossSectionttbar, errorTopZH, errorBottomZH, nbin);*/
- 	cout<<"Cross-section and error for the output of "<<method<<" combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX, ZH: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingZH+backRemainingZH, HHRemainingZH, backRemainingZH, luminosity, crossSectionttbar, errorTopZH, errorBottomZH, nbin);
+	cout<<"Cross-section and error for the output of "<<method<<"pebb applied only to HH and pebb: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingpebb+backRemainingpebb, HHRemainingpebb, backRemainingpebb, luminosity, crossSectionttbar, errorToppebb, errorBottompebb, nbin);
+	cout<<"Cross-section and error for the output of "<<method<<"pebbqq applied only to HH and pebbqq: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingpebbqq+backRemainingpebbqq, HHRemainingpebbqq, backRemainingpebbqq, luminosity, crossSectionttbar, errorToppebbqq, errorBottompebbqq, nbin);
+	cout<<"Cross-section and error for the output of "<<method<<"peqqH applied only to HH and peqqH: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingpeqqH+backRemainingpeqqH, HHRemainingpeqqH, backRemainingpeqqH, luminosity, crossSectionttbar, errorToppeqqH, errorBottompeqqH, nbin);
+	cout<<"Cross-section and error for the output of "<<method<<"pett applied only to HH and pett: "<<endl;
+ 	findCrossSectionHHbbbb(HHRemainingpett+backRemainingpett, HHRemainingpett, backRemainingpett, luminosity, crossSectionttbar, errorToppett, errorBottompett, nbin);*/
+ 	/*cout<<"Cross-section and error for the output of "<<method<<" combined applied to HH, qq, ttbar, ZZ, WW, qqX, qqqqX, qqHX, ZH, pebb, pebbqq, peqqH, pett: "<<endl;
  	findCrossSectionHHbbbb(HHRemainingCombined+backRemainingCombined, HHRemainingCombined, backRemainingCombined, luminosity, crossSectionCombined, errorTopCombined, errorBottomCombined, nbin, weightHH);
  	double preliminaryErrorLeft = errorBottomCombined;
-	double preliminaryErrorRight = errorTopCombined;
+	double preliminaryErrorRight = errorTopCombined;*/
  	
 
-	//////saving preliminarySignificance in a txt
+	/*//////saving preliminarySignificance in a txt
 	ofstream outFile("analysis/preliminarySignificanceAndErrorsFile.txt");
 	if (outFile.is_open()) {
 	    outFile << preliminarySignificance << endl;
@@ -5282,7 +7032,7 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
 	    cerr << "Unable to open file for writing preliminary significance" << endl;
 	}
 	/////////saving preliminarySignificance in a txt	
- 	/////// 
+ 	/////// */
  	
  	
  	
@@ -5316,6 +7066,10 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
  	cout<<"w qqqqX size: "<<sizeqqqqX*weightqqqqX<<endl<<"uw qqqqX size: "<<sizeqqqqX<<endl<<endl;
  	cout<<"w qqHX size: "<<sizeqqHX*weightqqHX<<endl<<"uw qqHX size: "<<sizeqqHX<<endl<<endl;
 	cout<<"w ZH size: "<<sizeZH*weightZH<<endl<<"uw ZH size: "<<sizeZH<<endl<<endl;
+	cout<<"w pebb size: "<<sizepebb*weightpebb<<endl<<"uw pebb size: "<<sizepebb<<endl<<endl;
+	cout<<"w pebbqq size: "<<sizepebbqq*weightpebbqq<<endl<<"uw pebbqq size: "<<sizepebbqq<<endl<<endl;
+	cout<<"w peqqH size: "<<sizepeqqH*weightpeqqH<<endl<<"uw peqqH size: "<<sizepeqqH<<endl<<endl;
+	cout<<"w pett size: "<<sizepett*weightpett<<endl<<"uw pett size: "<<sizepett<<endl<<endl;
  	
  	cout<<"BDTqqOutput size: "<<BDTqqOutput.size()<<endl;
  	cout<<"BDTttbarOutput size: "<<BDTttbarOutput.size()<<endl;
@@ -5325,11 +7079,15 @@ void plotNNOutputs(double bottomHistLimit, double topHistLimit, int nbinNN, vect
  	cout<<"BDTqqqqXOutput size: "<<BDTqqqqXOutput.size()<<endl;
  	cout<<"BDTqqHXOutput size: "<<BDTqqHXOutput.size()<<endl;
 	cout<<"BDTZHOutput size: "<<BDTZHOutput.size()<<endl;	
+	cout<<"BDTpebbOutput size: "<<BDTpebbOutput.size()<<endl;	
+	cout<<"BDTpebbqqOutput size: "<<BDTpebbqqOutput.size()<<endl;	
+	cout<<"BDTpeqqHOutput size: "<<BDTpeqqHOutput.size()<<endl;	
+	cout<<"BDTpettOutput size: "<<BDTpettOutput.size()<<endl;	
  	
  	///////Filling out tree for output NN
-	if(fileFunction == "generateGA") generateFilesGA(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, rtdCut, preselection, sampleName);
- 	if(fileFunction == "generate") generateFilesOutputNN(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, rtdCut, preselection, sampleName);
-  	else if(fileFunction == "merge") reGenerateFilesOutputNN(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, rtdCut, preselection, sampleName);
+	if(fileFunction == "generateGA") generateFilesGA(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, rtdCut, preselection, sampleName);
+ 	if(fileFunction == "generate") generateFilesOutputNN(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, rtdCut, preselection, sampleName);
+  	else if(fileFunction == "merge") reGenerateFilesOutputNN(BDTqqOutput, BDTttbarOutput, BDTZZOutput, BDTWWOutput, BDTqqXOutput, BDTqqqqXOutput, BDTqqHXOutput, BDTZHOutput, BDTpebbOutput, BDTpebbqqOutput, BDTpeqqHOutput, BDTpettOutput, sizeHH, sizeqq, sizettbar, sizeZZ, sizeWW, sizeqqX, sizeqqqqX, sizeqqHX, sizeZH, sizepebb, sizepebbqq, sizepeqqH, sizepett, rtdCut, preselection, sampleName);
   	///////Filling out tree for output NN
   	
   	//checkSigma(BDTqqOutput, sizeHH, sizeqq, weightHH, weightqq);
