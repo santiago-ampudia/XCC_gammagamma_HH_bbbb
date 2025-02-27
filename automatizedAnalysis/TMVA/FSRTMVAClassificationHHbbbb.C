@@ -136,6 +136,10 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    //string back = "qqqqX";
    //string back = "qqHX";
    //string back = "ZH";
+   //string back = "pebb";
+   //string back = "pebbqq";
+   //string back = "peqqH";
+   //string back = "pett";
    if(back == "invalid") throw std::runtime_error("ERROR: invalid back!");
  
    // Read training and test data
@@ -149,6 +153,10 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    string inputBqqqqXText = "analysis/outputTreeBqqqqXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
    string inputBqqHXText = "analysis/outputTreeBqqHXHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
    string inputBZHText = "analysis/outputTreeBZHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+   string inputBpebbText = "analysis/outputTreeBpebbHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+   string inputBpebbqqText = "analysis/outputTreeBpebbqqHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+   string inputBpeqqHText = "analysis/outputTreeBpeqqHHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
+   string inputBpettText = "analysis/outputTreeBpettHHbbbbESpreadDurham"+rtdCut+preselection+"Train"+sampleName+".root";
    
    TFile* inputS = new TFile(inputSText.c_str());
    TFile* inputBqq = new TFile(inputBqqText.c_str());
@@ -159,6 +167,10 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    TFile* inputBqqqqX = new TFile(inputBqqqqXText.c_str());
    TFile* inputBqqHX = new TFile(inputBqqHXText.c_str());
    TFile* inputBZH = new TFile(inputBZHText.c_str());
+   TFile* inputBpebb = new TFile(inputBpebbText.c_str());
+   TFile* inputBpebbqq = new TFile(inputBpebbqqText.c_str());
+   TFile* inputBpeqqH = new TFile(inputBpeqqHText.c_str());
+   TFile* inputBpett = new TFile(inputBpettText.c_str());
    
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for signal: " << inputS->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qq: " << inputBqq->GetName() << std::endl;
@@ -169,6 +181,10 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qqqqX: " << inputBqqqqX->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background qqHX: " << inputBqqHX->GetName() << std::endl;
    std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background ZH: " << inputBZH->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background pebb: " << inputBpebb->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background pebbqq: " << inputBpebbqq->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background peqqH: " << inputBpeqqH->GetName() << std::endl;
+   std::cout << "--- TMVAClassificationHHbbbb       : Using input file for background pett: " << inputBpett->GetName() << std::endl;
 
    // Register the training and test trees
  
@@ -214,6 +230,26 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    else if(back == "ZH")
    {
    	background = (TTree*)inputBZH->Get("TreeBZHTrain");
+   	backgroundSize = background->GetEntries();
+   }
+   else if(back == "pebb")
+   {
+   	background = (TTree*)inputBpebb->Get("TreeBpebbTrain");
+   	backgroundSize = background->GetEntries();
+   }
+   else if(back == "pebbqq")
+   {
+   	background = (TTree*)inputBpebbqq->Get("TreeBpebbqqTrain");
+   	backgroundSize = background->GetEntries();
+   }
+   else if(back == "peqqH")
+   {
+   	background = (TTree*)inputBpeqqH->Get("TreeBpeqqHTrain");
+   	backgroundSize = background->GetEntries();
+   }
+   else if(back == "pett")
+   {
+   	background = (TTree*)inputBpett->Get("TreeBpettTrain");
    	backgroundSize = background->GetEntries();
    }
    else
@@ -596,10 +632,14 @@ int FSRTMVAClassificationHHbbbb( TString myMethodList = "", string back = "inval
    if(back == "qqHX") backgroundWeight = 1.0;
    if(back == "qqttbar") backgroundWeight = 1.0;
    if(back == "ZH") backgroundWeight = 1.0;
+   if(back == "pebb") backgroundWeight = 1.0;
+   if(back == "pebbqq") backgroundWeight = 1.0;
+   if(back == "peqqH") backgroundWeight = 1.0;
+   if(back == "pett") backgroundWeight = 1.0;
  
    // You can add an arbitrary number of signal or background trees
    dataloader->AddSignalTree    ( signalTree, signalWeight );
-   if(back == "qq" || back == "ttbar" || back == "ZZ" || back == "WW" || back == "qqX" || back == "qqqqX" || back == "qqHX" || back == "ZH") dataloader->AddBackgroundTree( background, backgroundWeight );
+   if(back == "qq" || back == "ttbar" || back == "ZZ" || back == "WW" || back == "qqX" || back == "qqqqX" || back == "qqHX" || back == "ZH" || back == "pebb" || back == "pebbqq" || back == "peqqH" || back == "pett") dataloader->AddBackgroundTree( background, backgroundWeight );
    else if(back ==  "qqttbar")
    { 
    	dataloader->AddBackgroundTree( backgroundqq, backgroundWeight );
